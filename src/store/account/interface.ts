@@ -1,4 +1,4 @@
-enum E_USER_TYPE{
+export enum E_USER_TYPE{
     SALE = "saler",
     SALE_MANAGER = 'sales_manager'
 }

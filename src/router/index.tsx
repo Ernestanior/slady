@@ -3,9 +3,9 @@ import { Redirect, Router, Switch, Route } from "react-router-dom";
 import useAccountInfo from "@/store/account";
 import historyService from "@/store/history"
 import Login from "@/pages/login";
-import Home from "@/pages/home";
 import LayoutPlx from "../common/layout";
 import accountService from "@/store/account/service";
+import CustomerList from "@/pages/customerList";
 
 /**
  * 项目路由组件
@@ -26,10 +26,10 @@ const ProjectRouter:FC = () => {
     return <Router history={historyService}>
         <LayoutPlx>
             <Switch>
-                <Route path="/home">
-                    <Home />
+                <Route path="/customer">
+                    <CustomerList />
                 </Route>
-                <Redirect to="/home" />
+                <Redirect to="/customer" />
             </Switch>
         </LayoutPlx>
     </Router>
