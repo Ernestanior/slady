@@ -6,6 +6,7 @@ import Login from "@/pages/login";
 import LayoutPlx from "../common/layout";
 import accountService from "@/store/account/service";
 import CustomerList from "@/pages/customerList";
+import CreateCustomer from "@/pages/customer/create";
 
 /**
  * 项目路由组件
@@ -26,6 +27,9 @@ const ProjectRouter:FC = () => {
     return <Router history={historyService}>
         <LayoutPlx>
             <Switch>
+                <Route path="/customer/create">
+                    <CreateCustomer />
+                </Route>
                 <Route path="/customer">
                     <CustomerList />
                 </Route>

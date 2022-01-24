@@ -63,3 +63,16 @@ export interface IQueryFunction {
  * 数据获取模块
  */
 export type IQueryModule = XOR<IQueryConfig, IQueryFunction>;
+
+
+export interface ISelectItem {
+    id: string | number;
+    [key: string]: any;
+}
+
+export interface ISelectOptionConfig {
+    /** 提交属性 */
+    idKey: string;
+    /** 展示属性 */
+    textKey: string;
+}
