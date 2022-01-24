@@ -1,0 +1,57 @@
+@color: #e3e3e3;
+@line: 1px solid @color;
+
+.page-login-form {
+  .comp-form-lg {
+    width: 302px;
+    margin: auto;
+
+    input {
+      height: 50px;
+    }
+
+    .logo {
+      height: auto;
+      width: 100%;
+    }
+
+    .content {
+      background-color: #fff;
+      border-radius: 5px;
+
+      .username {
+        margin-top: 50px;
+        margin-bottom: 0px;
+      }
+
+      .password {
+        border-top: @line;
+        position: relative;
+
+        .submit {
+          right: 10px;
+          font-size: 1.25rem;
+          position: absolute;
+          top: 50%;
+          transform: translate(0, -50%);
+        }
+      }
+
+      .pwd{
+        padding-right: 36px;
+      }
+    }
+  }
+
+  .login-info {
+    background: rgba(0, 0, 0, 0.6);
+    line-height: 2.5em;
+    text-align: center;
+    color: #fff;
+    margin: 3px 29px 1px 29px;
+  }
+
+  .login-recaptcha {
+    padding: 0 29px;
+  }
+}

@@ -1,10 +1,11 @@
-import React, { FC } from "react";
+import React, {FC, useEffect} from "react";
 import { Redirect, Router, Switch, Route } from "react-router-dom";
 import useAccountInfo from "@/store/account";
 import historyService from "@/store/history"
 import Login from "@/pages/login";
 import Home from "@/pages/home";
 import LayoutPlx from "../common/layout";
+import accountService from "@/store/account/service";
 
 /**
  * 项目路由组件
@@ -13,6 +14,10 @@ import LayoutPlx from "../common/layout";
  */
 const ProjectRouter:FC = () => {
     const accountInfo = useAccountInfo();
+
+    useEffect(() => {
+        accountService.autoLogin();
+    }, [])
 
     if(!accountInfo){
         return <Login />;

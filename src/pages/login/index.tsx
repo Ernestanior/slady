@@ -1,53 +1,33 @@
-import { Form, Input, Button, Checkbox } from 'antd';
-import accountService from "../../store/account/service";
+import { Col, Layout, Row } from "antd";
+import React, { FC } from "react";
+import LoginForm from "./form";
+import "./index.less";
+import moment from "moment";
 
-const Login = () => {
-    const onFinish = (values: any) => {
-        accountService.login(values.userName, values.pwd)
-    };
-
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
-
-    return (
-        <section style={{ marginTop: 30 }}>
-            <Form
-                name="basic"
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 8 }}
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-            >
-                <Form.Item
-                    label="Username"
-                    name="userName"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
-                >
-                    <Input />
-                </Form.Item>
-
-                <Form.Item
-                    label="Password"
-                    name="pwd"
-                    rules={[{ required: true, message: 'Please input your password!' }]}
-                >
-                    <Input.Password />
-                </Form.Item>
-
-                <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                </Form.Item>
-            </Form>
-        </section>
-    );
+const Login: FC = () => {
+  return (
+      <Layout className="page-login-ct" style={{ height: '100%' }}>
+          <Layout.Content>
+              <div className="login-form">
+                  <Row>
+                      <Col span={9}/>
+                      <Col span={6}>
+                          <LoginForm />
+                      </Col>
+                      <Col span={9}/>
+                  </Row>
+              </div>
+          </Layout.Content>
+          <Layout.Footer className="ft" style={{ textAlign: "center" }}>
+              {/*<FormattedMessage id="GREYPANEL_INFO" />*/}
+              <span style={{cursor: 'pointer' }} onClick={() => {
+                  return window.open("https://www.greypanel.com/")
+              }} >Greypanel</span> - 为您提供专业的网络安全解决方案，搭建更安全更快捷的网络
+              <br />
+              Copyright &copy; {moment(new Date()).format("YYYY")} Greypanel. All Rights Reserved.
+          </Layout.Footer>
+      </Layout>
+  );
 };
 
 export default Login;
