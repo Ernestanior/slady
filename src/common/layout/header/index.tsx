@@ -3,6 +3,7 @@ import { UserOutlined, PoweroffOutlined, ExclamationCircleOutlined, FileTextOutl
 import { Space, Row, Col  } from 'antd';
 import Logo from "./logo.png";
 import "./index.less";
+import accountService from "@/store/account/service";
 
 const HeaderPlx:FC = () => {
     return <nav className='comp-header'>
@@ -17,7 +18,7 @@ const HeaderPlx:FC = () => {
                     <ExclamationCircleOutlined />
                     <FileTextOutlined />
                     <UserOutlined />
-                    <PoweroffOutlined />
+                    <PoweroffOutlined onClick={() => { accountService.autoLogout() }} />
                 </Space>
             </Col>
         </Row>

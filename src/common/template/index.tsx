@@ -1,15 +1,16 @@
-import {FC, useState, useCallback, useRef, useLayoutEffect, useMemo} from "react";
+import {FC, useState, useCallback, useRef, useLayoutEffect, useMemo, useEffect} from "react";
 import {Table, TableColumnProps, TablePaginationConfig} from "antd";
 import {IEventListModule, IFilerModule, IQueryModule} from "@/common/interface";
 import Filter from "@/common/template/filter";
 import FuncList from "@/common/template/func";
 import request from "@/store/request";
 import {IPageResult, ISearchPage} from "@/store/apis/account/common.interface";
-import {BehaviorSubject, from, switchMap} from "rxjs";
+import {BehaviorSubject, from, Subject, switchMap} from "rxjs";
 import {SorterResult} from "antd/es/table/interface";
 
 interface ITableModule{
-    columns: TableColumnProps<any>[]
+    columns: TableColumnProps<any>[];
+    rowKey: string
 }
 
 interface IPageParams {
@@ -20,6 +21,15 @@ interface IPageParams {
     moreFilters: any;
     /** 此次刷新是否显示loading */
     __disableLoading?: boolean;
+}
+
+/**
+ * 用来刷新
+ */
+const event$ = new Subject<boolean>()
+
+export const reloadMainList = () => {
+    event$.next(true)
 }
 
 const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule> = (props) => {
@@ -75,6 +85,13 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
             }),
         []
     );
+
+    useEffect(() => {
+        const sub = event$.subscribe(() => {
+            params$.next(params$.value)
+        })
+        return () => sub.unsubscribe()
+    }, [params$])
 
     // 如果设置过滤初始值，则跳过默认首次订阅行为
     const params$$ = useMemo(() => {
@@ -207,9 +224,11 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
                     showQuickJumper: true,
                     showSizeChanger: true
                 }}
+                rowKey={props.rowKey}
                 onChange={tableOnChange}
                 columns={props.columns}
                 loading={loading}
+                rowClassName={rowClassName}
             />
         </section>
     </section>
@@ -240,4 +259,9 @@ export const trimPlx = (str?: any) => {
         return str.trim();
     }
     return ""
+}
+
+// 表格的行className
+export function rowClassName(_:any, idx: number){
+    return 'cdn-' + (idx % 2 === 0 ? 'row-odd' : 'row-even');
 }

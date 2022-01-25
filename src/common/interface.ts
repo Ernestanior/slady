@@ -1,16 +1,18 @@
 /**
  * 无参数触发事件
  */
-import {ReactNode} from "react";
+import React, {ReactNode} from "react";
 import {E_USER_TYPE} from "@/store/account/interface";
 import {IPageResult} from "@/store/apis/account/common.interface";
 import {AxiosRequestConfig} from "axios";
 import {XOR} from "ts-xor";
+import {FormInstance} from "antd";
 
 export type ITrigger = () => void;
 
-
 export type ICallback = (rep?: any) => void
+
+export type IChangeModule = (value:any, totalSelectConfig?:any) => void
 
 export type ISubmit = (data: any) => void;
 
@@ -26,6 +28,10 @@ export interface IRoleLimitModule{
     role?: E_USER_TYPE[]
 }
 
+export interface ILabelModule{
+    text: string
+}
+
 export interface INormalEvent extends IPrimaryModule, IRoleLimitModule{
     text: string;
     icon?: ReactNode;
@@ -37,7 +43,11 @@ export interface IEventListModule{
 }
 
 export interface ISubmitModule{
-    submit?: ISubmit
+    submit: ISubmit
+}
+
+export interface ICancelModule{
+    cancel?: ICallback
 }
 
 /**
@@ -75,4 +85,50 @@ export interface ISelectOptionConfig {
     idKey: string;
     /** 展示属性 */
     textKey: string;
+}
+
+export interface IFormComponent<T=any>{
+    value?: T;
+    onChange?: IChangeModule
+}
+
+export interface ISwitchValue{
+    trueValue?: any;
+    falseValue?: any;
+}
+
+export interface IFormModule{
+    form: FormInstance;
+    initialValue?: any
+}
+
+export interface IAsyncModule{
+    query: () => AxiosRequestConfig;
+    loader?: (data: any) => any
+}
+
+export interface ISelectProps {
+    size?: "small" | "large";
+    onChange?: IChangeModule;
+    placeholder?: string;
+    /** 空白选项 */
+    emptyOption?: boolean;
+    /** 下拉列表的展示和提交配置 */
+    config?: ISelectOptionConfig
+    /** 默认值 */
+    defaultValue?: any;
+    /** 样式 */
+    style?: React.CSSProperties;
+    /** 禁用 */
+    disabled?: boolean;
+    /** 提供函数确定初始选中值 */
+    selectedFunction?: (data: any) => boolean;
+}
+
+export interface ILoadTrigger{
+    loadTrigger?: ICallback
+}
+
+export interface IConfirmModule extends ISubmitModule{
+    info: string;
 }

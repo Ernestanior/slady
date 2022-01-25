@@ -4,7 +4,7 @@ import React, { FC, useCallback, useRef, useState } from "react";
 import Logo from "./images/logo.png";
 import LoadingGif from "./images/loading-2.gif";
 import "./form.less";
-import ReCAPTCHA from "react-google-recaptcha"
+// import ReCAPTCHA from "react-google-recaptcha"
 import ConditionShow from "@/common/conditionShow";
 import {authService} from "@/store/apis/account";
 import useSubmitEvent from "@/hooks/utils/useSubmitEvent";
@@ -22,7 +22,7 @@ const LoginForm: FC = () => {
     const [needRecaptcha, setNeedRecaptcha] = useState(false);
     const [recaptcha, setRecaptcha] = useState<string | null>(null);
 
-    const recaptchaRef = useRef<ReCAPTCHA>(null)
+    const recaptchaRef = useRef<any>(null)
     // 登录事件
     const login = useCallback((data: any) => {
         if (loading) {
@@ -127,14 +127,14 @@ const LoginForm: FC = () => {
                 </div>
             </Form>
             <ConditionShow className="login-recaptcha" visible={needRecaptcha}>
-                <ReCAPTCHA
-                    ref={recaptchaRef}
-                    sitekey="6Len070UAAAAANcYoOOVcaJI64aHuLO3oiChRz9u"
-                    grecaptcha={grecaptcha}
-                    onChange={(token) => {
-                        setRecaptcha(token)
-                    }}
-                />
+                {/*<ReCAPTCHA*/}
+                {/*    ref={recaptchaRef}*/}
+                {/*    sitekey="6Len070UAAAAANcYoOOVcaJI64aHuLO3oiChRz9u"*/}
+                {/*    grecaptcha={grecaptcha}*/}
+                {/*    onChange={(token) => {*/}
+                {/*        setRecaptcha(token)*/}
+                {/*    }}*/}
+                {/*/>*/}
             </ConditionShow>
             <div hidden={!loginError} className="login-info">
                 {loginError}

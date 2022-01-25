@@ -15,8 +15,12 @@
   border-radius: @border-radius;
   padding: 1.5 * @gap-size 2 * @gap-size;
 
-  &>p{
+  &>p, .cdn-block-title{
     margin-bottom: @gap-size;
     font-weight: bold;
+
+    &.without-bottom{
+      margin-bottom: 0;
+    }
   }
 }

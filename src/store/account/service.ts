@@ -22,14 +22,16 @@ class Account{
         infoConfig.headers["greycdn-token"] = token;
         from(request<IAccountInfo>(infoConfig)).subscribe(res => {
             if(res.isSuccess && res.result){
-                //
-                if(![E_USER_TYPE.SALE, E_USER_TYPE.SALE_MANAGER].includes(res.result.type)){
-                    cb && cb("用户账号类型不正确")
-                }else{
-                    // save token
-                    saveToken(token);
-                    accountService.info$.next(res.result)
-                }
+                saveToken(token);
+                accountService.info$.next(res.result)
+                // //
+                // if(![E_USER_TYPE.SALE, E_USER_TYPE.SALE_MANAGER].includes(res.result.type)){
+                //     cb && cb("用户账号类型不正确")
+                // }else{
+                //     // save token
+                //     saveToken(token);
+                //     accountService.info$.next(res.result)
+                // }
             }
         })
     }

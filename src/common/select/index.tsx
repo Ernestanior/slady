@@ -1,33 +1,14 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo, useCallback } from "react";
 import { Select } from "antd";
-import { ICallback, ISelectItem, ISelectOptionConfig } from "../interface";
+import {ISelectItem, ISelectProps} from "../interface";
 import { upperCasePlx } from "@/common/utils";
-
-interface IProps {
-    data: ISelectItem[] | string[] | number[];
-    size?: "small" | "large";
-    onChange?: ICallback;
-    placeholder?: string;
-    /** 空白选项 */
-    emptyOption?: boolean;
-    /** 页面级别缓存数据ID */
-    listCacheID?: string;
-    /** 下拉列表的展示和提交配置 */
-    config?: ISelectOptionConfig
-    /** 默认值 */
-    defaultValue?: any;
-    /** 样式 */
-    style?: React.CSSProperties;
-    /** 禁用 */
-    disabled?: boolean;
-}
 
 /**
  *
  * @param props
  */
-const SelectP: FC<IProps & {value?: any}> = (props) => {
-    const { listCacheID, emptyOption, config, ...resProps } = props;
+const SelectP: FC<ISelectProps & {value?: any; data: ISelectItem[] | string[] | number[];}> = (props) => {
+    const { emptyOption, config, selectedFunction, onChange: propsOnChange, ...resProps } = props;
     const idKey = useMemo(() => {
         if(props.config){
             return props.config.idKey
@@ -42,23 +23,45 @@ const SelectP: FC<IProps & {value?: any}> = (props) => {
         return "name";
     }, [props])
 
+    const dataList: any = props.data;
+
     // 默认值
     let defaultValue;
     if(typeof props.defaultValue === "undefined"){
-        if(emptyOption){
+        if(selectedFunction){
+            const selectedItem = dataList.find((item: any) => selectedFunction(item));
+            if(selectedItem){
+                defaultValue = selectedItem[idKey]
+            }
+        }
+        if(!defaultValue && emptyOption){
             defaultValue = ""
         }
     }
-    const dataList: any = props.data;
+
+    //为了将数据全部重新返回，需要合成onChange事件
+    const onChange = useCallback((value) => {
+        let item = null;
+        if(Array.isArray(props.data)){
+            const _data:any = props.data;
+            item = _data.find((v: any) => v === value || v[idKey] === value)
+        }
+        if(propsOnChange){
+            propsOnChange(value, item)
+        }
+    }, [propsOnChange, props, idKey])
+
     if(!Array.isArray(dataList)){
         console.error("出现非数组下拉选项渲染");
     }
+
     return (
         <Select
             getPopupContainer={(triggerNode) => triggerNode.parentElement}
             defaultValue={defaultValue}
             showSearch={props.data.length > 8}
             {...resProps}
+            onChange={onChange}
             optionFilterProp="label"
         >
             {emptyOption && (
