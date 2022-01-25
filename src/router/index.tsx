@@ -8,6 +8,10 @@ import accountService from "@/store/account/service";
 import CustomerList from "@/pages/customerList";
 import CreateCustomer from "@/pages/customer/create";
 import ModifyCustomerPage from "@/pages/customer/modify";
+import SaleList from "@/pages/saleList";
+import CreateSale from "@/pages/sale/create";
+import ModifySalePage from "@/pages/sale/modify";
+import StatisticsList from "@/pages/statistics/list";
 
 /**
  * 项目路由组件
@@ -36,6 +40,18 @@ const ProjectRouter:FC = () => {
                 </Route>
                 <Route path="/customer">
                     <CustomerList />
+                </Route>
+                <Route path="/sale/modify/:id">
+                    <ModifySalePage />
+                </Route>
+                <Route path="/sale/create">
+                    <CreateSale />
+                </Route>
+                <Route path="/sale">
+                    <SaleList />
+                </Route>
+                <Route path="/statistics">
+                    <StatisticsList />
                 </Route>
                 <Redirect to="/customer" />
             </Switch>

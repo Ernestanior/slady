@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import FormStringList from "@/common/customFormComponent/formList";
 import {Col, Row} from "antd";
-import {IFormComponent, IFormModule} from "@/common/interface";
+import {IFormComponent} from "@/common/interface";
 import AsyncSelect from "@/common/async/select";
 import {nameServerService} from "@/store/apis/dns";
 import {compareA_B} from "@/common/utils";

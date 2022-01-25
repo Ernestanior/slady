@@ -4,7 +4,7 @@ import "./index.less";
 
 const ContentP: FC = (props) => {
     return <Layout.Content className="comp-layout-content">
-        <section className="cdn-scroll">
+        <section className="cdn-scroll" style={{paddingRight: 15}}>
             {props.children}
         </section>
     </Layout.Content>;

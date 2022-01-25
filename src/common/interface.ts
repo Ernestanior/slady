@@ -3,7 +3,7 @@
  */
 import React, {ReactNode} from "react";
 import {E_USER_TYPE} from "@/store/account/interface";
-import {IPageResult} from "@/store/apis/account/common.interface";
+import {IAgentListDto, IPageResult} from "@/store/apis/account/common.interface";
 import {AxiosRequestConfig} from "axios";
 import {XOR} from "ts-xor";
 import {FormInstance} from "antd";
@@ -131,4 +131,13 @@ export interface ILoadTrigger{
 
 export interface IConfirmModule extends ISubmitModule{
     info: string;
+}
+
+export interface ITableDataModule<T=any>{
+    content: T[];
+    number: number;
+    numberOfElements: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
 }

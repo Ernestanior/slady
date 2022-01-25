@@ -13,7 +13,6 @@ import {analysisDnsServer} from "@/pages/customer/service/dnsServer";
 import {from, Subject} from "rxjs";
 import request from "@/store/request";
 import historyService from "@/store/history";
-import {IFormModule} from "@/common/interface";
 import ConditionShow from "@/common/conditionShow";
 
 const customer$ = new Subject<any>();
@@ -46,7 +45,7 @@ const ModifyCustomer:FC = () => {
             setCustomer(customer);
         })
         return () => sub.unsubscribe();
-    }, [])
+    }, [form])
 
     return <section>
         <div style={{ margin: "15px 0 15px 0" }}>修改</div>

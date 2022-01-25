@@ -5,7 +5,7 @@ import request from "@/store/request";
 import {userService} from "@/store/apis/account";
 import {getToken, removeToken, saveToken} from "@/store/request/token";
 
-enum E_USER_TYPE{
+export enum E_USER_TYPE{
     SALE = "saler",
     SALE_MANAGER = 'sales_manager'
 }

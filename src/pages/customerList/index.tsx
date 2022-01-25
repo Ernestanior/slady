@@ -98,7 +98,7 @@ const columns: TableColumnProps<any>[] = [
     {
         title: "状态",
         dataIndex: "status",
-        width: 150,
+        width: 150
     },
     {
         title: "正式客戶",

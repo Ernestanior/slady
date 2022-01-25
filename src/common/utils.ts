@@ -5,6 +5,7 @@ import {AxiosRequestConfig} from "axios";
 import {from} from "rxjs";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
+import {ICallback} from "@/common/interface";
 
 export const upperCasePlx = (value: string | number) =>
     typeof value === "string" ? value.toUpperCase() : value;
@@ -108,4 +109,29 @@ export const reqAndReload = (config: AxiosRequestConfig) => {
             reloadMainList();
         }
     })
+}
+
+export const reqAndCallback = (config: AxiosRequestConfig, cb?: ICallback) => {
+    from(request(config)).subscribe(res => {
+        if(res.isSuccess){
+            cb && cb(res.result)
+        }
+    })
+}
+
+export const queryValueFromListRender = (
+    configs: Array<{id: any, name: any}>
+) => (value: any) => {
+    const item = configs.find(t => t.id === value);
+    if (item) {
+        return item.name
+    }
+    return "-";
+};
+
+export function toFixed(value: number, len: number){
+    if(value%1 === 0){
+        return value
+    }
+    return value.toFixed(len)
 }

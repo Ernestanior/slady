@@ -31,6 +31,18 @@ class SaleAPI {
         return config;
     }
 
+    ModifySale = (params: {}, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/sale/modify',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
     Delete = (params: any, data: any) => {
         const config: AxiosRequestConfig = {
             url: '/sale/delete',

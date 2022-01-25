@@ -9,7 +9,7 @@ import FormStringList from "@/common/customFormComponent/formList";
 import {IFormModule} from "@/common/interface";
 import {queryValue} from "@/common/utils";
 
-const DnsService:FC<IFormModule> = ({form, initialValue}) => {
+const DnsService:FC<IFormModule> = ({form, initialValue={}}) => {
     const [dnsServiceFlag, setDnsServiceFlag] = useState(queryValue(initialValue.dnsServiceFlag, 0))
     const [dedicatedPlanFlag, setDedicatedPlanFlag] = useState( queryValue(initialValue.dedicatedPlanFlag, 1))
     const [customNodeFlag, setCustomNodeFlag] = useState(queryValue(initialValue.customNodeFlag, 0))
