@@ -28,17 +28,17 @@ const ModifyCustomer:FC = () => {
     // 创建客户
     const modifyCustomer = useCallback(() => {
         let data = form.getFieldsValue();
+        data = {...customer, ...data}
         // 创建的带宽单位是MB，后台接受的带宽是B
         data.limitBandwidth = data.limitBandwidth * 1000000;
         data = analysisDnsServer(data);
-        console.log(data);
-        // const config = customerService.ModifyCustomer({}, data);
-        // from(request(config)).subscribe((res) => {
-        //     if (res.isSuccess) {
-        //         historyService.push("/customer")
-        //     }
-        // });
-    },[form]);
+        const config = customerService.ModifyCustomer({}, data);
+        from(request(config)).subscribe((res) => {
+            if (res.isSuccess) {
+                historyService.push("/customer")
+            }
+        });
+    },[form, customer]);
 
     useEffect(() => {
         const sub = customer$.subscribe(customer => {
@@ -85,8 +85,11 @@ const ModifyCustomerPage:FC = () => {
                 const config = customerService.FindOne({id}, {});
                 const sub = from(request(config)).subscribe(res => {
                     if(res.isSuccess && res.result){
-                        setCustomer(res.result)
-                        customer$.next(res.result)
+                        const _customer:any = res.result;
+                        // 压缩带宽单位
+                        _customer.limitBandwidth = _customer.limitBandwidth / 10000000;
+                        setCustomer(_customer)
+                        customer$.next(_customer)
                     }
                 })
                 return () => sub.unsubscribe();
