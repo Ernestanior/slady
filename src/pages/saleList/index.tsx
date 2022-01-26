@@ -31,16 +31,16 @@ const SaleList:FC = () => {
     }, [])
 
     // disable
-    const disable = useCallback(({userId}) => {
-        const config = userService.EnableUser({ id:userId }, {});
-        reqAndReload(config)
-    }, [])
-
-    // enable
-    const enable = useCallback(({userId}) => {
-        const config = userService.DisableUser({ id:userId }, {});
-        reqAndReload(config)
-    }, [])
+    // const disable = useCallback(({userId}) => {
+    //     const config = userService.EnableUser({ id:userId }, {});
+    //     reqAndReload(config)
+    // }, [])
+    //
+    // // enable
+    // const enable = useCallback(({userId}) => {
+    //     const config = userService.DisableUser({ id:userId }, {});
+    //     reqAndReload(config)
+    // }, [])
 
     // modify
     const deleteUser = useCallback(({id}) => {
@@ -71,7 +71,7 @@ const SaleList:FC = () => {
                 }
             }
         ]
-    }, [modify, deleteUser])
+    }, [modify, deleteUser, reAssignCustomer])
 
     return <section>
         <Template

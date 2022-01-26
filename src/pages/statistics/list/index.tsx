@@ -8,19 +8,14 @@ import {ITableDataModule} from "@/common/interface";
 import {statService} from "@/store/apis/stat";
 import StatFilter from "@/pages/statistics/list/filter";
 import {toFixed} from "@/common/utils";
-import moment from "moment"
 
 const StatisticsList:FC = () => {
-
-    const query = useCallback((data) => {
-        return customerService.FindCustomer({}, data);
-    }, [])
 
     const queryFunction = useCallback(async (data) => {
         const combineData: any[] = [];
         try {
             const customerConfig = customerService.FindCustomer({}, { ...data });
-            const customerListRep = await request<ITableDataModule<any>>(customerConfig);
+            const customerListRep = await request<ITableDataModule>(customerConfig);
             if(!customerListRep.isSuccess){
                 return null
             }
@@ -36,14 +31,14 @@ const StatisticsList:FC = () => {
                     const customerBw = statService.CustomerListBandwidth({}, siteIds);
                     const customerInfo = await request<any[]>(customerBw);
                     if (customerInfo.isSuccess) {
-                        const cutomerBwList = customerInfo.result;
-                        if (cutomerBwList !== null) {
+                        const customerBwList = customerInfo.result;
+                        if (customerBwList !== null) {
                             Object.values(customerList.content).forEach((t, index) => {
-                                const newrecord = {
-                                    ...Object.values(cutomerBwList)[index],
+                                const newRecord = {
+                                    ...Object.values(customerBwList)[index],
                                     ...t,
                                 };
-                                return combineData.push(newrecord);
+                                return combineData.push(newRecord);
                             });
                         }
                         customerList.content = combineData;
@@ -67,7 +62,7 @@ const StatisticsList:FC = () => {
                 width: 200,
                 render(_:any, data:any){
                     return <Space>
-                        <Button onClick={() => { historyService.push("/stat/" + data.id) }}>查看</Button>
+                        <Button onClick={() => { historyService.push("/statistics/" + data.id) }}>查看</Button>
                     </Space>
                 }
             }
@@ -94,16 +89,15 @@ const columns: TableColumnProps<any>[] = [
         fixed: "left"
     },
     {
-        title: "CUSTOMER_NAME",
+        title: "客户名称",
         dataIndex: "name",
         width: 200
     },
     // ColStatus1_1(),
     {
-        key: "limitBandwidth",
-        title: "LIMIT_BANDWIDTH_MBPS",
+        title: "带宽额度(Mbps)",
         dataIndex: "limitBandwidth",
-        render: (value: number) => {
+        render: (value?: number) => {
             if(typeof value !== "number"){
                 return "-"
             }
@@ -111,25 +105,13 @@ const columns: TableColumnProps<any>[] = [
         }
     },
     {
-        key: "currentMonthBindWidth",
-        title: "CURRENT_MONTH_MBPS",
+        title: "当月(Mbps)",
         dataIndex: "currentMonthBindWidth",
-        render: (value: number) => {
+        render: (value?: number) => {
             if(typeof value !== "number"){
                 return "-"
             }
             return toFixed(value / 1000000, 2);
         }
-    },
-    {
-        key: "oneMonthAgoBandwith",
-        title: `MBPS_MONTH_${moment().subtract(1, 'months').format("M")}`,
-        dataIndex: "oneMonthAgoBandwith",
-
-    },
-    {
-        key: "twoMonthAgoBandwith",
-        title: `MBPS_MONTH_${moment().subtract(2, 'months').format("M")}`,
-        dataIndex: "twoMonthAgoBandwith",
     },
 ]

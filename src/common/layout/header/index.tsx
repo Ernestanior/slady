@@ -4,6 +4,7 @@ import { Space, Row, Col  } from 'antd';
 import Logo from "./logo.png";
 import "./index.less";
 import accountService from "@/store/account/service";
+import ConfirmInfo from "@/common/confirm";
 
 const HeaderPlx:FC = () => {
     return <nav className='comp-header'>
@@ -18,7 +19,9 @@ const HeaderPlx:FC = () => {
                     <ExclamationCircleOutlined />
                     <FileTextOutlined />
                     <UserOutlined />
-                    <PoweroffOutlined onClick={() => { accountService.autoLogout() }} />
+                    <ConfirmInfo info="确定退出登录？" submit={() => { accountService.autoLogout() }}>
+                        <PoweroffOutlined />
+                    </ConfirmInfo>
                 </Space>
             </Col>
         </Row>

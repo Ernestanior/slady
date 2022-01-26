@@ -13,6 +13,7 @@ import CreateSale from "@/pages/sale/create";
 import ModifySalePage from "@/pages/sale/modify";
 import StatisticsList from "@/pages/statistics/list";
 import SaleAssignPage from "@/pages/sale/assignCustomer";
+import ViewStatistics from "@/pages/statistics/view";
 
 /**
  * 项目路由组件
@@ -53,6 +54,9 @@ const ProjectRouter:FC = () => {
                 </Route>
                 <Route path="/sale">
                     <SaleList />
+                </Route>
+                <Route path="/statistics/:id">
+                    <ViewStatistics />
                 </Route>
                 <Route path="/statistics">
                     <StatisticsList />

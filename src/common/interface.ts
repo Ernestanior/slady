@@ -141,3 +141,7 @@ export interface ITableDataModule<T=any>{
     totalElements: number;
     totalPages: number;
 }
+
+export interface IIDModule{
+    id?: number
+}
