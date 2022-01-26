@@ -65,7 +65,7 @@ const ModifySalePage:FC = () => {
 
     useEffect(() => {
         if(id){
-            const config = saleService.QueryList({}, {id});
+            const config = saleService.FindOne({saleId: id}, {});
             const sub = from(request(config)).subscribe(res => {
                 if(res.isSuccess && res.result){
                     const sale:any = res.result;

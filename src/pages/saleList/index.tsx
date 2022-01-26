@@ -32,7 +32,7 @@ const SaleList:FC = () => {
 
     // disable
     const disable = useCallback(({userId}) => {
-        const config = userService.DisableUser({ id:userId }, {});
+        const config = userService.EnableUser({ id:userId }, {});
         reqAndReload(config)
     }, [])
 
@@ -43,11 +43,16 @@ const SaleList:FC = () => {
     }, [])
 
     // modify
-    const deleteUser = useCallback(({userId}) => {
-        const config = userService.Delete({ id:userId }, {});
+    const deleteUser = useCallback(({id}) => {
+        const config = userService.Delete({ id }, {});
         reqAndReload(config)
     }, [])
 
+    // 分配客户
+    const reAssignCustomer = useCallback(({id}) => {
+        // 跳转到为销售分配客户页面
+        historyService.push("/sale/assign/" + id)
+    }, [])
 
     // 下拉
     const _columns = useMemo(() => {
@@ -59,15 +64,14 @@ const SaleList:FC = () => {
                 width: 200,
                 render(_:any, data:any){
                     return <Space>
+                        <Button onClick={() => { reAssignCustomer(data) }}>分配客户</Button>
                         <Button onClick={() => { modify(data) }}>修改</Button>
-                        {data.status === 1 && <ConfirmButton info="确定禁用此用户？" submit={() => { disable(data) }}>禁用</ConfirmButton>}
-                        {data.status !== 1 && <ConfirmButton info="确定启用此用户？" submit={() => { enable(data) }}>启用</ConfirmButton>}
                         <ConfirmButton info="确定删除此用户？" submit={() => { deleteUser(data) }}>删除</ConfirmButton>
                     </Space>
                 }
             }
         ]
-    }, [modify, enable, disable, deleteUser])
+    }, [modify, deleteUser])
 
     return <section>
         <Template

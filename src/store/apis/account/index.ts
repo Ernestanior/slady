@@ -4,6 +4,7 @@ import SaleAPI from "@/store/apis/account/sale";
 import AuthAPI from "@/store/apis/account/auth";
 import UserAPI from "@/store/apis/account/user";
 import CustomerAPI from "@/store/apis/account/customer";
+import AgentAPI from "@/store/apis/account/agent";
 
 export const authService = new AuthAPI();
 
@@ -16,3 +17,5 @@ export const saleService = new SaleAPI();
 export const userService = new UserAPI();
 
 export const customerService = new CustomerAPI()
+
+export const agentService = new AgentAPI();

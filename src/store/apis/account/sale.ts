@@ -19,6 +19,18 @@ class SaleAPI {
         return config;
     }
 
+    FindOne = (params: any, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/sale/list-one',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
     CreateSale = (params: {}, data: any) => {
         const config: AxiosRequestConfig = {
             url: '/sale/create',
@@ -58,6 +70,30 @@ class SaleAPI {
     QueryCustomerBySaleId = (params: any, data: any) => {
         const config: AxiosRequestConfig = {
             url: '/sale/list-customers',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
+    AssignCustomer = (params: any, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/sale/assign-customer-agent',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
+    QueryAgentBySaleId = (params: any, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/sale/list-agents',
             method: 'post',
             params,
             data
