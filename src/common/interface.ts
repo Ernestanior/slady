@@ -3,10 +3,11 @@
  */
 import React, {ReactNode} from "react";
 import {E_USER_TYPE} from "@/store/account/interface";
-import {IAgentListDto, IPageResult} from "@/store/apis/account/common.interface";
+import {IPageResult} from "@/store/apis/account/common.interface";
 import {AxiosRequestConfig} from "axios";
 import {XOR} from "ts-xor";
 import {FormInstance} from "antd";
+import moment from "moment";
 
 export type ITrigger = () => void;
 
@@ -144,4 +145,34 @@ export interface ITableDataModule<T=any>{
 
 export interface IIDModule{
     id?: number
+}
+
+/**
+ * 时间筛选
+ */
+export enum ETimeFilter{
+    TODAY="today",
+    YESTERDAY="yesterday",
+    LAST7DAY="last7day",
+    LAST30DAY="last30day",
+    CURRENT_MONTH="currentMonth",
+    CUSTOM="custom"
+}
+
+export interface ITimeFilter{
+    startDate?: moment.Moment;
+    endDate?: moment.Moment;
+    reportType: ETimeFilter
+}
+
+export interface ITimeFilterModule{
+    timeFilter?: ITimeFilter
+}
+
+export interface IDefaultValue{
+    defaultValue?: any
+}
+
+export interface IDataModule<T = any>{
+    data: T | null
 }

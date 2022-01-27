@@ -215,7 +215,7 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
     return <section>
         {props.filter && <Filter submit={data => { submit('filters', data)}}>{props.filter}</Filter>}
         {props.event && <FuncList event={props.event} />}
-        <section style={{ marginTop: !!props.filter && !!props.event ? 15 : 0 }}>
+        <section style={{ marginTop: (!props.filter && !props.event) ? 0 : 15 }}>
             <Table
                 dataSource={tableData}
                 pagination={{

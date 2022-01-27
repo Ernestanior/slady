@@ -24,7 +24,9 @@ const Side:FC = () => {
     const url = location.pathname;
 
     const selectKeys = useMemo(() => {
-        return _menuList.filter(menu => menu.url.indexOf(url) === 0).map(menu => menu.url);
+        return _menuList.filter(menu => {
+            return url.indexOf(menu.url) === 0
+        }).map(menu => menu.url);
     }, [url, _menuList])
 
     return <AntSide width={200} className="cdn-ly-side cdn-scroll">

@@ -117,9 +117,10 @@ const CustomerSummary:FC<IIDModule> = ({id}) => {
                                 percent={0}
                                 format={() => {
                                     return <ProgressCenter>
-                                        <span className="domain">
+                                        <span className="defence">
                                             <span className="total">
-                                                {defence.totalAmount}GB
+                                                {defence.totalAmount}
+                                                <em>GB</em>
                                             </span>
                                         </span>
                                     </ProgressCenter>
