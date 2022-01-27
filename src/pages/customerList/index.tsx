@@ -7,6 +7,27 @@ import {customerService} from "@/store/apis/account";
 import historyService from "@/store/history";
 import ConfirmButton from "@/common/confirm/button";
 import {reqAndReload} from "@/common/utils";
+import Status from "@/common/status";
+import {E_COLOR} from "@/common/const";
+
+/**
+ * 用户启用禁用状态
+ */
+export const E_USER_STATUS_COLUMN:TableColumnProps<any> = {
+    title: "账号状态",
+    dataIndex: "status",
+    width: 150,
+    render(value){
+        if(value === 1){
+            return <Status color={E_COLOR.enable}>
+                启用
+            </Status>
+        }
+        return <Status color={E_COLOR.disable}>
+            禁用
+        </Status>
+    }
+}
 
 const CustomerList:FC = () => {
     const buttons: INormalEvent[] = useMemo(()=> {
@@ -86,20 +107,11 @@ const columns: TableColumnProps<any>[] = [
         sorter: true,
     },
     {
-        title: "邮箱",
+        title: "客户邮箱",
         dataIndex: "email",
         sorter: true,
     },
-    {
-        title: "类型",
-        dataIndex: "type",
-        sorter: true
-    },
-    {
-        title: "状态",
-        dataIndex: "status",
-        width: 150
-    },
+    E_USER_STATUS_COLUMN,
     {
         title: "正式客戶",
         dataIndex: "probation",
@@ -112,3 +124,4 @@ const columns: TableColumnProps<any>[] = [
         }
     }
 ]
+

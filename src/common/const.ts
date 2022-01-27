@@ -8,3 +8,8 @@ export const E_L_CUSTOMER_TYPE = [
         name: "代理客户"
     }
 ]
+
+export enum E_COLOR{
+    enable="#8BDEB0",
+    disable="#F0615B"
+}

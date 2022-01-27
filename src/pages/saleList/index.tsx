@@ -8,6 +8,7 @@ import {queryValueFromListRender, reqAndReload} from "@/common/utils";
 import Template from "@/common/template";
 import {SALE_LIST} from "@/pages/sale/create";
 import SaleFilter from "@/pages/saleList/filter";
+import {E_USER_STATUS_COLUMN} from "@/pages/customerList";
 
 const SaleList:FC = () => {
 
@@ -96,9 +97,5 @@ const columns = [
         title: "类型",
         render: queryValueFromListRender(SALE_LIST)
     },
-    {
-        title: "状态",
-        dataIndex: "status",
-        width: 150
-    }
+    E_USER_STATUS_COLUMN
 ]

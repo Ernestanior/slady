@@ -1,28 +1,43 @@
-import { FC } from "react";
+import {FC, useMemo} from "react";
 import {Layout, Menu} from 'antd';
-import {UserOutlined} from '@ant-design/icons';
-import {Link} from "react-router-dom"
+import {Link, useLocation} from "react-router-dom"
+import menuList from "@/common/layout/sider/config";
+import useAccountInfo from "@/store/account";
 
 const AntSide = Layout.Sider
 
 const Side:FC = () => {
+    const info = useAccountInfo();
+    const _menuList = useMemo(() => {
+        return menuList.filter(menu => {
+            if(menu.role){
+                if(!info){
+                    return false
+                }
+                return menu.role.includes(info.type)
+            }
+            return true
+        })
+    }, [info])
+
+    const location = useLocation();
+    const url = location.pathname;
+
+    const selectKeys = useMemo(() => {
+        return _menuList.filter(menu => menu.url.indexOf(url) === 0).map(menu => menu.url);
+    }, [url, _menuList])
+
     return <AntSide width={200} className="cdn-ly-side cdn-scroll">
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1" icon={<UserOutlined />}>
-                <Link to="/customer">
-                    客户管理
-                </Link>
-            </Menu.Item>
-            <Menu.Item key="2" icon={<UserOutlined />}>
-                <Link to="/sale">
-                    销售部门
-                </Link>
-            </Menu.Item>
-            <Menu.Item key="3" icon={<UserOutlined />}>
-                <Link to="/statistics">
-                    统计报表
-                </Link>
-            </Menu.Item>
+        <Menu theme="dark" selectedKeys={selectKeys} mode="inline">
+            {
+                _menuList.map(menu => {
+                    return <Menu.Item key={menu.url}>
+                        <Link to={menu.url}>
+                            {menu.text}
+                        </Link>
+                    </Menu.Item>
+                })
+            }
         </Menu>
     </AntSide>
 }
