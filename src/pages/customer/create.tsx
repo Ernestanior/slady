@@ -6,7 +6,7 @@ import CdnService from "@/pages/customer/service/cdnService";
 import {useForm} from "antd/es/form/Form";
 import Footer from "@/common/Form/footer";
 import Description from "@/pages/customer/service/description";
-import DnsService from "@/pages/customer/service/dnsService";
+// import DnsService from "@/pages/customer/service/dnsService";
 import {Link} from "react-router-dom";
 import {customerService} from "@/store/apis/account";
 import {analysisDnsServer} from "@/pages/customer/service/dnsServer";
@@ -42,9 +42,9 @@ const CreateCustomer:FC = () => {
             <section style={{ marginTop: 15 }}>
                 <CdnService form={form} initialSwitch={1} />
             </section>
-            <section style={{ marginTop: 15 }}>
-                <DnsService form={form} />
-            </section>
+            {/*<section style={{ marginTop: 15 }}>*/}
+            {/*    <DnsService form={form} />*/}
+            {/*</section>*/}
             <section style={{ marginTop: 15 }}>
                 <Description />
             </section>

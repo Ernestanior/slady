@@ -6,6 +6,7 @@ import SelectP from "@/common/select";
 import Period from "@/pages/customer/service/component/period";
 import {IFormModule} from "@/common/interface";
 import {queryValue} from "@/common/utils";
+import moment from "moment";
 
 interface IProps{
     initialSwitch?: 1 | 0
@@ -15,7 +16,6 @@ const CdnService:FC<IProps & IFormModule> = ({initialSwitch, initialValue={}, fo
     // cdn服务开关
     const defaultInitCdnServiceFlag = queryValue(initialSwitch, 0);
     const [cdnServiceFlag, setCdnServiceFlag] = useState(queryValue(initialValue.cdnServiceFlag, defaultInitCdnServiceFlag));
-    console.log(initialValue, queryValue(initialValue.probation, customerStatus[0].id) !== customerStatus[0].id)
     // 正式 or 测试
     const [probation, setProbation] = useState(queryValue(initialValue.probation, customerStatus[0].id))
     // cdn 客户类型，normal， cname
@@ -52,8 +52,11 @@ const CdnService:FC<IProps & IFormModule> = ({initialSwitch, initialValue={}, fo
                 <FormItem span={12} label="客户状态" name='probation' initialValue={probation}>
                     <SelectP data={customerStatus} onChange={e => { setProbation(e) }}/>
                 </FormItem>
-                <FormItem hidden={probation !== customerStatus[0].id} span={12} label="试用期" name="probationPeriod">
-                    <Period />
+                <FormItem hidden={probation !== customerStatus[0].id} span={12} label="试用期" name="probationPeriod" initialValue={15}>
+                    <Period
+                        start={queryValue(initialValue.probationStart, moment().format('YYYY/MM/DD'))}
+                        end={queryValue(initialValue.probationEnd, moment().add(15, "day").format('YYYY/MM/DD'))}
+                    />
                 </FormItem>
                 <FormItem noStyle span={12} name="type" initialValue='normal'>
                     <SwitchP

@@ -6,7 +6,7 @@ import CdnService from "@/pages/customer/service/cdnService";
 import {useForm} from "antd/es/form/Form";
 import Footer from "@/common/Form/footer";
 import Description from "@/pages/customer/service/description";
-import DnsService from "@/pages/customer/service/dnsService";
+// import DnsService from "@/pages/customer/service/dnsService";
 import {Link, useRouteMatch} from "react-router-dom";
 import {customerService} from "@/store/apis/account";
 import {analysisDnsServer} from "@/pages/customer/service/dnsServer";
@@ -55,9 +55,9 @@ const ModifyCustomer:FC = () => {
                 <section style={{ marginTop: 15 }}>
                     <CdnService form={form} initialSwitch={1} initialValue={customer}/>
                 </section>
-                <section style={{ marginTop: 15 }}>
-                    <DnsService form={form} initialValue={customer} />
-                </section>
+                {/*<section style={{ marginTop: 15 }}>*/}
+                {/*    <DnsService form={form} initialValue={customer} />*/}
+                {/*</section>*/}
                 <section style={{ marginTop: 15 }}>
                     <Description />
                 </section>
@@ -86,7 +86,11 @@ const ModifyCustomerPage:FC = () => {
                     if(res.isSuccess && res.result){
                         const _customer:any = res.result;
                         // 压缩带宽单位
-                        _customer.limitBandwidth = _customer.limitBandwidth / 10000000;
+                        _customer.limitBandwidth = _customer.limitBandwidth / 1000000;
+                        // 解决试用期的问题
+                        if(_customer.probation){
+                            console.log(_customer.probationPeriod)
+                        }
                         setCustomer(_customer)
                         customer$.next(_customer)
                     }

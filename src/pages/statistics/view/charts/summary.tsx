@@ -106,7 +106,7 @@ const CustomerSummary:FC<IIDModule> = ({id}) => {
                         <Col flex={1}>
                             <p className="cdn-block-title">防御额度</p>
                             <div className="label-text">
-                                <div>{defence.totalAmount}</div>
+                                <div>{defence.totalAmount}GB</div>
                             </div>
                         </Col>
                         <Col>

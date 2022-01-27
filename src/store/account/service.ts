@@ -24,7 +24,7 @@ class Account{
             if(res.isSuccess && res.result){
                 saveToken(token);
                 accountService.info$.next(res.result)
-                // //
+                //
                 // if(![E_USER_TYPE.SALE, E_USER_TYPE.SALE_MANAGER].includes(res.result.type)){
                 //     cb && cb("用户账号类型不正确")
                 // }else{
@@ -32,6 +32,8 @@ class Account{
                 //     saveToken(token);
                 //     accountService.info$.next(res.result)
                 // }
+            }else{
+                removeToken();
             }
         })
     }
