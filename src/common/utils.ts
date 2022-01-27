@@ -135,3 +135,38 @@ export function toFixed(value: number, len: number){
     }
     return value.toFixed(len)
 }
+
+export const transformFlow = (value: number) => {
+    if (value < 1000) {
+        return value.toFixed(2) + "B";
+    }
+    const kb = value / 1000;
+    if (kb < 1000) {
+        return kb.toFixed(2) + "KB";
+    }
+    const mb = kb / 1000;
+    if (mb < 1000) {
+        return mb.toFixed(2) + "MB";
+    }
+    const gb = mb / 1000;
+    return gb.toFixed(2) + "GB";
+};
+
+/**
+ * 带宽转换
+ */
+export const transformBindWidth = (value: number) => {
+    if (value < 1000) {
+        return value.toFixed(2) + "bps";
+    }
+    const kb = value / 1000;
+    if (kb < 1000) {
+        return kb.toFixed(2) + "Kbps";
+    }
+    const mb = kb / 1000;
+    if (mb < 1000) {
+        return mb.toFixed(2) + "Mbps";
+    }
+    const gb = mb / 1000;
+    return gb.toFixed(2) + "Gbps";
+};
