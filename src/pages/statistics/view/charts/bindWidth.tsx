@@ -17,44 +17,54 @@ const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
             return null
         }
          return {
-            backgroundColor: '#ffffff',
-            title: {
-                text: "带宽"
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter(params: any){
-                    let show = ''
-                    const fms = Array.isArray(params) ? params : [params];
-                    const date = moment(fms[0].data[0])
-                    const time = date.format("YYYY-MM-DD HH:mm");
-                    show += time + '<br>'
-                    const circleBgc = `<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color: #63b0ba;"></span>`
-                    fms.forEach(item => {
-                            // let marker = item as { marker: string }
-                            let value = item.value as [number, number]
-                            show += circleBgc + "带宽:" + transformBindWidth(value[1] ? value[1] : 0)
-                        }
-                    )
-                    return show;
+             backgroundColor: '#ffffff',
+             title: {
+                 text: "带宽"
+             },
+             tooltip: {
+                 trigger: 'axis',
+                 formatter(params: any){
+                     let show = ''
+                     const fms = Array.isArray(params) ? params : [params];
+                     const date = moment(fms[0].data[0])
+                     const time = date.format("YYYY-MM-DD HH:mm");
+                     show += time + '<br>'
+                     const circleBgc = `<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color: #63b0ba;"></span>`
+                     fms.forEach(item => {
+                             // let marker = item as { marker: string }
+                             let value = item.value as [number, number]
+                             show += circleBgc + "带宽:" + transformBindWidth(value[1] ? value[1] : 0)
+                         }
+                     )
+                     return show;
                 }
-            },
-            toolbox: {
-                feature: {
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
+             },
+             grid: {
+                 left: '30px',
+                 right: '20px',
+                 bottom: '3%',
+                 containLabel: true
+             },
+             toolbox: {
+                 feature: {
+                     restore: {},
+                     saveAsImage: {}
+                 }
+             },
             xAxis: {
                 type: 'time',
                 boundaryGap: false,
                 axisLabel: {
                     rotate: 0,
+                    // formatter: (function(value: any, a, c){
+                    //     console.log(value, a, c)
+                    //     return moment(value).format('YYYY-MM-DD <br /> HH:mm');
+                    // })
                 },
                 splitNumber: 20,
                 splitLine: {
                     show: true
-                },
+                }
             },
             yAxis: {
                 type: 'value',
@@ -109,6 +119,8 @@ const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
     return <section className="cdn-block">
         <div>
             <ReactECharts
+                lazyUpdate={true}
+                notMerge={true}
                 option={options}
             />
         </div>

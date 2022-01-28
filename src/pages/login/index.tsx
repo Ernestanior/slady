@@ -1,21 +1,21 @@
 import { Col, Layout, Row } from "antd";
-import React, {FC, useEffect, useState} from "react";
+import React, {FC} from "react";
 import LoginForm from "./form";
 import "./index.less";
 import moment from "moment";
-import {getToken} from "@/store/request/token";
+// import {getToken} from "@/store/request/token";
 
 const Login: FC = () => {
-    const [init, setInit] = useState(false);
-    useEffect(() => {
-        if(!getToken()){
-            setInit(true)
-        }
-    }, [])
-
-    if(!init){
-        return null;
-    }
+    // const [init, setInit] = useState(false);
+    // useEffect(() => {
+    //     if(!getToken()){
+    //         setInit(true)
+    //     }
+    // }, [])
+    //
+    // if(!init){
+    //     return null;
+    // }
   return (
       <Layout className="page-login-ct" style={{ height: '100%' }}>
           <Layout.Content>

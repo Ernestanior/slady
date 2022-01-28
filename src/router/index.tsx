@@ -28,7 +28,14 @@ const ProjectRouter:FC = () => {
     }, [])
 
     if(!accountInfo){
-        return <Login />;
+        return <Router history={historyService}>
+            <Switch>
+                <Route path="/login">
+                    <Login />
+                </Route>
+                <Redirect to="/login" />
+            </Switch>
+        </Router>;
     }
 
     return <Router history={historyService}>
