@@ -1,5 +1,5 @@
 import {FC, useCallback, useEffect, useMemo, useState} from "react";
-import {Breadcrumb, Form} from "antd";
+import {Breadcrumb, Form, Row} from "antd";
 import {HomeOutlined} from "@ant-design/icons"
 import Account from "@/pages/customer/service/account";
 import CdnService from "@/pages/customer/service/cdnService";
@@ -15,14 +15,26 @@ import request from "@/store/request";
 import historyService from "@/store/history";
 import ConditionShow from "@/common/conditionShow";
 import CustomerListSelector from "@/pages/common/customerListSelector";
+import {IDisableModule} from "@/common/interface";
+import FormItem from "@/common/Form/formItem";
+import useAccountInfo from "@/store/account";
+import {E_USER_TYPE} from "@/store/account/interface";
 
 const customer$ = new Subject<any>();
+
+// 类型不可编辑
+const disableMap: IDisableModule = {
+    disableProperty: {
+        type: true
+    }
+}
 
 /**
  * 表单
  * @constructor
  */
 const ModifyCustomer:FC = () => {
+    const info = useAccountInfo();
     const [customer, setCustomer] = useState({})
     const [form] = useForm();
     // 创建客户
@@ -52,9 +64,16 @@ const ModifyCustomer:FC = () => {
         <div style={{ margin: "15px 0 15px 0" }}>修改</div>
         <Form layout="vertical" form={form}>
             <ConditionShow removeMode visible={!!Object.keys(customer).length}>
+                <section className="cdn-block">
+                    <Row gutter={15}>
+                        <FormItem hidden={!!info && info.type !== E_USER_TYPE.SALE_MANAGER} label="选择销售">
+
+                        </FormItem>
+                    </Row>
+                </section>
                 <Account form={form} initialValue={customer} />
                 <section style={{ marginTop: 15 }}>
-                    <CdnService form={form} initialSwitch={1} initialValue={customer}/>
+                    <CdnService form={form} initialSwitch={1} initialValue={customer} disableProperty={disableMap.disableProperty}/>
                 </section>
                 {/*<section style={{ marginTop: 15 }}>*/}
                 {/*    <DnsService form={form} initialValue={customer} />*/}
@@ -62,15 +81,13 @@ const ModifyCustomer:FC = () => {
                 <section style={{ marginTop: 15 }}>
                     <Description />
                 </section>
-                <Footer marginBottom={30} submit={modifyCustomer} cancel={() => { form.resetFields(); }} />
+                <Footer marginBottom={30} submit={modifyCustomer} cancel={() => { historyService.push("/customer") }} />
             </ConditionShow>
         </Form>
     </section>
 }
 
 const ModifyCustomerPage:FC = () => {
-    const [customer, setCustomer] = useState<any>(null)
-
     const url = useRouteMatch<{ id: string }>("/customer/modify/:id");
     const id = useMemo(() => {
         if(url && url.params){
@@ -92,7 +109,6 @@ const ModifyCustomerPage:FC = () => {
                         if(_customer.probation){
                             console.log(_customer.probationPeriod)
                         }
-                        setCustomer(_customer)
                         customer$.next(_customer)
                     }
                 })

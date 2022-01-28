@@ -48,7 +48,7 @@ const CreateCustomer:FC = () => {
             <section style={{ marginTop: 15 }}>
                 <Description />
             </section>
-            <Footer marginBottom={30} submit={createCustomer} cancel={() => { form.resetFields(); }} />
+            <Footer marginBottom={30} submit={createCustomer} cancel={() => { historyService.push("/sale") }} />
         </Form>
     </section>
 }

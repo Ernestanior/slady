@@ -14,7 +14,8 @@ class RequestPlx<T=any>{
             // 请求结果解析
             await this.middleware_after.apply(response);
             return response;
-        }catch (err){
+        }catch (err: any){
+            await this.middleware_after.apply(err.response)
             return err as any
         }
     }

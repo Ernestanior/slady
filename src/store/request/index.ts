@@ -27,7 +27,7 @@ requestPlx.middleware_before.use(async (config, next) => {
     await next()
 })
 
-// analysis response status
+// analysis response status not 200
 requestPlx.middleware_after.use(async (rep, next) => {
     if(rep.status !== 200){
         notification.error({
@@ -39,33 +39,30 @@ requestPlx.middleware_after.use(async (rep, next) => {
             result: rep.statusText,
             message: rep.statusText
         };
-        if(rep.status){
+        if(rep.status === 401){
             accountService.autoLogout();
         }
-    }
-    await next()
-})
-
-requestPlx.middleware_after.use(async (rep, next) => {
-    let isSuccess = false;
-    let result = null;
-    let message = ""
-    if(rep.data){
-        if(!!rep.data.code && rep.data.code !== 200){
-            notification.error({
-                message: rep.data.code,
-                description: rep.data.msg
-            })
-            message = rep.data.msg;
-        }else{
-            isSuccess = true
-            result = rep.data.data
+    }else{
+        let isSuccess = false;
+        let result = null;
+        let message = ""
+        if(rep.data){
+            if(!!rep.data.code && rep.data.code !== 200){
+                notification.error({
+                    message: rep.data.code,
+                    description: rep.data.msg
+                })
+                message = rep.data.msg;
+            }else{
+                isSuccess = true
+                result = rep.data.data
+            }
         }
-    }
-    rep.data = {
-        isSuccess,
-        result,
-        message
+        rep.data = {
+            isSuccess,
+            result,
+            message
+        }
     }
     await next()
 })

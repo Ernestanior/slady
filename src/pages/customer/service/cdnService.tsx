@@ -4,7 +4,7 @@ import FormItem from "@/common/Form/formItem";
 import SwitchP from "@/common/switch";
 import SelectP from "@/common/select";
 import Period from "@/pages/customer/service/component/period";
-import {IFormModule} from "@/common/interface";
+import {IDisableModule, IFormModule} from "@/common/interface";
 import {queryValue} from "@/common/utils";
 import moment from "moment";
 
@@ -12,7 +12,7 @@ interface IProps{
     initialSwitch?: 1 | 0
 }
 
-const CdnService:FC<IProps & IFormModule> = ({initialSwitch, initialValue={}, form}) => {
+const CdnService:FC<IProps & IFormModule & IDisableModule> = ({initialSwitch, initialValue={}, form, disableProperty}) => {
     // cdn服务开关
     const defaultInitCdnServiceFlag = queryValue(initialSwitch, 0);
     const [cdnServiceFlag, setCdnServiceFlag] = useState(queryValue(initialValue.cdnServiceFlag, defaultInitCdnServiceFlag));
@@ -60,6 +60,7 @@ const CdnService:FC<IProps & IFormModule> = ({initialSwitch, initialValue={}, fo
                 </FormItem>
                 <FormItem noStyle span={12} name="type" initialValue='normal'>
                     <SwitchP
+                        disable={!!disableProperty && disableProperty.type}
                         label="Managed CNAME"
                         trueValue="cname"
                         falseValue="normal"
@@ -101,7 +102,7 @@ const CdnService:FC<IProps & IFormModule> = ({initialSwitch, initialValue={}, fo
                 <FormItem
                     label="端口转发额度"
                     name="limitPorts"
-                    initialValue={0}
+                    initialValue={1}
                     span={12}
                 >
                     <InputNumber />
@@ -109,7 +110,7 @@ const CdnService:FC<IProps & IFormModule> = ({initialSwitch, initialValue={}, fo
                 <FormItem
                     label="防御量(GB)"
                     name="limitDefence"
-                    initialValue={10}
+                    initialValue={20}
                     span={12}
                 >
                     <InputNumber />
@@ -131,10 +132,19 @@ const CdnService:FC<IProps & IFormModule> = ({initialSwitch, initialValue={}, fo
                     <InputNumber />
                 </FormItem>
                 <FormItem
+                    hidden={type !== "normal"}
                     span={12}
                     label="证书额度"
                     name="limitCerts"
-                    initialValue={100}
+                    initialValue={10}
+                >
+                    <InputNumber />
+                </FormItem>
+                <FormItem
+                    span={12}
+                    label="自定义端口额度"
+                    name="limitCerts"
+                    initialValue={5}
                 >
                     <InputNumber />
                 </FormItem>

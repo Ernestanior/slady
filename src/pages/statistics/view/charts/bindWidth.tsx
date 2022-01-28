@@ -39,12 +39,6 @@ const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
                      return show;
                 }
              },
-             grid: {
-                 left: '30px',
-                 right: '20px',
-                 bottom: '3%',
-                 containLabel: true
-             },
              toolbox: {
                  feature: {
                      restore: {},

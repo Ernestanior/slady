@@ -1,19 +1,11 @@
-import React, {FC, useEffect} from "react";
-import { Redirect, Router, Switch, Route } from "react-router-dom";
-import useAccountInfo from "@/store/account";
+import React, {FC, lazy, useEffect, Suspense} from "react";
+import {Redirect, Route, Router, Switch} from "react-router-dom";
 import historyService from "@/store/history"
 import Login from "@/pages/login";
-import LayoutPlx from "../common/layout";
-import accountService from "@/store/account/service";
-import CustomerList from "@/pages/customerList";
-import CreateCustomer from "@/pages/customer/create";
-import ModifyCustomerPage from "@/pages/customer/modify";
-import SaleList from "@/pages/saleList";
-import CreateSale from "@/pages/sale/create";
-import ModifySalePage from "@/pages/sale/modify";
-import StatisticsList from "@/pages/statistics/list";
-import SaleAssignPage from "@/pages/sale/assignCustomer";
-import ViewStatistics from "@/pages/statistics/view";
+import accountService, {E_LOGIN_STATE} from "@/store/account/service";
+import useLoginState from "@/store/account/useLoginState";
+import LoadContext from "@/common/loading/context";
+const ModuleProject = lazy(() => import("@/router/routes"));
 
 /**
  * 项目路由组件
@@ -21,13 +13,17 @@ import ViewStatistics from "@/pages/statistics/view";
  * @constructor
  */
 const ProjectRouter:FC = () => {
-    const accountInfo = useAccountInfo();
+    const loginState = useLoginState();
 
     useEffect(() => {
-        accountService.autoLogin();
+        accountService.autoLogin()
     }, [])
 
-    if(!accountInfo){
+    if(loginState === E_LOGIN_STATE.pending){
+        return null;
+    }
+
+    if(loginState === E_LOGIN_STATE.fail){
         return <Router history={historyService}>
             <Switch>
                 <Route path="/login">
@@ -38,40 +34,9 @@ const ProjectRouter:FC = () => {
         </Router>;
     }
 
-    return <Router history={historyService}>
-        <LayoutPlx>
-            <Switch>
-                <Route path="/customer/modify/:id">
-                    <ModifyCustomerPage />
-                </Route>
-                <Route path="/customer/create">
-                    <CreateCustomer />
-                </Route>
-                <Route path="/customer">
-                    <CustomerList />
-                </Route>
-                <Route path="/sale/assign/:id">
-                    <SaleAssignPage />
-                </Route>
-                <Route path="/sale/modify/:id">
-                    <ModifySalePage />
-                </Route>
-                <Route path="/sale/create">
-                    <CreateSale />
-                </Route>
-                <Route path="/sale">
-                    <SaleList />
-                </Route>
-                <Route path="/statistics/:id">
-                    <ViewStatistics />
-                </Route>
-                <Route path="/statistics">
-                    <StatisticsList />
-                </Route>
-                <Redirect to="/customer" />
-            </Switch>
-        </LayoutPlx>
-    </Router>
+    return <Suspense fallback={<LoadContext />}>
+        <ModuleProject />
+    </Suspense>
 }
 
 export default ProjectRouter

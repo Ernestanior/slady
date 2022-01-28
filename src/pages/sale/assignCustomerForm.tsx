@@ -22,7 +22,6 @@ const AssignCustomerForm:FC = () => {
                 })))
             }
             if(res[1].isSuccess && res[1].result){
-                console.log(res[1].result)
                 setAgentList(res[1].result.map(item => ({
                     value: item.id,
                     label: `${item.userEmail}`

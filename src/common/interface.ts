@@ -91,7 +91,8 @@ export interface ISelectOptionConfig {
 
 export interface IFormComponent<T=any>{
     value?: T;
-    onChange?: IChangeModule
+    onChange?: IChangeModule;
+    disable?: boolean;
 }
 
 export interface ISwitchValue{
@@ -102,6 +103,12 @@ export interface ISwitchValue{
 export interface IFormModule{
     form: FormInstance;
     initialValue?: any
+}
+
+export interface IDisableModule{
+    disableProperty?: {
+        [key: string]: boolean;
+    }
 }
 
 export interface IAsyncModule{

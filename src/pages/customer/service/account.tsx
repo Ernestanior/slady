@@ -3,9 +3,9 @@ import {Input, InputNumber, Row} from "antd";
 import FormItem from "@/common/Form/formItem";
 import SelectP from "@/common/select";
 import {E_L_CUSTOMER_TYPE} from "@/common/const";
-import {IFormModule} from "@/common/interface";
+import {IDisableModule, IFormModule} from "@/common/interface";
 
-const Account:FC<IFormModule> = ({form, initialValue={}}) => {
+const Account:FC<IFormModule & IDisableModule> = ({disableProperty, initialValue={}}) => {
     const [type, setType] = useState(initialValue.customerSaleType || E_L_CUSTOMER_TYPE[0].id)
     return <section className="cdn-block">
         <p>用户信息</p>
@@ -16,9 +16,10 @@ const Account:FC<IFormModule> = ({form, initialValue={}}) => {
             <FormItem span={12} label="登陆邮箱" name="email">
                 <Input />
             </FormItem>
-            <FormItem span={12} label="客户类型" name="customerSaleType" initialValue={E_L_CUSTOMER_TYPE[0].id}>
+            <FormItem span={12} label="客户类型" name="customerType" initialValue={E_L_CUSTOMER_TYPE[0].id}>
                 <SelectP
                     data={E_L_CUSTOMER_TYPE}
+                    disabled={disableProperty && disableProperty.customerType}
                     onChange={e => {
                         setType(e)
                     }}
@@ -27,7 +28,7 @@ const Account:FC<IFormModule> = ({form, initialValue={}}) => {
             <FormItem hidden={type === E_L_CUSTOMER_TYPE[0].id} span={12} label="选择代理" name="agentId">
                 <Input />
             </FormItem>
-            <FormItem span={12} label="可使用API数" name="limitTokens" initialValue={3}>
+            <FormItem span={12} label="可使用API数" name="limitTokens" initialValue={1}>
                 <InputNumber />
             </FormItem>
             <FormItem span={12} label="可添加子账号" name="limitSubAccounts" initialValue={3}>

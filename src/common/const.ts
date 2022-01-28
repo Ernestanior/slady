@@ -5,7 +5,11 @@ export const E_L_CUSTOMER_TYPE = [
     },
     {
         id: 2,
-        name: "代理客户"
+        name: "代理下客户"
+    },
+    {
+        id: 3,
+        name: "代理"
     }
 ]
 
