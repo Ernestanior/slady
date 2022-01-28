@@ -11,6 +11,8 @@ import BindWidth, {IBindWidth} from "@/pages/statistics/view/charts/bindWidth";
 import {statService} from "@/store/apis/stat";
 import {forkJoin, from} from "rxjs";
 import request from "@/store/request";
+import historyService from "@/store/history";
+import CustomerListSelector from "@/pages/common/customerListSelector";
 
 const ViewStatistics:FC = () => {
     const [timeFilter, setTimeFilter] = useState<ITimeFilter>({
@@ -83,7 +85,7 @@ const ViewStatistics:FC = () => {
         return null
     }
 
-    return <section>
+    return <section key={id}>
         <Breadcrumb separator=">">
             <Breadcrumb.Item>
                 <Link to= "/statistics">
@@ -91,7 +93,15 @@ const ViewStatistics:FC = () => {
                     <span style={{marginLeft: 5}}>统计报表</span>
                 </Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>查看</Breadcrumb.Item>
+            <Breadcrumb.Item>
+                查看
+                <CustomerListSelector
+                    value={id}
+                    onChange={customerId => {
+                        historyService.push(`/statistics/${customerId}`)
+                    }}
+                />
+            </Breadcrumb.Item>
         </Breadcrumb>
         <section style={{ marginTop: 15 }}>
             <p>查看</p>

@@ -8,6 +8,7 @@ import {AxiosRequestConfig} from "axios";
 import {XOR} from "ts-xor";
 import {FormInstance} from "antd";
 import moment from "moment";
+import {SelectProps} from "antd/lib/select";
 
 export type ITrigger = () => void;
 
@@ -108,7 +109,7 @@ export interface IAsyncModule{
     loader?: (data: any) => any
 }
 
-export interface ISelectProps {
+export interface ISelectProps extends SelectProps{
     size?: "small" | "large";
     onChange?: IChangeModule;
     placeholder?: string;

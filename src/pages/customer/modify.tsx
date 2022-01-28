@@ -14,6 +14,7 @@ import {from, Subject} from "rxjs";
 import request from "@/store/request";
 import historyService from "@/store/history";
 import ConditionShow from "@/common/conditionShow";
+import CustomerListSelector from "@/pages/common/customerListSelector";
 
 const customer$ = new Subject<any>();
 
@@ -99,7 +100,7 @@ const ModifyCustomerPage:FC = () => {
         }
     }, [id])
 
-    return <section>
+    return <section key={id}>
         <Breadcrumb separator=">">
             <Breadcrumb.Item>
                 <Link to= "/customer">
@@ -107,7 +108,16 @@ const ModifyCustomerPage:FC = () => {
                     <span style={{marginLeft: 5}}>客户管理</span>
                 </Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>客户: {customer && customer.name}</Breadcrumb.Item>
+            <Breadcrumb.Item>
+                客户:
+                <CustomerListSelector
+                    value={id}
+                    onChange={customerId => {
+                        historyService.push(`/customer/modify/${customerId}`)
+                    }}
+                />
+                {/*{customer && customer.name}*/}
+            </Breadcrumb.Item>
         </Breadcrumb>
         <ModifyCustomer />
     </section>
