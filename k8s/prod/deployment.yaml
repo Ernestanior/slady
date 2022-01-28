@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sales-system 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sales-system
+  template:
+    metadata:
+      labels:
+        app: sales-system
+    spec:
+      imagePullSecrets:
+      - name: harbor
+      containers:
+      - name: sales-system
+        image: harbor.greypanel.com/greycdn/sales-system:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http-port
+          containerPort: 10087
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 10087 
+          initialDelaySeconds: 20
+          periodSeconds: 20        
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 10087 
+          failureThreshold: 1
+          periodSeconds: 20
+
+        startupProbe:
+          httpGet:
+            path: /
+            port: 10087
+          failureThreshold: 30
+          periodSeconds: 10
