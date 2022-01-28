@@ -81,7 +81,7 @@ class SaleAPI {
 
     AssignCustomer = (params: any, data: any) => {
         const config: AxiosRequestConfig = {
-            url: '/sale/assign-customer-agent/sada',
+            url: '/sale/assign-customer-agent',
             method: 'put',
             params,
             data
