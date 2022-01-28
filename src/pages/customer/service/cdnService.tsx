@@ -143,7 +143,7 @@ const CdnService:FC<IProps & IFormModule & IDisableModule> = ({initialSwitch, in
                 <FormItem
                     span={12}
                     label="自定义端口额度"
-                    name="limitCerts"
+                    name="limitCustomPorts"
                     initialValue={5}
                 >
                     <InputNumber />

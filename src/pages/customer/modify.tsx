@@ -19,13 +19,15 @@ import {IDisableModule} from "@/common/interface";
 import FormItem from "@/common/Form/formItem";
 import useAccountInfo from "@/store/account";
 import {E_USER_TYPE} from "@/store/account/interface";
+import SaleSelector from "@/pages/sale/saleSelector";
 
 const customer$ = new Subject<any>();
 
 // 类型不可编辑
 const disableMap: IDisableModule = {
     disableProperty: {
-        type: true
+        type: true,
+        customerType: true
     }
 }
 
@@ -37,6 +39,10 @@ const ModifyCustomer:FC = () => {
     const info = useAccountInfo();
     const [customer, setCustomer] = useState({})
     const [form] = useForm();
+
+    // 销售
+    const [saleId, setSaleId] = useState<number|undefined>()
+
     // 创建客户
     const modifyCustomer = useCallback(() => {
         let data = form.getFieldsValue();
@@ -66,12 +72,14 @@ const ModifyCustomer:FC = () => {
             <ConditionShow removeMode visible={!!Object.keys(customer).length}>
                 <section className="cdn-block">
                     <Row gutter={15}>
-                        <FormItem hidden={!!info && info.type !== E_USER_TYPE.SALE_MANAGER} label="选择销售">
-
+                        <FormItem span={12} hidden={!!info && info.type !== E_USER_TYPE.SALE_MANAGER} label="选择销售">
+                            <SaleSelector onChange={setSaleId} />
                         </FormItem>
                     </Row>
                 </section>
-                <Account form={form} initialValue={customer} />
+                <section style={{ marginTop: 15 }}>
+                    <Account saleId={saleId} form={form} initialValue={customer} disableProperty={disableMap.disableProperty} />
+                </section>
                 <section style={{ marginTop: 15 }}>
                     <CdnService form={form} initialSwitch={1} initialValue={customer} disableProperty={disableMap.disableProperty}/>
                 </section>

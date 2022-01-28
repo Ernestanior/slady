@@ -4,8 +4,13 @@ import FormItem from "@/common/Form/formItem";
 import SelectP from "@/common/select";
 import {E_L_CUSTOMER_TYPE} from "@/common/const";
 import {IDisableModule, IFormModule} from "@/common/interface";
+import AgentList from "@/pages/sale/agentList";
 
-const Account:FC<IFormModule & IDisableModule> = ({disableProperty, initialValue={}}) => {
+interface IProps{
+    saleId?: number
+}
+
+const Account:FC<IFormModule & IDisableModule & IProps> = ({disableProperty, initialValue={}, saleId}) => {
     const [type, setType] = useState(initialValue.customerSaleType || E_L_CUSTOMER_TYPE[0].id)
     return <section className="cdn-block">
         <p>用户信息</p>
@@ -24,6 +29,9 @@ const Account:FC<IFormModule & IDisableModule> = ({disableProperty, initialValue
                         setType(e)
                     }}
                 />
+            </FormItem>
+            <FormItem span={12} label="选择代理">
+                <AgentList id={saleId} />
             </FormItem>
             <FormItem hidden={type === E_L_CUSTOMER_TYPE[0].id} span={12} label="选择代理" name="agentId">
                 <Input />
