@@ -53,7 +53,8 @@ const ModifyCustomer:FC = () => {
                 id: data.id,
                 name: data.name,
                 email: data.email,
-                dnsValue: data.dnsValue
+                dnsValue: data.dnsValue,
+                saleId: data.saleId
             })
         }else{
             // 创建的带宽单位是MB，后台接受的带宽是B

@@ -3,7 +3,7 @@ import {IDataModule} from "@/common/interface";
 import ReactECharts from "echarts-for-react";
 import * as echarts from "echarts";
 import moment from "moment";
-import {transformBindWidth, transformFlow} from "@/common/utils";
+import {transformBindWidth, transformFlow, xAxisFormatterGenerate} from "@/common/utils";
 
 export interface IBindWidth{
     bindWidth95: number;
@@ -16,6 +16,10 @@ const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
         if(!data || !data.bindWidthList){
             return null
         }
+        if(data.bindWidthList.length < 2){
+            return null;
+        }
+
          return {
              backgroundColor: '#ffffff',
              title: {
@@ -49,16 +53,14 @@ const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
                 type: 'time',
                 boundaryGap: false,
                 axisLabel: {
-                    rotate: 0,
-                    // formatter: (function(value: any, a, c){
-                    //     console.log(value, a, c)
-                    //     return moment(value).format('YYYY-MM-DD <br /> HH:mm');
-                    // })
+                    // rotate: 45,
+                    // interval: 2,
+                    formatter: xAxisFormatterGenerate(data.bindWidthList)
                 },
                 splitNumber: 20,
                 splitLine: {
                     show: true
-                }
+                },
             },
             yAxis: {
                 type: 'value',
@@ -96,7 +98,22 @@ const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
                                 offset: 1, color: "#63b0ba"
                             }]
                         )
-                    }
+                    },
+                    markLine:  {
+                        data: [{
+                            type: "average",
+                            lineStyle: {
+                                color: "#254985",
+                            },
+                            yAxis: data.bindWidth95 as any
+                        }],
+                        label: {
+                            position: "middle",
+                            formatter: (e: any) => {
+                                return "95带宽：" + transformBindWidth(data.bindWidth95);
+                            },
+                        },
+                    },
                 }
             ]
         }

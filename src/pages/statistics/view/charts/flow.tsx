@@ -3,7 +3,7 @@ import {IDataModule} from "@/common/interface";
 import ReactECharts from "echarts-for-react"
 import * as echarts from "echarts"
 import moment from "moment";
-import {transformFlow} from "@/common/utils";
+import {transformFlow, xAxisFormatterGenerate} from "@/common/utils";
 
 export interface IFlowData{
     flowList: any[] | null;
@@ -17,6 +17,7 @@ const Flow:FC<IDataModule<IFlowData>> = ({data}) => {
         if(!data || !data.flowList){
             return null
         }
+
         const _:echarts.EChartsOption = {
             backgroundColor: '#ffffff',
             title: {
@@ -43,12 +44,13 @@ const Flow:FC<IDataModule<IFlowData>> = ({data}) => {
                 boundaryGap: false,
                 axisLabel: {
                     rotate: 0,
+                    formatter: xAxisFormatterGenerate(data.flowList)
                 },
                 splitNumber: 20,
                 splitLine: {
                     show: true
                 },
-            },
+            } as any,
             yAxis: {
                 type: 'value',
                 name: "流量",

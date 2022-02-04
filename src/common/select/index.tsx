@@ -59,7 +59,7 @@ const SelectP: FC<ISelectProps & {value?: any; data: ISelectItem[] | string[] | 
         <Select
             getPopupContainer={(triggerNode) => triggerNode.parentElement}
             defaultValue={defaultValue}
-            showSearch={props.data.length > 8}
+            showSearch={props.data.length > 4}
             {...resProps}
             onChange={onChange}
             optionFilterProp="label"

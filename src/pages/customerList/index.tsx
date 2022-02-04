@@ -90,7 +90,6 @@ const CustomerList:FC = () => {
     if(info && info.type === E_USER_TYPE.SALE_MANAGER){
         _columns_fix = columns_manage;
     }
-    console.log(columns, columns_manage)
 
     // 下拉
     const _columns:any = useMemo(() => {
@@ -194,7 +193,7 @@ const columns_manage = [
     ...columns.slice(2)
 ]
 
-const USER_TYPE = [
+export const USER_TYPE = [
     {
         id: "direct",
         name: "直属客户"

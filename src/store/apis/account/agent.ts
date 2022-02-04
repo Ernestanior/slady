@@ -3,7 +3,6 @@
 import { AxiosRequestConfig } from 'axios';
 import {
     IAgentForm,
-    IAgentListForm,
 } from "./common.interface";
 
 /**

@@ -57,7 +57,6 @@ class Account{
     autoLoadSaleInfo = () => {
         from(request<ISaleInfo>(saleService.viewSale({}, {}))).subscribe(res => {
             if(res.isSuccess && res.result){
-                console.log(res)
                 accountService.saleInfo$.next(res.result)
             }
         })

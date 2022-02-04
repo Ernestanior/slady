@@ -10,7 +10,6 @@ const CustomerListSelector:FC<IFormComponent> = ({value, onChange}) => {
 
     useEffect(() => {
         const sub = from(request<any[]>(customerService.FindCustomerList({}, {}))).subscribe(res => {
-            console.log(res);
             if(res.isSuccess && res.result){
                 setList(res.result)
             }
