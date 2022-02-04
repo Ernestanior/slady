@@ -1,31 +1,41 @@
 import {FC, useEffect, useState} from "react";
-import {IFormComponent, IIDModule} from "@/common/interface";
+import {IDisableModule, IFormComponent} from "@/common/interface";
 import SelectP from "@/common/select";
 import {from} from "rxjs";
 import request from "@/store/request";
-import {saleService} from "@/store/apis/account";
+import {agentService} from "@/store/apis/account";
 
-const AgentList:FC<IIDModule & IFormComponent> = ({id, value, onChange}) => {
+interface IProps{
+    saleId?: number
+}
+
+const AgentList:FC<IProps & IFormComponent & IDisableModule> = ({saleId, value, onChange, disable}) => {
     const [list, setList] = useState<any[]>([]);
 
     useEffect(() => {
-        if(id){
-            const sub = from(request(saleService.QueryAgentBySaleId({saleId: id}, {}))).subscribe(res => {
+        if(saleId){
+            const sub = from(request(agentService.FindSale({saleId: saleId}, {}))).subscribe(res => {
                 if(res.isSuccess && res.result){
                     // 需要后端修改
-                    console.log(res.result)
+                    if(Array.isArray(res.result)){
+                        setList(res.result.map(item => ({
+                            id: item.id,
+                            name: item.agentName
+                        })))
+                    }
                 }
             })
             return () => sub.unsubscribe()
         }else{
             setList([])
         }
-    }, [id])
+    }, [saleId])
 
     return <SelectP
         data={list}
         value={value}
         onChange={onChange}
+        disabled={disable}
     />
 }
 

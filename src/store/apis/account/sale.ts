@@ -19,18 +19,6 @@ class SaleAPI {
         return config;
     }
 
-    FindOne = (params: any, data: any) => {
-        const config: AxiosRequestConfig = {
-            url: '/sale/list-one',
-            method: 'post',
-            params,
-            data
-        };
-        config.headers = {};
-        config.headers['Content-Type'] = 'application/json';
-        return config;
-    }
-
     CreateSale = (params: {}, data: any) => {
         const config: AxiosRequestConfig = {
             url: '/sale/create',
@@ -67,9 +55,33 @@ class SaleAPI {
         return config;
     }
 
+    /**
+     * 全部直属客户
+     * @param params
+     * @param data
+     * @constructor
+     */
+    QueryAllCustomerCanAssign = (params: any, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/customer/list-direct',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
+    /**
+     * 已经销售的直属客户
+     * @param params
+     * @param data
+     * @constructor
+     */
     QueryCustomerBySaleId = (params: any, data: any) => {
         const config: AxiosRequestConfig = {
-            url: '/sale/list-customers',
+            url: '/customer/find-by-sale',
             method: 'post',
             params,
             data
@@ -91,9 +103,27 @@ class SaleAPI {
         return config;
     }
 
+    /**
+     * 被指派的代理
+     * @param params
+     * @param data
+     * @constructor
+     */
     QueryAgentBySaleId = (params: any, data: any) => {
         const config: AxiosRequestConfig = {
-            url: '/sale/list-agents',
+            url: '/agent/find-by-sale',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
+    viewSale = (params: any, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/sale/view',
             method: 'post',
             params,
             data

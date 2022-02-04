@@ -9,6 +9,7 @@ import {XOR} from "ts-xor";
 import {FormInstance} from "antd";
 import moment from "moment";
 import {SelectProps} from "antd/lib/select";
+import {BehaviorSubject, Subject} from "rxjs";
 
 export type ITrigger = () => void;
 
@@ -102,7 +103,6 @@ export interface ISwitchValue{
 
 export interface IFormModule{
     form: FormInstance;
-    initialValue?: any
 }
 
 export interface IDisableModule{
@@ -183,4 +183,10 @@ export interface IDefaultValue{
 
 export interface IDataModule<T = any>{
     data: T | null
+}
+
+export type IEvent = BehaviorSubject<any> | Subject<any>;
+
+export interface IAsyncEventModule{
+    event$?: IEvent
 }

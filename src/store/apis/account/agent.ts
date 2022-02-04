@@ -126,6 +126,18 @@ class AgentAPI {
             config.headers['Content-Type'] = 'application/json';
             return config;
         }
+
+        FindSale = (params: {saleId: number}, data: any) => {
+            const config: AxiosRequestConfig = {
+                url: '/agent/find-by-sale',
+                method: 'post',
+                params,
+                data
+            };
+            config.headers = {};
+            config.headers['Content-Type'] = 'application/json';
+            return config;
+        }
 }
 export default AgentAPI;
 

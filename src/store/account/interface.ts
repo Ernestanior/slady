@@ -17,3 +17,8 @@ export interface IAccountInfo{
     /**启用2FA校验 */
     authFlag: -1 | 1 | 2;
 }
+
+export interface ISaleInfo{
+    // saleId
+    id: number
+}

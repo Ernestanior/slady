@@ -9,6 +9,7 @@ import Template from "@/common/template";
 import {SALE_LIST} from "@/pages/sale/create";
 import SaleFilter from "@/pages/saleList/filter";
 import {E_USER_STATUS_COLUMN} from "@/pages/customerList";
+import {E_USER_TYPE} from "@/store/account/service";
 
 const SaleList:FC = () => {
 
@@ -64,8 +65,9 @@ const SaleList:FC = () => {
                 dataIndex: "opt",
                 width: 200,
                 render(_:any, data:any){
+                    const showAssign = data.type === E_USER_TYPE.SALE;
                     return <Space>
-                        <Button onClick={() => { reAssignCustomer(data) }}>分配客户</Button>
+                        {showAssign && <Button onClick={() => { reAssignCustomer(data) }}>分配客户</Button>}
                         <Button onClick={() => { modify(data) }}>修改</Button>
                         <ConfirmButton info="确定删除此用户？" submit={() => { deleteUser(data) }}>删除</ConfirmButton>
                     </Space>

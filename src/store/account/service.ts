@@ -1,8 +1,8 @@
 import {BehaviorSubject, from, skip} from "rxjs";
-import {IAccountInfo} from "./interface";
+import {IAccountInfo, ISaleInfo} from "./interface";
 import {ICallback} from "@/common/interface";
 import request from "@/store/request";
-import {userService} from "@/store/apis/account";
+import {saleService, userService} from "@/store/apis/account";
 import {getToken, removeToken, saveToken} from "@/store/request/token";
 
 export enum E_USER_TYPE{
@@ -21,6 +21,7 @@ export enum E_LOGIN_STATE{
  */
 class Account{
     readonly info$ = new BehaviorSubject<IAccountInfo | null>(null);
+    readonly saleInfo$ = new BehaviorSubject<ISaleInfo | null>(null);
     readonly loginState$ = new BehaviorSubject<E_LOGIN_STATE>(E_LOGIN_STATE.pending);
 
     constructor() {
@@ -44,6 +45,8 @@ class Account{
                     // save token
                     saveToken(token);
                     accountService.info$.next(res.result)
+                    // reload sale Info
+                    accountService.autoLoadSaleInfo();
                 }
             }else{
                 removeToken();
@@ -51,9 +54,19 @@ class Account{
         })
     }
 
+    autoLoadSaleInfo = () => {
+        from(request<ISaleInfo>(saleService.viewSale({}, {}))).subscribe(res => {
+            if(res.isSuccess && res.result){
+                console.log(res)
+                accountService.saleInfo$.next(res.result)
+            }
+        })
+    }
+
     autoLogout = () => {
         removeToken();
         this.info$.next(null)
+        this.saleInfo$.next(null)
     }
 
     // 返回是否触发

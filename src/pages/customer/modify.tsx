@@ -20,6 +20,9 @@ import FormItem from "@/common/Form/formItem";
 import useAccountInfo from "@/store/account";
 import {E_USER_TYPE} from "@/store/account/interface";
 import SaleSelector from "@/pages/sale/saleSelector";
+import useAsyncData from "@/common/event/async";
+import useFieldsChange from "@/common/event/useFieldsChange";
+import {queryCustomerType} from "@/common/const";
 
 const customer$ = new Subject<any>();
 
@@ -40,9 +43,6 @@ const ModifyCustomer:FC = () => {
     const [customer, setCustomer] = useState({})
     const [form] = useForm();
 
-    // 销售
-    const [saleId, setSaleId] = useState<number|undefined>()
-
     // 创建客户
     const modifyCustomer = useCallback(() => {
         let data = form.getFieldsValue();
@@ -58,30 +58,47 @@ const ModifyCustomer:FC = () => {
         });
     },[form, customer]);
 
+    // 创建表单同步
+    const [data$, loadData] = useAsyncData();
+
     useEffect(() => {
         const sub = customer$.subscribe(customer => {
-            form.setFieldsValue(customer)
+            form.setFieldsValue({...customer})
             setCustomer(customer);
+            // 计算直属还是销售客户
+            loadData({...customer, customerType: queryCustomerType(customer).id});
         })
         return () => sub.unsubscribe();
-    }, [form])
+    }, [form, loadData])
+
+    // 特殊设置
+    const fieldChangeEvent = useCallback((res) => {
+        loadData(res);
+        if(res.hasOwnProperty("limitMasterDomains")){
+            form.setFieldsValue({
+                limitCerts: res.limitMasterDomains
+            })
+        }
+    }, [form, loadData])
+
+    const onFieldsChange = useFieldsChange(fieldChangeEvent);
 
     return <section>
         <div style={{ margin: "15px 0 15px 0" }}>修改</div>
-        <Form layout="vertical" form={form}>
+        <Form layout="vertical" form={form} onFieldsChange={onFieldsChange}>
             <ConditionShow removeMode visible={!!Object.keys(customer).length}>
                 <section className="cdn-block">
                     <Row gutter={15}>
-                        <FormItem span={12} hidden={!!info && info.type !== E_USER_TYPE.SALE_MANAGER} label="选择销售">
-                            <SaleSelector onChange={setSaleId} />
+                        <FormItem name="saleId" span={12} hidden={!!info && info.type !== E_USER_TYPE.SALE_MANAGER} label="选择销售">
+                            <SaleSelector/>
                         </FormItem>
                     </Row>
                 </section>
                 <section style={{ marginTop: 15 }}>
-                    <Account saleId={saleId} form={form} initialValue={customer} disableProperty={disableMap.disableProperty} />
+                    <Account event$={data$} />
                 </section>
                 <section style={{ marginTop: 15 }}>
-                    <CdnService form={form} initialSwitch={1} initialValue={customer} disableProperty={disableMap.disableProperty}/>
+                    <CdnService initialSwitch={1} event$={data$} disableProperty={disableMap.disableProperty}/>
                 </section>
                 {/*<section style={{ marginTop: 15 }}>*/}
                 {/*    <DnsService form={form} initialValue={customer} />*/}
@@ -89,7 +106,7 @@ const ModifyCustomer:FC = () => {
                 <section style={{ marginTop: 15 }}>
                     <Description />
                 </section>
-                <Footer marginBottom={30} submit={modifyCustomer} cancel={() => { historyService.push("/customer") }} />
+                <Footer marginBottom={30} submit={modifyCustomer} cancel={() => { form.setFieldsValue({...customer}) }} />
             </ConditionShow>
         </Form>
     </section>
@@ -113,10 +130,6 @@ const ModifyCustomerPage:FC = () => {
                         const _customer:any = res.result;
                         // 压缩带宽单位
                         _customer.limitBandwidth = _customer.limitBandwidth / 1000000;
-                        // 解决试用期的问题
-                        if(_customer.probation){
-                            console.log(_customer.probationPeriod)
-                        }
                         customer$.next(_customer)
                     }
                 })

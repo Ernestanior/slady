@@ -4,31 +4,44 @@ import FormItem from "@/common/Form/formItem";
 import SwitchP from "@/common/switch";
 import SelectP from "@/common/select";
 import Period from "@/pages/customer/service/component/period";
-import {IDisableModule, IFormModule} from "@/common/interface";
+import {IAsyncEventModule, IDisableModule} from "@/common/interface";
 import {queryValue} from "@/common/utils";
 import moment from "moment";
+import useSubscribe from "@/common/event/useSubscribe";
 
 interface IProps{
     initialSwitch?: 1 | 0
 }
 
-const CdnService:FC<IProps & IFormModule & IDisableModule> = ({initialSwitch, initialValue={}, form, disableProperty}) => {
+const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwitch,  event$, disableProperty}) => {
     // cdn服务开关
     const defaultInitCdnServiceFlag = queryValue(initialSwitch, 0);
-    const [cdnServiceFlag, setCdnServiceFlag] = useState(queryValue(initialValue.cdnServiceFlag, defaultInitCdnServiceFlag));
+    const [cdnServiceFlag, setCdnServiceFlag] = useState(defaultInitCdnServiceFlag);
     // 正式 or 测试
-    const [probation, setProbation] = useState(queryValue(initialValue.probation, customerStatus[0].id))
+    const [probation, setProbation] = useState(customerStatus[0].id)
     // cdn 客户类型，normal， cname
-    const [type, setType] = useState(queryValue(initialValue.type, "normal"))
+    const [type, setType] = useState("normal");
 
-    //添加域名和证书额度的联动
-    const changeDomain = useCallback((domainCount) => {
-        if(domainCount){
-            form.setFieldsValue({
-                limitCerts: domainCount
-            })
-        }
-    }, [form])
+    // 开始时间
+    const [startDate, setStartDate] = useState(moment().format("YYYY/MM/DD"));
+
+    // 结束时间
+    const [endDate, setEndDate] = useState(moment().format("YYYY/MM/DD"))
+
+    // 表单变动，重载其他值
+    const setAsyncData = useCallback((data) => {
+        setCdnServiceFlag(queryValue(data.cdnServiceFlag, defaultInitCdnServiceFlag))
+        setProbation(data.probation)
+        setType(data.type || "normal")
+        setStartDate(queryValue(data.setStartDate, moment().format("YYYY/MM/DD")))
+        setEndDate(queryValue(data.probationEnd, moment().format("YYYY/MM/DD")))
+    }, [defaultInitCdnServiceFlag])
+
+    const init = useSubscribe(setAsyncData, event$)
+
+    if(!init){
+        return null;
+    }
 
     return <section className="cdn-block">
         <Row gutter={15}>
@@ -40,9 +53,6 @@ const CdnService:FC<IProps & IFormModule & IDisableModule> = ({initialSwitch, in
                     <SwitchP
                         trueValue={1}
                         falseValue={0}
-                        onChange={e => {
-                            setCdnServiceFlag(e)
-                        }}
                     />
                 </FormItem>
             </Col>
@@ -50,12 +60,12 @@ const CdnService:FC<IProps & IFormModule & IDisableModule> = ({initialSwitch, in
         <Row gutter={15}>
             <FormItem noStyle hidden={!cdnServiceFlag}>
                 <FormItem span={12} label="客户状态" name='probation' initialValue={probation}>
-                    <SelectP data={customerStatus} onChange={e => { setProbation(e) }}/>
+                    <SelectP data={customerStatus} />
                 </FormItem>
                 <FormItem hidden={probation !== customerStatus[0].id} span={12} label="试用期" name="probationPeriod" initialValue={15}>
                     <Period
-                        start={queryValue(initialValue.probationStart, moment().format('YYYY/MM/DD'))}
-                        end={queryValue(initialValue.probationEnd, moment().add(15, "day").format('YYYY/MM/DD'))}
+                        start={startDate}
+                        end={endDate}
                     />
                 </FormItem>
                 <FormItem noStyle span={12} name="type" initialValue='normal'>
@@ -64,9 +74,6 @@ const CdnService:FC<IProps & IFormModule & IDisableModule> = ({initialSwitch, in
                         label="Managed CNAME"
                         trueValue="cname"
                         falseValue="normal"
-                        onChange={e => {
-                            setType(e)
-                        }}
                     />
                 </FormItem>
                 <FormItem
@@ -76,11 +83,7 @@ const CdnService:FC<IProps & IFormModule & IDisableModule> = ({initialSwitch, in
                     initialValue={5}
                     span={12}
                 >
-                    <InputNumber
-                        onChange={e => {
-                            changeDomain(e)
-                        }}
-                    />
+                    <InputNumber />
                 </FormItem>
                 <FormItem
                     hidden={type !== "cname"}
@@ -108,12 +111,12 @@ const CdnService:FC<IProps & IFormModule & IDisableModule> = ({initialSwitch, in
                     <InputNumber />
                 </FormItem>
                 <FormItem
-                    label="防御量(GB)"
+                    label="防御量"
                     name="limitDefence"
                     initialValue={20}
                     span={12}
                 >
-                    <InputNumber />
+                    <SelectP data={defenceLimitList} />
                 </FormItem>
                 <FormItem noStyle span={12} name="mainlandOpt" initialValue={1}>
                     <SwitchP
@@ -174,5 +177,69 @@ const customerStatus = [
     {
         id: 0,
         name: '正式'
+    }
+]
+
+// defence limit
+const defenceLimitList = [
+    {
+        id: 10,
+        name: "10GB"
+    },
+    {
+        id: 20,
+        name: "20GB"
+    },
+    {
+        id: 30,
+        name: "30GB"
+    },
+    {
+        id: 40,
+        name: "40GB"
+    },
+    {
+        id: 50,
+        name: "50GB"
+    },
+    {
+        id: 100,
+        name: "100GB"
+    },
+    {
+        id: 200,
+        name: "200GB"
+    },
+    {
+        id: 300,
+        name: "300GB"
+    },
+    {
+        id: 400,
+        name: "400GB"
+    },
+    {
+        id: 500,
+        name: "500GB"
+    },
+    {
+        id: 1000,
+        name: "1T"
+    },
+    {
+        id: 2000,
+        name: "2T"
+    },
+    {
+        id: 3000,
+        name: "3T"
+    },
+    {
+        id: 4000,
+        name: "4T"
+    },
+    {
+        id: -1,
+        name: "Unlimited"
     }
 ]
