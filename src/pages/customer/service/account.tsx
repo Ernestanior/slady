@@ -2,7 +2,7 @@ import {FC, useCallback, useState} from "react";
 import {Input, InputNumber, Row} from "antd";
 import FormItem from "@/common/Form/formItem";
 import SelectP from "@/common/select";
-import {E_L_USER_TYPE} from "@/common/const";
+import {E_L_CUSTOMER_TYPE, E_L_USER_TYPE} from "@/common/const";
 import {IAsyncEventModule} from "@/common/interface";
 import AgentList from "@/pages/sale/agentList";
 import useSubscribe from "@/common/event/useSubscribe";
@@ -23,6 +23,13 @@ const Account:FC<IAsyncEventModule & IProps> = ({event$, isModify}) => {
 
     useSubscribe(setAccountType, event$)
 
+    let customerTypeList = E_L_USER_TYPE;
+    if(isModify){
+        if(type !== E_L_USER_TYPE[2].id){
+            customerTypeList = E_L_CUSTOMER_TYPE
+        }
+    }
+
     return <section className="cdn-block">
         <p>用户信息</p>
         <Row gutter={15}>
@@ -33,7 +40,7 @@ const Account:FC<IAsyncEventModule & IProps> = ({event$, isModify}) => {
                 <Input />
             </FormItem>
             <FormItem span={12} label="客户类型" name="customerType" initialValue={E_L_USER_TYPE[0].id}>
-                <SelectP disabled={isModify && type === E_L_USER_TYPE[2].id} data={E_L_USER_TYPE} />
+                <SelectP disabled={isModify && type === E_L_USER_TYPE[2].id} data={customerTypeList} />
             </FormItem>
             <FormItem hidden={type !== E_L_USER_TYPE[1].id} span={12} label="选择代理" name="agentId">
                 <AgentList saleId={saleId} />

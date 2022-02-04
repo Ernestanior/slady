@@ -48,7 +48,7 @@ class AgentAPI {
          * findAgent
          * 生成请求参数
          */
-        FindAgent = (params: IFindAgentParams, data: IAgentListForm) => {
+        FindAgent = (params: IFindAgentParams, data: any) => {
             const config: AxiosRequestConfig = {
                 url: '/agent/list',
                 method: 'post',
@@ -59,6 +59,24 @@ class AgentAPI {
             config.headers['Content-Type'] = 'application/json';
             return config;
         }
+
+
+    /**
+     * FindOne
+     * 生成请求参数
+     */
+    FindOne = (params: IFindAgentParams, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/agent/find-one',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
     
         /**
          * findAll

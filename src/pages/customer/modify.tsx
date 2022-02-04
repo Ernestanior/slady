@@ -8,13 +8,12 @@ import Footer from "@/common/Form/footer";
 import Description from "@/pages/customer/service/description";
 // import DnsService from "@/pages/customer/service/dnsService";
 import {Link, useRouteMatch} from "react-router-dom";
-import {customerService} from "@/store/apis/account";
+import {agentService, customerService} from "@/store/apis/account";
 import {analysisDnsServer} from "@/pages/customer/service/dnsServer";
 import {from, Subject} from "rxjs";
 import request from "@/store/request";
 import historyService from "@/store/history";
 import ConditionShow from "@/common/conditionShow";
-import CustomerListSelector from "@/pages/common/customerListSelector";
 import {IDisableModule} from "@/common/interface";
 import FormItem from "@/common/Form/formItem";
 import useAccountInfo from "@/store/account";
@@ -22,7 +21,7 @@ import {E_USER_TYPE} from "@/store/account/interface";
 import SaleSelector from "@/pages/sale/saleSelector";
 import useAsyncData from "@/common/event/async";
 import useFieldsChange from "@/common/event/useFieldsChange";
-import {queryCustomerType} from "@/common/const";
+import {E_L_CUSTOMER_TYPE, E_L_USER_TYPE} from "@/common/const";
 
 const customer$ = new Subject<any>();
 
@@ -40,17 +39,28 @@ const disableMap: IDisableModule = {
  */
 const ModifyCustomer:FC = () => {
     const info = useAccountInfo();
-    const [customer, setCustomer] = useState({})
+    const [customer, setCustomer] = useState<any>({})
     const [form] = useForm();
 
     // 创建客户
     const modifyCustomer = useCallback(() => {
         let data = form.getFieldsValue();
         data = {...customer, ...data}
-        // 创建的带宽单位是MB，后台接受的带宽是B
-        data.limitBandwidth = data.limitBandwidth * 1000000;
-        data = analysisDnsServer(data);
-        const config = customerService.ModifyCustomer({}, data);
+        let config;
+        // 代理编辑
+        if(data.customerType === E_L_USER_TYPE[2].id){
+            config = agentService.ModifyAgent({}, {
+                id: data.id,
+                name: data.name,
+                email: data.email,
+                dnsValue: data.dnsValue
+            })
+        }else{
+            // 创建的带宽单位是MB，后台接受的带宽是B
+            data.limitBandwidth = data.limitBandwidth * 1000000;
+            data = analysisDnsServer(data);
+            config = customerService.ModifyCustomer({}, data);
+        }
         from(request(config)).subscribe((res) => {
             if (res.isSuccess) {
                 historyService.push("/customer")
@@ -66,7 +76,7 @@ const ModifyCustomer:FC = () => {
             form.setFieldsValue({...customer})
             setCustomer(customer);
             // 计算直属还是销售客户
-            loadData({...customer, customerType: queryCustomerType(customer).id});
+            loadData({...customer});
         })
         return () => sub.unsubscribe();
     }, [form, loadData])
@@ -95,11 +105,13 @@ const ModifyCustomer:FC = () => {
                     </Row>
                 </section>
                 <section style={{ marginTop: 15 }}>
-                    <Account event$={data$} />
+                    <Account isModify event$={data$} />
                 </section>
-                <section style={{ marginTop: 15 }}>
-                    <CdnService initialSwitch={1} event$={data$} disableProperty={disableMap.disableProperty}/>
-                </section>
+                <ConditionShow  visible={customer.customerType !== E_L_USER_TYPE[2].id}>
+                    <section style={{ marginTop: 15 }}>
+                        <CdnService initialSwitch={1} event$={data$} disableProperty={disableMap.disableProperty}/>
+                    </section>
+                </ConditionShow>
                 {/*<section style={{ marginTop: 15 }}>*/}
                 {/*    <DnsService form={form} initialValue={customer} />*/}
                 {/*</section>*/}
@@ -113,7 +125,8 @@ const ModifyCustomer:FC = () => {
 }
 
 const ModifyCustomerPage:FC = () => {
-    const url = useRouteMatch<{ id: string }>("/customer/modify/:id");
+    const [customer, setCustomer] = useState<any>()
+    const url = useRouteMatch<{ id: string, type: string }>("/customer/modify/:type/:id");
     const id = useMemo(() => {
         if(url && url.params){
             if(url.params.id){
@@ -122,20 +135,54 @@ const ModifyCustomerPage:FC = () => {
         }
     }, [url])
 
+    const type = useMemo(() => {
+        if(url && url.params){
+            return url.params.type
+        }
+    }, [url])
+
     useEffect(() => {
-        if(id){
+        if(id && type){
+            if(type !== "agent"){
                 const config = customerService.FindOne({id}, {});
                 const sub = from(request(config)).subscribe(res => {
                     if(res.isSuccess && res.result){
                         const _customer:any = res.result;
                         // 压缩带宽单位
                         _customer.limitBandwidth = _customer.limitBandwidth / 1000000;
+                        // 客户
+                        // 计算直属or代理客户
+                        if(!_customer.agentId){
+                            // 直属
+                            _customer.customerType = E_L_CUSTOMER_TYPE[0].id;
+                        }else{
+                            _customer.customerType = E_L_CUSTOMER_TYPE[1].id;
+                        }
+                        setCustomer(_customer)
                         customer$.next(_customer)
                     }
                 })
                 return () => sub.unsubscribe();
+            }else{
+                const config = agentService.FindOne({agentId: id}, {});
+                const sub = from(request<any>(config)).subscribe(res => {
+                    if(res.isSuccess && res.result){
+                        const _customer:any = {
+                            name: res.result.userName,
+                            email: res.result.userEmail,
+                            dnsValue: res.result.dnsValue,
+                            id: res.result.id,
+                            saleId: res.result.saleId,
+                            customerType: E_L_USER_TYPE[2].id
+                        };
+                        customer$.next(_customer)
+                        setCustomer(_customer)
+                    }
+                })
+                return () => sub.unsubscribe();
+            }
         }
-    }, [id])
+    }, [id, type])
 
     return <section key={id}>
         <Breadcrumb separator=">">
@@ -146,14 +193,7 @@ const ModifyCustomerPage:FC = () => {
                 </Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-                客户:
-                <CustomerListSelector
-                    value={id}
-                    onChange={customerId => {
-                        historyService.push(`/customer/modify/${customerId}`)
-                    }}
-                />
-                {/*{customer && customer.name}*/}
+                客户: {customer && customer.name}
             </Breadcrumb.Item>
         </Breadcrumb>
         <ModifyCustomer />

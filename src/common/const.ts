@@ -17,15 +17,8 @@ export const E_L_USER_TYPE = [
     }
 ]
 
-/**
- * 查看的客户为直属还是代理客户
- * @param customer
- */
-export const queryCustomerType = (customer: any) => {
-    return !customer.agentId ? E_L_CUSTOMER_TYPE[0] : E_L_CUSTOMER_TYPE[1]
-}
-
 export enum E_COLOR{
     enable="#8BDEB0",
-    disable="#F0615B"
+    disable="#F0615B",
+    warn="#FFC96C"
 }

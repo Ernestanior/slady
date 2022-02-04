@@ -55,6 +55,18 @@ class SaleAPI {
         return config;
     }
 
+    QueryUserList = (params:any, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/sale/list-customer-agent',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
     /**
      * 全部直属客户
      * @param params

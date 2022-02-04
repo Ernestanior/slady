@@ -3,6 +3,11 @@ export enum E_USER_TYPE{
     SALE_MANAGER = 'sales_manager'
 }
 
+export enum E_All_USER_TYPE{
+    CUSTOMER="customer",
+    AGENT="agent"
+}
+
 export interface IAccountInfo{
     /** 用户id */
     id: number;

@@ -22,7 +22,7 @@ const ModuleRouter:FC = () => {
     return <Router history={historyService}>
         <LayoutPlx>
             <Switch>
-                <Route path="/customer/modify/:id">
+                <Route exact path="/customer/modify/:type/:id">
                     <ModifyCustomerPage />
                 </Route>
                 <Route path="/customer/create">

@@ -10,7 +10,11 @@ import {SorterResult} from "antd/es/table/interface";
 
 interface ITableModule{
     columns: TableColumnProps<any>[];
-    rowKey: string
+    rowKey: string;
+    scroll?: {
+        x?: number;
+        y?: number
+    }
 }
 
 interface IPageParams {
@@ -229,6 +233,7 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
                 columns={props.columns}
                 loading={loading}
                 rowClassName={rowClassName}
+                scroll={props.scroll}
             />
         </section>
     </section>
