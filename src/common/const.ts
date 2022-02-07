@@ -22,3 +22,9 @@ export enum E_COLOR{
     disable="#F0615B",
     warn="#FFC96C"
 }
+
+export enum LABEL_COLOR{
+    RED= "#FF1600",
+    YELLOW="#04E314",
+    GREEN="#04E314"
+}

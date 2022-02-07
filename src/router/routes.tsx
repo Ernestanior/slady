@@ -11,6 +11,8 @@ import ModifySalePage from "@/pages/sale/modify";
 import StatisticsList from "@/pages/statistics/list";
 import SaleAssignPage from "@/pages/sale/assignCustomer";
 import ViewStatistics from "@/pages/statistics/view";
+import ArchiveDomains from "@/pages/archive/domains";
+import ArchiveCustomer from "@/pages/archive/customers";
 
 /**
  * 项目路由组件
@@ -48,6 +50,12 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/statistics">
                     <StatisticsList />
+                </Route>
+                <Route path="/archive/domain">
+                    <ArchiveDomains />
+                </Route>
+                <Route path="/archive/customer">
+                    <ArchiveCustomer />
                 </Route>
                 <Redirect to="/customer" />
             </Switch>

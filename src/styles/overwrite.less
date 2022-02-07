@@ -14,7 +14,7 @@
 }
 
 .cdn-row-odd{
-  .ant-table-cell{
+  .ant-table-cell:not(.customized){
     background: @normal-fff-bg !important;
   }
 
@@ -28,7 +28,7 @@
 }
 
 .cdn-row-even{
-  .ant-table-cell{
+  .ant-table-cell:not(.customized){
     background: @normal-bg !important;
   }
 
@@ -56,4 +56,8 @@
   &:before{
     display: none;
   }
+}
+
+.ant-menu-dark .ant-menu-inline.ant-menu-sub{
+  background: unset;
 }

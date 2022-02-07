@@ -22,7 +22,7 @@ const CustomerSummary:FC<IIDModule> = ({id}) => {
     }, [domain])
 
     // 防御额度
-    const [defence, setDefence] = useState({
+    const [defence, setDefence] = useState<any>({
         totalAmount: 0,
         usedAmount: 0
     })
@@ -106,7 +106,7 @@ const CustomerSummary:FC<IIDModule> = ({id}) => {
                         <Col flex={1}>
                             <p className="cdn-block-title">防御额度</p>
                             <div className="label-text">
-                                <div>{defence.totalAmount}GB</div>
+                                <div>{defence.totalAmount === "-1" ? "Unlimited" : `${defence.totalAmount}GB`}</div>
                             </div>
                         </Col>
                         <Col>
@@ -119,8 +119,8 @@ const CustomerSummary:FC<IIDModule> = ({id}) => {
                                     return <ProgressCenter>
                                         <span className="defence">
                                             <span className="total">
-                                                {defence.totalAmount}
-                                                <em>GB</em>
+                                                {defence.totalAmount === "-1" ? "Unlimited" : defence.totalAmount}
+                                                {defence.totalAmount !== "-1" && <em>GB</em>}
                                             </span>
                                         </span>
                                     </ProgressCenter>

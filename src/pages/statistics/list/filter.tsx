@@ -12,7 +12,7 @@ const StatFilter:FC = () => {
             <Input placeholder="登录邮箱" />
         </FormItem>
         <FormItem span={3} noStyle name="type">
-            <SelectP data={userType} emptyOption />
+            <SelectP data={userType} emptyOption placeholder="账号类型" />
         </FormItem>
     </>
 }
