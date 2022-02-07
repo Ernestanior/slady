@@ -44,7 +44,7 @@ const CustomerList:FC = () => {
     }, [])
 
     const query = useCallback((data) => {
-        return saleService.QueryUserList({}, {...data, probation: 0});
+        return saleService.QueryUserList({}, data);
     }, [])
 
     // modify

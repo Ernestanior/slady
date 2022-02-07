@@ -21,10 +21,10 @@ const CustomerFilter:FC = () => {
             <SaleSelector emptyOption placeholder="销售员" />
         </FormItem>
         <FormItem span={3} noStyle name="type">
-            <SelectP data={USER_TYPE} emptyOption />
+            <SelectP data={USER_TYPE} emptyOption placeholder="客户类型" />
         </FormItem>
         <FormItem span={3} noStyle name="status">
-            <SelectP data={IAccountState} emptyOption />
+            <SelectP data={IAccountState} emptyOption placeholder="账号状态" />
         </FormItem>
     </>
 }
