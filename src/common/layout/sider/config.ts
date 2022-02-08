@@ -41,6 +41,7 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
     },
     {
         text: "归档功能",
+        role: [E_USER_TYPE.SALE_MANAGER],
         childs: [
             {
                 url: "/archive/customer",

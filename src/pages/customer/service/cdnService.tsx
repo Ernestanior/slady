@@ -105,7 +105,7 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
                 <FormItem
                     label="端口转发额度"
                     name="limitPorts"
-                    initialValue={1}
+                    initialValue={0}
                     span={12}
                 >
                     <InputNumber />

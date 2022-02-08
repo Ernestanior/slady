@@ -51,7 +51,7 @@ const Account:FC<IAsyncEventModule & IProps> = ({event$, isModify}) => {
             <FormItem hidden={type === E_L_USER_TYPE[2].id} span={12} label="可添加子账号" name="limitSubAccounts" initialValue={3}>
                 <InputNumber />
             </FormItem>
-            <FormItem hidden={type !== E_L_USER_TYPE[2].id} span={12} label="DNS Value" name="dnsValue">
+            <FormItem hidden span={12} label="DNS Value" name="dnsValue">
                 <Input />
             </FormItem>
             {

@@ -31,10 +31,10 @@ const CustomerSummary:FC<IProps> = ({domain, defence}) => {
                                 <div>{domain.usedAmount}/{domain.totalAmount}</div>
                                 <div className="label-text-square">
                                     <Space>
-                                        <span className="unUsed" />
-                                        <span>未用</span>
                                         <span className="used" />
                                         <span>已用</span>
+                                        <span className="unUsed" />
+                                        <span>未用</span>
                                     </Space>
                                 </div>
                             </div>

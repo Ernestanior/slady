@@ -10,6 +10,9 @@ import StatFilter from "@/pages/statistics/list/filter";
 import {toFixed} from "@/common/utils";
 import {LABEL_COLOR} from "@/common/const";
 
+// 流量计算倍率
+const MAGNIFICATION = 10;
+
 const StatisticsList:FC = () => {
 
     const queryFunction = useCallback(async (data) => {
@@ -98,8 +101,7 @@ const columns: TableColumnProps<any>[] = [
             if(typeof value !== "number"){
                 return "-"
             }
-            let color = getBindWidth(value, data);
-            return <div {...getLabelStyle(color)}>{toFixed(value / 1000000, 2)}</div>;
+            return toFixed(value / 1000000, 2)
         }
     },
     {
@@ -110,7 +112,7 @@ const columns: TableColumnProps<any>[] = [
                 return "-"
             }
             const value = data.saleStat.bandwidthOfLastMonth;
-            return toFixed(value / 1000000, 2);
+            return getCompareRender(value, data)
         }
     },
     {
@@ -121,7 +123,7 @@ const columns: TableColumnProps<any>[] = [
                 return "-"
             }
             const value = data.saleStat.bandwidthOfCurrentMonth;
-            return toFixed(value / 1000000, 2);
+            return getCompareRender(value, data)
         }
     },
     {
@@ -146,10 +148,10 @@ const columns: TableColumnProps<any>[] = [
             let color;
             if(data.saleStat){
                 if(typeof data.saleStat.flowOfLast14To7Day === "number"){
-                    if(value < (data.saleStat.flowOfLast14To7Day * 10)){
+                    if(value > (data.saleStat.flowOfLast14To7Day * MAGNIFICATION)){
                         color = LABEL_COLOR.YELLOW
                     }
-                    if(value > (data.saleStat.flowOfLast14To7Day * 10)){
+                    if((value * MAGNIFICATION) < data.saleStat.flowOfLast14To7Day){
                         color = LABEL_COLOR.GREEN
                     }
                 }
@@ -205,19 +207,10 @@ function getLabelStyle(color?: string, fontColor?: string){
     }
 }
 
-function getBindWidth(value:any, data:any){
+function getCompareRender(value:number, data:any){
     let color;
-    if(data.saleStat){
-        if(typeof data.saleStat.bandwidthOfCurrentMonth === "number"){
-            if(value < data.saleStat.bandwidthOfCurrentMonth){
-                color = LABEL_COLOR.RED
-            }
-        }
-        if(typeof data.saleStat.bandwidthOfLastMonth === "number"){
-            if(value < data.saleStat.bandwidthOfLastMonth){
-                color = LABEL_COLOR.RED
-            }
-        }
+    if(value > data.limitBandwidth){
+        color = LABEL_COLOR.RED;
     }
-    return color
+    return <div {...getLabelStyle(color, "#fff")}>{toFixed(value / 1000000, 2)}</div>
 }
