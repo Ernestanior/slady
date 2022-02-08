@@ -36,4 +36,30 @@
       margin-top: 20px;
     }
   }
+
+  .used{
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+    background: #EBECFE;
+    position: relative;
+    top: 4px;
+  }
+
+  .used, .unUsed{
+    display: inline-block;
+    width: 20px;
+    height: 15px;
+    position: relative;
+    top: 2px;
+    border-radius: 2px;
+
+    &.used{
+      background: @normal-active-bg;
+    }
+
+    &.unUsed{
+      background: #EBECFE;
+    }
+  }
 }

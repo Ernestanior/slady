@@ -7,10 +7,10 @@ import {transformBindWidth, transformFlow, xAxisFormatterGenerate} from "@/commo
 
 export interface IBindWidth{
     bindWidth95: number;
-    bindWidthList: any[] | null
+    bindWidthList: any[] | null;
 }
 
-const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
+const BindWidth:FC<IDataModule<IBindWidth> & { packageInfo:any }> = ({data, packageInfo}) => {
 
     const options = useMemo(() => {
         if(!data || !data.bindWidthList){
@@ -23,7 +23,8 @@ const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
          return {
              backgroundColor: '#ffffff',
              title: {
-                 text: "带宽"
+                 text: "带宽",
+                 subtext: !!packageInfo ? `额度：${packageInfo.bandWidthBalance.totalAmount}Mbps` : undefined
              },
              tooltip: {
                  trigger: 'axis',
@@ -49,7 +50,13 @@ const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
                      saveAsImage: {}
                  }
              },
-            xAxis: {
+             grid: {
+                 left: '30px',
+                 right: '20px',
+                 bottom: '3%',
+                 containLabel: true
+             },
+             xAxis: {
                 type: 'time',
                 boundaryGap: false,
                 axisLabel: {
@@ -61,26 +68,26 @@ const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
                 splitLine: {
                     show: true
                 },
-            },
-            yAxis: {
-                type: 'value',
-                name: "带宽",
-                nameTextStyle: {
-                    fontSize: 12,
-                    padding: [0, 0, 0, 95],
-                    color: "#666"
-                },
-                axisLabel: {
-                    formatter: (v: any) => {
-                        return transformFlow(v);
-                    },
-                },
-                axisTick: {
-                    show: false,
-                },
-            },
-            series: [
-                {
+             },
+             yAxis: {
+                 type: 'value',
+                 // name: "带宽",
+                 nameTextStyle: {
+                     fontSize: 12,
+                     padding: [0, 0, 0, 95],
+                     color: "#666"
+                 },
+                 axisLabel: {
+                     formatter: (v: any) => {
+                         return transformFlow(v);
+                     },
+                 },
+                 axisTick: {
+                     show: false,
+                 },
+             },
+             series: [
+                 {
                     type: 'line',
                     showSymbol: false,
                     symbol: 'none',
@@ -117,7 +124,7 @@ const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
                 }
             ]
         }
-    }, [data])
+    }, [data, packageInfo])
 
     if(!data || !data.bindWidthList){
         return null
@@ -130,6 +137,9 @@ const BindWidth:FC<IDataModule<IBindWidth>> = ({data}) => {
     return <section className="cdn-block">
         <div>
             <ReactECharts
+                style={{
+                    height: 400
+                }}
                 lazyUpdate={true}
                 notMerge={true}
                 option={options}

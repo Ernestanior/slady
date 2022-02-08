@@ -13,6 +13,8 @@ import SaleAssignPage from "@/pages/sale/assignCustomer";
 import ViewStatistics from "@/pages/statistics/view";
 import ArchiveDomains from "@/pages/archive/domains";
 import ArchiveCustomer from "@/pages/archive/customers";
+import CDNSiteList from "@/pages/cdn/site";
+import CDNDomains from "@/pages/cdn/domain";
 
 /**
  * 项目路由组件
@@ -50,6 +52,12 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/statistics">
                     <StatisticsList />
+                </Route>
+                <Route path="/cdn/siteList">
+                    <CDNSiteList />
+                </Route>
+                <Route path="/cdn/record">
+                    <CDNDomains />
                 </Route>
                 <Route path="/archive/domain">
                     <ArchiveDomains />

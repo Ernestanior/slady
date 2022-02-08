@@ -14,7 +14,7 @@ const StatisticsList:FC = () => {
 
     const queryFunction = useCallback(async (data) => {
         try {
-            const customerConfig = customerService.FindCustomer({}, { ...data });
+            const customerConfig = customerService.FindCustomer({}, { ...data, category: "biz" });
             const customerListRep = await request<ITableDataModule>(customerConfig);
             if(!customerListRep.isSuccess){
                 return null
@@ -39,7 +39,6 @@ const StatisticsList:FC = () => {
                     }
                 }
             }
-            console.log(customerList)
             return customerList;
         } catch (error) {
             console.error(error);

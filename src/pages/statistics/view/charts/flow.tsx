@@ -4,9 +4,11 @@ import ReactECharts from "echarts-for-react"
 import * as echarts from "echarts"
 import moment from "moment";
 import {transformFlow, xAxisFormatterGenerate} from "@/common/utils";
+import {Col, Row} from "antd";
 
 export interface IFlowData{
     flowList: any[] | null;
+    originFlowList: any[] | null;
     cdnFlow: number
     originFlow: number
 }
@@ -28,9 +30,19 @@ const Flow:FC<IDataModule<IFlowData>> = ({data}) => {
                 formatter(params: any){
                     const fms = Array.isArray(params) ? params : [params];
 
-                    const date = moment(fms[0].data[0])
+                    let str = "";
 
-                    return transformFlow(fms[0].data[1]) + "<br />" + date.format("YYYY-MM-DD HH:mm")
+                    str = str + `CDN: ${transformFlow(fms[0].data[1])}`;
+                    // 回源
+                    if(fms[1]){
+                        str = str + "<br />";
+                        str = str + `源点：${transformFlow(fms[1].data[1])}`;
+                    }
+
+                    // date
+                    str = str + "<br />" + moment(fms[0].data[0]).format("YYYY-MM-DD HH:mm");
+
+                    return str;
                 }
             },
             toolbox: {
@@ -38,6 +50,12 @@ const Flow:FC<IDataModule<IFlowData>> = ({data}) => {
                     restore: {},
                     saveAsImage: {}
                 }
+            },
+            grid: {
+                left: '30px',
+                right: '20px',
+                bottom: '3%',
+                containLabel: true
             },
             xAxis: {
                 type: 'time',
@@ -53,7 +71,7 @@ const Flow:FC<IDataModule<IFlowData>> = ({data}) => {
             } as any,
             yAxis: {
                 type: 'value',
-                name: "流量",
+                // name: "流量",
                 nameTextStyle: {
                     fontSize: 12,
                     padding: [0, 0, 0, 95],
@@ -74,25 +92,24 @@ const Flow:FC<IDataModule<IFlowData>> = ({data}) => {
                     symbol: 'none',
                     sampling: 'lttb',
                     itemStyle: {
-                        color: "#BD2719"
+                        color: "#4b92c5"
                     },
                     showSymbol: false,
                     animation: true,
-                    areaStyle: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                            {
-                                offset: 0,
-                                color: 'rgb(255, 158, 68)'
-                            },
-                            {
-                                offset: 1,
-                                color: 'rgb(255, 70, 131)'
-                            }
-                        ])
-                    },
                     data: data.flowList
+                },
+                {
+                    type: 'line',
+                    symbol: 'none',
+                    sampling: 'lttb',
+                    itemStyle: {
+                        color: "#254985"
+                    },
+                    showSymbol: false,
+                    animation: true,
+                    data: data.originFlowList || []
                 }
-            ]
+            ],
         }
         return  _
     }, [data])
@@ -108,8 +125,27 @@ const Flow:FC<IDataModule<IFlowData>> = ({data}) => {
     return <section className="cdn-block">
         <div>
             <ReactECharts
+                style={{
+                    height: 400
+                }}
                 option={options}
             />
+            <div style={{marginTop: 30}}>
+                <Row gutter={[15, 15]}>
+                    <Col span={4}>
+                        CDN
+                    </Col>
+                    <Col span={20}>
+                        {data && transformFlow(data.cdnFlow)}
+                    </Col>
+                    <Col span={4}>
+                        源点
+                    </Col>
+                    <Col span={20}>
+                        {data && transformFlow(data.originFlow)}
+                    </Col>
+                </Row>
+            </div>
         </div>
     </section>
 }

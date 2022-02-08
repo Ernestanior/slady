@@ -13,6 +13,7 @@ import {forkJoin, from} from "rxjs";
 import request from "@/store/request";
 import historyService from "@/store/history";
 import CustomerListSelector from "@/pages/common/customerListSelector";
+import useCustomerSummaryInfo from "@/pages/statistics/view/charts/useCustomerSummaryInfo";
 
 const ViewStatistics:FC = () => {
     const [timeFilter, setTimeFilter] = useState<ITimeFilter>({
@@ -23,6 +24,7 @@ const ViewStatistics:FC = () => {
     // 流量
     const [flow, setFlow] = useState<IFlowData>({
         flowList: null,
+        originFlowList: null,
         cdnFlow: 0,
         originFlow: 0
     });
@@ -51,6 +53,7 @@ const ViewStatistics:FC = () => {
             const sub = from(forkJoin([request<number>(configQuery95), request<any>(configQueryBindWidth)])).subscribe(values => {
                 let bind95 = 0;
                 let flowList = [];
+                let originFlowList = [];
                 let bindList = [];
                 let cdnFlow = 0;
                 let originFlow = 0;
@@ -61,6 +64,9 @@ const ViewStatistics:FC = () => {
                     if(values[1].result.cdn_FlowList){
                         flowList = values[1].result.cdn_FlowList;
                     }
+                    if(values[1].result.origin_FlowList){
+                        originFlowList = values[1].result.origin_FlowList
+                    }
                     if(values[1].result.cdn_bandwidthList){
                         bindList = values[1].result.cdn_bandwidthList;
                     }
@@ -69,6 +75,7 @@ const ViewStatistics:FC = () => {
                 }
                 setFlow({
                     flowList,
+                    originFlowList,
                     cdnFlow,
                     originFlow
                 });
@@ -80,6 +87,8 @@ const ViewStatistics:FC = () => {
             return () => sub.unsubscribe()
         }
     }, [timeFilter, id])
+
+    const [domain, defence, packageInfo] = useCustomerSummaryInfo(id)
 
     if(!id){
         return null
@@ -106,12 +115,15 @@ const ViewStatistics:FC = () => {
         <section style={{ marginTop: 15 }}>
             <p>查看</p>
             <TimeFilter value={timeFilter} onChange={setTimeFilter} />
-            <CustomerSummary id={id} />
+            <CustomerSummary
+                domain={domain}
+                defence={defence}
+            />
             <section style={{ marginTop: 15 }}>
                 <Flow data={flow} />
             </section>
             <section style={{ marginTop: 15 }}>
-                <BindWidth data={bindWidth} />
+                <BindWidth data={bindWidth} packageInfo={packageInfo} />
             </section>
         </section>
     </section>

@@ -27,15 +27,28 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
         text: "统计报表"
     },
     {
+        text: "CDN管理",
+        childs: [
+            {
+                url: "/cdn/siteList",
+                text: "站点管理"
+            },
+            {
+                url: "/cdn/record",
+                text: "记录管理"
+            }
+        ]
+    },
+    {
         text: "归档功能",
         childs: [
             {
                 url: "/archive/customer",
-                text: "归档域名"
+                text: "归档客户"
             },
             {
                 url: "/archive/domain",
-                text: "归档客户"
+                text: "归档域名"
             }
         ]
     }

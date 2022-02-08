@@ -1,59 +1,20 @@
-import {FC, useEffect, useMemo, useState} from "react";
-import {IIDModule} from "@/common/interface";
+import {FC, useMemo} from "react";
 import {Col, Progress, Row, Space} from "antd";
-import {from} from "rxjs";
-import request from "@/store/request";
-import {customerService} from "@/store/apis/account";
 import ProgressCenter from "@/pages/statistics/view/charts/progressCenter";
 import "./summary.less"
 
-const CustomerSummary:FC<IIDModule> = ({id}) => {
-    // 域名额度
-    const [domain, setDomain] = useState({
-        totalAmount: 0,
-        usedAmount: 0
-    })
+interface IProps{
+    domain: any;
+    defence: any;
+}
 
+const CustomerSummary:FC<IProps> = ({domain, defence}) => {
     const percent = useMemo(() => {
         if(!domain.totalAmount){
             return 100;
         }
         return Math.ceil(domain.usedAmount / domain.totalAmount * 100);
     }, [domain])
-
-    // 防御额度
-    const [defence, setDefence] = useState<any>({
-        totalAmount: 0,
-        usedAmount: 0
-    })
-
-    useEffect(() => {
-        if(id){
-            const sub = from(request<any>(customerService.GetCustomerPackage({ id }, {}))).subscribe(res => {
-                if(res.isSuccess && res.result){
-                    setDomain({
-                        totalAmount: parseInt(res.result.domainBalance.totalAmount),
-                        usedAmount: parseInt(res.result.domainBalance.usedAmount)
-                    })
-                    setDefence(res.result.defenceBalance)
-                }else{
-                    setDomain({
-                        totalAmount: 0,
-                        usedAmount: 0
-                    })
-                    setDefence({
-                        totalAmount: 0,
-                        usedAmount: 0
-                    })
-                }
-            })
-            return () => sub.unsubscribe()
-        }
-    }, [id])
-
-    if(!id){
-        return null;
-    }
 
     if(!domain.totalAmount){
         return null;
@@ -70,7 +31,9 @@ const CustomerSummary:FC<IIDModule> = ({id}) => {
                                 <div>{domain.usedAmount}/{domain.totalAmount}</div>
                                 <div className="label-text-square">
                                     <Space>
+                                        <span className="unUsed" />
                                         <span>未用</span>
+                                        <span className="used" />
                                         <span>已用</span>
                                     </Space>
                                 </div>
