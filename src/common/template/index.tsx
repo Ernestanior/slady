@@ -226,7 +226,8 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
                     ...pagination,
                     onChange: pageOnChange,
                     showQuickJumper: true,
-                    showSizeChanger: true
+                    showSizeChanger: true,
+                    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`
                 }}
                 rowKey={props.rowKey}
                 onChange={tableOnChange}
