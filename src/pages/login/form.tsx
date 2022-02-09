@@ -1,5 +1,4 @@
-import { Form, Input, Row, Col, notification } from "antd";
-import { LoginOutlined } from "@ant-design/icons";
+import {Form, Input, Row, Col, notification, Button} from "antd";
 import React, { FC, useCallback, useRef, useState } from "react";
 import Logo from "./images/logo.png";
 import LoadingGif from "./images/loading-2.gif";
@@ -86,15 +85,11 @@ const LoginForm: FC = () => {
                     </div>
                 </ConditionShow>
                 <Row>
-                    <Col span={4} />
-                    <Col span={16}>
-                        <div style={{ cursor: 'pointer' }} onClick={() => {
-                            return window.open("https://www.greypanel.com/")
-                        }} >
-                            <img className="logo" src={Logo} alt="log" />
-                        </div>
+                    <Col span={3} />
+                    <Col span={18}>
+                        <img style={{ width: "100%" }} className="logo" src={Logo} alt="log" />
                     </Col>
-                    <Col span={4} />
+                    <Col span={3} />
                 </Row>
                 <div className="content">
                     <Form.Item className="username" name="username">
@@ -104,41 +99,48 @@ const LoginForm: FC = () => {
                             bordered={false}
                         />
                     </Form.Item>
-                    <div className="password">
-                        <Form.Item name="password">
-                            <Input
-                                autoComplete="current-password"
-                                className="pwd"
-                                bordered={false}
-                                placeholder="密码"
-                                type="password"
-                                onPressEnter={() => {
-                                    if(!needRecaptcha || !!recaptcha){
-                                        submitEvent();
-                                    }
-                                }}
-                            />
-                        </Form.Item>
-                        <LoginOutlined
-                            className="submit"
-                            onClick={submitClick}
+                    <Form.Item className="password" name="password">
+                        <Input
+                            autoComplete="current-password"
+                            className="pwd"
+                            bordered={false}
+                            placeholder="密码"
+                            type="password"
+                            onPressEnter={() => {
+                                if(!needRecaptcha || !!recaptcha){
+                                    submitClick();
+                                }
+                            }}
                         />
-                    </div>
+                    </Form.Item>
+                </div>
+                <ConditionShow className="login-recaptcha" tOption="flex" visible={needRecaptcha}>
+                    <ReCAPTCHA
+                        ref={recaptchaRef}
+                        sitekey="6Len070UAAAAANcYoOOVcaJI64aHuLO3oiChRz9u"
+                        grecaptcha={grecaptcha}
+                        onChange={(token) => {
+                            setRecaptcha(token)
+                        }}
+                    />
+                </ConditionShow>
+                <div className="submit">
+                    <Button
+                        type="primary"
+                        size="large"
+                        style={{ width: "100%"}}
+                        onClick={() => {
+                        if(!needRecaptcha || !!recaptcha){
+                            submitClick();
+                        }
+                    }}>
+                        Login in
+                    </Button>
+                </div>
+                <div hidden={!loginError} className="login-info">
+                    {loginError}
                 </div>
             </Form>
-            <ConditionShow className="login-recaptcha" visible={needRecaptcha}>
-                <ReCAPTCHA
-                    ref={recaptchaRef}
-                    sitekey="6Len070UAAAAANcYoOOVcaJI64aHuLO3oiChRz9u"
-                    grecaptcha={grecaptcha}
-                    onChange={(token) => {
-                        setRecaptcha(token)
-                    }}
-                />
-            </ConditionShow>
-            <div hidden={!loginError} className="login-info">
-                {loginError}
-            </div>
         </section>
     );
 };

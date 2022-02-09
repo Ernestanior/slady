@@ -40,7 +40,7 @@ export const columns: TableColumnProps<any>[] = [
     },
     {
         title: "创建者",
-        dataIndex: "creator",
+        dataIndex: "creatorName",
     },
     {
         title: "创建时间",
@@ -48,9 +48,6 @@ export const columns: TableColumnProps<any>[] = [
     },
     {
         title: "删除时间",
-        dataIndex: "deleteDate",
-        render: (data) => {
-            return "-"
-        },
+        dataIndex: "modifyDate"
     },
 ];
