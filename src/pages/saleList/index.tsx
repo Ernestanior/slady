@@ -1,7 +1,7 @@
 import {FC, useCallback, useMemo} from "react";
 import {INormalEvent} from "@/common/interface";
 import historyService from "@/store/history";
-import {saleService, userService} from "@/store/apis/account";
+import {saleService} from "@/store/apis/account";
 import {Button, Space} from "antd";
 import ConfirmButton from "@/common/confirm/button";
 import {queryValueFromListRender, reqAndReload} from "@/common/utils";
@@ -46,7 +46,7 @@ const SaleList:FC = () => {
 
     // modify
     const deleteUser = useCallback(({id}) => {
-        const config = userService.Delete({ id }, {});
+        const config = saleService.Delete({ id }, {});
         reqAndReload(config)
     }, [])
 

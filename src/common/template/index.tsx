@@ -221,6 +221,7 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
         {props.event && <FuncList event={props.event} />}
         <section style={{ marginTop: (!props.filter && !props.event) ? 0 : 15 }}>
             <Table
+                sticky
                 dataSource={tableData}
                 pagination={{
                     ...pagination,

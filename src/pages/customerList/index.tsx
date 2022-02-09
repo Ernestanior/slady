@@ -3,7 +3,7 @@ import Template from "@/common/template";
 import CustomerFilter from "@/pages/customerList/filter";
 import {INormalEvent} from "@/common/interface";
 import {Button, Space, TableColumnProps} from "antd";
-import {customerService, saleService, userService} from "@/store/apis/account";
+import {agentService, customerService, saleService, userService} from "@/store/apis/account";
 import historyService from "@/store/history";
 import ConfirmButton from "@/common/confirm/button";
 import {reqAndReload} from "@/common/utils";
@@ -78,7 +78,7 @@ const CustomerList:FC = () => {
     const deleteCustomer = useCallback((data) => {
         let config;
         if(data.type === E_All_USER_TYPE.AGENT){
-            config = userService.Delete({id: data.userId}, {});
+            config = agentService.Delete({id: data.id}, {});
         }else{
             config = customerService.Delete({ id: data.id }, {});
         }
@@ -162,6 +162,12 @@ const columns: TableColumnProps<any>[] = [
         render(probation, data){
             if(data.type === USER_TYPE[2].id){
                 return "-"
+            }
+            // CDN服务未启用
+            if(data.cdnServiceFlag !== 1){
+                return <Status color={E_COLOR.off}>
+                    未启用
+                </Status>
             }
             if(!probation){
                 return <Status color={E_COLOR.enable}>

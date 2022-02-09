@@ -20,7 +20,8 @@ export const E_L_USER_TYPE = [
 export enum E_COLOR{
     enable="#8BDEB0",
     disable="#F0615B",
-    warn="#FFC96C"
+    warn="#FFC96C",
+    off="#F0615B"
 }
 
 export enum LABEL_COLOR{
