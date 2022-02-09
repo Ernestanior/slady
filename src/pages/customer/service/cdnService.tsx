@@ -31,7 +31,7 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
     // 表单变动，重载其他值
     const setAsyncData = useCallback((data) => {
         setCdnServiceFlag(queryValue(data.cdnServiceFlag, defaultInitCdnServiceFlag))
-        setProbation(data.probation)
+        setProbation(queryValue(data.probation, customerStatus[0].id))
         setType(data.type || "normal")
         setStartDate(queryValue(data.setStartDate, moment().format("YYYY/MM/DD")))
         setEndDate(queryValue(data.probationEnd, moment().format("YYYY/MM/DD")))

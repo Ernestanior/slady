@@ -91,7 +91,7 @@ const CreateCustomer:FC = () => {
 
     useEffect(() => {
         // 自动设置当前销售
-        if(saleInfo){
+        if(saleInfo && saleInfo.type !== E_USER_TYPE.SALE_MANAGER){
             fieldChangeEvent({
                 saleId: saleInfo.id
             })

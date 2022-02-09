@@ -25,5 +25,6 @@ export interface IAccountInfo{
 
 export interface ISaleInfo{
     // saleId
-    id: number
+    id: number;
+    type: E_USER_TYPE;
 }

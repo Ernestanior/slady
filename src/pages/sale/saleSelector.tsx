@@ -4,6 +4,7 @@ import request from "@/store/request";
 import {saleService} from "@/store/apis/account";
 import SelectP from "@/common/select";
 import {IFormComponent} from "@/common/interface";
+import {E_USER_TYPE} from "@/store/account/service";
 
 interface IProps{
     placeholder?: string
@@ -23,7 +24,7 @@ const SaleSelector:FC<IFormComponent & IProps> = ({emptyOption, value, onChange,
         }))).subscribe(res => {
             if(res.isSuccess && res.result){
                 // console.log(res.result)
-                setList(res.result.content);
+                setList(res.result.content.filter((sale: any) => sale.type === E_USER_TYPE.SALE));
             }
         })
         return () => sub.unsubscribe()
