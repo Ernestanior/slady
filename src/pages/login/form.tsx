@@ -10,6 +10,7 @@ import useSubmitEvent from "@/hooks/utils/useSubmitEvent";
 import {from} from "rxjs";
 import request from "@/store/request";
 import accountService from "@/store/account/service";
+import moment from "moment";
 
 const { grecaptcha } = window as any;
 
@@ -141,6 +142,7 @@ const LoginForm: FC = () => {
                     {loginError}
                 </div>
             </Form>
+            <div className="fix-foot">Copyright ©{moment().format("YYYY")} Greypanel. All Rights Reserved.</div>
         </section>
     );
 };
