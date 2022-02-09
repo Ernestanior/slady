@@ -6,7 +6,7 @@ import ArchiveDomainFilter from "@/pages/archive/domains/filters";
 
 const ArchiveDomains:FC = () => {
     const query = useCallback((data) => {
-        return domainService.FindDomain({}, {...data, isDeleted: 1})
+        return domainService.FindDomain({}, {...data, deleted: 1})
     }, [])
     return <Template
         filter={<ArchiveDomainFilter />}

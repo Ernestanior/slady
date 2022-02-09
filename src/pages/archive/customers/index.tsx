@@ -6,7 +6,7 @@ import {customerService} from "@/store/apis/account";
 
 const ArchiveCustomer:FC = () => {
     const query = useCallback((data) => {
-        return customerService.FindCustomer({}, {...data, isDeleted: 1, category: "biz"})
+        return customerService.FindCustomer({}, {...data, deleted: 1, category: "biz"})
     }, [])
 
     return <Template
