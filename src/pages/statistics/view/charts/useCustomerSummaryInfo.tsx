@@ -21,10 +21,12 @@ const useCustomerSummaryInfo = (id?: number) => {
         if(id){
             const sub = from(request<any>(customerService.GetCustomerPackage({ id }, {}))).subscribe(res => {
                 if(res.isSuccess && res.result){
-                    setDomain({
-                        totalAmount: parseInt(res.result.domainBalance.totalAmount),
-                        usedAmount: parseInt(res.result.domainBalance.usedAmount)
-                    })
+                    if(res.result.domainBalance){
+                        setDomain({
+                            totalAmount: parseInt(res.result.domainBalance.totalAmount),
+                            usedAmount: parseInt(res.result.domainBalance.usedAmount)
+                        })
+                    }
                     setDefence(res.result.defenceBalance)
                     setPackageInfo(res.result);
                 }else{

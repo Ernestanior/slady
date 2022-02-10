@@ -21,10 +21,14 @@ export interface IAccountInfo{
     pwdStatus: 0 | 1 | 2;
     /**启用2FA校验 */
     authFlag: -1 | 1 | 2;
+    // token过期时间
+    sessionExpire: number
 }
 
 export interface ISaleInfo{
     // saleId
     id: number;
     type: E_USER_TYPE;
+    email: string;
+    name: string;
 }

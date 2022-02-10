@@ -63,6 +63,15 @@ class Account{
         })
     }
 
+    reloadInfo = () => {
+        const infoConfig = userService.ViewUserBasic({}, {});
+        from(request<IAccountInfo>(infoConfig)).subscribe(res => {
+            if(res.isSuccess && res.result){
+                accountService.info$.next(res.result)
+            }
+        })
+    }
+
     autoLoadSaleInfo = () => {
         from(request<ISaleInfo>(saleService.viewSale({}, {}))).subscribe(res => {
             if(res.isSuccess && res.result){

@@ -6,9 +6,17 @@ import "./summary.less"
 interface IProps{
     domain: any;
     defence: any;
+    packageInfo: any;
 }
 
-const CustomerSummary:FC<IProps> = ({domain, defence}) => {
+const CustomerSummary:FC<IProps> = ({domain: originDomain, defence, packageInfo}) => {
+    const domain:any = useMemo(() => {
+        if(packageInfo.type === "normal"){
+            return domain;
+        }
+        // cname
+        return packageInfo.cnameBalance
+    }, [originDomain, packageInfo])
     const percent = useMemo(() => {
         if(!domain.totalAmount){
             return 100;
@@ -20,13 +28,15 @@ const CustomerSummary:FC<IProps> = ({domain, defence}) => {
         return null;
     }
 
+    const type = packageInfo.type;
+
     return <section className="customer-summary">
         <Row gutter={15}>
             <Col span={12}>
                 <div className="cdn-block">
                     <Row gutter={15}>
                         <Col flex={1}>
-                            <p className="cdn-block-title">域名额度</p>
+                            <p className="cdn-block-title">{type === "cname" ? "站点额度" : "域名额度"}</p>
                             <div className="label-text">
                                 <div>{domain.usedAmount}/{domain.totalAmount}</div>
                                 <div className="label-text-square">

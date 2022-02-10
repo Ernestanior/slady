@@ -19,6 +19,8 @@ export type IChangeModule = (value:any, totalSelectConfig?:any) => void
 
 export type ISubmit = (data: any) => void;
 
+export type ISubmitPromise = (data: any) => Promise<{isSuccess: boolean}>;
+
 export interface IFilerModule{
     filter?: ReactNode;
 }
@@ -47,6 +49,10 @@ export interface IEventListModule{
 
 export interface ISubmitModule{
     submit: ISubmit
+}
+
+export interface ISubmitAsyncModule{
+    submit: ISubmitPromise
 }
 
 export interface ICancelModule{
@@ -103,6 +109,14 @@ export interface ISwitchValue{
 
 export interface IFormModule{
     form: FormInstance;
+}
+
+export interface ITitleModule{
+    title?: ReactNode
+}
+
+export interface IEventModule{
+    event$: Subject<boolean>
 }
 
 export interface IDisableModule{

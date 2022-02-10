@@ -115,10 +115,13 @@ const ViewStatistics:FC = () => {
         <section style={{ marginTop: 15 }}>
             <p>查看</p>
             <TimeFilter value={timeFilter} onChange={setTimeFilter} />
-            <CustomerSummary
-                domain={domain}
-                defence={defence}
-            />
+            {
+                packageInfo && <CustomerSummary
+                    domain={domain}
+                    defence={defence}
+                    packageInfo={packageInfo}
+                />
+            }
             <section style={{ marginTop: 15 }}>
                 <Flow data={flow} />
             </section>
