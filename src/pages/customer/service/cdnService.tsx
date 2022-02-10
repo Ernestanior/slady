@@ -26,7 +26,7 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
     const [startDate, setStartDate] = useState(moment().format("YYYY/MM/DD"));
 
     // 结束时间
-    const [endDate, setEndDate] = useState(moment().format("YYYY/MM/DD"))
+    const [endDate, setEndDate] = useState(moment().add(15, "day").format("YYYY/MM/DD"))
 
     // 表单变动，重载其他值
     const setAsyncData = useCallback((data) => {
@@ -34,7 +34,9 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
         setProbation(queryValue(data.probation, customerStatus[0].id))
         setType(data.type || "normal")
         setStartDate(queryValue(data.setStartDate, moment().format("YYYY/MM/DD")))
-        setEndDate(queryValue(data.probationEnd, moment().format("YYYY/MM/DD")))
+        if(data.probationEnd){
+            setEndDate(moment(data.probationEnd).add(-1, "day").format("YYYY/MM/DD"))
+        }
     }, [defaultInitCdnServiceFlag])
 
     const init = useSubscribe(setAsyncData, event$)

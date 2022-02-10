@@ -19,7 +19,7 @@ const Period:FC<IFormComponent & IProps> = ({onChange, start, end}) => {
             // 设置end
             setEndDate(startDate.clone().add(e, "day"))
         }
-        onChange && onChange(endDate.diff(startDate, 'day'))
+        onChange && onChange(endDate.diff(startDate, 'day') + 1)
     }, [startDate, onChange, endDate])
 
     const displayRange = useMemo(() => {
@@ -27,6 +27,8 @@ const Period:FC<IFormComponent & IProps> = ({onChange, start, end}) => {
         const range = endDate.diff(startDate, "day");
         return range > 0 ? range : 0;
     }, [startDate, endDate])
+
+    console.log(start, startDate, end, endDate)
 
     return <Row gutter={15}>
         <Col span={6}>
