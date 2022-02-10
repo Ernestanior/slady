@@ -158,6 +158,8 @@ const ModifyCustomerPage:FC = () => {
                         // 客户
                         // 计算直属or代理客户
                         if(!_customer.agentId){
+                            // 移除 0
+                            delete _customer.agentId;
                             // 直属
                             _customer.customerType = E_L_CUSTOMER_TYPE[0].id;
                         }else{

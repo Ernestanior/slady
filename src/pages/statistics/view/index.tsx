@@ -94,7 +94,7 @@ const ViewStatistics:FC = () => {
         return null
     }
 
-    return <section key={id}>
+    return <section>
         <Breadcrumb separator=">">
             <Breadcrumb.Item>
                 <Link to= "/statistics">
