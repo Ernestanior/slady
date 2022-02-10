@@ -12,7 +12,7 @@ interface IProps{
 const CustomerSummary:FC<IProps> = ({domain: originDomain, defence, packageInfo}) => {
     const domain:any = useMemo(() => {
         if(packageInfo.type === "normal"){
-            return domain;
+            return originDomain;
         }
         // cname
         return packageInfo.cnameBalance
