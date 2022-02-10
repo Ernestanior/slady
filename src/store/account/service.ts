@@ -1,9 +1,11 @@
-import {BehaviorSubject, from, skip} from "rxjs";
+import {BehaviorSubject, from, skip, Subject} from "rxjs";
 import {IAccountInfo, ISaleInfo} from "./interface";
 import {ICallback} from "@/common/interface";
 import request from "@/store/request";
 import {saleService, userService} from "@/store/apis/account";
 import {getToken, removeToken, saveToken} from "@/store/request/token";
+import {throttleTime} from "rxjs/operators";
+import {notification} from "antd";
 
 export enum E_USER_TYPE{
     SALE = "saler",
@@ -27,6 +29,13 @@ class Account{
     constructor() {
         this.info$.pipe(skip(1)).subscribe(info => {
             this.loginState$.next(!!info ? E_LOGIN_STATE.success : E_LOGIN_STATE.fail);
+        })
+
+        this.sessionExpired$.pipe(throttleTime(1000)).subscribe(() => {
+            notification.error({
+                message: "当前登录用户凭据过期, 请重新登录！"
+            })
+            this.autoLogout();
         })
     }
 
@@ -66,6 +75,11 @@ class Account{
         removeToken();
         this.info$.next(null)
         this.saleInfo$.next(null)
+    }
+
+    private sessionExpired$ = new Subject<boolean>();
+    sessionExpired = () => {
+        this.sessionExpired$.next(true)
     }
 
     // 返回是否触发

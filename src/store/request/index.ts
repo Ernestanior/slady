@@ -30,17 +30,18 @@ requestPlx.middleware_before.use(async (config, next) => {
 // analysis response status not 200
 requestPlx.middleware_after.use(async (rep, next) => {
     if(rep.status !== 200){
-        notification.error({
-            message: rep.status,
-            description: rep.statusText
-        })
         rep.data = {
             isSuccess: false,
             result: rep.statusText,
             message: rep.statusText
         };
         if(rep.status === 401){
-            accountService.autoLogout();
+            accountService.sessionExpired();
+        }else{
+            notification.error({
+                message: rep.status,
+                description: rep.statusText
+            })
         }
     }else{
         let isSuccess = false;
