@@ -164,11 +164,11 @@ const columns: TableColumnProps<any>[] = [
         dataIndex: "domains",
         render: (_, data) => {
             if(data.type === "normal"){
-                if(!data.saleStat || typeof data.saleStat.domains !== "number"){
+                if(!data.saleStat || typeof data.saleStat.usedMasterDomains !== "number"){
                     return "-"
                 }
-                const value = data.saleStat.domains;
-                return `${value}/${data.limitDomains}`;
+                const value = data.saleStat.usedMasterDomains;
+                return `${value}/${data.limitMasterDomains}`;
             }
             if(data.type === "cname"){
                 if(!data.saleStat || typeof data.saleStat.usedSites !== "number"){
