@@ -60,6 +60,10 @@ const ModifyCustomer:FC = () => {
             // 创建的带宽单位是MB，后台接受的带宽是B
             data.limitBandwidth = data.limitBandwidth * 1000000;
             data = analysisDnsServer(data);
+            // 直属客户，删除agentId
+            if(data.customerType === E_L_CUSTOMER_TYPE[0].id){
+                delete data.agentId;
+            }
             config = customerService.ModifyCustomer({}, data);
         }
         from(request(config)).subscribe((res) => {

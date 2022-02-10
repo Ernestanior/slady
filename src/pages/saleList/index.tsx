@@ -46,7 +46,7 @@ const SaleList:FC = () => {
 
     // modify
     const deleteUser = useCallback(({id}) => {
-        const config = saleService.Delete({ id }, {});
+        const config = saleService.Delete({ saleId: id }, {});
         reqAndReload(config)
     }, [])
 
