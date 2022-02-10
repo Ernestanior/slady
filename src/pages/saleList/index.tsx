@@ -63,7 +63,7 @@ const SaleList:FC = () => {
             {
                 title: "操作",
                 dataIndex: "opt",
-                width: 200,
+                width: 260,
                 render(_:any, data:any){
                     const showAssign = data.type === E_USER_TYPE.SALE;
                     return <Space>
