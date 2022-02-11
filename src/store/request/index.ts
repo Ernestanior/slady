@@ -49,10 +49,12 @@ requestPlx.middleware_after.use(async (rep, next) => {
         let message = ""
         if(rep.data){
             if(!!rep.data.code && rep.data.code !== 200){
-                notification.error({
-                    message: rep.data.code,
-                    description: rep.data.msg
-                })
+                if(window.location.hash !== "#/login"){
+                    notification.error({
+                        message: rep.data.code,
+                        description: rep.data.msg
+                    })
+                }
                 message = rep.data.msg;
             }else{
                 isSuccess = true

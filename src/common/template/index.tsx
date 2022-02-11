@@ -46,8 +46,7 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
     const [pagination, setPagination] = useState<TablePaginationConfig>({
         defaultCurrent: 1,
         pageSize: 15,
-        total: 15,
-        hideOnSinglePage: true,
+        total: 15
     });
 
     // ref 保证引用不会改变
