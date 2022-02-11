@@ -175,8 +175,9 @@ const columns: TableColumnProps<any>[] = [
                 </Status>
             }
             let leftTime = 0;
-            if(moment().isBefore(moment(data.probationEnd))){
-                leftTime = moment(data.probationEnd).diff(moment(), "day");
+            const endDate = moment(data.probationStart).add(data.probationPeriod + 1, "day")
+            if(moment().isBefore(endDate)){
+                leftTime = endDate.diff(moment(), "day");
             }
             return <div>
                 <Status color={E_COLOR.warn}>测试</Status>
