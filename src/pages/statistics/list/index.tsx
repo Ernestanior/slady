@@ -87,6 +87,7 @@ const columns: TableColumnProps<any>[] = [
         title: "客户名称",
         dataIndex: "name",
         width: 200,
+        sorter: true,
         fixed: "left"
     },
     {
@@ -97,7 +98,7 @@ const columns: TableColumnProps<any>[] = [
     {
         title: "带宽额度(Mbps)",
         dataIndex: "limitBandwidth",
-        render: (value: any, data) => {
+        render: (value: any) => {
             if(typeof value !== "number"){
                 return "-"
             }
