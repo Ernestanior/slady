@@ -154,11 +154,16 @@ const columns: TableColumnProps<any>[] = [
             return "-"
         }
     },
-    E_USER_STATUS_COLUMN,
+    {
+        ...E_USER_STATUS_COLUMN,
+        width: 75,
+        fixed: "right",
+    },
     {
         title: "CDN",
         dataIndex: "probation",
-        width: 150,
+        width: 120,
+        fixed: "right",
         render(probation, data){
             if(data.type === USER_TYPE[2].id){
                 return "-"
