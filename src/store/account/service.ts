@@ -32,7 +32,7 @@ class Account{
         })
 
         this.sessionExpired$.pipe(throttleTime(1000)).subscribe(() => {
-            notification.error({
+            notification.warn({
                 message: "当前登录用户凭据过期, 请重新登录！"
             })
             this.autoLogout();

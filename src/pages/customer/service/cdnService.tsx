@@ -185,6 +185,10 @@ const customerStatus = [
 // defence limit
 const defenceLimitList = [
     {
+        id: 0,
+        name: "0GB"
+    },
+    {
         id: 10,
         name: "10GB"
     },
