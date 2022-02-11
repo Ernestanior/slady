@@ -123,7 +123,14 @@ const ModifyCustomer:FC = () => {
                 <section style={{ marginTop: 15 }}>
                     <Description />
                 </section>
-                <Footer marginBottom={30} submit={modifyCustomer} cancel={() => { form.setFieldsValue({...customer}) }} />
+                <Footer
+                    marginBottom={30}
+                    submit={modifyCustomer}
+                    cancel={() => {
+                        form.setFieldsValue({...customer});
+                        loadData({...customer})
+                    }}
+                />
             </ConditionShow>
         </Form>
     </section>
