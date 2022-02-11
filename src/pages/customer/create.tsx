@@ -21,6 +21,7 @@ import SaleSelector from "@/pages/sale/saleSelector";
 import useAccountInfo from "@/store/account";
 import useSaleInfo from "@/store/account/useSaleInfo";
 import {E_L_USER_TYPE} from "@/common/const";
+import ConditionShow from "@/common/conditionShow";
 
 /**
  * 表单
@@ -104,13 +105,13 @@ const CreateCustomer:FC = () => {
     return <section>
         <div style={{ margin: "15px 0 15px 0" }}>新增</div>
         <Form layout="vertical" form={form} onFieldsChange={onFieldsChange}>
-            <section className="cdn-block">
+            <ConditionShow className="cdn-block" visible={!!info && info.type !== E_USER_TYPE.SALE_MANAGER}>
                 <Row gutter={15}>
                     <FormItem name="saleId" span={12} hidden={!!info && info.type !== E_USER_TYPE.SALE_MANAGER} label="选择销售">
                         <SaleSelector/>
                     </FormItem>
                 </Row>
-            </section>
+            </ConditionShow>
             <section style={{ marginTop: 15 }}>
                 <Account event$={data$}/>
             </section>
