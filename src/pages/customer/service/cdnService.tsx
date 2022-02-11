@@ -147,6 +147,7 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
                 </FormItem>
                 <FormItem
                     span={12}
+                    hidden={type !== "normal"}
                     label="自定义端口额度"
                     name="limitCustomPorts"
                     initialValue={5}
