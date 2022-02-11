@@ -4,6 +4,7 @@ import {throttleTime} from "rxjs/operators";
 import {Divider, Modal} from "antd";
 import ModifyLogoutTime from "@/pages/userInfo/safety/modifyLogoutTime";
 import LoginWhiteIP from "@/pages/userInfo/safety/loginWhiteIP";
+import LoginRecord from "@/pages/userInfo/safety/loginRecord";
 
 const SafetyModule:FC<IEventModule> = ({event$}) => {
     const [visible, setVisible] = useState<boolean>(false)
@@ -28,6 +29,8 @@ const SafetyModule:FC<IEventModule> = ({event$}) => {
         <ModifyLogoutTime />
         <Divider />
         <LoginWhiteIP />
+        <Divider />
+        <LoginRecord />
     </Modal>
 }
 
