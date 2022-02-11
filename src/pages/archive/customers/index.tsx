@@ -50,4 +50,17 @@ export const columns: TableColumnProps<any>[] = [
         title: "删除时间",
         dataIndex: "modifyDate"
     },
+    {
+        title: "删除方式",
+        dataIndex: "autoDeletion",
+        render(value){
+            if(value === 1){
+                return "自动删除"
+            }
+            if(value === 0){
+                return "手动删除"
+            }
+            return "-"
+        }
+    }
 ];

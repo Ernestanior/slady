@@ -105,7 +105,7 @@ const CreateCustomer:FC = () => {
     return <section>
         <div style={{ margin: "15px 0 15px 0" }}>新增</div>
         <Form layout="vertical" form={form} onFieldsChange={onFieldsChange}>
-            <ConditionShow className="cdn-block" visible={!!info && info.type !== E_USER_TYPE.SALE_MANAGER}>
+            <ConditionShow className="cdn-block" visible={!!info && info.type === E_USER_TYPE.SALE_MANAGER}>
                 <Row gutter={15}>
                     <FormItem name="saleId" span={12} hidden={!!info && info.type !== E_USER_TYPE.SALE_MANAGER} label="选择销售">
                         <SaleSelector/>
