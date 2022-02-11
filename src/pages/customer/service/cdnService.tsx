@@ -34,8 +34,8 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
         setProbation(queryValue(data.probation, customerStatus[0].id))
         setType(data.type || "normal")
         setStartDate(queryValue(data.setStartDate, moment().format("YYYY/MM/DD")))
-        if(data.probationEnd){
-            setEndDate(moment(data.probationEnd).add(-1, "day").format("YYYY/MM/DD"))
+        if(typeof data.probationPeriod !== "undefined"){
+            setEndDate(moment(data.setStartDate).add(data.probationPeriod, "day").format("YYYY/MM/DD"))
         }
     }, [defaultInitCdnServiceFlag])
 
