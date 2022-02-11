@@ -64,6 +64,7 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
                 <FormItem span={12} label="客户状态" name='probation' initialValue={probation}>
                     <SelectP data={customerStatus} />
                 </FormItem>
+                <FormItem  hidden={probation === customerStatus[0].id} span={12} />
                 <FormItem hidden={probation !== customerStatus[0].id} span={12} label="试用期" name="probationPeriod" initialValue={15}>
                     <Period
                         start={startDate}
