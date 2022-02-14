@@ -119,7 +119,6 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
                 try {
                     const result = reqAnalysis(data);
                     let resultData: any[] = [];
-                    let totalElements = 0;
                     if (result) {
                         // 分页数据
                         if (typeof result.totalElements !== "undefined") {
@@ -130,7 +129,6 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
                                 pageSize: params$.value.searchPage.pageSize,
                             });
                             resultData = result.content;
-                            totalElements = result.totalElements;
                             // 不分页数据
                         } else if (Array.isArray(result)) {
                             setPagination({
@@ -140,10 +138,6 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
                                 pageSize: result.length,
                             });
                             resultData = result;
-                            totalElements = result.length;
-                            setPagination(pagination => {
-                                return {...pagination, total: totalElements}
-                            })
                         } else {
                             console.error("数据请求异常！");
                         }

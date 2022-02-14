@@ -118,7 +118,7 @@ const CustomerList:FC = () => {
             event={buttons}
             columns={_columns}
             queryData={query}
-            rowKey="email"
+            rowKey="id"
             scroll={{
                 x: 1440
             }}
