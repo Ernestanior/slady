@@ -11,7 +11,7 @@ const dev_url = 'http://localhost:10087';
 // add dev server url
 requestPlx.middleware_before.use(async (config, next) => {
     // prefix url
-    config.url = "/api" + config.url;
+    config.url = "/v3/api" + config.url;
     if(process.env.NODE_ENV === "development"){
         config.url = dev_url + config.url;
     }
