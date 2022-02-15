@@ -17,7 +17,7 @@ spec:
     - host: sales.greypanel.com
       http:
         paths:
-        - path: /v3
+        - path: /api
           backend:
             serviceName: gateway-service
             servicePort: 80
