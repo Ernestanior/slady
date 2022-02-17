@@ -150,7 +150,7 @@ const columns: TableColumnProps<any>[] = [
             if(data.saleStat){
                 if(typeof data.saleStat.flowOfLast14To7Day === "number"){
                     if(value > (data.saleStat.flowOfLast14To7Day * MAGNIFICATION)){
-                        color = LABEL_COLOR.YELLOW
+                        color = LABEL_COLOR.LIGHT_YELLOW
                     }
                     if((value * MAGNIFICATION) < data.saleStat.flowOfLast14To7Day){
                         color = LABEL_COLOR.GREEN
