@@ -12,7 +12,7 @@ const ArchiveDomainFilter:FC = () => {
             <Input placeholder="主机记录值" allowClear />
         </FormItem>
         <FormItem span={4} noStyle name="customerId">
-            <CustomerListSelector emptyOption size="default" bordered style={{ width: "100%" }} />
+            <CustomerListSelector includeArchiveCustomer emptyOption size="default" bordered style={{ width: "100%" }} />
         </FormItem>
     </>
 }

@@ -9,20 +9,27 @@ interface IProps{
     bordered?: boolean;
     size?: "large" | "small" | "default";
     style?: CSSProperties;
-    emptyOption?: boolean
+    emptyOption?: boolean;
+    includeArchiveCustomer?: boolean;
 }
 
-const CustomerListSelector:FC<IFormComponent & IProps> = ({emptyOption, style, size, bordered, value, onChange}) => {
+const CustomerListSelector:FC<IFormComponent & IProps> = ({includeArchiveCustomer, emptyOption, style, size, bordered, value, onChange}) => {
     const [list, setList] = useState<any[]>([])
 
     useEffect(() => {
-        const sub = from(request<any[]>(customerService.FindCustomerList({}, {}))).subscribe(res => {
+        const sub = from(request<any[]>(customerService.FindCustomerList({includeArchiveCustomer: !!includeArchiveCustomer}, {}))).subscribe(res => {
             if(res.isSuccess && res.result){
-                setList(res.result)
+                const map:any = {};
+                res.result.forEach(customer => {
+                    map[customer.id] = customer
+                })
+                setList(Object.keys(map).map(id => {
+                    return map[id]
+                }))
             }
         })
         return () => sub.unsubscribe()
-    }, [])
+    }, [includeArchiveCustomer])
 
     return <SelectP
         style={{ minWidth: 120, width: "auto", ...style }}

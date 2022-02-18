@@ -8,7 +8,7 @@ import {reqAndReload} from "@/common/utils";
 
 const ArchiveCustomer:FC = () => {
     const query = useCallback((data) => {
-        return customerService.FindCustomer({}, {...data, deleted: 1, category: "biz", includeArchiveCustomer: true})
+        return customerService.FindCustomer({}, {...data, deleted: 1, category: "biz"})
     }, [])
 
     const reOpenCustomer = useCallback((customer: any) => {
