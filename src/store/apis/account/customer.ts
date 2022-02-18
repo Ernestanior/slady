@@ -359,6 +359,17 @@ class CustomerAPI {
         config.headers = {};
         return config;
     }
+
+    ReactivateCustomer = (params: ICustomerParams, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/customer/reactivate',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        return config;
+    }
 }
 export default CustomerAPI;
 

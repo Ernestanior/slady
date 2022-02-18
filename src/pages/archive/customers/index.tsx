@@ -1,18 +1,39 @@
-import {FC, useCallback} from "react";
+import {FC, useCallback, useMemo} from "react";
 import Template from "@/common/template";
 import {TableColumnProps} from "antd";
 import ArchiveCustomerFilter from "@/pages/archive/customers/filters";
 import {customerService} from "@/store/apis/account";
+import ConfirmButton from "@/common/confirm/button";
+import {reqAndReload} from "@/common/utils";
 
 const ArchiveCustomer:FC = () => {
     const query = useCallback((data) => {
-        return customerService.FindCustomer({}, {...data, deleted: 1, category: "biz"})
+        return customerService.FindCustomer({}, {...data, deleted: 1, category: "biz", includeArchiveCustomer: true})
     }, [])
+
+    const reOpenCustomer = useCallback((customer: any) => {
+        const config = customerService.ReactivateCustomer({customerId: customer.id}, {});
+        reqAndReload(config)
+    }, [])
+
+    const opt = useMemo(() => {
+        return [
+            ...columns,
+            {
+                title: "操作",
+                dataIndex: "opt",
+                width: 260,
+                render(_:any, data:any){
+                    return <ConfirmButton info="确定恢复此用户？" submit={() => { reOpenCustomer(data) }}>重启客户</ConfirmButton>
+                }
+            }
+        ]
+    }, [reOpenCustomer])
 
     return <Template
         filter={<ArchiveCustomerFilter />}
         queryData={query}
-        columns={columns}
+        columns={opt}
         rowKey="userId"
     />
 }
@@ -26,6 +47,7 @@ export const columns: TableColumnProps<any>[] = [
     {
         title: "ID",
         dataIndex: "id",
+        width: 75,
         sorter: true,
     },
     {
