@@ -24,7 +24,8 @@ const SaleSelector:FC<IFormComponent & IProps> = ({emptyOption, value, onChange,
         }))).subscribe(res => {
             if(res.isSuccess && res.result){
                 // console.log(res.result)
-                setList(res.result.content.filter((sale: any) => sale.type === E_USER_TYPE.SALE));
+                // setList(res.result.content.filter((sale: any) => sale.type === E_USER_TYPE.SALE));
+                setList(res.result.content);
             }
         })
         return () => sub.unsubscribe()
