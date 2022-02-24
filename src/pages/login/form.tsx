@@ -11,6 +11,21 @@ import {from} from "rxjs";
 import request from "@/store/request";
 import accountService from "@/store/account/service";
 import moment from "moment";
+import forge from "node-forge"
+import {rsaPublic} from "@/pages/login/rsa_public";
+
+const publicKey = forge.pki.publicKeyFromPem(rsaPublic);
+
+// 密码加密
+function encrypt(password: string){
+    return forge.util.encode64(publicKey.encrypt(password, 'RSA-OAEP', {
+        md: forge.md.sha256.create(),
+        mgf1: {
+            md: forge.md.sha1.create()
+        }
+    }))
+}
+
 
 const { grecaptcha } = window as any;
 
@@ -40,6 +55,7 @@ const LoginForm: FC = () => {
             ...data,
             code: recaptcha
         }
+        _data.password = encrypt(_data.password)
         // 请求网络
         from(request<string>(authService.Login({},_data))).subscribe(res => {
             let finish = true;
