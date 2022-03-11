@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: sales-system 
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: sales-system
