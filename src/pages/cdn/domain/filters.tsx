@@ -5,11 +5,11 @@ import CustomerListSelector from "@/pages/common/customerListSelector";
 
 const CDNDomainFilter:FC = () => {
     return <>
-        <FormItem span={4} noStyle name="masterName">
-            <Input placeholder="域名" allowClear />
-        </FormItem>
         <FormItem span={4} noStyle name="displayName">
             <Input placeholder="主机记录值" allowClear />
+        </FormItem>
+        <FormItem span={4} noStyle name="siteName">
+            <Input placeholder="站点名称" allowClear />
         </FormItem>
         <FormItem span={4} noStyle name="customerId">
             <CustomerListSelector emptyOption size="default" bordered style={{ width: "100%" }} />

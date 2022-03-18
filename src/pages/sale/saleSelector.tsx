@@ -4,7 +4,6 @@ import request from "@/store/request";
 import {saleService} from "@/store/apis/account";
 import SelectP from "@/common/select";
 import {IFormComponent} from "@/common/interface";
-import {E_USER_TYPE} from "@/store/account/service";
 
 interface IProps{
     placeholder?: string
