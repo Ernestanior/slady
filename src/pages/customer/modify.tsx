@@ -46,6 +46,9 @@ const ModifyCustomer:FC = () => {
     const modifyCustomer = useCallback(() => {
         let data = form.getFieldsValue();
         data = {...customer, ...data}
+        if(data.email){
+            data.email = data.email.trim();
+        }
         let config;
         // 代理编辑
         if(data.customerType === E_L_USER_TYPE[2].id){
