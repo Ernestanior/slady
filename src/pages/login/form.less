@@ -3,8 +3,10 @@
 
 .page-login-form {
   .comp-form-lg {
-    width: 302px;
+    width: 48.75%;
     margin: auto;
+
+    padding-top: 24%;
 
     input {
       height: 50px;
@@ -16,25 +18,18 @@
     }
 
     .content {
-      background-color: #fff;
-      border-radius: 5px;
 
       .username {
-        margin-top: 50px;
-        margin-bottom: 0px;
+        margin-top: 16%;
+        margin-bottom: 0;
       }
 
-      .password {
-        border-top: @line;
-        position: relative;
+      input{
+        border-bottom: 1px solid #E9E9F0;
+      }
 
-        .submit {
-          right: 10px;
-          font-size: 1.25rem;
-          position: absolute;
-          top: 50%;
-          transform: translate(0, -50%);
-        }
+      .password{
+        margin-top: 10%;
       }
 
       .pwd{
@@ -44,14 +39,28 @@
   }
 
   .login-info {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.4);
     line-height: 2.5em;
     text-align: center;
     color: #fff;
-    margin: 3px 29px 1px 29px;
+    margin-top: 20%;
   }
 
-  .login-recaptcha {
-    padding: 0 29px;
+  .submit{
+    margin-top: 15%;
+    padding: 0 8%;
+  }
+
+  .login-recaptcha{
+    margin-top: 10%;
+    justify-content: center;
+  }
+
+  .fix-foot{
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    text-align: center;
   }
 }

@@ -8,6 +8,8 @@ import {AxiosRequestConfig} from "axios";
 import {XOR} from "ts-xor";
 import {FormInstance} from "antd";
 import moment from "moment";
+import {SelectProps} from "antd/lib/select";
+import {BehaviorSubject, Subject} from "rxjs";
 
 export type ITrigger = () => void;
 
@@ -16,6 +18,8 @@ export type ICallback = (rep?: any) => void
 export type IChangeModule = (value:any, totalSelectConfig?:any) => void
 
 export type ISubmit = (data: any) => void;
+
+export type ISubmitPromise = (data: any) => Promise<{isSuccess: boolean}>;
 
 export interface IFilerModule{
     filter?: ReactNode;
@@ -45,6 +49,10 @@ export interface IEventListModule{
 
 export interface ISubmitModule{
     submit: ISubmit
+}
+
+export interface ISubmitAsyncModule{
+    submit: ISubmitPromise
 }
 
 export interface ICancelModule{
@@ -90,7 +98,8 @@ export interface ISelectOptionConfig {
 
 export interface IFormComponent<T=any>{
     value?: T;
-    onChange?: IChangeModule
+    onChange?: IChangeModule;
+    disable?: boolean;
 }
 
 export interface ISwitchValue{
@@ -100,7 +109,20 @@ export interface ISwitchValue{
 
 export interface IFormModule{
     form: FormInstance;
-    initialValue?: any
+}
+
+export interface ITitleModule{
+    title?: ReactNode
+}
+
+export interface IEventModule{
+    event$: Subject<boolean>
+}
+
+export interface IDisableModule{
+    disableProperty?: {
+        [key: string]: boolean;
+    }
 }
 
 export interface IAsyncModule{
@@ -108,7 +130,7 @@ export interface IAsyncModule{
     loader?: (data: any) => any
 }
 
-export interface ISelectProps {
+export interface ISelectProps extends SelectProps{
     size?: "small" | "large";
     onChange?: IChangeModule;
     placeholder?: string;
@@ -175,4 +197,10 @@ export interface IDefaultValue{
 
 export interface IDataModule<T = any>{
     data: T | null
+}
+
+export type IEvent = BehaviorSubject<any> | Subject<any>;
+
+export interface IAsyncEventModule{
+    event$?: IEvent
 }

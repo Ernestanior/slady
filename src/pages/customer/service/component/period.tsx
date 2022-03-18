@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo, useState} from "react";
+import {FC, useMemo, useState} from "react";
 import {Col, Row, DatePicker, InputNumber, Space} from "antd";
 import {IFormComponent} from "@/common/interface";
 import moment from "moment";
@@ -14,13 +14,14 @@ interface IProps{
 const Period:FC<IFormComponent & IProps> = ({onChange, start, end}) => {
     const [startDate, setStartDate] = useState<moment.Moment>(moment(start));
     const [endDate, setEndDate] = useState<moment.Moment>(moment(end))
-    const rangeChange = useCallback((e) => {
+    const rangeChange = (e:any) => {
         if(typeof e === "number"){
             // 设置end
-            setEndDate(startDate.clone().add(e, "day"))
+            const _endDate = startDate.clone().add(e, "day")
+            setEndDate(_endDate)
+            onChange && onChange(_endDate.diff(startDate, 'day'))
         }
-        onChange && onChange(endDate.diff(startDate, 'day'))
-    }, [startDate, onChange, endDate])
+    };
 
     const displayRange = useMemo(() => {
         // 测试日期已经早于今日结束

@@ -1,19 +1,22 @@
-import {FC, useEffect, useMemo, useState} from "react";
-import {IIDModule} from "@/common/interface";
+import {FC, useMemo} from "react";
 import {Col, Progress, Row, Space} from "antd";
-import {from} from "rxjs";
-import request from "@/store/request";
-import {customerService} from "@/store/apis/account";
 import ProgressCenter from "@/pages/statistics/view/charts/progressCenter";
 import "./summary.less"
 
-const CustomerSummary:FC<IIDModule> = ({id}) => {
-    // 域名额度
-    const [domain, setDomain] = useState({
-        totalAmount: 0,
-        usedAmount: 0
-    })
+interface IProps{
+    domain: any;
+    defence: any;
+    packageInfo: any;
+}
 
+const CustomerSummary:FC<IProps> = ({domain: originDomain, defence, packageInfo}) => {
+    const domain:any = useMemo(() => {
+        if(packageInfo.type === "normal"){
+            return originDomain;
+        }
+        // cname
+        return packageInfo.cnameBalance
+    }, [originDomain, packageInfo])
     const percent = useMemo(() => {
         if(!domain.totalAmount){
             return 100;
@@ -21,43 +24,11 @@ const CustomerSummary:FC<IIDModule> = ({id}) => {
         return Math.ceil(domain.usedAmount / domain.totalAmount * 100);
     }, [domain])
 
-    // 防御额度
-    const [defence, setDefence] = useState({
-        totalAmount: 0,
-        usedAmount: 0
-    })
-
-    useEffect(() => {
-        if(id){
-            const sub = from(request<any>(customerService.GetCustomerPackage({ id }, {}))).subscribe(res => {
-                if(res.isSuccess && res.result){
-                    setDomain({
-                        totalAmount: parseInt(res.result.domainBalance.totalAmount),
-                        usedAmount: parseInt(res.result.domainBalance.usedAmount)
-                    })
-                    setDefence(res.result.defenceBalance)
-                }else{
-                    setDomain({
-                        totalAmount: 0,
-                        usedAmount: 0
-                    })
-                    setDefence({
-                        totalAmount: 0,
-                        usedAmount: 0
-                    })
-                }
-            })
-            return () => sub.unsubscribe()
-        }
-    }, [id])
-
-    if(!id){
-        return null;
-    }
-
     if(!domain.totalAmount){
         return null;
     }
+
+    const type = packageInfo.type;
 
     return <section className="customer-summary">
         <Row gutter={15}>
@@ -65,13 +36,15 @@ const CustomerSummary:FC<IIDModule> = ({id}) => {
                 <div className="cdn-block">
                     <Row gutter={15}>
                         <Col flex={1}>
-                            <p className="cdn-block-title">域名额度</p>
+                            <p className="cdn-block-title">{type === "cname" ? "站点额度" : "域名额度"}</p>
                             <div className="label-text">
                                 <div>{domain.usedAmount}/{domain.totalAmount}</div>
                                 <div className="label-text-square">
                                     <Space>
-                                        <span>未用</span>
+                                        <span className="used" />
                                         <span>已用</span>
+                                        <span className="unUsed" />
+                                        <span>未用</span>
                                     </Space>
                                 </div>
                             </div>
@@ -106,7 +79,7 @@ const CustomerSummary:FC<IIDModule> = ({id}) => {
                         <Col flex={1}>
                             <p className="cdn-block-title">防御额度</p>
                             <div className="label-text">
-                                <div>{defence.totalAmount}GB</div>
+                                <div>{defence.totalAmount === "-1" ? "Unlimited" : `${defence.totalAmount}GB`}</div>
                             </div>
                         </Col>
                         <Col>
@@ -119,8 +92,8 @@ const CustomerSummary:FC<IIDModule> = ({id}) => {
                                     return <ProgressCenter>
                                         <span className="defence">
                                             <span className="total">
-                                                {defence.totalAmount}
-                                                <em>GB</em>
+                                                {defence.totalAmount === "-1" ? "Unlimited" : defence.totalAmount}
+                                                {defence.totalAmount !== "-1" && <em>GB</em>}
                                             </span>
                                         </span>
                                     </ProgressCenter>

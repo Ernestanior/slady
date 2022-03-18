@@ -34,9 +34,6 @@ const SelectP: FC<ISelectProps & {value?: any; data: ISelectItem[] | string[] | 
                 defaultValue = selectedItem[idKey]
             }
         }
-        if(!defaultValue && emptyOption){
-            defaultValue = ""
-        }
     }
 
     //为了将数据全部重新返回，需要合成onChange事件
@@ -59,16 +56,12 @@ const SelectP: FC<ISelectProps & {value?: any; data: ISelectItem[] | string[] | 
         <Select
             getPopupContainer={(triggerNode) => triggerNode.parentElement}
             defaultValue={defaultValue}
-            showSearch={props.data.length > 8}
+            showSearch={props.data.length > 4}
             {...resProps}
             onChange={onChange}
             optionFilterProp="label"
+            allowClear={emptyOption}
         >
-            {emptyOption && (
-                <Select.Option value="" label="">
-                    ----
-                </Select.Option>
-            )}
             {dataList.map((item: any) => {
                 if (typeof item === "number" || typeof item === "string") {
                     return (

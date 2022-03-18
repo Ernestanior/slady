@@ -17,7 +17,7 @@ const SaleFilter:FC = () => {
             <Input placeholder="登录邮箱" />
         </FormItem>
         <FormItem span={3} noStyle name="type" hidden={!!info && info.type !== E_USER_TYPE.SALE_MANAGER}>
-            <SelectP data={SALE_LIST} />
+            <SelectP emptyOption data={SALE_LIST} />
         </FormItem>
     </>
 }

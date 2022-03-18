@@ -11,18 +11,17 @@ const AssignCustomerForm:FC = () => {
     const [agentList, setAgentList] = useState<CheckboxOptionType[]>([]);
 
     useEffect(() => {
-        const config = saleService.QueryCustomerBySaleId({}, {});
+        const config = saleService.QueryAllCustomerCanAssign({}, {});
         const config2 = agentService.FindAll({}, {});
-        const sub = forkJoin([request<{assigned: any[]; unAssigned: any[]}>(config), request<any[]>(config2)]).subscribe(res => {
+        const sub = forkJoin([request<any[]>(config), request<any[]>(config2)]).subscribe(res => {
             if(res[0].isSuccess && res[0].result){
-                const {assigned, unAssigned} = res[0].result;
-                setCustomerList(assigned.concat(unAssigned).map(item => ({
+                // const {assigned, unAssigned} = res[0].result;
+                setCustomerList(res[0].result.map(item => ({
                     value: item.id,
-                    label: `${item.email}`
+                    label: `${item.name}`
                 })))
             }
             if(res[1].isSuccess && res[1].result){
-                console.log(res[1].result)
                 setAgentList(res[1].result.map(item => ({
                     value: item.id,
                     label: `${item.userEmail}`
@@ -33,7 +32,7 @@ const AssignCustomerForm:FC = () => {
     }, [])
 
     return <section>
-        <section className="cdn-block">
+        <section className="cdn-block" style={{width: "100%"}}>
             <FormItem label="直属客户" name="customerIds">
                 <CheckboxGroup>
                     <Row gutter={[15, 15]}>
@@ -46,7 +45,7 @@ const AssignCustomerForm:FC = () => {
                 </CheckboxGroup>
             </FormItem>
         </section>
-        <section className="cdn-block">
+        <section className="cdn-block" style={{width: "100%"}}>
             <FormItem label="代理" name="agentIds">
                 <CheckboxGroup>
                     <Row gutter={[15, 15]}>

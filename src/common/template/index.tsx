@@ -10,7 +10,11 @@ import {SorterResult} from "antd/es/table/interface";
 
 interface ITableModule{
     columns: TableColumnProps<any>[];
-    rowKey: string
+    rowKey: string;
+    scroll?: {
+        x?: number;
+        y?: number
+    }
 }
 
 interface IPageParams {
@@ -42,8 +46,7 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
     const [pagination, setPagination] = useState<TablePaginationConfig>({
         defaultCurrent: 1,
         pageSize: 15,
-        total: 15,
-        hideOnSinglePage: true,
+        total: 15
     });
 
     // ref 保证引用不会改变
@@ -116,7 +119,6 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
                 try {
                     const result = reqAnalysis(data);
                     let resultData: any[] = [];
-                    let totalElements = 0;
                     if (result) {
                         // 分页数据
                         if (typeof result.totalElements !== "undefined") {
@@ -127,7 +129,6 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
                                 pageSize: params$.value.searchPage.pageSize,
                             });
                             resultData = result.content;
-                            totalElements = result.totalElements;
                             // 不分页数据
                         } else if (Array.isArray(result)) {
                             setPagination({
@@ -137,10 +138,6 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
                                 pageSize: result.length,
                             });
                             resultData = result;
-                            totalElements = result.length;
-                            setPagination(pagination => {
-                                return {...pagination, total: totalElements}
-                            })
                         } else {
                             console.error("数据请求异常！");
                         }
@@ -217,18 +214,21 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
         {props.event && <FuncList event={props.event} />}
         <section style={{ marginTop: (!props.filter && !props.event) ? 0 : 15 }}>
             <Table
+                sticky
                 dataSource={tableData}
                 pagination={{
                     ...pagination,
                     onChange: pageOnChange,
                     showQuickJumper: true,
-                    showSizeChanger: true
+                    showSizeChanger: true,
+                    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`
                 }}
                 rowKey={props.rowKey}
                 onChange={tableOnChange}
                 columns={props.columns}
                 loading={loading}
                 rowClassName={rowClassName}
+                scroll={props.scroll}
             />
         </section>
     </section>

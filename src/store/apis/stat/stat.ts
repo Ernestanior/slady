@@ -585,6 +585,17 @@ class StatAPI {
         return config;
     }
 
+    SaleStatCustomer = (data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/stat/sale/stat-customer',
+            method: 'post',
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
 }
 export default StatAPI;
 

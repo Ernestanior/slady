@@ -16,8 +16,9 @@ export interface IAgentDto {
 export interface IAgentForm {
     dnsValue: string;
     email: string;
-    id: number;
+    id?: number;
     name: string;
+    saleId?: number
 }
 export interface IAgentListDto {
     dnsValue: string;

@@ -6,6 +6,7 @@ import {from} from "rxjs";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
 import {ICallback} from "@/common/interface";
+import moment from "moment";
 
 export const upperCasePlx = (value: string | number) =>
     typeof value === "string" ? value.toUpperCase() : value;
@@ -170,3 +171,28 @@ export const transformBindWidth = (value: number) => {
     const gb = mb / 1000;
     return gb.toFixed(2) + "Gbps";
 };
+
+
+export const xAxisFormatterGenerate = (data: number[][]) => {
+    const startDate = moment(data[0][0]);
+    const endDate = moment(data[data.length - 1][0]);
+    let needYear = false;
+    let needHourAndMinute = false;
+    if(endDate.diff(startDate, "day") <= 7){
+        needHourAndMinute = true;
+    }else{
+        needYear = true;
+    }
+    return function(value: any, a: number){
+        if((a % 2) === 0){
+            return null;
+        }
+        if(needYear){
+            return moment(value).format("MM-DD") + " \n" + moment(value).format("YYYY")
+        }
+        if(needHourAndMinute){
+            return moment(value).format("HH:mm") + " \n" + moment(value).format("MM-DD")
+        }
+        return moment(value).format("MM-DD");
+    }
+}

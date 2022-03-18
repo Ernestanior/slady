@@ -6,6 +6,9 @@ import useAccountInfo from "@/store/account";
 
 const AntSide = Layout.Sider
 
+const { SubMenu } = Menu;
+
+
 const Side:FC = () => {
     const info = useAccountInfo();
     const _menuList = useMemo(() => {
@@ -24,15 +27,40 @@ const Side:FC = () => {
     const url = location.pathname;
 
     const selectKeys = useMemo(() => {
-        return _menuList.filter(menu => {
-            return url.indexOf(menu.url) === 0
-        }).map(menu => menu.url);
+        const keys: string[] =[]
+        _menuList.forEach(menu => {
+            if(menu.childs){
+                menu.childs.forEach(subMenu => {
+                    if(url.indexOf(subMenu.url) === 0){
+                        keys.push(subMenu.url)
+                    }
+                })
+                return;
+            }
+            if(url.indexOf(menu.url) === 0){
+                keys.push(menu.url)
+            }
+        })
+        return keys
     }, [url, _menuList])
 
     return <AntSide width={200} className="cdn-ly-side cdn-scroll">
         <Menu theme="dark" selectedKeys={selectKeys} mode="inline">
             {
                 _menuList.map(menu => {
+                    if(menu.childs){
+                        return <SubMenu key={menu.text} title={menu.text}>
+                            {
+                                menu.childs.map(subMenu => {
+                                    return <Menu.Item key={subMenu.url}>
+                                        <Link to={subMenu.url}>
+                                            {subMenu.text}
+                                        </Link>
+                                    </Menu.Item>
+                                })
+                            }
+                        </SubMenu>
+                    }
                     return <Menu.Item key={menu.url}>
                         <Link to={menu.url}>
                             {menu.text}

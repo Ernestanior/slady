@@ -25,15 +25,14 @@ const AssignSale:FC = () => {
         if(id){
             const config1 = saleService.QueryCustomerBySaleId({saleId: id}, {});
             const config2 = saleService.QueryAgentBySaleId({saleId: id}, {});
-            const sub = forkJoin([request<any>(config1), request<any>(config2)]).subscribe(res => {
+            const sub = forkJoin([request<any[]>(config1), request<any[]>(config2)]).subscribe(res => {
                 let customerIds = [];
                 let agentIds = []
-                if(res[0].isSuccess && res[0].result){
-                    const list:any[] = res[0].result[id] || [];
-                    customerIds = list.map(customer => customer.id);
+                if(res[0].isSuccess && Array.isArray(res[0].result)){
+                    customerIds = res[0].result.map(item => item.id);
                 }
-                if(res[1].isSuccess && res[1].result){
-                    agentIds  = res[1].result[id] || [];
+                if(res[1].isSuccess && Array.isArray(res[1].result)){
+                    agentIds  = res[1].result.map(item => item.id)
                 }
                 form.setFieldsValue({
                     saleId: id,
@@ -71,7 +70,7 @@ const SaleAssignPage:FC = () => {
 
     useEffect(() => {
         if(id){
-            const config = saleService.FindOne({saleId: id}, {});
+            const config = saleService.viewSale({saleId: id}, {});
             const sub = from(request(config)).subscribe(res => {
                 if(res.isSuccess && res.result){
                     const sale:any = res.result;

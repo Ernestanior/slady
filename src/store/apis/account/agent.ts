@@ -3,7 +3,6 @@
 import { AxiosRequestConfig } from 'axios';
 import {
     IAgentForm,
-    IAgentListForm,
 } from "./common.interface";
 
 /**
@@ -48,7 +47,7 @@ class AgentAPI {
          * findAgent
          * 生成请求参数
          */
-        FindAgent = (params: IFindAgentParams, data: IAgentListForm) => {
+        FindAgent = (params: IFindAgentParams, data: any) => {
             const config: AxiosRequestConfig = {
                 url: '/agent/list',
                 method: 'post',
@@ -59,6 +58,24 @@ class AgentAPI {
             config.headers['Content-Type'] = 'application/json';
             return config;
         }
+
+
+    /**
+     * FindOne
+     * 生成请求参数
+     */
+    FindOne = (params: IFindAgentParams, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/agent/find-one',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
     
         /**
          * findAll
@@ -119,6 +136,18 @@ class AgentAPI {
             const config: AxiosRequestConfig = {
                 url: '/agent/assign',
                 method: 'put',
+                params,
+                data
+            };
+            config.headers = {};
+            config.headers['Content-Type'] = 'application/json';
+            return config;
+        }
+
+        FindSale = (params: {saleId: number}, data: any) => {
+            const config: AxiosRequestConfig = {
+                url: '/agent/find-by-sale',
+                method: 'post',
                 params,
                 data
             };

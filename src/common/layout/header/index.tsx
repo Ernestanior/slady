@@ -1,10 +1,11 @@
 import { FC } from "react";
-import { UserOutlined, PoweroffOutlined, ExclamationCircleOutlined, FileTextOutlined} from '@ant-design/icons';
+import {PoweroffOutlined, ExclamationCircleOutlined, FileTextOutlined} from '@ant-design/icons';
 import { Space, Row, Col  } from 'antd';
 import Logo from "./logo.png";
 import "./index.less";
 import accountService from "@/store/account/service";
 import ConfirmInfo from "@/common/confirm";
+import UserPopover from "@/pages/userInfo/popover";
 
 const HeaderPlx:FC = () => {
     return <nav className='comp-header'>
@@ -18,7 +19,7 @@ const HeaderPlx:FC = () => {
                 <Space className="right-options" size="large">
                     <ExclamationCircleOutlined />
                     <FileTextOutlined />
-                    <UserOutlined />
+                    <UserPopover />
                     <ConfirmInfo info="确定退出登录？" submit={() => { accountService.autoLogout() }}>
                         <PoweroffOutlined />
                     </ConfirmInfo>

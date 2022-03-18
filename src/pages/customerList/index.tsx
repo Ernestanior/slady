@@ -3,12 +3,15 @@ import Template from "@/common/template";
 import CustomerFilter from "@/pages/customerList/filter";
 import {INormalEvent} from "@/common/interface";
 import {Button, Space, TableColumnProps} from "antd";
-import {customerService} from "@/store/apis/account";
+import {agentService, customerService, saleService, userService} from "@/store/apis/account";
 import historyService from "@/store/history";
 import ConfirmButton from "@/common/confirm/button";
 import {reqAndReload} from "@/common/utils";
 import Status from "@/common/status";
 import {E_COLOR} from "@/common/const";
+import {E_All_USER_TYPE, E_USER_TYPE} from "@/store/account/interface";
+import useAccountInfo from "@/store/account";
+import moment from "moment";
 
 /**
  * 用户启用禁用状态
@@ -41,40 +44,62 @@ const CustomerList:FC = () => {
     }, [])
 
     const query = useCallback((data) => {
-        return customerService.FindCustomer({}, data);
+        return saleService.QueryUserList({}, data);
     }, [])
 
     // modify
     const modify = useCallback(customer => {
-        historyService.push(`/customer/modify/${customer.id}`)
+        historyService.push(`/customer/modify/${customer.type}/${customer.id}`)
     }, [])
 
     // disable
-    const disable = useCallback(({id}) => {
-        const config = customerService.DisableCustomer({ id }, {});
+    const disable = useCallback((data) => {
+        let config;
+        if(data.type === E_All_USER_TYPE.AGENT){
+            config = userService.DisableUser({id: data.userId}, {});
+        }else{
+            config = customerService.DisableCustomer({ id: data.id }, {});
+        }
         reqAndReload(config)
     }, [])
 
     // enable
-    const enable = useCallback(({id}) => {
-        const config = customerService.EnableCustomer({ id }, {});
+    const enable = useCallback((data) => {
+        let config;
+        if(data.type === E_All_USER_TYPE.AGENT){
+            config = userService.EnableUser({id: data.userId}, {});
+        }else{
+            config = customerService.EnableCustomer({ id: data.id }, {});
+        }
         reqAndReload(config)
     }, [])
 
     // modify
-    const deleteCustomer = useCallback(({id}) => {
-        const config = customerService.Delete({ id }, {});
+    const deleteCustomer = useCallback((data) => {
+        let config;
+        if(data.type === E_All_USER_TYPE.AGENT){
+            config = agentService.Delete({id: data.id}, {});
+        }else{
+            config = customerService.Delete({ id: data.id }, {});
+        }
         reqAndReload(config)
     }, [])
 
+    const info = useAccountInfo();
+    let _columns_fix = columns;
+    if(info && info.type === E_USER_TYPE.SALE_MANAGER){
+        _columns_fix = columns_manage;
+    }
+
     // 下拉
-    const _columns = useMemo(() => {
+    const _columns:any = useMemo(() => {
         return [
-            ...columns,
+            ..._columns_fix,
             {
                 title: "操作",
                 dataIndex: "opt",
                 width: 200,
+                fixed: "right",
                 render(_:any, data:any){
                     return <Space>
                         <Button onClick={() => { modify(data) }}>修改</Button>
@@ -85,7 +110,7 @@ const CustomerList:FC = () => {
                 }
             }
         ]
-    }, [modify, enable, disable, deleteCustomer])
+    }, [modify, enable, disable, deleteCustomer, _columns_fix])
 
     return <section>
         <Template
@@ -94,6 +119,9 @@ const CustomerList:FC = () => {
             columns={_columns}
             queryData={query}
             rowKey="id"
+            scroll={{
+                x: 1440
+            }}
         />
     </section>
 }
@@ -105,23 +133,89 @@ const columns: TableColumnProps<any>[] = [
         title: "客户名称",
         dataIndex: "name",
         sorter: true,
+        width: 200,
+        fixed: "left",
     },
     {
         title: "客户邮箱",
         dataIndex: "email",
         sorter: true,
+        width: 200,
     },
-    E_USER_STATUS_COLUMN,
     {
-        title: "正式客戶",
+        title: "客户类型",
+        dataIndex: "type",
+        width: 100,
+        render: type => {
+            const item = USER_TYPE.find(it => it.id === type);
+            if(item){
+                return item.name
+            }
+            return "-"
+        }
+    },
+    {
+        ...E_USER_STATUS_COLUMN,
+        width: 75,
+        fixed: "right",
+    },
+    {
+        title: "CDN",
         dataIndex: "probation",
         width: 120,
-        render(value){
-            if(value === 0){
-                return "正式客户"
+        fixed: "right",
+        render(probation, data){
+            if(data.type === USER_TYPE[2].id){
+                return "-"
             }
-            return "测试客户"
+            // CDN服务未启用
+            if(data.cdnServiceFlag !== 1){
+                return <Status color={E_COLOR.off}>
+                    未启用
+                </Status>
+            }
+            if(!probation){
+                return <Status color={E_COLOR.enable}>
+                    正式
+                </Status>
+            }
+            let leftTime = 0;
+            const endDate = moment(data.probationStart).add(data.probationPeriod + 1, "day")
+            if(moment().isBefore(endDate)){
+                leftTime = endDate.diff(moment(), "day");
+            }
+            return <div>
+                <Status color={E_COLOR.warn}>测试</Status>
+                {leftTime}/{data.probationPeriod}
+            </div>
         }
     }
 ]
 
+const columns_manage = [
+    ...columns.slice(0, 2),
+    {
+        title: "销售员",
+        dataIndex: "saleName",
+        width: 200,
+        render(value:any){
+            return value || "-"
+        }
+    },
+    ...columns.slice(2)
+]
+
+export const USER_TYPE = [
+    {
+        id: "direct",
+        name: "直属客户"
+    },
+    {
+        id: "assign_to_agent",
+        name: "代理客户"
+    },
+    {
+        id: "agent",
+        name: "代理"
+    }
+]

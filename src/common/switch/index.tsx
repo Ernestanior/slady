@@ -7,7 +7,7 @@ interface IProps{
     marginTop?: number;
 }
 
-const SwitchP:FC<IFormComponent & IProps & ISwitchValue> = ({label, marginTop, trueValue, falseValue, value, onChange}) => {
+const SwitchP:FC<IFormComponent & IProps & ISwitchValue> = ({label, marginTop, trueValue, falseValue, value, onChange, disable}) => {
     let checked: boolean;
     if(typeof trueValue !== 'undefined'){
         checked = value === trueValue
@@ -37,7 +37,7 @@ const SwitchP:FC<IFormComponent & IProps & ISwitchValue> = ({label, marginTop, t
                 {label}
             </Col>
             <Col span={16}>
-                <Switch checked={checked} onChange={_onChange} />
+                <Switch disabled={disable} checked={checked} onChange={_onChange} />
             </Col>
         </Row>
     }
