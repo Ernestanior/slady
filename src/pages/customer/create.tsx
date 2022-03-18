@@ -24,6 +24,9 @@ const CreateCustomer:FC = () => {
     // 创建客户
     const createCustomer = useCallback(() => {
         let data = form.getFieldsValue();
+        if(data.email){
+            data.email = data.email.trim();
+        }
         // 创建的带宽单位是MB，后台接受的带宽是B
         data.limitBandwidth = data.limitBandwidth * 1000000;
         data = analysisDnsServer(data);

@@ -28,6 +28,9 @@ const ModifyCustomer:FC = () => {
     const modifyCustomer = useCallback(() => {
         let data = form.getFieldsValue();
         data = {...customer, ...data}
+        if(data.email){
+            data.email = data.email.trim();
+        }
         // 创建的带宽单位是MB，后台接受的带宽是B
         data.limitBandwidth = data.limitBandwidth * 1000000;
         data = analysisDnsServer(data);
