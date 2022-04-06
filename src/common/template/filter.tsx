@@ -3,6 +3,7 @@ import {Button, Col, Form, Row, Space} from "antd";
 import {useForm} from "antd/es/form/Form";
 import {ISubmitModule} from "@/common/interface";
 import useSubmitEvent from "@/hooks/utils/useSubmitEvent";
+import {trimAndRemoveUndefined} from "@/common/utils";
 
 const Filter:FC<ISubmitModule> = ({submit, children}) => {
 
@@ -10,8 +11,8 @@ const Filter:FC<ISubmitModule> = ({submit, children}) => {
 
     const submitEvent = useCallback(() => {
         const values = form.getFieldsValue();
-        console.log("filter", values);
-        submit && submit(values)
+        // 对所有属性进行trim
+        submit && submit(trimAndRemoveUndefined(values))
     }, [form, submit])
 
     const submitTrigger = useSubmitEvent(submitEvent)

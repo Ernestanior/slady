@@ -180,7 +180,7 @@ const columns: TableColumnProps<any>[] = [
                 </Status>
             }
             let leftTime = 0;
-            const endDate = moment(data.probationStart).add(data.probationPeriod + 1, "day")
+            const endDate = moment(data.probationStart, "YYYY/MM/DD").add(data.probationPeriod + 1, "day")
             if(moment().isBefore(endDate)){
                 leftTime = endDate.diff(moment(), "day");
             }
