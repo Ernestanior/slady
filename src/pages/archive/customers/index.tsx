@@ -24,7 +24,7 @@ const ArchiveCustomer:FC = () => {
                 dataIndex: "opt",
                 width: 260,
                 render(_:any, data:any){
-                    return <ConfirmButton info="确定恢复此用户？" submit={() => { reOpenCustomer(data) }}>重启客户</ConfirmButton>
+                    return <ConfirmButton info={`确定恢复此用户${data.name}？`} submit={() => { reOpenCustomer(data) }}>重启客户</ConfirmButton>
                 }
             }
         ]

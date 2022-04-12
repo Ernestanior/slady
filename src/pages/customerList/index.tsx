@@ -103,9 +103,9 @@ const CustomerList:FC = () => {
                 render(_:any, data:any){
                     return <Space>
                         <Button onClick={() => { modify(data) }}>修改</Button>
-                        {data.status === 1 && <ConfirmButton info="确定禁用此客户？" submit={() => { disable(data) }}>禁用</ConfirmButton>}
-                        {data.status !== 1 && <ConfirmButton info="确定启用此客户？" submit={() => { enable(data) }}>启用</ConfirmButton>}
-                        <ConfirmButton info="确定删除此客户？" submit={() => { deleteCustomer(data) }}>删除</ConfirmButton>
+                        {data.status === 1 && <ConfirmButton info={`确定禁用此客户${data.name}？`} submit={() => { disable(data) }}>禁用</ConfirmButton>}
+                        {data.status !== 1 && <ConfirmButton info={`确定启用此客户${data.name}？`} submit={() => { enable(data) }}>启用</ConfirmButton>}
+                        <ConfirmButton info={`确定删除此客户${data.name}？`} submit={() => { deleteCustomer(data) }}>删除</ConfirmButton>
                     </Space>
                 }
             }
