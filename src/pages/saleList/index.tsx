@@ -69,7 +69,7 @@ const SaleList:FC = () => {
                     return <Space>
                         {showAssign && <Button onClick={() => { reAssignCustomer(data) }}>分配客户</Button>}
                         <Button onClick={() => { modify(data) }}>修改</Button>
-                        <ConfirmButton info={`确定删除此用户${data.name}？`} submit={() => { deleteUser(data) }}>删除</ConfirmButton>
+                        <ConfirmButton info={`确定删除此用户${data.name}/${data.email}？`} submit={() => { deleteUser(data) }}>删除</ConfirmButton>
                     </Space>
                 }
             }
