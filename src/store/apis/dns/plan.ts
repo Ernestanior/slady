@@ -29,6 +29,18 @@ class PlanAPI {
         return config;
     }
 
+    FindPlanListQuery = (params: {}, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/dns/plan/list/query',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
     /**
      * increasePlanQuota
      * 生成请求参数

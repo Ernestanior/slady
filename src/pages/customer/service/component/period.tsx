@@ -12,8 +12,8 @@ interface IProps{
 }
 
 const Period:FC<IFormComponent & IProps> = ({onChange, start, end}) => {
-    const [startDate, setStartDate] = useState<moment.Moment>(moment(start));
-    const [endDate, setEndDate] = useState<moment.Moment>(moment(end))
+    const [startDate, setStartDate] = useState<moment.Moment>(moment(start, "YYYY/MM/DD"));
+    const [endDate, setEndDate] = useState<moment.Moment>(moment(end, "YYYY/MM/DD"))
     const rangeChange = (e:any) => {
         if(typeof e === "number"){
             // 设置end
