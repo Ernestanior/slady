@@ -81,10 +81,10 @@ class CustomerAPI {
      * 根据当前登录用户返回客户列表
      * 生成请求参数
      */
-    FindCustomerList = (params: IFindCustomerListParams, data: {}) => {
+    FindCustomerList = (params: {}, data: IFindCustomerListParams) => {
         const config: AxiosRequestConfig = {
             url: '/customer/find-customer-list',
-            method: 'get',
+            method: 'post',
             params,
             data
         };
