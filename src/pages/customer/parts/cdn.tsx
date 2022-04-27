@@ -1,26 +1,17 @@
-import {FC, useMemo} from "react";
+import {FC} from "react";
 import {IObserverForm} from "@/hoc/createObserverForm";
 import useObserver from "@/hoc/useObserver";
 import {Col, Input, InputNumber, Row} from "antd";
 import FormItem from "@/common/Form/formItem";
 import SelectP from "@/common/select";
 import SwitchP from "@/common/switch";
-import Period from "@/pages/customer/service/component/period";
-import moment from "moment";
 
 const CDN:FC<IObserverForm> = ({data$, form}) => {
     const formData = useObserver(data$, {
         isModify: false,
         cdnServiceFlag: 1,
-        probation: 1,
-        probationStart: moment().format("YYYY/MM/DD"),
-        probationPeriod: 15,
         type: "normal"
     })
-
-    const startDate = useMemo(() => {
-        return moment(formData.probationStart, "YYYY/MM/DD")
-    }, [formData.probationStart])
 
     return <section className="cdn-block">
         <Row gutter={15}>
@@ -38,13 +29,7 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
         </Row>
         <Row gutter={15}>
             <FormItem noStyle hidden={!formData.cdnServiceFlag}>
-                <FormItem span={12} label="客户状态" name='probation' initialValue={1}>
-                    <SelectP data={customerStatus} />
-                </FormItem>
-                <FormItem  hidden={formData.probation === customerStatus[0].id} span={12} />
-                <FormItem hidden={formData.probation !== customerStatus[0].id} span={12} label="试用期" name="probationPeriod" initialValue={15}>
-                    <Period startDate={startDate} />
-                </FormItem>
+
                 <FormItem noStyle span={12} name="type" initialValue='normal'>
                     <SwitchP
                         disable={formData.isModify}
@@ -152,17 +137,6 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
 }
 
 export default CDN
-
-const customerStatus = [
-    {
-        id: 1,
-        name: '试用'
-    },
-    {
-        id: 0,
-        name: '正式'
-    }
-]
 
 // defence limit
 const defenceLimitList = [

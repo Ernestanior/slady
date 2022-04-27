@@ -62,7 +62,7 @@ const SelectP: FC<ISelectProps & {value?: any; data: ISelectItem[] | string[] | 
             optionFilterProp="label"
             allowClear={emptyOption}
         >
-            {dataList.map((item: any, index: number) => {
+            {dataList.map((item: any) => {
                 if (typeof item === "number" || typeof item === "string") {
                     return (
                         <Select.Option key={item} value={item} label={upperCasePlx(item)}>
@@ -74,7 +74,7 @@ const SelectP: FC<ISelectProps & {value?: any; data: ISelectItem[] | string[] | 
                 let text = item[textKey]
                 return (
                     <Select.Option
-                        key={index}
+                        key={item[idKey]}
                         value={item[idKey]}
                         label={item[textKey]}
                     >

@@ -1,10 +1,10 @@
 import {Form, FormInstance} from "antd";
 import {FC, useCallback, useEffect} from "react";
-import {useForm} from "antd/es/form/Form";
 import {BehaviorSubject} from "rxjs";
 import {FormLayout} from "antd/lib/form/Form";
 import {getValueFromForm} from "@/common/utils";
 import ConditionShow from "@/common/conditionShow";
+import useObserverForm from "@/hoc/useObserverForm";
 
 export interface IObserverForm{
     form: FormInstance;
@@ -32,7 +32,7 @@ function createObserverForm <S>(FormPart: FC<IObserverForm>, config: IConfigModu
     const data$ = new BehaviorSubject<S>({} as S)
 
     const RTForm:FC<UIInterface> = ({children, visible}) => {
-        const [form] = useForm();
+        const [form, formPlx] = useObserverForm(data$);
 
         useEffect(() => {
             const sub = data$.subscribe(data => {
@@ -54,11 +54,10 @@ function createObserverForm <S>(FormPart: FC<IObserverForm>, config: IConfigModu
                     ...dataMerge
                 })
             }
-
         }, [])
 
         const el = <Form form={form} onFieldsChange={mergeFieldChange} {...config}>
-            <FormPart data$={data$} form={form} >
+            <FormPart data$={data$} form={formPlx} >
                 {children}
             </FormPart>
         </Form>

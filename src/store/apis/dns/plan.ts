@@ -41,6 +41,29 @@ class PlanAPI {
         return config;
     }
 
+    QueryNodeListByPlan = (params: { planId: number | null }, data:any) => {
+        const config: AxiosRequestConfig = {
+            url: '/dns/node/list/by-plan',
+            method: 'get',
+            params,
+            data
+        };
+        config.headers = {};
+        return config;
+    }
+
+    FindListByPlanIdAndCustomerId = (params: {}, data: { planId?: number, customerId?: number }) => {
+        const config: AxiosRequestConfig = {
+            url: '/dns/name-server/list/available/by-customer',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
     /**
      * increasePlanQuota
      * 生成请求参数
