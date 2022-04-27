@@ -10,7 +10,7 @@ import ModifyCustomer from "@/pages/customer/parts/modifyCustomer";
 
 
 const ModifyCustomerPage:FC = () => {
-    const [customer, setCustomer] = useState<any>()
+    const [customer, setCustomer] = useState<any>(null)
     const url = useRouteMatch<{ id: string, type: string }>("/customer/modify/:type/:id");
     const id = useMemo(() => {
         if(url && url.params){
@@ -89,7 +89,7 @@ const ModifyCustomerPage:FC = () => {
                 客户: {customer && customer.name}
             </Breadcrumb.Item>
         </Breadcrumb>
-        <ModifyCustomer.UI />
+        <ModifyCustomer.UI visible={!!customer} />
     </section>
 }
 

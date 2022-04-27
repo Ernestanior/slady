@@ -1,57 +1,34 @@
-import {FC, useCallback, useState} from "react";
+import {FC, useMemo} from "react";
+import {IObserverForm} from "@/hoc/createObserverForm";
+import useObserver from "@/hoc/useObserver";
 import {Col, Input, InputNumber, Row} from "antd";
 import FormItem from "@/common/Form/formItem";
-import SwitchP from "@/common/switch";
 import SelectP from "@/common/select";
+import SwitchP from "@/common/switch";
 import Period from "@/pages/customer/service/component/period";
-import {IAsyncEventModule, IDisableModule} from "@/common/interface";
-import {queryValue} from "@/common/utils";
 import moment from "moment";
-import useSubscribe from "@/common/event/useSubscribe";
 
-interface IProps{
-    initialSwitch?: 1 | 0
-}
+const CDN:FC<IObserverForm> = ({data$, form}) => {
+    const formData = useObserver(data$, {
+        isModify: false,
+        cdnServiceFlag: 1,
+        probation: 1,
+        probationStart: moment().format("YYYY/MM/DD"),
+        probationPeriod: 15,
+        type: "normal"
+    })
 
-const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwitch,  event$, disableProperty}) => {
-    // cdn服务开关
-    const defaultInitCdnServiceFlag = queryValue(initialSwitch, 0);
-    const [cdnServiceFlag, setCdnServiceFlag] = useState(defaultInitCdnServiceFlag);
-    // 正式 or 测试
-    const [probation, setProbation] = useState(customerStatus[0].id)
-    // cdn 客户类型，normal， cname
-    const [type, setType] = useState("normal");
-
-    // 开始时间
-    const [startDate, setStartDate] = useState(moment().format("YYYY/MM/DD"));
-
-    // 结束时间
-    const [endDate, setEndDate] = useState(moment().add(15, "day").format("YYYY/MM/DD"))
-
-    // 表单变动，重载其他值
-    const setAsyncData = useCallback((data) => {
-        setCdnServiceFlag(queryValue(data.cdnServiceFlag, defaultInitCdnServiceFlag))
-        setProbation(queryValue(data.probation, customerStatus[0].id))
-        setType(data.type || "normal")
-        setStartDate(queryValue(data.probationStart, moment().format("YYYY/MM/DD")))
-        if(typeof data.probationPeriod !== "undefined"){
-            setEndDate(moment(data.probationStart).add(data.probationPeriod, "day").format("YYYY/MM/DD"))
-        }
-    }, [defaultInitCdnServiceFlag])
-
-    const init = useSubscribe(setAsyncData, event$)
-
-    if(!init){
-        return null;
-    }
+    const startDate = useMemo(() => {
+        return moment(formData.probationStart, "YYYY/MM/DD")
+    }, [formData.probationStart])
 
     return <section className="cdn-block">
         <Row gutter={15}>
-            <Col className={`cdn-block-title ${cdnServiceFlag !== 1 ? "without-bottom": ""}`} flex={1}>
+            <Col className="cdn-block-title" flex={1}>
                 CDN套餐信息
             </Col>
             <Col>
-                <FormItem noStyle name="cdnServiceFlag" initialValue={cdnServiceFlag}>
+                <FormItem noStyle name="cdnServiceFlag" initialValue={1}>
                     <SwitchP
                         trueValue={1}
                         falseValue={0}
@@ -60,36 +37,39 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
             </Col>
         </Row>
         <Row gutter={15}>
-            <FormItem noStyle hidden={!cdnServiceFlag}>
-                <FormItem span={12} label="客户状态" name='probation' initialValue={probation}>
+            <FormItem noStyle hidden={!formData.cdnServiceFlag}>
+                <FormItem span={12} label="客户状态" name='probation' initialValue={1}>
                     <SelectP data={customerStatus} />
                 </FormItem>
-                <FormItem  hidden={probation === customerStatus[0].id} span={12} />
-                <FormItem hidden={probation !== customerStatus[0].id} span={12} label="试用期" name="probationPeriod" initialValue={15}>
-                    <Period
-                        start={startDate}
-                        end={endDate}
-                    />
+                <FormItem  hidden={formData.probation === customerStatus[0].id} span={12} />
+                <FormItem hidden={formData.probation !== customerStatus[0].id} span={12} label="试用期" name="probationPeriod" initialValue={15}>
+                    <Period startDate={startDate} />
                 </FormItem>
                 <FormItem noStyle span={12} name="type" initialValue='normal'>
                     <SwitchP
-                        disable={!!disableProperty && disableProperty.type}
+                        disable={formData.isModify}
                         label="Managed CNAME"
                         trueValue="cname"
                         falseValue="normal"
                     />
                 </FormItem>
                 <FormItem
-                    hidden={type !== "normal"}
+                    hidden={formData.type !== "normal"}
                     label="域名额度"
                     name="limitMasterDomains"
                     initialValue={5}
                     span={12}
                 >
-                    <InputNumber />
+                    <InputNumber
+                        onChange={e => {
+                            form.setFieldsValue({
+                                limitCerts: e
+                            })
+                        }}
+                    />
                 </FormItem>
                 <FormItem
-                    hidden={type !== "cname"}
+                    hidden={formData.type !== "cname"}
                     label="可添加站点数"
                     name="limitCnames"
                     initialValue={1}
@@ -130,7 +110,7 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
                 </FormItem>
                 <FormItem
                     span={12}
-                    hidden={type !== "cname"}
+                    hidden={formData.type !== "cname"}
                     label="mcn单个站点上传证书限制"
                     name="limitSiteCerts"
                     initialValue={1}
@@ -138,7 +118,7 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
                     <InputNumber />
                 </FormItem>
                 <FormItem
-                    hidden={type !== "normal"}
+                    hidden={formData.type !== "normal"}
                     span={12}
                     label="证书额度"
                     name="limitCerts"
@@ -148,7 +128,7 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
                 </FormItem>
                 <FormItem
                     span={12}
-                    hidden={type !== "normal"}
+                    hidden={formData.type !== "normal"}
                     label="自定义端口额度"
                     name="limitCustomPorts"
                     initialValue={5}
@@ -171,7 +151,7 @@ const CdnService:FC<IProps & IAsyncEventModule & IDisableModule> = ({initialSwit
     </section>
 }
 
-export default CdnService
+export default CDN
 
 const customerStatus = [
     {

@@ -1,4 +1,4 @@
-import {FC, useMemo, useState} from "react";
+import {FC, useMemo} from "react";
 import {Col, Row, DatePicker, InputNumber, Space} from "antd";
 import {IFormComponent} from "@/common/interface";
 import moment from "moment";
@@ -7,27 +7,31 @@ import {WarningOutlined} from "@ant-design/icons";
 const { RangePicker } = DatePicker;
 
 interface IProps{
-    start: string;
-    end: string;
+    startDate: moment.Moment;
 }
 
-const Period:FC<IFormComponent & IProps> = ({onChange, start, end}) => {
-    const [startDate, setStartDate] = useState<moment.Moment>(moment(start, "YYYY/MM/DD"));
-    const [endDate, setEndDate] = useState<moment.Moment>(moment(end, "YYYY/MM/DD"))
-    const rangeChange = (e:any) => {
-        if(typeof e === "number"){
-            // 设置end
-            const _endDate = startDate.clone().add(e, "day")
-            setEndDate(_endDate)
-            onChange && onChange(_endDate.diff(startDate, 'day'))
+const Period:FC<IFormComponent<number> & IProps> = ({onChange, startDate, value}) => {
+    const endDate = useMemo(() => {
+        if(value){
+            return startDate.clone().add(value, "day")
         }
-    };
+        return startDate.clone()
+    }, [value, startDate])
 
     const displayRange = useMemo(() => {
         // 测试日期已经早于今日结束
         const range = endDate.diff(startDate, "day");
         return range > 0 ? range : 0;
     }, [startDate, endDate])
+
+
+    const rangeChange = (e:any) => {
+        if(typeof e === "number"){
+            if(e !== displayRange){
+                onChange && onChange(e)
+            }
+        }
+    };
 
     return <Row gutter={15}>
         <Col span={6}>
@@ -44,10 +48,8 @@ const Period:FC<IFormComponent & IProps> = ({onChange, start, end}) => {
                             let _endDate = endDate;
                             if(values[0]){
                                 _startDate = values[0];
-                                setStartDate(values[0])
                             }
                             if(values[1]){
-                                setEndDate(values[1])
                                 _endDate = values[1];
                             }
                             onChange && onChange(_endDate.diff(_startDate, 'day'))

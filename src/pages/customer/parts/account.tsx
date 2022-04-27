@@ -52,6 +52,9 @@ const Account:FC<IObserverForm> = ({data$}) => {
             <FormItem hidden span={12} label="DNS Value" name="dnsValue">
                 <Input />
             </FormItem>
+            <FormItem hidden name="id" initialValue={0}>
+                <Input />
+            </FormItem>
         </Row>
     </section>
 }

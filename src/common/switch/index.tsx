@@ -32,7 +32,7 @@ const SwitchP:FC<IFormComponent & IProps & ISwitchValue> = ({label, marginTop, t
 
     // inline
     if(label){
-        return <Row gutter={15} style={{marginBottom: 10, marginTop: marginTop || 30, lineHeight: "30px"}} align="middle">
+        return <Row gutter={15} style={{marginBottom: 12, marginTop: marginTop || 30, lineHeight: "30px"}} align="middle">
             <Col span={8}>
                 {label}
             </Col>

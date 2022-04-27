@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from "react";
 import {IObserverForm} from "@/hoc/createObserverForm";
-import {Col, Input, Row} from "antd";
+import {Col, Input, Row, Select} from "antd";
 import FormItem from "@/common/Form/formItem";
 import SelectP from "@/common/select";
 import useObserver from "@/hoc/useObserver";
@@ -11,8 +11,11 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
     const formData = useObserver(data$, {
         isModify: false,
         dnsServiceFlag: 0,
-        dedicatedPlanFlag: 1,
-        customNodeFlag: 0
+        //自定义NS
+        customNSFlag: 0,
+        //使用自定义节点IP
+        customNodeFlag: 0,
+        nsServers: []
     })
 
     const planList = useDnsPlanList();
@@ -39,20 +42,29 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
         </Row>
         <Row gutter={15}>
             <FormItem noStyle hidden={!formData.dnsServiceFlag}>
-                <FormItem hidden={!formData.dedicatedPlanFlag} span={12} label="域名套餐" name="dedicatedPlanId">
+                <FormItem span={12} label="域名套餐" name="dedicatedPlanId">
                     <SelectP data={planList} />
                 </FormItem>
-                <FormItem noStyle span={12} name="dedicatedPlanFlag" initialValue={1}>
-                    <SwitchP marginTop={!formData.dedicatedPlanFlag ? 1 : undefined} label="锁定域名套餐" trueValue={1} falseValue={0} />
-                </FormItem>
-                <FormItem hidden={!formData.dedicatedPlanFlag} span={12} label="域名套餐额度" name="limitDedicatedPlans" initialValue={5}>
+                <FormItem hidden name="dedicatedPlanFlag" label="锁定域名套餐" initialValue={1}>
                     <Input />
+                </FormItem>
+                <FormItem span={12} label="域名套餐额度" name="limitDedicatedPlans" initialValue={5}>
+                    <Input />
+                </FormItem>
+                <FormItem noStyle span={12} name="customNSFlag" initialValue={0}>
+                    <SwitchP label="自定义NS" trueValue={1} falseValue={0} />
+                </FormItem>
+                <FormItem span={12} label="DNS服务器" name="nsServers">
+                    <SelectP data={[]} />
+                </FormItem>
+                <FormItem span={24} label="自定义DNS服务器" hidden={false} name="customNsServer" initialValue={[]}>
+                    <Select mode="tags" tokenSeparators={[" ", ",", ";"]} />
                 </FormItem>
                 <FormItem noStyle span={12} name="customNodeFlag" initialValue={0}>
                     <SwitchP marginTop={15} label="使用自定义节点IP" trueValue={1} falseValue={0} />
                 </FormItem>
                 <FormItem span={24} hidden={!formData.customNodeFlag} name="customNodeIps" initialValue={[]}>
-                    <SelectP mode="tags" data={[]} />
+                    <Select mode="tags" tokenSeparators={[" ", ",", ";"]} />
                 </FormItem>
             </FormItem>
         </Row>
@@ -60,3 +72,7 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
 }
 
 export default DNS
+
+export function loadDnsData(){
+
+}

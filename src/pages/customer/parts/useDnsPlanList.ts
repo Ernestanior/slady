@@ -9,7 +9,10 @@ const useDnsPlanList = () => {
     useEffect(() => {
         const sub = from(request<any[]>(dnsPlanService.FindPlanListQuery({}, {visibility: 1,}))).subscribe(res => {
             if(res.isSuccess && res.result){
-                setDataList(res.result)
+                setDataList(res.result.map(item => ({
+                    ...item,
+                    name: zhMap[item.name]
+                })))
             }
         })
         return () => sub.unsubscribe()
@@ -19,3 +22,10 @@ const useDnsPlanList = () => {
 }
 
 export default useDnsPlanList
+
+const zhMap:any = {
+    'free': "免费版",
+    'standard': "标准版",
+    'enterprise': "企业版",
+    'customised': "定制版",
+}
