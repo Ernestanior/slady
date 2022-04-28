@@ -8,6 +8,7 @@ import SwitchP from "@/common/switch";
 import useDnsPlanList from "@/pages/customer/parts/useDnsPlanList";
 import useDnsServerList from "@/pages/customer/parts/useDnsServerList";
 import useCustomIPList from "@/pages/customer/parts/useCustomIPList";
+import useUpdateRef from "@/hoc/useUpdateRef";
 
 const customNS = {
     id: "custom",
@@ -43,7 +44,7 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
     useEffect(() => {
         if(Array.isArray(dnsServiceList) && dnsServiceList.length > 0){
             form.setFieldsValue({
-                nsServers: dnsServiceList[0].id
+                nameServerList: dnsServiceList[0].id
             })
         }
     }, [dnsServiceList, form])
@@ -61,11 +62,11 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
         if(!formData.customNameServerFlag){
             if(dnsServiceList.length > 0){
                 form.setFieldsValue({
-                    nsServers: dnsServiceList[0].id
+                    nameServerList: dnsServiceList[0].id
                 })
             }else{
                 form.setFieldsValue({
-                    nsServers: ""
+                    nameServerList: ""
                 })
             }
         }
@@ -73,6 +74,24 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
 
     // 自定义节点列表
     const customNodeList = useCustomIPList(formData.dedicatedPlanId);
+
+    const customNameServerFlagRef = useUpdateRef(formData.customNameServerFlag)
+    const nameServerListRef = useUpdateRef(formData.nameServerList);
+
+    // 如何判断自定义NS服务器
+    useEffect(() => {
+        if(formData.isModify){
+            if(customNameServerFlagRef.current && nameServerListRef.current){
+                // 编辑内容，如果开启了自定义NS，并且可选择列表中不存在NS，则认为NS是自定义的
+                if(!dnsServiceList.find(server => server.id === nameServerListRef.current)){
+                    form.setFieldsValue({
+                        nameServerList: customNS.id,
+                        customNameServerList: nameServerListRef.current.split(",")
+                    })
+                }
+            }
+        }
+    }, [formData.isModify, customNameServerFlagRef, nameServerListRef, dnsServiceList, form])
 
     return <section className="cdn-block">
         <Row gutter={15}>
@@ -134,5 +153,7 @@ export function setDnsData(data: any){
                 }
             }
         }
+        delete data.customNameServerList
     }
+    return data
 }

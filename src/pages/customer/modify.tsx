@@ -48,6 +48,7 @@ const ModifyCustomerPage:FC = () => {
                         setCustomer(_customer)
                         ModifyCustomer.loadData({
                             ..._customer,
+                            nameServerList: Array.isArray(_customer.nameServerList) ? _customer.nameServerList.join(",") : "",
                             isModify: true
                         })
                     }

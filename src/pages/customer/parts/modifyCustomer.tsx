@@ -29,7 +29,7 @@ const CustomerForm:FC<IObserverForm> = ({form, data$}) => {
         customerType: E_L_USER_TYPE[0].id
     })
 
-    const createEvent = useCallback(() => {
+    const modifyEvent = useCallback(() => {
         let data = form.getFieldsValue();
         if(data.email){
             data.email = data.email.trim();
@@ -85,7 +85,7 @@ const CustomerForm:FC<IObserverForm> = ({form, data$}) => {
         <section style={{ marginTop: 15 }}>
             <Description />
         </section>
-        <Footer marginBottom={30} submit={createEvent} cancel={() => { historyService.push("/customer") }} />
+        <Footer marginBottom={30} submit={modifyEvent} cancel={() => { historyService.push("/customer") }} />
     </section>
 }
 
