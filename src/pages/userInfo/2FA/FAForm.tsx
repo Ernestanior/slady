@@ -12,6 +12,7 @@ import PIN from "@/pages/userInfo/2FA/pin";
 import {from} from "rxjs";
 import request from "@/store/request";
 import {authService} from "@/store/apis/account";
+import accountService from "@/store/account/service";
 
 const FAFormItem:FC<IObserverForm> = ({data$, cb, form}) => {
     const formData = useObserver(data$, {
@@ -42,6 +43,7 @@ const FAFormItem:FC<IObserverForm> = ({data$, cb, form}) => {
         if(data.authFlag === -1){
             from(request(authService.DisableTwoFactorAuth({}, {}))).subscribe(res => {
                 if(res.isSuccess){
+                    accountService.reloadInfo();
                     closeEvent();
                 }
             })
@@ -53,6 +55,7 @@ const FAFormItem:FC<IObserverForm> = ({data$, cb, form}) => {
             pin: data.pin
         }))).subscribe(res => {
             if(res.isSuccess){
+                accountService.reloadInfo();
                 closeEvent();
             }
         })
