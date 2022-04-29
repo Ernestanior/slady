@@ -46,10 +46,10 @@ const DualAuth2FAGuide: FC = () => {
                             在移动设备上输入双重认证的程序代码
                         </p>
                         <div className={'faBtn'}>
-                            <Button htmlType="submit">
+                            <Button className="remove-hover" htmlType="submit">
                                 认证代码
                             </Button>
-                            <Button className={'btn-return'} htmlType="submit" onClick={() => accountService.autoLogout()}>
+                            <Button className={'btn-return remove-hover'} htmlType="submit" onClick={() => accountService.autoLogout()}>
                                 返回
                             </Button>
                         </div>
