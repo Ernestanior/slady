@@ -31,12 +31,18 @@ requestPlx.middleware_before.use(async (config, next) => {
 requestPlx.middleware_after.use(async (rep, next) => {
     if(rep.status !== 200){
         rep.data = {
+            ...rep.data,
             isSuccess: false,
             result: rep.statusText,
-            message: rep.statusText
+            message: rep.statusText,
         };
         if(rep.status === 401){
-            accountService.sessionExpired();
+            console.log(rep.data.code)
+            if(rep.data && rep.data.code === 460){
+                accountService.active2FAuthFail();
+            }else{
+                accountService.sessionExpired();
+            }
         }else{
             notification.error({
                 message: rep.status,

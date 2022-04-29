@@ -25,6 +25,8 @@ class Account{
     readonly info$ = new BehaviorSubject<IAccountInfo | null>(null);
     readonly saleInfo$ = new BehaviorSubject<ISaleInfo | null>(null);
     readonly loginState$ = new BehaviorSubject<E_LOGIN_STATE>(E_LOGIN_STATE.pending);
+    /** 二级验证 */
+    readonly auth2FAuth$ = new BehaviorSubject(true);
 
     constructor() {
         this.info$.pipe(skip(1)).subscribe(info => {
@@ -107,6 +109,14 @@ class Account{
         }
 
         return !!token
+    }
+
+    active2FAuthFail = () => {
+        this.auth2FAuth$.next(false);
+    }
+
+    reset2FAuth = () => {
+        window.location.reload();
     }
 }
 
