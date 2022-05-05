@@ -20,7 +20,7 @@ export interface IAccountInfo{
      */
     pwdStatus: 0 | 1 | 2;
     /**启用2FA校验 */
-    authFlag: -1 | 1 | 2;
+    authFlag: -1 | 1;
     // token过期时间
     sessionExpire: number
 }

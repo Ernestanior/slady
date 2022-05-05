@@ -6,7 +6,7 @@ import {getValueFromForm} from "@/common/utils";
 import ConditionShow from "@/common/conditionShow";
 import useObserverForm from "@/hoc/useObserverForm";
 
-export interface IObserverForm{
+export interface IObserverForm extends ICallbackModule{
     form: FormInstance;
     data$: BehaviorSubject<any>
 }
@@ -23,15 +23,19 @@ interface UIInterface{
     visible?: boolean
 }
 
+interface ICallbackModule{
+    cb?: () => void
+}
+
 interface ICreateObserverFrom<S>{
-    UI: FC<UIInterface>,
+    UI: FC<UIInterface & ICallbackModule>,
     loadData: (data: S) => void
 }
 
 function createObserverForm <S>(FormPart: FC<IObserverForm>, config: IConfigModule){
     const data$ = new BehaviorSubject<S>({} as S)
 
-    const RTForm:FC<UIInterface> = ({children, visible}) => {
+    const RTForm:FC<UIInterface & ICallbackModule> = ({children, visible, cb}) => {
         const [form, formPlx] = useObserverForm(data$);
 
         useEffect(() => {
@@ -57,7 +61,7 @@ function createObserverForm <S>(FormPart: FC<IObserverForm>, config: IConfigModu
         }, [])
 
         const el = <Form form={form} onFieldsChange={mergeFieldChange} {...config}>
-            <FormPart data$={data$} form={formPlx} >
+            <FormPart data$={data$} form={formPlx} cb={cb}>
                 {children}
             </FormPart>
         </Form>

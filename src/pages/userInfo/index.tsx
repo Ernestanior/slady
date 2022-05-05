@@ -3,10 +3,10 @@ import {Col, Divider, Row} from "antd";
 import ModifyPassword from "@/pages/userInfo/modifyPassword";
 import useSaleInfo from "@/store/account/useSaleInfo";
 import Safety from "@/pages/userInfo/safety";
+import FA2 from "@/pages/userInfo/2FA";
 
 const UserInfo:FC = () => {
     const saleInfo = useSaleInfo();
-    console.log(saleInfo)
     return <section style={{ width: 450, padding: 15 }}>
         <p style={{fontWeight: "bolder", fontSize: "1.2em"}}>
             个人中心
@@ -32,6 +32,9 @@ const UserInfo:FC = () => {
             </Col>
             <Col span={8}>
                 <Safety />
+            </Col>
+            <Col span={8}>
+                <FA2 />
             </Col>
         </Row>
     </section>

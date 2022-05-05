@@ -43,6 +43,64 @@ class AuthAPI {
         return config;
     }
 
+    /**
+     * 获取二维码
+     */
+    ViewTwoFactorAuth = (params: {}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/user/view/two-factor-auth',
+            method: 'get',
+            params,
+            data
+        };
+        config.headers = {};
+        return config;
+    }
+
+    /**
+     * EnableTwoFactorAuth
+     * 生成请求参数
+     */
+    EnableTwoFactorAuth = (params: {}, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/user/enable/two-factor-auth',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
+    DisableTwoFactorAuth = (params: {}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/user/disable/two-factor-auth',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
+    /**
+     * validateTwoFactorPin
+     * 生成请求参数
+     */
+    validateTwoFactorPin = (params: {}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/user/validate/two-factor-pin',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
 }
 export default AuthAPI;
 

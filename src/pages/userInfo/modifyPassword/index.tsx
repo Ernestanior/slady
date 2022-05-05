@@ -7,7 +7,6 @@ import MdyPwdForm from "@/pages/userInfo/modifyPassword/form";
 
 const ModifyPassword:FC = () => {
     const submit = useCallback( async (data: any) => {
-        console.log(data)
         if(data.newPwd !== data.confirmPwd){
             return  {
                 isSuccess: false

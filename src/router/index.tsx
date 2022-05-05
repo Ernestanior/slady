@@ -5,6 +5,8 @@ import Login from "@/pages/login";
 import accountService, {E_LOGIN_STATE} from "@/store/account/service";
 import useLoginState from "@/store/account/useLoginState";
 import LoadContext from "@/common/loading/context";
+import use2FAuthInfo from "@/store/account/use2FAuthInfo";
+import DualAuth2FAGuide from "@/pages/login/dualAuth2FAGuide";
 const ModuleProject = lazy(() => import("@/router/routes"));
 
 /**
@@ -14,6 +16,8 @@ const ModuleProject = lazy(() => import("@/router/routes"));
  */
 const ProjectRouter:FC = () => {
     const loginState = useLoginState();
+    /** 二级验证有效状态 */
+    const user2FAuthInfo = use2FAuthInfo();
 
     useEffect(() => {
         accountService.autoLogin()
@@ -32,6 +36,19 @@ const ProjectRouter:FC = () => {
                 <Redirect to="/login" />
             </Switch>
         </Router>;
+    }
+
+    if (!user2FAuthInfo) {
+        return (
+            <Router history={historyService}>
+                <Switch>
+                    <Route path="/verify-2fa">
+                        <DualAuth2FAGuide />
+                    </Route>
+                    <Redirect to="/verify-2fa" />
+                </Switch>
+            </Router>
+        )
     }
 
     return <Suspense fallback={<LoadContext />}>
