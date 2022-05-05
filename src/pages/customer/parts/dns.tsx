@@ -57,7 +57,7 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
         return dnsServiceList;
     }, [dnsServiceList, formData.customNameServerFlag])
 
-    // 当自定义NS功能关闭, 需要检测当前选中的内容是否为自定义, 如果是自定义，则自动切换
+    // 当自定义NS功能, 需要检测当前选中的内容是否为自定义, 如果是自定义，则自动切换为dns server中第一个
     useEffect(() => {
         if(!formData.customNameServerFlag){
             if(dnsServiceList.length > 0){
@@ -78,9 +78,10 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
     const customNameServerFlagRef = useUpdateRef(formData.customNameServerFlag)
     const nameServerListRef = useUpdateRef(formData.nameServerList);
 
+    const isModifyRef = useUpdateRef(formData.isModify)
     // 如何判断自定义NS服务器
     useEffect(() => {
-        if(formData.isModify){
+        if(isModifyRef.current){
             if(customNameServerFlagRef.current && nameServerListRef.current){
                 // 编辑内容，如果开启了自定义NS，并且可选择列表中不存在NS，则认为NS是自定义的
                 if(!dnsServiceList.find(server => server.id === nameServerListRef.current)){
@@ -91,7 +92,7 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
                 }
             }
         }
-    }, [formData.isModify, customNameServerFlagRef, nameServerListRef, dnsServiceList, form])
+    }, [isModifyRef, customNameServerFlagRef, nameServerListRef, dnsServiceList, form])
 
     return <section className="cdn-block">
         <Row gutter={15}>

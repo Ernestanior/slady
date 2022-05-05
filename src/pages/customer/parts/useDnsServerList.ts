@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {from} from "rxjs";
+import {delay, from} from "rxjs";
 import request from "@/store/request";
 import {dnsPlanService} from "@/store/apis/dns";
 
@@ -23,7 +23,9 @@ const useDnsServerList = (planId: number) => {
 
     useEffect(() => {
         if(planId !== -1){
-            const sub = from(request<IPlanServer[]>(dnsPlanService.FindListByPlanIdAndCustomerId({}, {planId}))).subscribe(res => {
+            const sub = from(request<IPlanServer[]>(dnsPlanService.FindListByPlanIdAndCustomerId({}, {planId})))
+                .pipe(delay(100))
+                .subscribe(res => {
                 if(res.isSuccess && res.result){
                     setServerList(res.result.map(server => {
                         return {
