@@ -15,6 +15,8 @@ import ArchiveDomains from "@/pages/archive/domains";
 import ArchiveCustomer from "@/pages/archive/customers";
 import CDNSiteList from "@/pages/cdn/site";
 import CDNDomains from "@/pages/cdn/domain";
+import NewsList from "@/pages/news/list";
+import NewsCreate from "@/pages/news/create";
 
 /**
  * 项目路由组件
@@ -64,6 +66,12 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/archive/customer">
                     <ArchiveCustomer />
+                </Route>
+                <Route path="/news/create">
+                    <NewsCreate />
+                </Route>
+                <Route path="/news">
+                    <NewsList />
                 </Route>
                 <Redirect to="/customer" />
             </Switch>

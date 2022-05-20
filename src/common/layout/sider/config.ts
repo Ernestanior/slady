@@ -52,6 +52,15 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
                 text: "归档域名"
             }
         ]
+    },
+    {
+        text: "官网设置",
+        childs: [
+            {
+                text: "新闻",
+                url: "/news"
+            }
+        ]
     }
 ]
 
