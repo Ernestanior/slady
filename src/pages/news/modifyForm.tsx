@@ -4,7 +4,7 @@ import requestNews from "@/store/request/requestNews"
 import {AxiosRequestConfig} from "axios";
 import {from} from "rxjs";
 import moment from "moment";
-import NewsForm from "@/pages/news/form";
+import NewsForm from "./form"
 import historyService from "@/store/history";
 
 const Form:FC<IObserverForm> = ({form}) => {
@@ -12,7 +12,7 @@ const Form:FC<IObserverForm> = ({form}) => {
     const submitNews = useCallback(() => {
         const data = form.getFieldsValue();
         const config: AxiosRequestConfig = {
-            url: "/api/information/add",
+            url: "/api/information/update",
             method: "post",
             data: {
                 publishDate: moment.isMoment(data.publishDate)
@@ -24,17 +24,15 @@ const Form:FC<IObserverForm> = ({form}) => {
             }
         }
         from(requestNews(config)).subscribe((res) => {
-            if(res.isSuccess){
-                historyService.goBack();
-            }
+            historyService.goBack();
         })
     }, [form])
 
     return <NewsForm submitNews={submitNews} />
 }
 
-const CreateNewsForm = createObserverForm(Form, {
+const ModifyNewsForm = createObserverForm(Form, {
     layout: "vertical"
 })
 
-export default CreateNewsForm;
+export default ModifyNewsForm;

@@ -1,14 +1,18 @@
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect, useMemo, useRef} from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
-import { IDomEditor, IEditorConfig } from '@wangeditor/editor'
+import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 import useUpdateRef from "@/hoc/useUpdateRef";
+import {uploadImageFile} from "@/pages/news/uploadImage";
+import {message} from "antd";
 
 interface IProps{
     value?: string;
     onChange?: (value: string) => void
 }
+
+type InsertFnType = (url: string) => void
 
 function MyEditor(props: IProps) {
     const [editor, setEditor] = useState<IDomEditor | null>(null) // 存储 editor 实例
@@ -16,10 +20,32 @@ function MyEditor(props: IProps) {
     const html = props.value;
     const setHtmlRef = useUpdateRef(props.onChange)
 
-    const toolbarConfig = { }
-    const editorConfig: Partial<IEditorConfig> = {
+    const toolbarConfig: Partial<IToolbarConfig> = useMemo(() => {
+        return {
+            excludeKeys: ["group-video"]
+        }
+    }, [])
+
+    const editorConfig = useRef<Partial<IEditorConfig>>({
         placeholder: '请输入内容...',
-    }
+        MENU_CONF: {
+            uploadImage: {
+                server: '/api/upload',
+                fieldName: "image",
+                async customUpload(file: File, insertFn: InsertFnType) {
+                    // file 即选中的文件
+                    // 自己实现上传，并得到图片 url alt href
+                    const res = await uploadImageFile(file)
+                    if(res.isSuccess && res.result && !res.result.errno){
+                        message.success("upload image successful !")
+                        insertFn(res.result.data.url)
+                    }else{
+                        message.error("upload image fail !")
+                    }
+                }
+            },
+        }
+    })
 
     // 及时销毁 editor ，重要！
     useEffect(() => {
@@ -40,7 +66,7 @@ function MyEditor(props: IProps) {
                     style={{ borderBottom: '1px solid #ccc' }}
                 />
                 <Editor
-                    defaultConfig={editorConfig}
+                    defaultConfig={editorConfig.current}
                     value={html}
                     onCreated={setEditor}
                     onChange={editor => {

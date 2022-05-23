@@ -23,7 +23,6 @@ requestNewPlx.middleware_before.use(async (config, next) => {
 // add Header - sign
 requestNewPlx.middleware_before.use(async (config, next) => {
     // prefix url
-    console.log(config)
     config.headers = config.headers || {};
     config.headers["Content-Type"] = "application/json"
     config.headers.appKey = appKey;
@@ -33,13 +32,11 @@ requestNewPlx.middleware_before.use(async (config, next) => {
 })
 
 requestNewPlx.middleware_after.use(async (rep, next) => {
-    console.log(rep)
     await next()
 })
 
 async function requestNews<T>(config: AxiosRequestConfig){
     const rep = await requestNewPlx.request(config);
-    console.log(rep)
     if(rep.data){
         if(rep.data.isSuccess){
             if(config.method && config.method.toUpperCase() === "POST"){

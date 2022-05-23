@@ -17,6 +17,7 @@ import CDNSiteList from "@/pages/cdn/site";
 import CDNDomains from "@/pages/cdn/domain";
 import NewsList from "@/pages/news/list";
 import NewsCreate from "@/pages/news/create";
+import NewsUpdate from "@/pages/news/update";
 
 /**
  * 项目路由组件
@@ -69,6 +70,9 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/news/create">
                     <NewsCreate />
+                </Route>
+                <Route path="/news/:id" exact>
+                    <NewsUpdate />
                 </Route>
                 <Route path="/news">
                     <NewsList />
