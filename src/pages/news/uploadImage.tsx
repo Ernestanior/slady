@@ -58,7 +58,7 @@ const UploadImage: FC<IFormComponent<string>> = ({value, onChange}) => {
                 <p className="ant-upload-drag-icon">
                     <CloudUploadOutlined />
                 </p>
-                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                <p className="ant-upload-text">Drag and drop a file here <br /> or </p>
                 <Button className="upload-area-button" type="primary" color="blue">Choose File</Button>
             </section>
         </Dragger>

@@ -8,9 +8,9 @@ import Footer from "@/common/Form/footer";
 import historyService from "@/store/history";
 import {ISubmit} from "@/common/interface";
 
-const NewsForm:FC<{submitNews: ISubmit}> = ({submitNews}) => {
+const NewsForm:FC<{submitNews: ISubmit, title: string}> = ({submitNews, title}) => {
     return <section style={{marginTop: 20}}>
-        <h3>新增动态</h3>
+        <h3>{title}</h3>
         <div className="new-form">
             <FormItem hidden name="uuid">
                 <Input />

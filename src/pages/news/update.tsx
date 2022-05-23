@@ -5,6 +5,7 @@ import ModifyNewsForm from "@/pages/news/modifyForm";
 import {from} from "rxjs";
 import {AxiosRequestConfig} from "axios";
 import requestNews from "@/store/request/requestNews";
+import moment from "moment";
 
 const NewsUpdate:FC = () => {
     const url = useRouteMatch<{ id: string, type: string }>("/news/:id");
@@ -29,7 +30,10 @@ const NewsUpdate:FC = () => {
             const sub = from(requestNews<any>(config)).subscribe(res => {
                 if(res.isSuccess){
                     if(res.result){
-                        ModifyNewsForm.loadData(res.result)
+                        ModifyNewsForm.loadData({
+                            ...res.result,
+                            publishDate: moment(res.result.publishDate, "YYYY-MM-DD HH:mm:ss")
+                        })
                     }
                 }
             })

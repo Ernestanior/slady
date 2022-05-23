@@ -28,7 +28,7 @@ const Form:FC<IObserverForm> = ({form}) => {
         })
     }, [form])
 
-    return <NewsForm submitNews={submitNews} />
+    return <NewsForm submitNews={submitNews} title="编辑动态" />
 }
 
 const ModifyNewsForm = createObserverForm(Form, {

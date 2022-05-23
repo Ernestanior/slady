@@ -30,7 +30,7 @@ const Form:FC<IObserverForm> = ({form}) => {
         })
     }, [form])
 
-    return <NewsForm submitNews={submitNews} />
+    return <NewsForm submitNews={submitNews} title="新增动态" />
 }
 
 const CreateNewsForm = createObserverForm(Form, {
