@@ -17,7 +17,7 @@ type InsertFnType = (url: string) => void
 function MyEditor(props: IProps) {
     const [editor, setEditor] = useState<IDomEditor | null>(null) // 存储 editor 实例
     // 编辑器内容
-    const html = props.value;
+    const html = useUpdateRef(props.value);
     const setHtmlRef = useUpdateRef(props.onChange)
 
     const toolbarConfig: Partial<IToolbarConfig> = useMemo(() => {
@@ -67,10 +67,12 @@ function MyEditor(props: IProps) {
                 />
                 <Editor
                     defaultConfig={editorConfig.current}
-                    value={html}
+                    value={html.current}
                     onCreated={setEditor}
                     onChange={editor => {
-                        setHtmlRef.current && setHtmlRef.current(editor.getHtml())
+                        if(editor.getHtml() !== props.value){
+                            setHtmlRef.current && setHtmlRef.current(editor.getHtml())
+                        }
                     }}
                     mode="default"
                     style={{ height: '500px', 'overflowY': 'hidden' }}

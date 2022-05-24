@@ -32,6 +32,51 @@ requestNewPlx.middleware_before.use(async (config, next) => {
 })
 
 requestNewPlx.middleware_after.use(async (rep, next) => {
+    if(!rep.data){
+        rep.data = {}
+    }
+    if(rep.status !== 200){
+        rep.data = {
+            isSuccess: false,
+            result: null,
+            message: "-"
+        }
+        // status - 200
+    }else{
+        // rep.data.errno
+        if(typeof rep.data.code === "undefined"){
+            // success
+            if(rep.data.errno === 0){
+                rep.data = {
+                    isSuccess: true,
+                    result: rep.data.data,
+                    message: rep.data.message
+                }
+            }else{
+                // fail
+                rep.data = {
+                    isSuccess: false,
+                    result: null,
+                    message: rep.data.msg
+                }
+            }
+        }else{
+            if(rep.data.code !== 200){
+                rep.data = {
+                    isSuccess: false,
+                    result: null,
+                    message: rep.data.msg
+                }
+            }else{
+                // rep.data.code 200
+                rep.data = {
+                    isSuccess: true,
+                    result: rep.data.data,
+                    message: rep.data.msg
+                }
+            }
+        }
+    }
     await next()
 })
 
@@ -39,17 +84,10 @@ async function requestNews<T>(config: AxiosRequestConfig){
     const rep = await requestNewPlx.request(config);
     if(rep.data){
         if(rep.data.isSuccess){
-            if(config.method && config.method.toUpperCase() === "POST"){
-                // 创建操作
-                if(config.url && config.url.toLowerCase().indexOf("add") > -1){
-                    notification.success({
-                        message: "添加成功"
-                    })
-                }else{
-                    notification.success({
-                        message: " 修改成功"
-                    })
-                }
+            if(config.url && config.url.toLowerCase().indexOf("add") > -1){
+                notification.success({
+                    message: "添加成功"
+                })
             }
         }
         return rep.data as IRequestResult<T>;

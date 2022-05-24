@@ -26,7 +26,7 @@ const NewsForm:FC<{submitNews: ISubmit, title: string}> = ({submitNews, title}) 
                 <Input />
             </FormItem>
             <FormItem label="*内容" name={["simplifiedForm", "content"]}>
-                <Editor />
+                <Editor key="simplified-editor" />
             </FormItem>
             <p>繁体中文</p>
             <FormItem hidden name={["traditionalForm", "id"]}>

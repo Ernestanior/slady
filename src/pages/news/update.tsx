@@ -32,7 +32,10 @@ const NewsUpdate:FC = () => {
                     if(res.result){
                         ModifyNewsForm.loadData({
                             ...res.result,
-                            publishDate: moment(res.result.publishDate, "YYYY-MM-DD HH:mm:ss")
+                            publishDate: moment(res.result.publishDate, "YYYY-MM-DD HH:mm:ss"),
+                            simplifiedForm: res.result.simplifiedContentVo,
+                            traditionalForm: res.result.traditionalContentVo,
+                            englishForm: res.result.englishContentVo
                         })
                     }
                 }
