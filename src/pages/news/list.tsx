@@ -27,14 +27,19 @@ const NewsList:FC = () => {
     }, [])
 
     const queryDataFunction = useCallback(async (filters) => {
-        const {searchPage, ...restFilters} = filters
+        const {searchPage, date, ...restFilters} = filters
+        const data:any = {
+            ...searchPage,
+            ...restFilters
+        }
+        if(Array.isArray(date) && date.length > 1){
+            data.startDate = date[0].format("YYYY-MM-DD HH:mm:ss")
+            data.endDate = date[1].format("YYYY-MM-DD HH:mm:ss")
+        }
         const config: AxiosRequestConfig = {
             method: "post",
             url: "/api/information/get-page",
-            data: {
-                ...searchPage,
-                ...restFilters
-            }
+            data
         }
         const res = await requestNews<IPage>(config);
         if(res.isSuccess && res.result){
