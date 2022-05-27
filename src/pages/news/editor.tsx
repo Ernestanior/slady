@@ -1,11 +1,12 @@
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
-import React, {useState, useEffect, useMemo, useRef} from 'react'
+import React, {useState, useEffect, useMemo, useRef, useCallback} from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
 import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 import useUpdateRef from "@/hoc/useUpdateRef";
 import {uploadImageFile} from "@/pages/news/uploadImage";
 import {message} from "antd";
+import {debounceTime, Subject} from "rxjs";
 
 interface IProps{
     value?: string;
@@ -16,9 +17,24 @@ type InsertFnType = (url: string) => void
 
 function MyEditor(props: IProps) {
     const [editor, setEditor] = useState<IDomEditor | null>(null) // 存储 editor 实例
-    // 编辑器内容
-    const html = useUpdateRef(props.value);
-    const setHtmlRef = useUpdateRef(props.onChange)
+    const onChangeRef = useUpdateRef(props.onChange)
+    const value$ = useRef(new Subject<string | undefined>())
+    const [html, setHtml] = useState("")
+
+    useEffect(() => {
+        value$.current.next(props.value);
+    }, [value$, props.value])
+
+    useEffect(() => {
+        const sub = value$.current.pipe(debounceTime(500)).subscribe(value => {
+            if(!!value){
+                const valueHtml = value.indexOf("<p>") !== 0
+                    ? value.split(/\n/).map(line => `<p>${line}</p>`).join('\n') : value
+                setHtml(valueHtml)
+            }
+        })
+        return () => sub.unsubscribe()
+    }, [value$])
 
     const toolbarConfig: Partial<IToolbarConfig> = useMemo(() => {
         return {
@@ -30,15 +46,14 @@ function MyEditor(props: IProps) {
         placeholder: '请输入内容...',
         MENU_CONF: {
             uploadImage: {
-                server: '/api/upload',
                 fieldName: "image",
                 async customUpload(file: File, insertFn: InsertFnType) {
                     // file 即选中的文件
                     // 自己实现上传，并得到图片 url alt href
                     const res = await uploadImageFile(file)
-                    if(res.isSuccess && res.result && !res.result.errno){
+                    if(res.isSuccess && res.result){
                         message.success("upload image successful !")
-                        insertFn(res.result.data.url)
+                        insertFn(res.result.href)
                     }else{
                         message.error("upload image fail !")
                     }
@@ -56,29 +71,32 @@ function MyEditor(props: IProps) {
         }
     }, [editor])
 
+    const changeHandler = useCallback((editor: IDomEditor) => {
+        // 未开启初始化完成标签，禁止onChange事件
+        if(!editor.getText()){
+            return
+        }
+        onChangeRef.current && onChangeRef.current(editor.getHtml())
+    }, [onChangeRef])
+
     return (
-        <>
-            <div style={{ border: '1px solid #ccc', zIndex: 100}}>
-                <Toolbar
-                    editor={editor}
-                    defaultConfig={toolbarConfig}
-                    mode="default"
-                    style={{ borderBottom: '1px solid #ccc' }}
-                />
-                <Editor
-                    defaultConfig={editorConfig.current}
-                    value={html.current}
-                    onCreated={setEditor}
-                    onChange={editor => {
-                        if(editor.getHtml() !== props.value){
-                            setHtmlRef.current && setHtmlRef.current(editor.getHtml())
-                        }
-                    }}
-                    mode="default"
-                    style={{ height: '500px', 'overflowY': 'hidden' }}
-                />
-            </div>
-        </>
+        <div style={{ border: '1px solid #ccc', zIndex: 100}}>
+            <Toolbar
+                editor={editor}
+                defaultConfig={toolbarConfig}
+                mode="default"
+                style={{ borderBottom: '1px solid #ccc' }}
+            />
+            <Editor
+                key="editor"
+                value={html}
+                defaultConfig={editorConfig.current}
+                onCreated={setEditor}
+                onChange={changeHandler}
+                mode="default"
+                style={{ height: '500px', 'overflowY': 'hidden' }}
+            />
+        </div>
     )
 }
 

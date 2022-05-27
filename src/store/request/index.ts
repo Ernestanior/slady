@@ -29,7 +29,8 @@ requestPlx.middleware_before.use(async (config, next) => {
 
 // analysis response status not 200
 requestPlx.middleware_after.use(async (rep, next) => {
-    if(rep.status !== 200){
+    // when network error, res is undefined
+    if(rep && rep.status !== 200){
         rep.data = {
             ...rep.data,
             isSuccess: false,
@@ -53,6 +54,19 @@ requestPlx.middleware_after.use(async (rep, next) => {
         let isSuccess = false;
         let result = null;
         let message = ""
+        if(!rep){
+            rep = {
+                status: 500,
+                data: {},
+                statusText: "network error",
+                headers: [],
+                config: {}
+            }
+            notification.error({
+                message: 500,
+                description: "网络请求失败"
+            })
+        }
         if(rep.data){
             if(!!rep.data.code && rep.data.code !== 200){
                 if(window.location.hash !== "#/login"){

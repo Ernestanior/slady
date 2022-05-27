@@ -2,15 +2,13 @@ import {FC, useEffect, useMemo} from "react";
 import {Link, useRouteMatch} from "react-router-dom";
 import {Breadcrumb, Empty} from "antd"
 import ModifyNewsForm from "@/pages/news/modifyForm";
-import {from} from "rxjs";
-import {AxiosRequestConfig} from "axios";
-import requestNews from "@/store/request/requestNews";
-import moment from "moment";
+import {parseQueryJsonToForm} from "@/pages/news/form";
+import useNewsDetail from "@/pages/news/useNewsDetail";
 
 const NewsUpdate:FC = () => {
     const url = useRouteMatch<{ id: string, type: string }>("/news/:id");
 
-    const uuid = useMemo(() => {
+    const id = useMemo(() => {
         if(url && url.params){
             if(url.params.id){
                 return url.params.id
@@ -18,33 +16,16 @@ const NewsUpdate:FC = () => {
         }
     }, [url])
 
-    useEffect(() => {
-        if(uuid){
-            const config:AxiosRequestConfig = {
-                method: "get",
-                url: "/api/information/detail",
-                params: {
-                    uuid
-                }
-            }
-            const sub = from(requestNews<any>(config)).subscribe(res => {
-                if(res.isSuccess){
-                    if(res.result){
-                        ModifyNewsForm.loadData({
-                            ...res.result,
-                            publishDate: moment(res.result.publishDate, "YYYY-MM-DD HH:mm:ss"),
-                            simplifiedForm: res.result.simplifiedContentVo,
-                            traditionalForm: res.result.traditionalContentVo,
-                            englishForm: res.result.englishContentVo
-                        })
-                    }
-                }
-            })
-            return () => sub.unsubscribe()
-        }
-    }, [uuid])
+    const newsData = useNewsDetail(id)
 
-    if(!uuid){
+    useEffect(() => {
+        if(newsData){
+            const data = parseQueryJsonToForm(newsData)
+            ModifyNewsForm.loadData(data)
+        }
+    }, [newsData])
+
+    if(!id){
         return <Empty />
     }
     return <section>

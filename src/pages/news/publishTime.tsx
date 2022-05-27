@@ -11,7 +11,7 @@ const publishTime = [
     },
     {
         id: "schedule",
-        name: "自定义"
+        name: "自定义发布时间"
     }
 ]
 
@@ -38,8 +38,9 @@ const PublishTime:FC<IFormComponent<string>> = ({value, onChange}) => {
                 onChange={e => {
                     if(e === "now"){
                         onChange && onChange(0)
+                        return;
                     }
-                    return onChange && onChange(moment())
+                    onChange && onChange(moment())
                 }}
             />
         </Col>
