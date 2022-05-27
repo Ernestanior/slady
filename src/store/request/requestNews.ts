@@ -8,7 +8,7 @@ const requestNewPlx = new RequestPlx();
 const appKey = 'wuiGrLHgOeu/mfAvPiUnmw=='
 const appSecret ='tQ4W943KH2HgPdMgMGihvEpOhKm0VyT+oXuN535UWg0='
 
-const dev_url = 'http://localhost:10088';
+const dev_url = 'http://localhost:10087';
 
 // add server url
 requestNewPlx.middleware_before.use(async (config, next) => {

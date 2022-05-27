@@ -1,8 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 1180738 */
-  src: url('iconfont.woff2?t=1626678280352') format('woff2'),
-       url('iconfont.woff?t=1626678280352') format('woff'),
-       url('iconfont.ttf?t=1626678280352') format('truetype');
+  src: url('iconfont.woff2?t=1653642043638') format('woff2'),
+       url('iconfont.woff?t=1653642043638') format('woff'),
+       url('iconfont.ttf?t=1653642043638') format('truetype'),
+       url('iconfont.svg?t=1653642043638#iconfont') format('svg');
 }
 
 .iconfont {
@@ -11,6 +12,190 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.iconmeiguoguoqi:before {
+  content: "\e65c";
+}
+
+.icontishi1:before {
+  content: "\e773";
+}
+
+.icontubiaozhizuomoban:before {
+  content: "\e65d";
+}
+
+.iconzhongwenfanti:before {
+  content: "\e680";
+}
+
+.icona-Group3772:before {
+  content: "\e6cf";
+}
+
+.icona-Group3611:before {
+  content: "\e6bf";
+}
+
+.icona-Group574:before {
+  content: "\e6bd";
+}
+
+.icona-Group3719:before {
+  content: "\e6be";
+}
+
+.icona-Group3704:before {
+  content: "\e6b7";
+}
+
+.icona-Group3706:before {
+  content: "\e6b8";
+}
+
+.icona-Group3705:before {
+  content: "\e6b9";
+}
+
+.icona-Group3695:before {
+  content: "\e6c2";
+}
+
+.icona-Group3697:before {
+  content: "\e6c3";
+}
+
+.icona-Group3696:before {
+  content: "\e6c5";
+}
+
+.icona-Group3699:before {
+  content: "\e6c6";
+}
+
+.icona-Group3698:before {
+  content: "\e6c7";
+}
+
+.icona-Group3700:before {
+  content: "\e6c8";
+}
+
+.icona-Group3694:before {
+  content: "\e6c4";
+}
+
+.iconkehu1:before {
+  content: "\e6c1";
+}
+
+.iconpiliangcaozuo:before {
+  content: "\e67f";
+}
+
+.iconwendangfuzhi:before {
+  content: "\e691";
+}
+
+.iconyuming1:before {
+  content: "\e65b";
+}
+
+.iconyoujian:before {
+  content: "\e67b";
+}
+
+.iconiddenglufanbai:before {
+  content: "\e65a";
+}
+
+.icon10_fasong:before {
+  content: "\e67d";
+}
+
+.icona-Group28:before {
+  content: "\e6ba";
+}
+
+.icona-Subtraction29:before {
+  content: "\e6bb";
+}
+
+.iconic_error_24px:before {
+  content: "\e6ac";
+}
+
+.iconic_language_24px:before {
+  content: "\e6ad";
+}
+
+.iconic_person_add_24px:before {
+  content: "\e6ae";
+}
+
+.iconic_account_circle_24px:before {
+  content: "\e6af";
+}
+
+.icona-zu1523:before {
+  content: "\e6b0";
+}
+
+.icona-zu1682:before {
+  content: "\e6b1";
+}
+
+.iconic_view_headline_24px:before {
+  content: "\e6b2";
+}
+
+.icona-zu1534:before {
+  content: "\e6b3";
+}
+
+.icona-zu1531:before {
+  content: "\e6b4";
+}
+
+.icona-zu1538:before {
+  content: "\e6b5";
+}
+
+.icona-zu1539:before {
+  content: "\e6b6";
+}
+
+.icona-zu2265:before {
+  content: "\e6a9";
+}
+
+.icona-zu2268:before {
+  content: "\e6aa";
+}
+
+.icona-zu2264:before {
+  content: "\e6a7";
+}
+
+.icona-zu2262:before {
+  content: "\e6a4";
+}
+
+.icona-zu2257:before {
+  content: "\e6a5";
+}
+
+.iconyiguoqi:before {
+  content: "\e655";
+}
+
+.iconjijiangguoqikucun:before {
+  content: "\e654";
+}
+
+.iconic_info_24px:before {
+  content: "\e693";
 }
 
 .icona-Group2278:before {

@@ -7,10 +7,11 @@ class RequestPlx<T=any>{
 
     async request(config: AxiosRequestConfig){
         try {
+            const _config = {...config}
             // 预处理
-            await this.middleware_before.apply(config);
-            // 网络请求
-            const response = await axios.request(config);
+            await this.middleware_before.apply(_config);
+            // 网络请求-此处最好使用config的复制，否则在middleware中修改config，会将原来的config也修改掉
+            const response = await axios.request(_config);
             // 请求结果解析
             await this.middleware_after.apply(response);
             return response;

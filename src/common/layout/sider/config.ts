@@ -59,6 +59,10 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
             {
                 text: "新闻",
                 url: "/news"
+            },
+            {
+                text: "客户服务设置",
+                url: "/contact-service"
             }
         ]
     }

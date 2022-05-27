@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo, useRef, useState} from "react";
+import {FC, ReactNode, useCallback, useMemo, useRef, useState} from "react";
 import Template, {reloadMainList} from "@/common/template";
 import NewsFilter from "@/pages/news/filter";
 import {INormalEvent} from "@/common/interface";
@@ -8,6 +8,8 @@ import requestNews from "@/store/request/requestNews";
 import {Button, Image, Space, TableColumnProps, Modal} from "antd";
 import {from} from "rxjs";
 import ViewNewsDetail from "@/pages/news/view";
+import {LanguageType} from "@/pages/news/form";
+import IconFont from "@/common/icon";
 
 interface IPage{
     pages: number,
@@ -137,7 +139,21 @@ const columns: TableColumnProps<any>[] = [
         title: "语言",
         dataIndex: "locales",
         render(locales: string[]){
-            return locales.join(",")
+            const els: ReactNode[] = [];
+            locales.forEach(locale => {
+                if(locale === LanguageType.ZH_CN){
+                    els.push(<IconFont key="icontubiaozhizuomoban" type="icontubiaozhizuomoban" />)
+                }
+                if(locale === LanguageType.ZH_TW){
+                    els.push(<IconFont key="iconzhongwenfanti" type="iconzhongwenfanti" />)
+                }
+                if(locale === LanguageType.EN_US){
+                    els.push(<IconFont key="iconmeiguoguoqi" type="iconmeiguoguoqi" />)
+                }
+            })
+            return <Space>
+                {els}
+            </Space>
         }
     },
     {

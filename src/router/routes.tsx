@@ -18,6 +18,7 @@ import CDNDomains from "@/pages/cdn/domain";
 import NewsList from "@/pages/news/list";
 import NewsCreate from "@/pages/news/create";
 import NewsUpdate from "@/pages/news/update";
+import CustomerService from "@/pages/customerService";
 
 /**
  * 项目路由组件
@@ -76,6 +77,9 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/news">
                     <NewsList />
+                </Route>
+                <Route path="/contact-service">
+                    <CustomerService />
                 </Route>
                 <Redirect to="/customer" />
             </Switch>
