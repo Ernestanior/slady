@@ -140,18 +140,15 @@ export default DNS
 
 export function setDnsData(data: any){
     if(data.dnsServiceFlag === 1){
-        // 开启NS自定义功能
-        if(data.customNameServerFlag){
-            // DNS服务器选择自定义
-            if(data.nameServerList === customNS.id){
-                data.nameServerList = data.customNameServerList;
+        // DNS服务器选择自定义
+        if(data.nameServerList === customNS.id){
+            data.nameServerList = data.customNameServerList;
+        }else{
+            // 拆分字符串
+            if(data.nameServerList){
+                data.nameServerList = data.nameServerList.split(",")
             }else{
-                // 拆分字符串
-                if(data.nameServerList){
-                    data.nameServerList = data.nameServerList.split(",")
-                }else{
-                    data.nameServerList = []
-                }
+                data.nameServerList = []
             }
         }
         delete data.customNameServerList
