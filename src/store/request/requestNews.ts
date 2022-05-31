@@ -57,7 +57,7 @@ requestNewPlx.middleware_after.use(async (rep, next) => {
                 rep.data = {
                     isSuccess: false,
                     result: null,
-                    message: rep.data.msg
+                    message: rep.data.message
                 }
             }
         }else{

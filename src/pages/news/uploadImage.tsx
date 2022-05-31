@@ -45,7 +45,7 @@ const UploadImage: FC<IFormComponent<string>> = ({value, onChange}) => {
                             message.success("upload image successful !")
                         }
                     }else{
-                        message.error("upload image fail! ")
+                        message.error(res.message)
                     }
                 })
                 return false

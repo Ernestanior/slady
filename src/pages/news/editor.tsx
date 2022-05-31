@@ -55,7 +55,7 @@ function MyEditor(props: IProps) {
                         message.success("upload image successful !")
                         insertFn(res.result.href)
                     }else{
-                        message.error("upload image fail !")
+                        message.error(res.message)
                     }
                 }
             },

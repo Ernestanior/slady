@@ -46,7 +46,7 @@ export const compareA_B: <T>(
         if (a.length !== b.length) {
             return false;
         }
-        return a.every((at) => b.some((bt) => compareA_B(at, bt)));
+        return a.join(",") === b.join(",");
     }
     const aProperties = Object.keys(a) as Array<keyof T>;
     const bProperties = Object.keys(b) as Array<keyof T>;

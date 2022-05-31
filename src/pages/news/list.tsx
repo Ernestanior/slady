@@ -88,7 +88,7 @@ const NewsList:FC = () => {
                 fixed: "right",
                 render(_:any, data:any){
                     return <Space>
-                        <Button onClick={() => {ViewNewsDetail.loadData(data)}}>查看</Button>
+                        {/*<Button onClick={() => {ViewNewsDetail.loadData(data)}}>查看</Button>*/}
                         <Button onClick={() => { historyService.push(`/news/${data.id}`) }}>修改</Button>
                         <Button onClick={() => {delData.current = data;setDelModalVisible(true)}}>删除</Button>
                     </Space>
