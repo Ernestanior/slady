@@ -17,7 +17,7 @@ import {rsaPublic} from "@/pages/login/rsa_public";
 const publicKey = forge.pki.publicKeyFromPem(rsaPublic);
 
 // 密码加密
-function encrypt(password: string){
+export function encrypt(password: string){
     return forge.util.encode64(publicKey.encrypt(password, 'RSA-OAEP', {
         md: forge.md.sha256.create(),
         mgf1: {
