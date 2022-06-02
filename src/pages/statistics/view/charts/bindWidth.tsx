@@ -79,7 +79,7 @@ const BindWidth:FC<IDataModule<IBindWidth> & { packageInfo:any }> = ({data, pack
                  },
                  axisLabel: {
                      formatter: (v: any) => {
-                         return transformFlow(v);
+                         return transformBindWidth(v);
                      },
                  },
                  axisTick: {

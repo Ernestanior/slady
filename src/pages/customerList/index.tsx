@@ -98,7 +98,7 @@ const CustomerList:FC = () => {
             {
                 title: "操作",
                 dataIndex: "opt",
-                width: 200,
+                width: 240,
                 fixed: "right",
                 render(_:any, data:any){
                     return <Space>
@@ -111,6 +111,7 @@ const CustomerList:FC = () => {
             }
         ]
     }, [modify, enable, disable, deleteCustomer, _columns_fix])
+
 
     return <section>
         <Template
@@ -134,18 +135,17 @@ const columns: TableColumnProps<any>[] = [
         dataIndex: "name",
         sorter: true,
         width: 200,
-        fixed: "left",
+        fixed: "left"
     },
     {
         title: "客户邮箱",
         dataIndex: "email",
         sorter: true,
-        width: 200,
+        width: 200
     },
     {
         title: "客户类型",
         dataIndex: "type",
-        width: 100,
         render: type => {
             const item = USER_TYPE.find(it => it.id === type);
             if(item){
@@ -156,14 +156,10 @@ const columns: TableColumnProps<any>[] = [
     },
     {
         ...E_USER_STATUS_COLUMN,
-        width: 75,
-        fixed: "right",
     },
     {
         title: "CDN",
         dataIndex: "probation",
-        width: 120,
-        fixed: "right",
         render(probation, data){
             if(data.type === USER_TYPE[2].id){
                 return "-"
@@ -197,7 +193,6 @@ const columns_manage = [
     {
         title: "销售员",
         dataIndex: "saleName",
-        width: 200,
         render(value:any){
             return value || "-"
         }

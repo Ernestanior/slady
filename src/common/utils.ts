@@ -158,7 +158,7 @@ export const transformFlow = (value: number) => {
  */
 export const transformBindWidth = (value: number) => {
     if (value < 1000) {
-        return value.toFixed(2) + "bps";
+        return value.toFixed(2) + "Bps";
     }
     const kb = value / 1000;
     if (kb < 1000) {

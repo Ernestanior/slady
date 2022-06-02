@@ -161,7 +161,7 @@ const columns: TableColumnProps<any>[] = [
         }
     },
     {
-        title: "使用域名额度",
+        title: "域名（站点）额度",
         dataIndex: "domains",
         render: (_, data) => {
             if(data.type === "normal"){

@@ -99,7 +99,7 @@ const ViewStatistics:FC = () => {
             <Breadcrumb.Item>
                 <Link to= "/statistics">
                     <HomeOutlined />
-                    <span style={{marginLeft: 5}}>统计报表</span>
+                    <span style={{marginLeft: 5, lineHeight: "32px"}}>统计报表</span>
                 </Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
