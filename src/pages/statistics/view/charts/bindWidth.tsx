@@ -3,7 +3,7 @@ import {IDataModule} from "@/common/interface";
 import ReactECharts from "echarts-for-react";
 import * as echarts from "echarts";
 import moment from "moment";
-import {transformBindWidth, transformFlow, xAxisFormatterGenerate} from "@/common/utils";
+import {transformBindWidth, xAxisFormatterGenerate} from "@/common/utils";
 
 export interface IBindWidth{
     bindWidth95: number;
