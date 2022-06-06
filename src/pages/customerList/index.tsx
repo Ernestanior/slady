@@ -12,6 +12,7 @@ import {E_COLOR} from "@/common/const";
 import {E_All_USER_TYPE, E_USER_TYPE} from "@/store/account/interface";
 import useAccountInfo from "@/store/account";
 import moment from "moment";
+import request from "@/store/request";
 
 /**
  * 用户启用禁用状态
@@ -43,8 +44,30 @@ const CustomerList:FC = () => {
         }]
     }, [])
 
-    const query = useCallback((data) => {
-        return saleService.QueryUserList({}, data);
+    // const query = useCallback((data) => {
+    //     return saleService.QueryUserList({}, data);
+    // }, [])
+
+    const queryDataFunction = useCallback(async (filters) => {
+        const cusList = await request(saleService.QueryUserList({}, filters));
+        if(cusList.isSuccess && cusList.result){
+            const data:any = cusList.result
+            const params = data.content
+                            .filter((item:{type:string,dnsServiceFlag:number})=>item.type!== USER_TYPE[2].id && item.dnsServiceFlag)
+                            .map((item:{id:number})=>item.id)
+            const dnsUsage:any = await request(saleService.CustomerDnsUsage({}, [...params]));
+            if(dnsUsage.isSuccess && dnsUsage.result){
+                dnsUsage.result.forEach((item:any)=>{
+                    data.content.forEach((i:any)=>{
+                        if(i.id===item.customerId){
+                            i['usedDomains']=item.usedDomains
+                        }
+                    })
+                })
+            }
+            return data;
+        }
+        return null;
     }, [])
 
     // modify
@@ -118,7 +141,8 @@ const CustomerList:FC = () => {
             filter={<CustomerFilter />}
             event={buttons}
             columns={_columns}
-            queryData={query}
+            // queryData={query}
+            queryDataFunction={queryDataFunction}
             rowKey="id"
             scroll={{
                 x: 1440
@@ -183,6 +207,26 @@ const columns: TableColumnProps<any>[] = [
             return <div>
                 <Status color={E_COLOR.warn}>测试</Status>
                 {leftTime}/{data.probationPeriod}
+            </div>
+        }
+    },
+    {
+        title: "DNS",
+        dataIndex: "dnsServiceFlag",
+        render(_, data){
+            if(data.type === USER_TYPE[2].id){
+                return "-"
+            }
+            // DNS服务未启用
+            if(data.dnsServiceFlag !== 1){
+                return <Status color={E_COLOR.off}>
+                    未启用
+                </Status>
+            }
+
+            return <div>
+                <Status color={E_COLOR.enable}>启用</Status>
+                {data.usedDomains || 0}/{data.limitDedicatedPlans || 0}
             </div>
         }
     }
