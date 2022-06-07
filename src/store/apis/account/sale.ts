@@ -84,6 +84,23 @@ class SaleAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
+    /**
+     * 非agent的客户
+     * @param params
+     * @param data
+     * @constructor
+     */
+    CustomerDnsUsage = (params: any, data: number[]) => {
+        const config: AxiosRequestConfig = {
+            url: '/dns/product/summary/customers',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
 
     /**
      * 已经销售的直属客户
