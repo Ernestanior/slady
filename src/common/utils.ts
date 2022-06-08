@@ -220,3 +220,5 @@ export const trimAndRemoveUndefined = (values: any) => {
 export const getValueFromForm = (a: any) => {
     return {[a.name.join(".")]: a.value}
 }
+
+
