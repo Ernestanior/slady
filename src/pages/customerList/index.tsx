@@ -13,6 +13,7 @@ import {E_All_USER_TYPE, E_USER_TYPE} from "@/store/account/interface";
 import useAccountInfo from "@/store/account";
 import moment from "moment";
 import request from "@/store/request";
+import EllipsisTooltip from "@/common/ellipsisTooltip";
 
 /**
  * 用户启用禁用状态
@@ -109,7 +110,7 @@ const CustomerList:FC = () => {
     }, [])
 
     const info = useAccountInfo();
-    let _columns_fix = columns;
+    let _columns_fix:any = columns;
     if(info && info.type === E_USER_TYPE.SALE_MANAGER){
         _columns_fix = columns_manage;
     }
@@ -170,9 +171,19 @@ const columns: TableColumnProps<any>[] = [
     {
         title: "客户类型",
         dataIndex: "type",
+        width:120,
+        onCell:() => ({
+                style: {
+                    whiteSpace: "nowrap",
+                    maxWidth: 120,
+                },
+        }),
         render: type => {
             const item = USER_TYPE.find(it => it.id === type);
             if(item){
+                if(item.name.length>6){
+                    return <EllipsisTooltip title={item.name}>{item.name}</EllipsisTooltip>;
+                }
                 return item.name
             }
             return "-"
@@ -237,7 +248,17 @@ const columns_manage = [
     {
         title: "销售员",
         dataIndex: "saleName",
-        render(value:any){
+        width:150,
+        onCell:() => ({
+                style: {
+                    whiteSpace: "nowrap",
+                    maxWidth: 150,
+                },
+        }),
+        render:(value:any)=>{
+            if(value.length>10){
+                return <EllipsisTooltip title={value}>{value}</EllipsisTooltip>
+            }
             return value || "-"
         }
     },
@@ -258,3 +279,4 @@ export const USER_TYPE = [
         name: "代理"
     }
 ]
+
