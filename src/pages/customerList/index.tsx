@@ -14,6 +14,7 @@ import useAccountInfo from "@/store/account";
 import moment from "moment";
 import request from "@/store/request";
 import EllipsisTooltip from "@/common/ellipsisTooltip";
+import {ellopsisTableConfig} from "@/common/utilsx";
 
 /**
  * 用户启用禁用状态
@@ -21,7 +22,7 @@ import EllipsisTooltip from "@/common/ellipsisTooltip";
 export const E_USER_STATUS_COLUMN:TableColumnProps<any> = {
     title: "账号状态",
     dataIndex: "status",
-    width: 150,
+    width: 80,
     render(value){
         if(value === 1){
             return <Status color={E_COLOR.enable}>
@@ -122,7 +123,7 @@ const CustomerList:FC = () => {
             {
                 title: "操作",
                 dataIndex: "opt",
-                width: 240,
+                width: 200,
                 fixed: "right",
                 render(_:any, data:any){
                     return <Space>
@@ -146,7 +147,7 @@ const CustomerList:FC = () => {
             queryDataFunction={queryDataFunction}
             rowKey="id"
             scroll={{
-                x: 1440
+                x: 1200
             }}
         />
     </section>
@@ -159,23 +160,25 @@ const columns: TableColumnProps<any>[] = [
         title: "客户名称",
         dataIndex: "name",
         sorter: true,
-        width: 200,
-        fixed: "left"
+        width: 120,
+        fixed: "left",
+        ...ellopsisTableConfig
     },
     {
         title: "客户邮箱",
         dataIndex: "email",
         sorter: true,
-        width: 200
+        width: 120,
+        ...ellopsisTableConfig
     },
     {
         title: "客户类型",
         dataIndex: "type",
-        width:120,
+        width:90,
         onCell:() => ({
                 style: {
                     whiteSpace: "nowrap",
-                    maxWidth: 120,
+                    maxWidth: 90,
                 },
         }),
         render: type => {
@@ -195,6 +198,7 @@ const columns: TableColumnProps<any>[] = [
     {
         title: "CDN",
         dataIndex: "probation",
+        width: 140,
         render(probation, data){
             if(data.type === USER_TYPE[2].id){
                 return "-"
@@ -224,6 +228,7 @@ const columns: TableColumnProps<any>[] = [
     {
         title: "DNS",
         dataIndex: "dnsServiceFlag",
+        width: 140,
         render(_, data){
             if(data.type === USER_TYPE[2].id){
                 return "-"
@@ -248,11 +253,11 @@ const columns_manage = [
     {
         title: "销售员",
         dataIndex: "saleName",
-        width:150,
+        width:110,
         onCell:() => ({
                 style: {
                     whiteSpace: "nowrap",
-                    maxWidth: 150,
+                    maxWidth: 110,
                 },
         }),
         render:(value:any)=>{
