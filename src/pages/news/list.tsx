@@ -5,7 +5,7 @@ import {INormalEvent} from "@/common/interface";
 import historyService from "@/store/history";
 import {AxiosRequestConfig} from "axios";
 import requestNews from "@/store/request/requestNews";
-import {Button, Image, Space, TableColumnProps, Modal} from "antd";
+import {Button, Image, Space, TableColumnProps, Modal, notification} from "antd";
 import {from} from "rxjs";
 import ViewNewsDetail from "@/pages/news/view";
 import {LanguageType} from "@/pages/news/form";
@@ -18,12 +18,21 @@ interface IPage{
 }
 
 const NewsList:FC = () => {
+
+    const [confirmModalVisible, setConfirmModalVisible] = useState(false)
+
     const buttons: INormalEvent[] = useMemo(()=> {
         return [{
             text: '新增',
             primary: true,
             event(){
                 historyService.push("/news/create")
+            }
+        }, {
+            text: '生成静态页面',
+            primary: true,
+            event(){
+                setConfirmModalVisible(true)
             }
         }]
     }, [])
@@ -97,6 +106,29 @@ const NewsList:FC = () => {
         ]
     }, [delData])
 
+
+    // 按钮的loading
+    const [loading, setLoading] = useState(false)
+
+    // 生成静态Html页面
+    const reGenerateStaticHtml = useCallback(() => {
+        setLoading(true);
+        const config: AxiosRequestConfig = {
+            method: "get",
+            url: "/api/generate/general/html"
+        }
+        from(requestNews(config)).subscribe(res => {
+            if(res.isSuccess){
+                setConfirmModalVisible(false)
+            }else{
+                notification.error({
+                    message: "API调用失败，请联系技术支持！"
+                })
+            }
+            setLoading(false)
+        })
+    }, [])
+
     return <section>
         <Template
             filter={<NewsFilter />}
@@ -107,6 +139,21 @@ const NewsList:FC = () => {
         />
         <Modal title="确认删除" visible={delModalVisible} onOk={del} onCancel={() => setDelModalVisible(false)}>
             <p>确认删除新闻：{delData.current && delData.current.entry}</p>
+        </Modal>
+        <Modal
+            title="确认"
+            visible={confirmModalVisible}
+            onOk={reGenerateStaticHtml}
+            confirmLoading={loading}
+            onCancel={() => setConfirmModalVisible(false)}
+            afterClose={() => {
+                if(loading){
+                    setLoading(false)
+                }
+            }}
+        >
+            <p>是否重新生成静态页面</p>
+            <p style={{fontSize: "0.75em"}}>注意：API调用完成后，需要等待编译程序运行完成页面才会刷新</p>
         </Modal>
         <ViewNewsDetail.UI />
     </section>

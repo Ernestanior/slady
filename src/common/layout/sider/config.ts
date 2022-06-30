@@ -53,19 +53,19 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
             }
         ]
     },
-    // {
-    //     text: "官网设置",
-    //     childs: [
-    //         {
-    //             text: "新闻",
-    //             url: "/news"
-    //         },
-    //         {
-    //             text: "客户服务设置",
-    //             url: "/contact-service"
-    //         }
-    //     ]
-    // }
+    {
+        text: "官网设置",
+        childs: [
+            {
+                text: "新闻",
+                url: "/news"
+            },
+            {
+                text: "客户服务设置",
+                url: "/contact-service"
+            }
+        ]
+    }
 ]
 
 export default menuList;
