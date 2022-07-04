@@ -2,7 +2,7 @@ import {FC, useCallback, useMemo} from "react";
 import Template from "@/common/template";
 import CustomerFilter from "@/pages/customerList/filter";
 import {INormalEvent} from "@/common/interface";
-import {Button, Space, TableColumnProps} from "antd";
+import {Button, Space, TableColumnProps, Tooltip} from "antd";
 import {agentService, customerService, saleService, userService} from "@/store/apis/account";
 import historyService from "@/store/history";
 import ConfirmButton from "@/common/confirm/button";
@@ -15,6 +15,7 @@ import moment from "moment";
 import request from "@/store/request";
 import EllipsisTooltip from "@/common/ellipsisTooltip";
 import {ellopsisTableConfig} from "@/common/utilsx";
+import {statService} from "@/store/apis/stat";
 
 /**
  * 用户启用禁用状态
@@ -23,7 +24,19 @@ export const E_USER_STATUS_COLUMN:TableColumnProps<any> = {
     title: "账号状态",
     dataIndex: "status",
     width: 80,
-    render(value){
+    render(value,item){
+        let leftTime = 0;
+        const endDate = moment(item.probationStart, "YYYY/MM/DD").add(item.probationPeriod + 1, "day")
+        if(moment().isBefore(endDate)){
+            leftTime = endDate.diff(moment(), "day");
+        }
+        if(item.probation){
+            return <Tooltip title="测试" placement="left">
+                <Status color={E_COLOR.warn}>
+                    {leftTime}/{item.probationPeriod}
+                </Status>
+            </Tooltip>
+        }
         if(value === 1){
             return <Status color={E_COLOR.enable}>
                 启用
@@ -54,6 +67,7 @@ const CustomerList:FC = () => {
         const cusList = await request(saleService.QueryUserList({}, filters));
         if(cusList.isSuccess && cusList.result){
             const data:any = cusList.result
+
             const params = data.content
                             .filter((item:{type:string,dnsServiceFlag:number})=>item.type!== USER_TYPE[2].id && item.dnsServiceFlag)
                             .map((item:{id:number})=>item.id)
@@ -63,6 +77,18 @@ const CustomerList:FC = () => {
                     data.content.forEach((i:any)=>{
                         if(i.id===item.customerId){
                             i['usedDomains']=item.usedDomains
+                        }
+                    })
+                })
+            }
+
+            const customerIds = data.content.filter((item:{type:string})=> item.type !== USER_TYPE[2].id).map((item:{id:number})=>item.id)
+            const cdnUsage = await request<any[]>(statService.SaleStatCustomer(customerIds));
+            if(cdnUsage.isSuccess && cdnUsage.result){
+                cdnUsage.result.forEach((item:any)=>{
+                    data.content.forEach((i:any)=>{
+                        if(i.id===item.customerId){
+                            i['usedMasterDomains']=item.usedMasterDomains
                         }
                     })
                 })
@@ -199,7 +225,7 @@ const columns: TableColumnProps<any>[] = [
         title: "CDN",
         dataIndex: "probation",
         width: 140,
-        render(probation, data){
+        render(_, data){
             if(data.type === USER_TYPE[2].id){
                 return "-"
             }
@@ -209,20 +235,14 @@ const columns: TableColumnProps<any>[] = [
                     未启用
                 </Status>
             }
-            if(!probation){
-                return <Status color={E_COLOR.enable}>
-                    正式
-                </Status>
-            }
-            let leftTime = 0;
-            const endDate = moment(data.probationStart, "YYYY/MM/DD").add(data.probationPeriod + 1, "day")
-            if(moment().isBefore(endDate)){
-                leftTime = endDate.diff(moment(), "day");
-            }
-            return <div>
-                <Status color={E_COLOR.warn}>测试</Status>
-                {leftTime}/{data.probationPeriod}
-            </div>
+            return <><Status color={E_COLOR.enable}>
+                启用
+            </Status>{data.usedMasterDomains || 0}/{data.limitMasterDomains} </>
+
+            // return <div>
+            //     <Status color={E_COLOR.warn}>测试</Status>
+            //     {leftTime}/{data.probationPeriod}
+            // </div>
         }
     },
     {
