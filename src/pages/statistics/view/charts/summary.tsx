@@ -21,7 +21,7 @@ const CustomerSummary:FC<IProps> = ({domain: originDomain, defence, packageInfo}
         if(!domain.totalAmount){
             return 100;
         }
-        return Math.ceil(domain.usedAmount / domain.totalAmount * 100);
+        return parseFloat((domain.usedAmount / domain.totalAmount).toFixed(4))* 100;
     }, [domain])
 
     if(!domain.totalAmount){
