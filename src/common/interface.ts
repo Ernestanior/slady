@@ -43,10 +43,20 @@ export interface INormalEvent extends IPrimaryModule, IRoleLimitModule{
     event: ICallback;
 }
 
+export interface IBatchEvent extends IPrimaryModule, IRoleLimitModule{
+    text: string;
+    hide?:boolean;
+    icon?: ReactNode;
+    event: ICallback;
+}
+
 export interface IEventListModule{
     event?: INormalEvent[]
 }
-
+export interface IBatchEventListModule{
+    batchEvent?:IBatchEvent[]
+    selectItems?:any[];
+}
 export interface ISubmitModule{
     submit: ISubmit
 }

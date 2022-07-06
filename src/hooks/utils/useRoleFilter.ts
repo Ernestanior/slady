@@ -1,4 +1,4 @@
-import {INormalEvent, IRoleLimitModule} from "@/common/interface";
+import {IBatchEvent, INormalEvent, IRoleLimitModule} from "@/common/interface";
 import useAccountInfo from "@/store/account";
 import {useMemo} from "react";
 
@@ -14,7 +14,7 @@ const useRoleFilter = (originList?: IRoleLimitModule[]) => {
             }
             return true
         })
-    }, [accountInfo, originList]) as INormalEvent[]
+    }, [accountInfo, originList]) as INormalEvent[] | IBatchEvent[]
 }
 
 export default useRoleFilter
