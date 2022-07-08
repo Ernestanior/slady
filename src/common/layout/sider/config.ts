@@ -65,6 +65,15 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
                 url: "/contact-service"
             }
         ]
+    },
+    {
+        text: "工具",
+        childs: [
+            {
+                text: "批量邮件发送",
+                url: "/email"
+            }
+        ]
     }
 ]
 

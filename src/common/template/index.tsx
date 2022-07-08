@@ -1,8 +1,9 @@
 import {FC, useState, useCallback, useRef, useLayoutEffect, useMemo, useEffect} from "react";
-import {Table, TableColumnProps, TablePaginationConfig} from "antd";
-import {IEventListModule, IFilerModule, IQueryModule} from "@/common/interface";
+import { Table, TableColumnProps, TablePaginationConfig} from "antd";
+import {IBatchEventListModule, IEventListModule, IFilerModule, IQueryModule} from "@/common/interface";
 import Filter from "@/common/template/filter";
 import FuncList from "@/common/template/func";
+import BatchFuncList from "@/common/template/batchFunc";
 import request from "@/store/request";
 import {IPageResult, ISearchPage} from "@/store/apis/account/common.interface";
 import {BehaviorSubject, from, Subject, switchMap} from "rxjs";
@@ -10,6 +11,9 @@ import {SorterResult} from "antd/es/table/interface";
 
 interface ITableModule{
     columns: TableColumnProps<any>[];
+    /** 行选中 */
+    selectRows?: (data: any[]) => void;
+    /** 每行数据的key */
     rowKey: string;
     scroll?: {
         x?: number;
@@ -36,7 +40,7 @@ export const reloadMainList = () => {
     event$.next(true)
 }
 
-const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule> = (props) => {
+const Template:FC<IFilerModule & IEventListModule & IBatchEventListModule & ITableModule & IQueryModule> = (props) => {
 
     // 表格loading
     const [loading, setLoading] = useState(false);
@@ -53,6 +57,8 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
     const { current: queryData } = useRef(props.queryData);
     const { current: queryDataFunction } = useRef(props.queryDataFunction);
 
+    // 如果有强制大小限定
+    const [selectIds, setSelectIds] = useState<string[]>([]);
 
     // 查询Promise
     const queryEvent = useCallback(
@@ -159,6 +165,17 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
         queryEvent,
     ]);
 
+    const batchBtns = props.batchEvent;
+    const rowSelection = useMemo(() => {
+        if ((Array.isArray(batchBtns) && batchBtns.length > 0)) {
+            return {
+                onChange: (selectedRowKeys: any) => {
+                    setSelectIds(selectedRowKeys);
+                },
+            };
+        }
+    }, [batchBtns]);
+
     /**
      * 新增搜索条件
      * disableLoading 表示此次刷新是否触发loading
@@ -208,10 +225,10 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
         },
         [params$, submit]
     );
-
     return <section>
         {props.filter && <Filter submit={data => { submit('filters', data)}}>{props.filter}</Filter>}
         {props.event && <FuncList event={props.event} />}
+        {props.batchEvent && <BatchFuncList batchEvent={props.batchEvent} selectItems={selectIds}/>}
         <section style={{ marginTop: (!props.filter && !props.event) ? 0 : 15 }}>
             <Table
                 sticky
@@ -225,6 +242,7 @@ const Template:FC<IFilerModule & IEventListModule & ITableModule & IQueryModule>
                 }}
                 rowKey={props.rowKey}
                 onChange={tableOnChange}
+                rowSelection={rowSelection}
                 columns={props.columns}
                 loading={loading}
                 rowClassName={rowClassName}

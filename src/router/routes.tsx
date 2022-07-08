@@ -19,6 +19,9 @@ import NewsList from "@/pages/news/list";
 import NewsCreate from "@/pages/news/create";
 import NewsUpdate from "@/pages/news/update";
 import CustomerService from "@/pages/customerService";
+import SendEmail from "@/pages/tool/sendEmail";
+import CreateEmail from "@/pages/tool/sendEmail/create";
+import DetailEmail from "@/pages/tool/sendEmail/detail";
 
 /**
  * 项目路由组件
@@ -80,6 +83,15 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/contact-service">
                     <CustomerService />
+                </Route>
+                <Route path="/email/:id">
+                    <DetailEmail />
+                </Route>
+                <Route path="/email/create">
+                    <CreateEmail />
+                </Route>
+                <Route path="/email">
+                    <SendEmail />
                 </Route>
                 <Redirect to="/customer" />
             </Switch>

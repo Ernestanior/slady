@@ -1,5 +1,5 @@
 import {FC, ReactNode} from "react";
-import { IEventListModule, INormalEvent} from "@/common/interface";
+import {IBatchEvent, IBatchEventListModule} from "@/common/interface";
 import useRoleFilter from "@/hooks/utils/useRoleFilter";
 import {Button, Space, Radio} from "antd";
 
@@ -8,9 +8,9 @@ import {Button, Space, Radio} from "antd";
  * @param event
  * @constructor
  */
-const FuncList:FC<IEventListModule> = ({event}) => {
-    const _funcList = useRoleFilter(event);
-    if(_funcList.length < 1){
+const FuncList:FC<IBatchEventListModule> = ({batchEvent,selectItems}) => {
+    const _batchFuncList = useRoleFilter(batchEvent);
+    if(_batchFuncList.length < 1){
         return null;
     }
 
@@ -18,19 +18,18 @@ const FuncList:FC<IEventListModule> = ({event}) => {
     const primaryList:ReactNode[] = [];
     const normalList:ReactNode[] = [];
 
-    _funcList.forEach((btn:INormalEvent, idx) => {
+    _batchFuncList.forEach((btn:IBatchEvent, idx) => {
         // primary
         if(btn.primary){
-            primaryList.push(<Button style={{marginRight:15}} type="primary" key={idx} onClick={btn.event}>
+            primaryList.push(<Button style={{marginRight:15}} type="primary" key={idx} onClick={()=>btn.event(selectItems)} disabled={selectItems && !selectItems.length}>
                 {btn.text}
             </Button>)
         }else{
-            normalList.push(<Radio.Button style={{marginRight:15}} className="btn-normal" key={idx} onClick={btn.event}>
+            normalList.push(<Radio.Button style={{marginRight:15}} className="btn-normal" key={idx} onClick={()=>btn.event(selectItems)} disabled={selectItems && !selectItems.length}>
                 {btn.text}
             </Radio.Button>)
         }
     })
-
     return <Space style={{ marginTop: 15 }}>
         {primaryList}
         {normalList.length > 0 && normalList}
