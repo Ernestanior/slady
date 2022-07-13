@@ -10,7 +10,8 @@ import {debounceTime, Subject} from "rxjs";
 
 interface IProps{
     value?: string;
-    onChange?: (value: string) => void
+    onChange?: (value: string) => void;
+    imgUrlCallback?:(img:string)=>void;
 }
 
 type InsertFnType = (url: string) => void
@@ -18,6 +19,7 @@ type InsertFnType = (url: string) => void
 function MyEditor(props: IProps) {
     const [editor, setEditor] = useState<IDomEditor | null>(null) // 存储 editor 实例
     const onChangeRef = useUpdateRef(props.onChange)
+    const imgUrlCallbackRef = useUpdateRef(props.imgUrlCallback)
     const value$ = useRef(new Subject<string | undefined>())
     const [html, setHtml] = useState("")
 
@@ -27,6 +29,7 @@ function MyEditor(props: IProps) {
 
     useEffect(() => {
         const sub = value$.current.pipe(debounceTime(500)).subscribe(value => {
+            console.log(value)
             if(!!value){
                 const valueHtml = value.indexOf("<p>") !== 0
                     ? value.split(/\n/).map(line => `<p>${line}</p>`).join('\n') : value
@@ -54,6 +57,7 @@ function MyEditor(props: IProps) {
                     if(res.isSuccess && res.result){
                         message.success("upload image successful !")
                         insertFn(res.result.href)
+                        imgUrlCallbackRef.current && imgUrlCallbackRef.current(res.result.href)
                     }else{
                         message.error(res.message)
                     }

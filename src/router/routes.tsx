@@ -84,11 +84,11 @@ const ModuleRouter:FC = () => {
                 <Route path="/contact-service">
                     <CustomerService />
                 </Route>
-                <Route path="/email/:id">
-                    <DetailEmail />
-                </Route>
                 <Route path="/email/create">
                     <CreateEmail />
+                </Route>
+                <Route path="/email/:id">
+                    <DetailEmail />
                 </Route>
                 <Route path="/email">
                     <SendEmail />
