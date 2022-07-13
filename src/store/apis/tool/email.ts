@@ -31,7 +31,7 @@ class EmailAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    EmailListSender = (params: { }, data: number[]) => {
+    EmailListSender = (params: {}, data: {}) => {
         const config: AxiosRequestConfig = {
             url: '/email/list-sender',
             method: 'get',
@@ -42,10 +42,21 @@ class EmailAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    EmailSend = (params: { }, data: number[]) => {
+    EmailSend = (params: { }, data: IEmailSend) => {
         const config: AxiosRequestConfig = {
             url: '/email/send-email',
             method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+    EmailDetail = (params: {emailRecordId:number}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/email/find-one',
+            method: 'get',
             params,
             data
         };
@@ -71,4 +82,13 @@ export interface IEmail{
     sender:string;
     title:string;
     toListCount:number
+    detail:string;
+}
+export interface IEmailSend{
+    bccAddress?:string;
+    ccAddress?:string;
+    content?:string;
+    sender:string;
+    title?:string;
+    toAddress:string;
 }
