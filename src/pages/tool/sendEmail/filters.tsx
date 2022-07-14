@@ -11,7 +11,7 @@ const ArchiveCustomerFilter:FC = () => {
         {/*<FormItem span={4} name="saleId" hidden={!!info && info.type !== E_USER_TYPE.SALE_MANAGER} noStyle>*/}
         {/*    <SaleSelector emptyOption placeholder="销售员" />*/}
         {/*</FormItem>*/}
-        <FormItem span={4} noStyle name="date">
+        <FormItem span={6} noStyle name="date">
             <DatePicker.RangePicker placeholder={["开始时间", "结束时间"]} />
         </FormItem>
     </>

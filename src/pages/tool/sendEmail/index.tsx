@@ -47,7 +47,7 @@ const SendEmail:FC = () => {
             {
                 title: "操作",
                 dataIndex: "opt",
-                width: 260,
+                width: 200,
                 render(_:any, data:any){
                     return <Space>
                         <Button onClick={() => { historyService.push("/email/" + data.id) }}>查看</Button>
