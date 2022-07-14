@@ -15,8 +15,6 @@ const DetailEmail:FC = () => {
         if (id){
             const res = await request(emailService.EmailDetail({emailRecordId:id},{}));
             if(res.isSuccess){
-                console.log(res.result)
-                // historyService.push("/email" )
                 setContent(res.result as IEmail)
             }
         }
