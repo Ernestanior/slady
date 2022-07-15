@@ -32,7 +32,6 @@ function MyEditor(props: IProps) {
                 const valueHtml = value.indexOf("<p>") !== 0
                     ? value.split(/\n/).map(line => `<p>${line}</p>`).join('\n') : value
                 setHtml(valueHtml)
-                console.log(valueHtml)
             }
         })
         return () => sub.unsubscribe()
