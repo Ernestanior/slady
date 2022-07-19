@@ -53,7 +53,7 @@ const CreateEmail:FC = () => {
         Object.keys(e).forEach(item=>{
             e[item] && formData.append(item,e[item])
         })
-        formData.append('imgList',imgList)
+        formData.append('spittleImages',imgList)
         fileList.forEach(file => {
             formData.append('attachments', file as RcFile);
         });
