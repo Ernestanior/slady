@@ -42,7 +42,7 @@ class EmailAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    EmailSend = (params: { }, data: IEmailSend) => {
+    EmailSend = (params: { }, data: any) => {
         const config: AxiosRequestConfig = {
             url: '/email/send-email',
             method: 'post',
@@ -55,7 +55,7 @@ class EmailAPI {
     }
     EmailDetail = (params: {emailRecordId:number}, data: {}) => {
         const config: AxiosRequestConfig = {
-            url: '/email/find-one',
+            url: '/email/find-by-id',
             method: 'get',
             params,
             data
@@ -79,9 +79,11 @@ export interface IEmailList{
 export interface IEmail{
     createDate:string;
     id:number;
+    bccList:string[];
+    ccList:string[];
+    toList:string[];
     sender:string;
     title:string;
-    toListCount:number
     detail:string;
 }
 export interface IEmailSend{

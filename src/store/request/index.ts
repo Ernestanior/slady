@@ -38,7 +38,6 @@ requestPlx.middleware_after.use(async (rep, next) => {
             message: rep.statusText,
         };
         if(rep.status === 401){
-            console.log(rep.data.code)
             if(rep.data && rep.data.code === 460){
                 accountService.active2FAuthFail();
             }else{
