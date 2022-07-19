@@ -13,3 +13,40 @@
     color:#318eff
   }
 }
+.email-detail-label{
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 30px;
+  .title{
+    font-weight: 550;
+    font-size: 25px;
+  }
+  .sender{
+    font-weight: 550;
+    font-size: 16px;
+  }
+  .bcc,.cc,.to{
+    color:#777;
+    margin-right: 10px;
+  }
+  .right-part{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-top: 15px;
+    .rotate{
+      color:#888;
+      transition: all .2s;
+      transform: rotate(180deg);
+    }
+    .no-rotate{
+      color:#888;
+      transition: all .2s;
+    }
+    .date{
+      color:#888;
+      margin-top: 10px;
+    }
+  }
+}

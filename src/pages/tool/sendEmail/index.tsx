@@ -92,9 +92,5 @@ export const columns: TableColumnProps<any>[] = [
     {
         title: "创建时间",
         dataIndex: "createDate",
-    },
-    {
-        title: "收件人数",
-        dataIndex: "toListCount",
     }
 ];

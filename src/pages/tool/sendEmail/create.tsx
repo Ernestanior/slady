@@ -1,21 +1,25 @@
 import {FC, useCallback, useEffect, useState} from "react";
 import FormItem from "@/common/Form/formItem";
 import Editor from "@/pages/news/editor";
-import {Breadcrumb, Button, Col, Form, Input, Row, Select} from "antd";
+import {Breadcrumb, Button, Col, Form, Input, notification, Row, Select, Upload} from "antd";
 import {useForm} from "antd/es/form/Form";
 import historyService from "@/store/history";
 import './index.less'
 import request from "@/store/request";
 import {emailService} from "@/store/apis/tool";
 import {Link} from "react-router-dom";
+import {PaperClipOutlined} from "@ant-design/icons";
+import {UploadFile} from "antd/es/upload/interface";
+import {RcFile} from "antd/lib/upload";
+import {validateEmail} from "@/common/utils";
 
 const {Option} = Select
 const CreateEmail:FC = () => {
     const [form] = useForm()
     const [cc,setCC] = useState<boolean>(true)
     const [bcc,setBCC] = useState<boolean>(true)
-    const [imgList,setImgList] = useState<string[]>([])
-
+    const [imgList,setImgList] = useState<any>([])
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [senderList,setSenderList] = useState<any[]>()
     const [loading,setLoading]=useState<boolean>(false)
 
@@ -28,9 +32,34 @@ const CreateEmail:FC = () => {
         getSenderList()
     },[getSenderList])
 
+
     const onFinish =async (e:any)=>{
+        const {toAddress,ccAddress,bccAddress} = e
+        let valid = true;
+        toAddress && toAddress.forEach((item:string)=>{
+            if(!validateEmail(item)) valid=false
+        })
+        ccAddress && ccAddress.forEach((item:string)=>{
+            if(!validateEmail(item)) valid=false
+        })
+        bccAddress && bccAddress.forEach((item:string)=>{
+            if(!validateEmail(item)) valid=false
+        })
+        if (!valid){
+            notification.error({message:"检测到Email格式不正确"})
+            return
+        }
+        const formData = new FormData()
+        Object.keys(e).forEach(item=>{
+            e[item] && formData.append(item,e[item])
+        })
+        formData.append('imgList',imgList)
+        fileList.forEach(file => {
+            formData.append('attachments', file as RcFile);
+        });
+
         setLoading(true)
-        const res = await request(emailService.EmailSend({}, {...e,spittleImages:imgList}));
+        const res = await request(emailService.EmailSend({}, formData));
         setLoading(false)
         if(res.isSuccess){
             historyService.replace('/email')
@@ -84,7 +113,7 @@ const CreateEmail:FC = () => {
             <FormItem name= "content">
                 <Editor key="simplified-content" imgUrlCallback={(url)=>setImgList([...imgList,url])}/>
             </FormItem>
-            <Row gutter={15}>
+            <Row gutter={15} style={{marginTop:20,marginBottom:30}}>
                 <Col>
                     <Button type="primary" htmlType="submit" loading={loading}>
                         应用
@@ -94,6 +123,22 @@ const CreateEmail:FC = () => {
                     <Button onClick={() =>historyService.push("/email") }>
                         取消
                     </Button>
+                </Col>
+                <Col>
+                    <Upload
+                        onRemove={(file)=>{
+                        const index = fileList.indexOf(file);
+                        const newFileList = fileList.slice();
+                        newFileList.splice(index, 1);
+                        setFileList(newFileList);
+                    }}
+                    beforeUpload={(file)=>{
+                        setFileList([...fileList, file]);
+                        return false;
+                    }}
+                    fileList={fileList}>
+                        <Button icon={<PaperClipOutlined />}></Button>
+                    </Upload>
                 </Col>
             </Row>
         </Form>
