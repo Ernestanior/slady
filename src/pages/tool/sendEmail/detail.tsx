@@ -45,7 +45,7 @@ const DetailEmail:FC = () => {
                                 !!content.toList.length && <span className="cc">To: </span>
                             }
                             {
-                                content.toList.map(item=> <span>{item}</span>)
+                                content.toList.map(item=> <span>{item}, </span>)
                             }
                         </div>
                         {
@@ -56,7 +56,7 @@ const DetailEmail:FC = () => {
                                         !!content.ccList.length && <span className="cc">Cc: </span>
                                     }
                                     {
-                                        content.ccList.map(item=> <span>{item}</span>)
+                                        content.ccList.map(item=> <span>{item}, </span>)
                                     }
                                 </div>
                                 <div style={{marginTop:8}}>
@@ -64,7 +64,7 @@ const DetailEmail:FC = () => {
                                         !!content.bccList.length && <span className="bcc">Bcc: </span>
                                     }
                                     {
-                                        content.bccList.map(item=> <span>{item}</span>)
+                                        content.bccList.map(item=> <span>{item}, </span>)
                                     }
                                 </div>
                             </>
