@@ -50,19 +50,20 @@ const CreateEmail:FC = () => {
             return
         }
         const formData = new FormData()
-        Object.keys(e).forEach(item=>{
-            e[item] && formData.append(item,e[item])
-        })
-        formData.append('spittleImages',imgList)
         fileList.forEach(file => {
             formData.append('attachments', file as RcFile);
         });
 
         setLoading(true)
-        const res = await request(emailService.EmailSend({}, formData));
-        setLoading(false)
-        if(res.isSuccess){
-            historyService.replace('/email')
+        let attachments:string[]=[]
+        const upload_result = await request(emailService.AttachmentsUpload({}, formData));
+        if(upload_result.isSuccess){
+            attachments = upload_result.result as string[]
+            const email_result = await request(emailService.EmailSend({}, {attachments,spittleImages:imgList,...e}));
+            setLoading(false)
+            if(email_result.isSuccess ){
+                historyService.replace('/email')
+            }
         }
     }
     return <>
@@ -137,7 +138,7 @@ const CreateEmail:FC = () => {
                         return false;
                     }}
                     fileList={fileList}>
-                        <Button icon={<PaperClipOutlined />}></Button>
+                        <Button icon={<PaperClipOutlined />}/>
                     </Upload>
                 </Col>
             </Row>
