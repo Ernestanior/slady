@@ -72,6 +72,10 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
             {
                 text: "批量邮件发送",
                 url: "/email"
+            },
+            {
+                text: "子账号查询",
+                url: "/sub-account-query"
             }
         ]
     }
