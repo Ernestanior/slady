@@ -6,7 +6,7 @@ import {IEmail} from "@/store/apis/tool/email";
 import {Breadcrumb} from "antd";
 import {Link} from "react-router-dom";
 import './index.less'
-import {DownOutlined} from "@ant-design/icons";
+import {DownOutlined, PaperClipOutlined} from "@ant-design/icons";
 
 const DetailEmail:FC = () => {
     const id = useUrlParamsId("/email/:id")
@@ -23,6 +23,7 @@ const DetailEmail:FC = () => {
     useEffect(()=>{
         getDetail()
     },[getDetail])
+
     return <div>
         <Breadcrumb separator=">" style={{marginBottom:20}}>
             <Breadcrumb.Item>工具</Breadcrumb.Item>
@@ -77,6 +78,9 @@ const DetailEmail:FC = () => {
 
                 </section>
                 <div dangerouslySetInnerHTML = {{ __html: content.detail}}/>
+                <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+                    {Object.keys(content.attachments).map((item)=><div key={item}><PaperClipOutlined /><a rel="noreferrer" target="_Blank" href={'http://stg-portal.greycdn.com'+content.attachments[item]}>{item}</a></div>)}
+                </div>
             </>}
 
     </div>

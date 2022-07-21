@@ -42,9 +42,20 @@ class EmailAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    EmailSend = (params: { }, data: any) => {
+    EmailSend = (params: { }, data: { }) => {
         const config: AxiosRequestConfig = {
             url: '/email/send-email',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+    AttachmentsUpload = (params: {}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/email/upload-attachments',
             method: 'post',
             params,
             data
@@ -77,6 +88,7 @@ export interface IEmailList{
     title: string
 }
 export interface IEmail{
+    attachments:any;
     createDate:string;
     id:number;
     bccList:string[];
