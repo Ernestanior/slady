@@ -56,24 +56,28 @@ const CustomerService: FC = () => {
                 <Select
                     mode="tags"
                     open={false}
+                    tokenSeparators={[",", " ",":"]}
                 />
             </FormItem>
             <FormItem label="line 客服列表" name="lineList">
                 <Select
                     mode="tags"
                     open={false}
+                    tokenSeparators={[",", " ", ":"]}
                 />
             </FormItem>
             <FormItem label="skype 客服列表" name="skypeList">
                 <Select
                     mode="tags"
                     open={false}
+                    tokenSeparators={[",", " ", ":"]}
                 />
             </FormItem>
             <FormItem label="email 客服列表" name="emailList">
                 <Select
                     mode="tags"
                     open={false}
+                    tokenSeparators={[",", " ", ":"]}
                 />
             </FormItem>
             {diff && <Footer marginBottom={30} submit={saveEvent} cancel={() => {form.loadFieldsValue(config)}} />}
