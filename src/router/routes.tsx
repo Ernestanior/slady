@@ -22,7 +22,7 @@ import CustomerService from "@/pages/customerService";
 import SendEmail from "@/pages/tool/sendEmail";
 import CreateEmail from "@/pages/tool/sendEmail/create";
 import DetailEmail from "@/pages/tool/sendEmail/detail";
-
+import SubAccountQuery from "@/pages/tool/subAccountQuery";
 /**
  * 项目路由组件
  * 可以在此根据用户相应的权限组装路由
@@ -92,6 +92,9 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/email">
                     <SendEmail />
+                </Route>
+                <Route path="/sub-account-query">
+                    <SubAccountQuery />
                 </Route>
                 <Redirect to="/customer" />
             </Switch>
