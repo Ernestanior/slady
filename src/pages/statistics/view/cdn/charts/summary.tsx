@@ -1,6 +1,6 @@
 import {FC, useMemo} from "react";
 import {Col, Progress, Row, Space} from "antd";
-import ProgressCenter from "@/pages/statistics/view/charts/progressCenter";
+import ProgressCenter from "@/pages/statistics/view/cdn/charts/progressCenter";
 import "./summary.less"
 
 interface IProps{

@@ -61,7 +61,7 @@ const ModuleRouter:FC = () => {
                 <Route path="/sale">
                     <SaleList />
                 </Route>
-                <Route path="/statistics/:id">
+                <Route path="/statistics/:id/:cdn/:dns">
                     <ViewStatistics />
                 </Route>
                 <Route path="/statistics">
