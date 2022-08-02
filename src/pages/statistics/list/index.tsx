@@ -49,7 +49,20 @@ const StatisticsList:FC = () => {
         return null;
     }, []);
 
+    // const options: IOperationConfig = useMemo(() => {
+    //     return [
+    //             {
+    //                 text: "查看",
+    //                 icon: 'iconchakan1',
+    //                 event(data) {
+    //                     historyService.push("/statistics/" + data.id)
+    //                 },
+    //             }
+    //     ]
+    // }, [])
+
     // 下拉
+
     const _columns:any = useMemo(() => {
         return [
             ...columns,
@@ -66,10 +79,12 @@ const StatisticsList:FC = () => {
             }
         ]
     }, [])
+
     return <section>
         <Template
             filter={<StatFilter />}
             columns={_columns}
+            // optList={options}
             queryDataFunction={queryFunction}
             rowKey="id"
             scroll={{

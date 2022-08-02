@@ -8,9 +8,13 @@ import request from "@/store/request";
 import {IPageResult, ISearchPage} from "@/store/apis/account/common.interface";
 import {BehaviorSubject, from, Subject, switchMap} from "rxjs";
 import {SorterResult} from "antd/es/table/interface";
+import {IOperationConfig} from "@/common/template/interface";
+import {createOptList} from "@/common/template/optList";
 
 interface ITableModule{
     columns: TableColumnProps<any>[];
+    /** 表格操作  */
+    optList?: IOperationConfig;
     /** 行选中 */
     selectRows?: (data: any[]) => void;
     /** 每行数据的key */
@@ -225,6 +229,21 @@ const Template:FC<IFilerModule & IEventListModule & IBatchEventListModule & ITab
         },
         [params$, submit]
     );
+
+    const tableRowConfig: any = useMemo(() => {
+        const {optList,columns} = props
+        const conf = columns.map(cof =>cof)
+        if (!optList) {
+            return conf;
+        }
+        if (optList.length < 1) {
+            return conf;
+        }
+        const optConf = createOptList(optList);
+        optConf && conf.push(optConf as any);
+        return conf;
+    }, [props]);
+
     return <section>
         {props.filter && <Filter submit={data => { submit('filters', data)}}>{props.filter}</Filter>}
         {props.event && <FuncList event={props.event} />}
@@ -243,7 +262,7 @@ const Template:FC<IFilerModule & IEventListModule & IBatchEventListModule & ITab
                 rowKey={props.rowKey}
                 onChange={tableOnChange}
                 rowSelection={rowSelection}
-                columns={props.columns}
+                columns={tableRowConfig}
                 loading={loading}
                 rowClassName={rowClassName}
                 scroll={props.scroll}

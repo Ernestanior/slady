@@ -5,6 +5,7 @@ import LayoutPlx from "../common/layout";
 import CustomerList from "@/pages/customerList";
 import CreateCustomer from "@/pages/customer/create";
 import ModifyCustomerPage from "@/pages/customer/modify";
+import ResetPwd from "@/pages/resetPwd";
 import SaleList from "@/pages/saleList";
 import CreateSale from "@/pages/sale/create";
 import ModifySalePage from "@/pages/sale/modify";
@@ -36,6 +37,9 @@ const ModuleRouter:FC = () => {
                 <Route exact path="/customer/modify/:type/:id">
                     <ModifyCustomerPage />
                 </Route>
+                <Route exact path="/customer/resetPwd/:name/:id">
+                    <ResetPwd />
+                </Route>
                 <Route path="/customer/create">
                     <CreateCustomer />
                 </Route>
@@ -47,6 +51,9 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/sale/modify/:id">
                     <ModifySalePage />
+                </Route>
+                <Route exact path="/sale/resetPwd/:name/:id">
+                    <ResetPwd />
                 </Route>
                 <Route path="/sale/create">
                     <CreateSale />
