@@ -7,6 +7,7 @@ import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
 import {ICallback} from "@/common/interface";
 import moment from "moment";
+import {notification} from "antd";
 
 export const upperCasePlx = (value: string | number) =>
     typeof value === "string" ? value.toUpperCase() : value;
@@ -104,10 +105,11 @@ export const queryValue = (a:any, defaultValue:any) => {
     return a;
 }
 
-export const reqAndReload = (config: AxiosRequestConfig) => {
+export const reqAndReload = (config: AxiosRequestConfig, cb?: ICallback) => {
     from(request(config)).subscribe(res => {
         if(res.isSuccess){
             reloadMainList();
+            cb && cb(res.result)
         }
     })
 }
@@ -211,6 +213,25 @@ export const trimAndRemoveUndefined = (values: any) => {
         }
     }
     return _value
+}
+
+// 复制功能
+export const copy = (content:any) => {
+    const selection = window.getSelection();
+    if(selection){
+        const textareaEl = document.createElement("textarea");
+        const parentElement = document.body.appendChild(textareaEl);
+        textareaEl.innerHTML = content;
+        textareaEl.select();
+        document.execCommand('copy');
+        document.body.removeChild(textareaEl);
+        if (parentElement) {
+            notification.success({
+                message: '内容已成功复制！',
+                duration: 0.7
+            })
+        }
+    }
 }
 
 /**

@@ -4,6 +4,7 @@ import Routers from "@/router";
 import { IntlProvider } from "react-intl";
 import { useLanguage } from "@/locale";
 import ErrorPage from "@/error";
+import ModalX from "@/common/modal";
 
 function App() {
     const languagePackage = useLanguage();
@@ -14,6 +15,7 @@ function App() {
 
     return (
         <IntlProvider messages={languagePackage} locale="en">
+            <ModalX />
             <Routers />
         </IntlProvider>
     );

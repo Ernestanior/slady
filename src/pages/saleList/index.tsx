@@ -2,14 +2,14 @@ import {FC, useCallback, useMemo} from "react";
 import {INormalEvent} from "@/common/interface";
 import historyService from "@/store/history";
 import {saleService} from "@/store/apis/account";
-import {Button, Space} from "antd";
-import ConfirmButton from "@/common/confirm/button";
 import {queryValueFromListRender, reqAndReload} from "@/common/utils";
 import Template from "@/common/template";
 import {SALE_LIST} from "@/pages/sale/create";
 import SaleFilter from "@/pages/saleList/filter";
 import {E_USER_STATUS_COLUMN} from "@/pages/customerList";
 import {E_USER_TYPE} from "@/store/account/service";
+import {IOperationConfig} from "@/common/template/interface";
+import msgModal from "@/store/message/service";
 
 const SaleList:FC = () => {
 
@@ -44,6 +44,13 @@ const SaleList:FC = () => {
     //     reqAndReload(config)
     // }, [])
 
+    //重置密码
+    const resetPwd = useCallback(
+        (user) => {
+            historyService.push(`/sale/resetPwd/${user.name}/${user.userId}`);
+        },
+        []
+    );
     // modify
     const deleteUser = useCallback(({id}) => {
         const config = saleService.Delete({ saleId: id }, {});
@@ -56,7 +63,46 @@ const SaleList:FC = () => {
         historyService.push("/sale/assign/" + id)
     }, [])
 
+    const options: IOperationConfig = useMemo(() => {
+        return [
+            [
+                {
+                    text: "分配客户",
+                    hide:(data)=>!(data.type === E_USER_TYPE.SALE),
+                    event(data) {
+                        reAssignCustomer(data)
+                    }
+                },
+                {
+                    text: "修改",
+                    hide:(data)=>data.status !== 1,
+                    event(data) {
+                        modify(data)
+                    }
+                },
+                {
+                    text: "重置密码",
+                    event(data) {
+                        resetPwd(data);
+                    },
+                },
+                {
+                    text: "删除",
+                    event(data) {
+                        // deleteCustomer(data);
+                        const value = {
+                            title:"删除",
+                            content:"你确定要删除该客户么？",
+                            onOk:()=>deleteUser(data)
+                        }
+                        msgModal.createEvent(value)
+                    },
+                }]
+        ]
+    }, [resetPwd,deleteUser,reAssignCustomer,modify])
+
     // 下拉
+    /** 老版本
     const _columns = useMemo(() => {
         return [
             ...columns,
@@ -75,12 +121,13 @@ const SaleList:FC = () => {
             }
         ]
     }, [modify, deleteUser, reAssignCustomer])
-
+    */
     return <section>
         <Template
+            optList={options}
             filter={<SaleFilter />}
             event={buttons}
-            columns={_columns}
+            columns={columns}
             queryData={query}
             rowKey="id"
         />

@@ -64,6 +64,7 @@ const CustomerForm:FC<IObserverForm> = ({form, data$}) => {
             if(data.customerType === E_L_CUSTOMER_TYPE[0].id){
                 delete data.agentId;
             }
+            data.dedicatedPlanFlag = 1
             config = customerService.ModifyCustomer({}, data);
         }
         from(request(config)).subscribe((res) => {

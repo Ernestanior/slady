@@ -2,7 +2,7 @@ import { FC, useCallback, useMemo } from "react";
 import Template from "@/common/template";
 import CustomerFilter from "@/pages/customerList/filter";
 import { INormalEvent } from "@/common/interface";
-import { Button, Space, TableColumnProps, Tooltip } from "antd";
+import {notification, TableColumnProps, Tooltip} from "antd";
 import {
   agentService,
   customerService,
@@ -10,7 +10,7 @@ import {
   userService,
 } from "@/store/apis/account";
 import historyService from "@/store/history";
-import ConfirmButton from "@/common/confirm/button";
+// import ConfirmButton from "@/common/confirm/button";
 import { reqAndReload } from "@/common/utils";
 import Status from "@/common/status";
 import { E_COLOR } from "@/common/const";
@@ -21,6 +21,8 @@ import request from "@/store/request";
 import EllipsisTooltip from "@/common/ellipsisTooltip";
 import { ellopsisTableConfig } from "@/common/utilsx";
 import { statService } from "@/store/apis/stat";
+import {IOperationConfig} from "@/common/template/interface";
+import msgModal from "@/store/message/service";
 
 /**
  * 用户启用禁用状态
@@ -28,7 +30,6 @@ import { statService } from "@/store/apis/stat";
 export const E_USER_STATUS_COLUMN: TableColumnProps<any> = {
   title: "账号状态",
   dataIndex: "status",
-  width: 80,
   render(value, item) {
     let leftTime = 0;
     const endDate = moment(item.probationStart, "YYYY/MM/DD").add(
@@ -70,6 +71,14 @@ const CustomerList: FC = () => {
   // const query = useCallback((data) => {
   //     return saleService.QueryUserList({}, data);
   // }, [])
+
+  const resetPwd = useCallback(
+       (customer) => {
+         historyService.push(`/customer/resetPwd/${customer.name}/${customer.userId}`);
+      //   const res = await request(userService.ResetUserPwd({ id }, {}));
+      },
+      []
+  );
 
   const queryDataFunction = useCallback(async (filters) => {
     const cusList = await request(saleService.QueryUserList({}, filters));
@@ -128,7 +137,7 @@ const CustomerList: FC = () => {
     } else {
       config = customerService.DisableCustomer({ id: data.id }, {});
     }
-    reqAndReload(config);
+    reqAndReload(config,()=>notification.success({message:"配置已更新"}));
   }, []);
 
   // enable
@@ -139,7 +148,7 @@ const CustomerList: FC = () => {
     } else {
       config = customerService.EnableCustomer({ id: data.id }, {});
     }
-    reqAndReload(config);
+    reqAndReload(config,()=>notification.success({message:"配置已更新"}));
   }, []);
 
   // modify
@@ -150,7 +159,7 @@ const CustomerList: FC = () => {
     } else {
       config = customerService.Delete({ id: data.id }, {});
     }
-    reqAndReload(config);
+    reqAndReload(config,()=>notification.success({message:"配置已更新"}));
   }, []);
 
   const info = useAccountInfo();
@@ -159,8 +168,53 @@ const CustomerList: FC = () => {
     _columns_fix = columns_manage;
   }
 
+  const options: IOperationConfig = useMemo(() => {
+    return [
+      [
+        {
+          text: "修改",
+          event(data) {
+            modify(data);
+          }
+        },
+        {
+          text: "禁用",
+          hide:(data)=>data.status !== 1,
+          event(data) {
+            disable(data);
+          }
+        },
+        {
+          text: "启用",
+          hide:(data)=>data.status === 1,
+          event(data) {
+            enable(data);
+          }
+        },
+        {
+          text: "重置密码",
+          event(data) {
+            resetPwd(data);
+          },
+        },
+        {
+          text: "删除",
+          event(data) {
+            // deleteCustomer(data);
+            const value = {
+              title:"删除",
+              content:"你确定要删除该客户么？",
+              onOk:()=>deleteCustomer(data)
+            }
+            msgModal.createEvent(value)
+          },
+        }]
+    ]
+  }, [deleteCustomer,resetPwd,enable,disable,modify])
+
   // 下拉
-  const _columns: any = useMemo(() => {
+  /** 旧版本
+   const _columns: any = useMemo(() => {
     return [
       ..._columns_fix,
       {
@@ -210,16 +264,18 @@ const CustomerList: FC = () => {
           );
         },
       },
-    ];
-  }, [modify, enable, disable, deleteCustomer, _columns_fix]);
 
+    ];
+  }, [_columns_fix]);
+*/
   return (
     <section>
       <Template
         filter={<CustomerFilter />}
         event={buttons}
-        columns={_columns}
+        columns={_columns_fix}
         // queryData={query}
+          optList={options}
         queryDataFunction={queryDataFunction}
         rowKey="id"
         scroll={{
