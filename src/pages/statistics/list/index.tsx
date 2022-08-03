@@ -72,9 +72,8 @@ const StatisticsList:FC = () => {
                 width: 200,
                 fixed: "right",
                 render(_:any, data:any){
-                    console.log(data)
                     return <Space>
-                        <Button onClick={() => { historyService.push(`/statistics/${data.id}/${data.cdnServiceFlag}/${data.dnsServiceFlag}`) }}>查看</Button>
+                        <Button onClick={() => { historyService.push(`/statistics/${data.id}`) }}>查看</Button>
                     </Space>
                 }
             }

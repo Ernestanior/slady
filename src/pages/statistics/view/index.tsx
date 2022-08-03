@@ -1,4 +1,4 @@
-import {FC, useMemo} from "react";
+import {FC, useEffect, useMemo, useState} from "react";
 import {Breadcrumb, Tabs} from "antd";
 import {Link, useRouteMatch} from "react-router-dom";
 import {HomeOutlined} from "@ant-design/icons";
@@ -6,13 +6,15 @@ import historyService from "@/store/history";
 import CustomerListSelector from "@/pages/common/customerListSelector";
 import CdnStat from './cdn'
 import DnsStat from './dns'
+import {customerService} from "@/store/apis/account";
+import {from} from "rxjs";
+import request from "@/store/request";
 
 const { TabPane } = Tabs;
 
 const ViewStatistics:FC = () => {
-
-    const url = useRouteMatch<{ id: string, cdn: string,dns:string }>("/statistics/:id/:cdn/:dns")
-    console.log(url)
+    const [customerInfo,setCustomerInfo] = useState()
+    const url = useRouteMatch<{ id: string}>("/statistics/:id")
     const id = useMemo(() => {
         if(url && url.params){
             if(url.params.id){
@@ -21,25 +23,20 @@ const ViewStatistics:FC = () => {
         }
     }, [url])
 
-    const cdn = useMemo(() => {
-        if(url && url.params){
-            if(url.params.cdn) {
-                return parseInt(url.params.cdn)
-            }
+    useEffect(()=>{
+        if (id){
+            const config = customerService.FindOne({id},{})
+            const sub = from(request(config)).subscribe((res)=>{
+                setCustomerInfo(res.result as any)
+            })
+            return ()=>sub.unsubscribe()
         }
-    }, [url])
-
-    const dns = useMemo(() => {
-        if(url && url.params){
-            if(url.params.dns) {
-                return parseInt(url.params.dns)
-            }
-        }
-    }, [url])
+    },[id])
 
     const statContent = useMemo(()=>{
-        if (id){
-            if(dns && cdn){
+        if (id && customerInfo){
+            const {dnsServiceFlag,cdnServiceFlag}=customerInfo
+            if(dnsServiceFlag && cdnServiceFlag){
                 return <Tabs defaultActiveKey="1">
                     <TabPane tab="CDN" key="1">
                         <CdnStat id={id}/>
@@ -49,22 +46,19 @@ const ViewStatistics:FC = () => {
                     </TabPane>
                 </Tabs>
             }
-            if(cdn){
+            if(cdnServiceFlag){
                 return <CdnStat id={id}/>
             }
-            if(dns){
+            if(dnsServiceFlag){
                 return <DnsStat id={id}/>
             }
         }
 
-    },[id,cdn,dns])
+    },[id,customerInfo])
 
     if(!id){
         return null
     }
-
-
-
 
     return <section>
         <Breadcrumb separator=">">

@@ -1,4 +1,5 @@
 import { EChartsOption } from "echarts-for-react"
+import {xAxisFormatterGenerate} from "@/common/utils";
 
 export const option: EChartsOption = (chartDatas: any, title: string) => {
     let _opt: any = {
@@ -48,6 +49,7 @@ export const option: EChartsOption = (chartDatas: any, title: string) => {
             boundaryGap: false,
             axisLabel: {
                 rotate: 0,
+                formatter: xAxisFormatterGenerate(chartDatas)
             },
             splitNumber: 20,
             splitLine: {

@@ -25,12 +25,18 @@ const RequestQuantity: FC<IProps> = ({ padding = true }) => {
   useEffect(() => {
     queryStat();
   }, [queryStat]);
-  
 
+  console.log(data)
   return (
     <div className={`${padding ? "cdn-page-row" : ""} cdn-block `}>
       <Spin spinning={visible} tip="Loading...">
-        <EchartLoader config={option(data, "RESOLVE_CHART")} />
+        <EchartLoader config={option(data, "解析量统计")} />
+        {/*<ReactECharts*/}
+        {/*    style={{*/}
+        {/*      height: 400*/}
+        {/*    }}*/}
+        {/*    option={options}*/}
+        {/*/>*/}
       </Spin>
     </div>
   );
