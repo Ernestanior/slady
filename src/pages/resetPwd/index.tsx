@@ -60,14 +60,16 @@ const ResetPwdPage:FC = () => {
                 客户: {name}
             </Breadcrumb.Item>
         </Breadcrumb>
-        <h4 style={{marginTop:30,marginBottom:20}}>重置密码</h4>
+        {newPwd ?
+        <h4 style={{marginTop:30,marginBottom:20}}>新密码</h4>:
+        <h4 style={{marginTop:30,marginBottom:20}}>重置密码</h4>}
         {newPwd ?
             <TipBox type="success" title="重置密码成功" >
                 <span onDoubleClick={()=>copy(newPwd)}>{newPwd}</span>
                 <IconFont type="iconwendangfuzhi" onClick={()=>copy(newPwd)} />
             </TipBox>:
             <TipBox type="warning" title="提示" >
-                确认为<b>{name}</b>重置密码？
+                请确认为<b>{name}</b>重置密码？
             </TipBox>
         }
         {

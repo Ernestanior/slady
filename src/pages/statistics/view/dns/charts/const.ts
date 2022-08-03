@@ -35,11 +35,14 @@ export const option: EChartsOption = (chartDatas: any, title: string) => {
             }
         },
         legend: {
-            data: ['解析量统计']
+            right: 40,
+            orient: 'vertical',
+            top: 20,
+            type: "scroll"
         },
         grid: {
             left: '30px',
-            right: '20px',
+            right: '250px',
             bottom: '3%',
             containLabel: true
         },
@@ -49,7 +52,7 @@ export const option: EChartsOption = (chartDatas: any, title: string) => {
             axisLabel: {
                 rotate: 0,
             },
-            splitNumber: 20,
+            splitNumber: 15,
             splitLine: {
                 show: true
             },
@@ -70,22 +73,19 @@ export const option: EChartsOption = (chartDatas: any, title: string) => {
                 show: false,
             },
         },
-        series: {
-            name: '',
-            datasetId: '',
+        series: chartDatas.map((item:any) =>({
+            name: item.domain,
             type: 'line',
             showSymbol: false,
             symbol: 'none',
             animation: true,
-            data: chartDatas.map((v: any) => {
-                return [new Date(v.time).getTime(), v.count]
-            }),
+            data: item.dataList.map((_item:any) => [_item.time, _item.count]),
+            stack: 'Total',
+            areaStyle: {},
             lineStyle: {
                 width: 1
-            },
-            areaStyle: {},
-            itemStyle: {},
-        }
+            }
+        }))
     }
     if (title) {
         _opt = { ..._opt, title: { text: title } }

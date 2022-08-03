@@ -239,6 +239,21 @@ class RecordAPI {
      * 解析量统计
      * 折线图
      */
+    OverviewResolveChart = (params: {}, data: IEntityParams) => {
+        const config: AxiosRequestConfig = {
+            url: '/dns/stat/overview/resolve-chart',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+    /**
+     * 解析量统计
+     * 折线图
+     */
     EntityResolveChart = (params: {}, data: IEntityParams) => {
         const config: AxiosRequestConfig = {
             url: '/dns/stat/entity/resolve-chart',

@@ -88,7 +88,7 @@ const DNSInfo: FC<IProps> = ({id})=> {
           hideOnSinglePage: true,
         }}
       />
-      <RequestQuantity padding={false} />
+      <RequestQuantity padding={false} customerId={id}/>
     </section>
   );
 };

@@ -293,7 +293,7 @@ const columns: TableColumnProps<any>[] = [
     title: "客户名称",
     dataIndex: "name",
     sorter: true,
-    width: 120,
+    width: 130,
     fixed: "left",
     ...ellopsisTableConfig,
   },
@@ -301,7 +301,7 @@ const columns: TableColumnProps<any>[] = [
     title: "客户邮箱",
     dataIndex: "email",
     sorter: true,
-    width: 120,
+    width: 150,
     ...ellopsisTableConfig,
   },
   {
@@ -333,7 +333,7 @@ const columns: TableColumnProps<any>[] = [
   {
     title: "CDN",
     dataIndex: "probation",
-    width: 140,
+    width: 90,
     render(_, data) {
       if (data.type === USER_TYPE[2].id) {
         return "-";
@@ -358,7 +358,7 @@ const columns: TableColumnProps<any>[] = [
   {
     title: "DNS",
     dataIndex: "dnsServiceFlag",
-    width: 140,
+    width: 90,
     render(_, data) {
       if (data.type === USER_TYPE[2].id) {
         return "-";
@@ -383,7 +383,7 @@ const columns_manage = [
   {
     title: "销售员",
     dataIndex: "saleName",
-    width: 110,
+    width: 130,
     onCell: () => ({
       style: {
         whiteSpace: "nowrap",

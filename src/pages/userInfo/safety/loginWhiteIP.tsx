@@ -61,7 +61,6 @@ const LoginWhiteIP:FC = () => {
     useEffect(() => {
         const sub = from(request(userService.FindAccessWhiteList({}, {}))).subscribe(res => {
             if(res.isSuccess && res.result){
-                console.log(res.result)
                 setOriginConfig(res.result);
             }
         })
