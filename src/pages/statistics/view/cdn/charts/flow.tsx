@@ -14,7 +14,6 @@ export interface IFlowData{
 }
 
 const Flow:FC<IDataModule<IFlowData>> = ({data}) => {
-    console.log(data)
     const options = useMemo(() => {
         if(!data || !data.flowList){
             return null

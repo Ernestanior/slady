@@ -193,7 +193,6 @@ export const getJsonFromForm = (form: FormInstance) => {
     if(data.id){
         jsonData.id = data.id
     }
-    console.log(jsonData)
     return jsonData
 }
 

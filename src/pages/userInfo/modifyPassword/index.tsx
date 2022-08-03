@@ -13,7 +13,6 @@ const ModifyPassword:FC = () => {
                 isSuccess: false
             }
         }
-        console.log(data)
         // 加密密码
         data.newPwd = encrypt(data.newPwd);
         data.confirmPwd = encrypt(data.confirmPwd);

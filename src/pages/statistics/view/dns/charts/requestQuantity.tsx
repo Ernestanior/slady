@@ -26,7 +26,6 @@ const RequestQuantity: FC<IProps> = ({ padding = true }) => {
     queryStat();
   }, [queryStat]);
 
-  console.log(data)
   return (
     <div className={`${padding ? "cdn-page-row" : ""} cdn-block `}>
       <Spin spinning={visible} tip="Loading...">
