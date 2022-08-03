@@ -30,6 +30,7 @@ import msgModal from "@/store/message/service";
 export const E_USER_STATUS_COLUMN: TableColumnProps<any> = {
   title: "账号状态",
   dataIndex: "status",
+  width:100,
   render(value, item) {
     let leftTime = 0;
     const endDate = moment(item.probationStart, "YYYY/MM/DD").add(
@@ -333,7 +334,7 @@ const columns: TableColumnProps<any>[] = [
   {
     title: "CDN",
     dataIndex: "probation",
-    width: 90,
+    width: 110,
     render(_, data) {
       if (data.type === USER_TYPE[2].id) {
         return "-";
@@ -358,7 +359,7 @@ const columns: TableColumnProps<any>[] = [
   {
     title: "DNS",
     dataIndex: "dnsServiceFlag",
-    width: 90,
+    width: 110,
     render(_, data) {
       if (data.type === USER_TYPE[2].id) {
         return "-";
