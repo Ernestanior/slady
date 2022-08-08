@@ -203,8 +203,8 @@ const CustomerList: FC = () => {
           event(data) {
             // deleteCustomer(data);
             const value = {
-              title:"删除",
-              content:"你确定要删除该客户么？",
+              title:"删除客户",
+              content:`你确定要删除客户: ${data.name} ？`,
               onOk:()=>deleteCustomer(data)
             }
             msgModal.createEvent(value)

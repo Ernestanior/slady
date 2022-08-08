@@ -1,4 +1,4 @@
-import mock from 'mockjs';
+// import mock from 'mockjs';
 import compose from "./compose";
 
 const middles = [
@@ -6,14 +6,12 @@ const middles = [
         zzz: number;
     }, next: () => any) => {
         ctx.zzz = 1;
-        console.log(ctx)
         await next()
     },
     async (ctx: {
         abc: number;
     }, next: () => any) => {
         ctx.abc = 2;
-        console.log(ctx)
         await next()
     }
 ]
