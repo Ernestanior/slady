@@ -119,7 +119,7 @@ const SaleList:FC = () => {
                         // deleteCustomer(data);
                         const value = {
                             title:"删除",
-                            content:"你确定要删除该客户么？",
+                            content:`请确定删除: ${data.name}`,
                             onOk:()=>deleteUser(data)
                         }
                         msgModal.createEvent("modal",value)

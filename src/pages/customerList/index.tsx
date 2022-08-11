@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo} from "react";
+import { FC, useCallback, useMemo } from "react";
 import Template from "@/common/template";
 import CustomerFilter from "@/pages/customerList/filter";
 import MobileFilter from "@/pages/customerList/filterMobile";
@@ -72,9 +72,9 @@ const CustomerList: FC = () => {
         ];
     }, []);
 
-    // const query = useCallback((data) => {
-    //     return saleService.QueryUserList({}, data);
-    // }, [])
+  // const query = useCallback((data) => {
+  //     return saleService.QueryUserList({}, data);
+  // }, [])
 
     const resetPwd = useCallback(
         (customer) => {
@@ -277,7 +277,7 @@ const CustomerList: FC = () => {
                         // deleteCustomer(data);
                         const value = {
                             title: "删除",
-                            content: "你确定要删除该客户么？",
+                            content: `你确定要删除客户: ${data.name} ？`,
                             onOk: () => deleteCustomer(data)
                         }
                         msgModal.createEvent("modal", value)
