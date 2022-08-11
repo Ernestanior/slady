@@ -9,7 +9,6 @@ import {USER_TYPE} from "@/pages/customerList/index";
 
 const CustomerFilter:FC = () => {
     const info = useAccountInfo();
-
     return <>
         <FormItem span={3} noStyle name="name">
             <Input placeholder="名称" />

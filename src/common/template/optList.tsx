@@ -6,6 +6,7 @@ import { XOR } from "ts-xor";
 import { IOperation, IColumnsTypeP, IOperationConfig } from "./interface";
 // import {DownOutlined} from "@ant-design/icons";
 import {ItemType} from "antd/lib/menu/hooks/useItems";
+import isMobile from "@/app/isMobile";
 
 /**
  * 构建操作列config,
@@ -21,12 +22,12 @@ export const createOptList = (
   if (optList && optList.length > 0) {
     // 少于两个选项，直接显示，超过2个直接下拉
     const type =
-      optList.length <= 3 && !optList.some(Array.isArray)
+      optList.length < 1 && !optList.some(Array.isArray)
         ? "horizontal"
         : "dropDown";
     const config: IColumnsTypeP = {
       key: "tb_action",
-      width: 120,
+      width: isMobile?65:120,
       fixed: "right",
       onCell() {
         return {
@@ -118,7 +119,6 @@ export const OptListComp: FC<IOptProps> = (props) => {
   };
 
   const menuList: ItemType[] = [];
-
   props.optList.map((optZ, idx1) => {
     if (Array.isArray(optZ)) {
       let deviderAdded = false;
@@ -165,7 +165,7 @@ export const OptListComp: FC<IOptProps> = (props) => {
   const menus = <Menu onClick={handleClick} items={menuList} />
 
   return (
-    <Dropdown key="tb_opt" overlay={menus}>
+    <Dropdown key="tb_opt" overlay={menus} trigger={['click','hover']}>
       <Button className="cdn-opt-btn">
         更多
       </Button>

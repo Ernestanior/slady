@@ -17,6 +17,7 @@ import Footer from "@/common/Form/footer";
 import Account from "@/pages/customer/parts/account";
 import CDN from "@/pages/customer/parts/cdn";
 import DNS, {setDnsData} from "@/pages/customer/parts/dns";
+import isMobile from "@/app/isMobile";
 
 /**
  * 表单
@@ -73,7 +74,7 @@ const CustomerForm:FC<IObserverForm> = ({form, data$}) => {
         <div style={{ margin: "15px 0 15px 0" }}>新增</div>
         <ConditionShow className="cdn-block" visible={!!info && info.type === E_USER_TYPE.SALE_MANAGER}>
             <Row gutter={15}>
-                <FormItem name="saleId" span={12} hidden={!!info && info.type !== E_USER_TYPE.SALE_MANAGER} label="选择销售">
+                <FormItem name="saleId" span={isMobile?24:12} hidden={!!info && info.type !== E_USER_TYPE.SALE_MANAGER} label="选择销售">
                     <SaleSelector/>
                 </FormItem>
             </Row>

@@ -1,10 +1,11 @@
-import {FC} from "react";
+import {FC, useMemo} from "react";
 import {IObserverForm} from "@/hoc/createObserverForm";
 import useObserver from "@/hoc/useObserver";
 import {Col, Input, InputNumber, Row} from "antd";
 import FormItem from "@/common/Form/formItem";
 import SelectP from "@/common/select";
 import SwitchP from "@/common/switch";
+import isMobile from "@/app/isMobile";
 
 const CDN:FC<IObserverForm> = ({data$, form}) => {
     const formData = useObserver(data$, {
@@ -12,6 +13,7 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
         cdnServiceFlag: 1,
         type: "normal"
     })
+    const span = useMemo(()=>isMobile?24:12,[])
 
     return <section className="cdn-block">
         <Row gutter={15}>
@@ -27,10 +29,9 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
                 </FormItem>
             </Col>
         </Row>
-        <Row gutter={15}>
+        <Row>
             <FormItem noStyle hidden={!formData.cdnServiceFlag}>
-
-                <FormItem noStyle span={12} name="type" initialValue='normal'>
+                <FormItem noStyle span={span} name="type" initialValue='normal'>
                     <SwitchP
                         disable={formData.isModify}
                         label="Managed CNAME"
@@ -43,7 +44,7 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
                     label="域名额度"
                     name="limitMasterDomains"
                     initialValue={5}
-                    span={12}
+                    span={span}
                 >
                     <InputNumber
                         onChange={e => {
@@ -58,7 +59,7 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
                     label="可添加站点数"
                     name="limitCnames"
                     initialValue={1}
-                    span={12}
+                    span={span}
                 >
                     <InputNumber />
                 </FormItem>
@@ -66,7 +67,7 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
                     label="带宽额度(MBPS)"
                     name="limitBandwidth"
                     initialValue={10}
-                    span={12}
+                    span={span}
                 >
                     <InputNumber />
                 </FormItem>
@@ -74,7 +75,7 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
                     label="端口转发额度"
                     name="limitPorts"
                     initialValue={0}
-                    span={12}
+                    span={span}
                 >
                     <InputNumber />
                 </FormItem>
@@ -82,11 +83,11 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
                     label="防御量"
                     name="limitDefence"
                     initialValue={20}
-                    span={12}
+                    span={span}
                 >
                     <SelectP data={defenceLimitList} />
                 </FormItem>
-                <FormItem noStyle span={12} name="mainlandOpt" initialValue={1}>
+                <FormItem noStyle span={span} name="mainlandOpt" initialValue={1}>
                     <SwitchP
                         label="大陆地区优化"
                         trueValue={1}
@@ -94,7 +95,7 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
                     />
                 </FormItem>
                 <FormItem
-                    span={12}
+                    span={span}
                     hidden={formData.type !== "cname"}
                     label="mcn单个站点上传证书限制"
                     name="limitSiteCerts"
@@ -104,7 +105,7 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
                 </FormItem>
                 <FormItem
                     hidden={formData.type !== "normal"}
-                    span={12}
+                    span={span}
                     label="证书额度"
                     name="limitCerts"
                     initialValue={10}
@@ -112,7 +113,7 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
                     <InputNumber />
                 </FormItem>
                 <FormItem
-                    span={12}
+                    span={span}
                     hidden={formData.type !== "normal"}
                     label="自定义端口额度"
                     name="limitCustomPorts"

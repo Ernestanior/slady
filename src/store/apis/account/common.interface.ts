@@ -352,6 +352,7 @@ export interface ISearchPage {
     page: number;
     pageSize: number;
     sort: string;
+    totalPages?:number;
 }
 export interface ISubUserDto {
     email: string;

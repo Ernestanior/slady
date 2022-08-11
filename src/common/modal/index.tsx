@@ -6,9 +6,8 @@ import {Modal} from "antd";
 const ModalX:FC = () => {
     const msg = useMessage()
     const [value,setValue] = useState<any>()
-
     useEffect(()=>{
-        if(msg){
+        if(msg && msg.type==="modal"){
             setValue(msg.value)
             setVisible(true)
         }

@@ -10,6 +10,9 @@ import {BehaviorSubject, from, Subject, switchMap} from "rxjs";
 import {SorterResult} from "antd/es/table/interface";
 import {IOperationConfig} from "@/common/template/interface";
 import {createOptList} from "@/common/template/optList";
+import isMobile from "@/app/isMobile";
+import FilterMobile from "@/common/template/mobile/filter";
+import FooterDetail from "@/common/template/mobile/footer";
 
 interface ITableModule{
     columns: TableColumnProps<any>[];
@@ -25,6 +28,10 @@ interface ITableModule{
     }
 }
 
+interface IMobile{
+    primarySearch?:any
+}
+
 interface IPageParams {
     keyWord: string;
     searchPage: ISearchPage;
@@ -35,6 +42,12 @@ interface IPageParams {
     __disableLoading?: boolean;
 }
 
+// enum MobileFlag{
+//     CLOSE = 'close',
+//     FILTER = 'filter',
+//     DELETE = 'delete',
+//     VIEW = 'view'
+// }
 /**
  * 用来刷新
  */
@@ -44,18 +57,31 @@ export const reloadMainList = () => {
     event$.next(true)
 }
 
-const Template:FC<IFilerModule & IEventListModule & IBatchEventListModule & ITableModule & IQueryModule> = (props) => {
+const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListModule & ITableModule & IQueryModule> = (props) => {
 
     // 表格loading
     const [loading, setLoading] = useState(false);
-
+    // const [mobileFlag,setMobileFlag] = useState<MobileFlag>(MobileFlag.CLOSE)
     const [tableData, setTableData] = useState<any[]>([]);
 
-    const [pagination, setPagination] = useState<TablePaginationConfig>({
+    const [pagination, setPagination] = useState<TablePaginationConfig & {totalPages?:number}>({
         defaultCurrent: 1,
         pageSize: 15,
-        total: 15
+        total: 15,
+        totalPages:1
     });
+
+    const footDetails = useMemo(() => {
+        const { current, pageSize,total,totalPages } = pagination;
+        const  _total= total || 0;
+        return {
+            size:pageSize || 10,
+            total:total || 0,
+            hide: _total <= 0,
+            current: current || 1,
+            totalPages:totalPages || 1
+        };
+    }, [pagination]);
 
     // ref 保证引用不会改变
     const { current: queryData } = useRef(props.queryData);
@@ -63,6 +89,9 @@ const Template:FC<IFilerModule & IEventListModule & IBatchEventListModule & ITab
 
     // 如果有强制大小限定
     const [selectIds, setSelectIds] = useState<string[]>([]);
+
+    //关闭手机版弹窗
+    // const closePopup = () => setMobileFlag(MobileFlag.CLOSE)
 
     // 查询Promise
     const queryEvent = useCallback(
@@ -137,6 +166,7 @@ const Template:FC<IFilerModule & IEventListModule & IBatchEventListModule & ITab
                                 current: params$.value.searchPage.page,
                                 hideOnSinglePage: true,
                                 pageSize: params$.value.searchPage.pageSize,
+                                totalPages:result.totalPages,
                             });
                             resultData = result.content;
                             // 不分页数据
@@ -244,6 +274,28 @@ const Template:FC<IFilerModule & IEventListModule & IBatchEventListModule & ITab
         return conf;
     }, [props]);
 
+    if (isMobile){
+        return <section style={{ marginTop: (!props.filter && !props.event) ? 0 : 15 }}>
+            <section style={{marginBottom:20}}>
+                {props.filter && <FilterMobile primarySearch={props.primarySearch} submit={data => { submit('filters', data)}}>{props.filter}</FilterMobile>}
+                {props.event && <FuncList event={props.event} />}
+                {props.batchEvent && <BatchFuncList batchEvent={props.batchEvent} selectItems={selectIds}/>}
+            </section>
+            <Table
+                sticky
+                dataSource={tableData}
+                pagination={false}
+                rowKey={props.rowKey}
+                onChange={tableOnChange}
+                rowSelection={rowSelection}
+                columns={tableRowConfig}
+                loading={loading}
+                rowClassName={rowClassName}
+                scroll={props.scroll}
+            />
+            <FooterDetail {...footDetails} onChange={pageOnChange}/>
+        </section>
+    }
     return <section>
         {props.filter && <Filter submit={data => { submit('filters', data)}}>{props.filter}</Filter>}
         {props.event && <FuncList event={props.event} />}

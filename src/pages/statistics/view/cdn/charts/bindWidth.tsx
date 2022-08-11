@@ -4,6 +4,7 @@ import ReactECharts from "echarts-for-react";
 import * as echarts from "echarts";
 import moment from "moment";
 import {transformBindWidth, xAxisFormatterGenerate} from "@/common/utils";
+import isMobile from "@/app/isMobile";
 
 export interface IBindWidth{
     bindWidth95: number;
@@ -50,7 +51,12 @@ const BindWidth:FC<IDataModule<IBindWidth> & { packageInfo:any }> = ({data, pack
                      saveAsImage: {}
                  }
              },
-             grid: {
+             grid: isMobile?{
+                 left: '5px',
+                 right: '5px',
+                 bottom: '3%',
+                 containLabel: true
+             }:{
                  left: '30px',
                  right: '20px',
                  bottom: '3%',
@@ -64,7 +70,7 @@ const BindWidth:FC<IDataModule<IBindWidth> & { packageInfo:any }> = ({data, pack
                     // interval: 2,
                     formatter: xAxisFormatterGenerate(data.bindWidthList)
                 },
-                splitNumber: 20,
+                splitNumber: isMobile?8:20,
                 splitLine: {
                     show: true
                 },
@@ -116,7 +122,7 @@ const BindWidth:FC<IDataModule<IBindWidth> & { packageInfo:any }> = ({data, pack
                         }],
                         label: {
                             position: "middle",
-                            formatter: (e: any) => {
+                            formatter: () => {
                                 return "95带宽：" + transformBindWidth(data.bindWidth95);
                             },
                         },

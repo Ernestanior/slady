@@ -2,6 +2,7 @@ import {BehaviorSubject} from "rxjs";
 import {ReactNode} from "react";
 
 export interface IInfo {
+    type:"modal" | "popup";
     value:ModalInfo;
 }
 export interface ModalInfo{
@@ -14,8 +15,9 @@ export interface ModalInfo{
 class Message {
     readonly info$ = new BehaviorSubject<IInfo | null>(null);
 
-    public createEvent = (value:ModalInfo) => {
+    public createEvent = (type:"modal" | "popup",value:any) => {
         this.info$.next({
+            type,
             value
         });
     };

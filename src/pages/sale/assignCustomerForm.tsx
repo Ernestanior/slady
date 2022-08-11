@@ -1,14 +1,16 @@
-import {FC, useEffect, useState} from "react";
+import {FC, useEffect, useMemo, useState} from "react";
 import FormItem from "@/common/Form/formItem";
 import {Checkbox, CheckboxOptionType, Col, Input, Row} from "antd"
 import {agentService, saleService} from "@/store/apis/account";
 import {forkJoin} from "rxjs";
 import request from "@/store/request";
+import isMobile from "@/app/isMobile";
 const CheckboxGroup = Checkbox.Group;
 
 const AssignCustomerForm:FC = () => {
     const [customerList, setCustomerList] = useState<CheckboxOptionType[]>([]);
     const [agentList, setAgentList] = useState<CheckboxOptionType[]>([]);
+    const span = useMemo(()=>isMobile?24:8,[])
 
     useEffect(() => {
         const config = saleService.QueryAllCustomerCanAssign({}, {});
@@ -33,11 +35,11 @@ const AssignCustomerForm:FC = () => {
 
     return <section>
         <section className="cdn-block" style={{width: "100%"}}>
-            <FormItem label="直属客户" name="customerIds">
+            <FormItem label={<h3>直属客户</h3>} name="customerIds">
                 <CheckboxGroup>
                     <Row gutter={[15, 15]}>
                         {
-                            customerList.map(item => (<Col key={item.value as string} span={8}>
+                            customerList.map(item => (<Col key={item.value as string} span={span}>
                                 <Checkbox value={item.value}>{item.label}</Checkbox>
                             </Col>))
                         }
@@ -45,12 +47,13 @@ const AssignCustomerForm:FC = () => {
                 </CheckboxGroup>
             </FormItem>
         </section>
+        <br/>
         <section className="cdn-block" style={{width: "100%"}}>
-            <FormItem label="代理" name="agentIds">
+            <FormItem label={<h3>代理</h3>} name="agentIds">
                 <CheckboxGroup>
                     <Row gutter={[15, 15]}>
                         {
-                            agentList.map(item => (<Col key={item.value as string} span={8}>
+                            agentList.map(item => (<Col key={item.value as string} span={span}>
                                 <Checkbox value={item.value}>{item.label}</Checkbox>
                             </Col>))
                         }

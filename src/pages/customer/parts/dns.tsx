@@ -9,6 +9,7 @@ import useDnsPlanList from "@/pages/customer/parts/useDnsPlanList";
 import useDnsServerList from "@/pages/customer/parts/useDnsServerList";
 import useCustomIPList from "@/pages/customer/parts/useCustomIPList";
 import useUpdateRef from "@/hoc/useUpdateRef";
+import isMobile from "@/app/isMobile";
 
 const customNS = {
     id: "custom",
@@ -27,6 +28,7 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
         customDnsNodeFlag: 0,
         nameServerList: ""
     })
+    const span = useMemo(()=>isMobile?24:12,[])
 
     const planList = useDnsPlanList();
 
@@ -107,25 +109,25 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
         </Row>
         <Row gutter={15}>
             <FormItem noStyle hidden={!formData.dnsServiceFlag}>
-                <FormItem span={12} label="域名套餐" name="dedicatedPlanId">
+                <FormItem span={span} label="域名套餐" name="dedicatedPlanId">
                     <SelectP data={planList} />
                 </FormItem>
                 <FormItem hidden name="dedicatedPlanFlag" label="锁定域名套餐" initialValue={1}>
                     <Input />
                 </FormItem>
-                <FormItem span={12} label="域名套餐额度" name="limitDedicatedPlans" initialValue={5}>
+                <FormItem span={span} label="域名套餐额度" name="limitDedicatedPlans" initialValue={5}>
                     <Input />
                 </FormItem>
-                <FormItem noStyle span={12} name="customNameServerFlag" initialValue={0}>
+                <FormItem noStyle span={span} name="customNameServerFlag" initialValue={0}>
                     <SwitchP marginTop={30} label="自定义NS" trueValue={1} falseValue={0} />
                 </FormItem>
-                <FormItem span={12} label="DNS服务器" name="nameServerList">
+                <FormItem span={span} label="DNS服务器" name="nameServerList">
                     <SelectP data={dnsServiceListMerge} />
                 </FormItem>
                 <FormItem span={24} label="自定义DNS服务器" hidden={formData.nameServerList !== customNS.id} name="customNameServerList" initialValue={[]}>
                     <Select mode="tags" tokenSeparators={[" ", ",", ";"]} />
                 </FormItem>
-                <FormItem noStyle span={12} name="customDnsNodeFlag" initialValue={0}>
+                <FormItem noStyle span={span} name="customDnsNodeFlag" initialValue={0}>
                     <SwitchP marginTop={30} label="使用自定义节点IP" trueValue={1} falseValue={0} />
                 </FormItem>
                 <FormItem span={24} hidden={!formData.customDnsNodeFlag} label="自定义节点IP" name="customDnsNodeList" initialValue={[]}>

@@ -10,6 +10,7 @@ class App extends Component {
     state = {
         isError: false
     };
+
     render() {
         if (this.state.isError) {
             return <ErrorPage />;

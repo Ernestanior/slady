@@ -1,14 +1,17 @@
 import {FC, useCallback, useMemo} from "react";
 import Template from "@/common/template";
-import {Button, Space, TableColumnProps} from "antd";
+import {Button, Input, Space, TableColumnProps} from "antd";
 import historyService from "@/store/history";
 import {customerService} from "@/store/apis/account";
 import request from "@/store/request";
 import {ITableDataModule} from "@/common/interface";
 import {statService} from "@/store/apis/stat";
 import StatFilter from "@/pages/statistics/list/filter";
+import StatFilterMobile from "@/pages/statistics/list/filterMobile";
 import {toFixed} from "@/common/utils";
 import {LABEL_COLOR} from "@/common/const";
+import FormItem from "@/common/Form/formItem";
+import isMobile from "@/app/isMobile";
 
 // 流量计算倍率
 const MAGNIFICATION = 10;
@@ -65,12 +68,12 @@ const StatisticsList:FC = () => {
 
     const _columns:any = useMemo(() => {
         return [
-            ...columns,
+            ...isMobile?columnMobile:columns,
             {
                 title: "操作",
                 dataIndex: "opt",
-                width: 200,
-                fixed: "right",
+                width: isMobile?100:200,
+                fixed:isMobile?undefined:"right",
                 render(_:any, data:any){
                     return <Space>
                         <Button onClick={() => { historyService.push(`/statistics/${data.id}`) }}>查看</Button>
@@ -82,12 +85,13 @@ const StatisticsList:FC = () => {
 
     return <section>
         <Template
-            filter={<StatFilter />}
+            filter={isMobile?<StatFilterMobile/>:<StatFilter />}
             columns={_columns}
             // optList={options}
+            primarySearch={primarySearch}
             queryDataFunction={queryFunction}
             rowKey="id"
-            scroll={{
+            scroll={isMobile?{}:{
                 x: 1600
             }}
         />
@@ -96,14 +100,26 @@ const StatisticsList:FC = () => {
 
 export default StatisticsList;
 
-
+const columnMobile: TableColumnProps<any>[] = [
+    {
+        title: "客户名称",
+        dataIndex: "name",
+        width: 110,
+        sorter: true,
+    },
+    {
+        title: "销售员",
+        dataIndex: "saleName",
+        width: 90
+    },
+]
 const columns: TableColumnProps<any>[] = [
     {
         title: "客户名称",
         dataIndex: "name",
         width: 200,
         sorter: true,
-        fixed: "left"
+        fixed: isMobile?undefined:"left"
     },
     {
         title: "销售员",
@@ -230,3 +246,8 @@ function getCompareRender(value:number, data:any){
     }
     return <div {...getLabelStyle(color, "#fff")}>{toFixed(value / 1000000, 2)}</div>
 }
+const primarySearch=<>
+    <FormItem noStyle name="name" >
+        <Input style={{width:"70vw"}} placeholder="用户名" allowClear/>
+    </FormItem>
+</>

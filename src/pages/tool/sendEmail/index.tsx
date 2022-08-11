@@ -1,13 +1,17 @@
 import {FC, useCallback, useMemo} from "react";
 import Template from "@/common/template";
-import {Button, Space, TableColumnProps} from "antd";
+import {Input, notification, TableColumnProps} from "antd";
 import SendEmailFilter from "./filters";
-import ConfirmButton from "@/common/confirm/button";
+import SendEmailFilterMobile from "./filterMobile";
 import {reqAndReload} from "@/common/utils";
 import {IBatchEvent, INormalEvent} from "@/common/interface";
 import {emailService} from "@/store/apis/tool";
 import historyService from "@/store/history";
 import {IEmail} from "@/store/apis/tool/email";
+import FormItem from "@/common/Form/formItem";
+import isMobile from "@/app/isMobile";
+import {IOperationConfig} from "@/common/template/interface";
+import msgModal from "@/store/message/service";
 
 const SendEmail:FC = () => {
     const query = useCallback((data) => {
@@ -26,6 +30,10 @@ const SendEmail:FC = () => {
             text: '新增邮件',
             primary: true,
             event(){
+                if(isMobile){
+                    notification.error({message:"手机端无法使用该功能"})
+                    return
+                }
                 historyService.push("/email/create")
             }
         }]
@@ -41,37 +49,55 @@ const SendEmail:FC = () => {
         }]
     }, [])
 
-    const opt = useMemo(() => {
+    const opt: IOperationConfig =  useMemo(() => {
         return [
-            ...columns,
             {
-                title: "操作",
-                dataIndex: "opt",
-                width: 200,
-                render(_:any, data:any){
-                    return <Space>
-                        <Button onClick={() => { historyService.push("/email/" + data.id) }}>查看</Button>
-                        <ConfirmButton info={`确定删除此邮件？`} submit={() => { deleteEmail([data]) }}>删除</ConfirmButton>
-                    </Space>}
+                text:"查看",
+                event:(data)=> historyService.push("/email/" + data.id)
+            },
+            {
+                text: "删除",
+                event(data) {
+                    // deleteCustomer(data);
+                    const value = {
+                        title: "删除",
+                        content: "确定删除此邮件？",
+                        onOk: () => deleteEmail([data])
+                    }
+                    msgModal.createEvent("modal", value)
+                },
             }
         ]
     }, [])
 
     return <Template
-        filter={<SendEmailFilter />}
+        filter={isMobile?<SendEmailFilterMobile />:<SendEmailFilter />}
         event={buttons}
         batchEvent={batchButtons}
         queryData={query}
-        columns={opt}
+        columns={isMobile?columnMobile:columns}
+        optList={opt}
         rowKey="id"
+        primarySearch={primarySearch}
     />
 }
 
 export default SendEmail;
 
-/**
- * 表格行
- */
+export const columnMobile: TableColumnProps<any>[] = [
+    {
+        title: "ID",
+        dataIndex: "id",
+        width: 50,
+        sorter: true,
+    },
+    {
+        title: "标题",
+        dataIndex: "title",
+        width: 130,
+        sorter: true,
+    }
+]
 export const columns: TableColumnProps<any>[] = [
     {
         title: "ID",
@@ -94,3 +120,8 @@ export const columns: TableColumnProps<any>[] = [
         dataIndex: "createDate",
     }
 ];
+const primarySearch=<>
+    <FormItem noStyle name="title" >
+        <Input style={{width:"70vw"}} placeholder="标题" allowClear/>
+    </FormItem>
+</>

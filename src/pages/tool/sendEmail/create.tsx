@@ -12,6 +12,7 @@ import {PaperClipOutlined} from "@ant-design/icons";
 import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
 import {validateEmail} from "@/common/utils";
+import isMobile from "@/app/isMobile";
 
 const {Option} = Select
 const CreateEmail:FC = () => {
@@ -83,7 +84,7 @@ const CreateEmail:FC = () => {
                         placeholder={"to"}
                         mode="tags"
                         open={false}
-                        style={{width:"94%"}}
+                        style={{width:isMobile?"75%":"90%"}}
                     />
                 </FormItem>
                 <span className="email-cc" onClick={()=>setCC(false)}>cc</span>

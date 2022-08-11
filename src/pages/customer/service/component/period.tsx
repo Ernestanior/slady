@@ -3,6 +3,7 @@ import {Col, Row, DatePicker, InputNumber, Space} from "antd";
 import {IFormComponent} from "@/common/interface";
 import moment from "moment";
 import {WarningOutlined} from "@ant-design/icons";
+import isMobile from "@/app/isMobile";
 
 const { RangePicker } = DatePicker;
 
@@ -34,12 +35,13 @@ const Period:FC<IFormComponent<number> & IProps> = ({onChange, startDate, value}
     };
 
     return <Row gutter={15}>
-        <Col span={6}>
+        <Col span={isMobile?10:6}>
             <InputNumber value={displayRange} onChange={rangeChange} addonAfter="天"/>
         </Col>
-        <Col span={18}>
-            <Space>
+        <Col span={isMobile?24:18}>
+            <Space style={isMobile?{marginTop:10}:{}}>
                 <RangePicker
+                    style={isMobile?{width:'60vw'}:{}}
                     disabled={[true, false]}
                     value={[startDate, endDate]}
                     onChange={values => {

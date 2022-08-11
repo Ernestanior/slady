@@ -6,10 +6,16 @@ import {queryValueFromListRender, reqAndReload} from "@/common/utils";
 import Template from "@/common/template";
 import {SALE_LIST} from "@/pages/sale/create";
 import SaleFilter from "@/pages/saleList/filter";
+import SaleFilterMobile from "@/pages/saleList/filterMobile";
 import {E_USER_STATUS_COLUMN} from "@/pages/customerList";
 import {E_USER_TYPE} from "@/store/account/service";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
+import FormItem from "@/common/Form/formItem";
+import {Input, Row} from "antd";
+import isMobile from "@/app/isMobile";
+import Status from "@/common/status";
+import {E_COLOR} from "@/common/const";
 
 const SaleList:FC = () => {
 
@@ -67,6 +73,27 @@ const SaleList:FC = () => {
         return [
             [
                 {
+                    text: "查看",
+                    hide: () => !isMobile,
+                    event(data) {
+                        if (data) {
+                            const {
+                                name,
+                                type,
+                                status
+                            } = data
+                            const value = {
+                                node: <section>
+                                    <Row>客户名称：{name}</Row>
+                                    <Row>客户类型：{type}</Row>
+                                    <Row>账号状态：{status === 1?<Status color={E_COLOR.enable}>正式</Status>:<Status color={E_COLOR.disable}>禁用</Status>}</Row>
+                                </section>,
+                            }
+                            msgModal.createEvent("popup", value)
+                        }
+                    },
+                },
+                {
                     text: "分配客户",
                     hide:(data)=>!(data.type === E_USER_TYPE.SALE),
                     event(data) {
@@ -95,7 +122,7 @@ const SaleList:FC = () => {
                             content:"你确定要删除该客户么？",
                             onOk:()=>deleteUser(data)
                         }
-                        msgModal.createEvent(value)
+                        msgModal.createEvent("modal",value)
                     },
                 }]
         ]
@@ -124,27 +151,49 @@ const SaleList:FC = () => {
     */
     return <section>
         <Template
+            primarySearch={primarySearch}
             optList={options}
-            filter={<SaleFilter />}
+            filter={isMobile?<SaleFilterMobile/>:<SaleFilter />}
             event={buttons}
-            columns={columns}
+            columns={isMobile?columnMobile:columns}
             queryData={query}
             rowKey="id"
+            scroll={isMobile?{}:{
+                x: 1200,
+            }}
         />
     </section>
 }
 
 export default SaleList
 
-const columns = [
+const columnMobile = [
     {
         dataIndex: "name",
-        title: "名称"
+        title: "名称",
+        width:120
     },
     {
         dataIndex: "type",
         title: "类型",
-        render: queryValueFromListRender(SALE_LIST)
+        width:80,
+        render: queryValueFromListRender(SALE_LIST),
+    }
+]
+const columns = [
+    {
+        dataIndex: "name",
+        title: "名称",
+    },
+    {
+        dataIndex: "type",
+        title: "类型",
+        render: queryValueFromListRender(SALE_LIST),
     },
     E_USER_STATUS_COLUMN
 ]
+const primarySearch=<>
+    <FormItem noStyle name="name" >
+        <Input style={{width:"70vw"}} placeholder="用户名" allowClear/>
+    </FormItem>
+</>

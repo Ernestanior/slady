@@ -14,7 +14,7 @@ const FormItem: FC<FormItemProps & IProps> = ({children, span, flex, ...restProp
         </Form.Item>
     }
     return <Col hidden={restProps.hidden} span={span} flex={flex}>
-        <Form.Item {...restProps} >
+        <Form.Item {...restProps}>
             {children}
         </Form.Item>
     </Col>
