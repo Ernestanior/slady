@@ -17,7 +17,7 @@ const ModalX:FC = () => {
     const defaultCancel = () => setVisible(false)
 
     const onOk = ()=>{
-        value.onOk()
+        value.onOk && value.onOk()
         defaultCancel()
     }
 

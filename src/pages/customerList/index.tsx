@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import Template from "@/common/template";
 import CustomerFilter from "@/pages/customerList/filter";
 import MobileFilter from "@/pages/customerList/filterMobile";
@@ -12,7 +12,7 @@ import {
 } from "@/store/apis/account";
 import historyService from "@/store/history";
 // import ConfirmButton from "@/common/confirm/button";
-import {reqAndReload} from "@/common/utils";
+import {copy, reqAndReload} from "@/common/utils";
 import Status from "@/common/status";
 import {E_COLOR} from "@/common/const";
 import {E_All_USER_TYPE, E_USER_TYPE} from "@/store/account/interface";
@@ -26,6 +26,7 @@ import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
 import FormItem from "@/common/Form/formItem";
 import isMobile from "@/app/isMobile";
+import IconFont from "@/common/icon";
 
 /**
  * 用户启用禁用状态
@@ -75,15 +76,6 @@ const CustomerList: FC = () => {
   // const query = useCallback((data) => {
   //     return saleService.QueryUserList({}, data);
   // }, [])
-
-    const resetPwd = useCallback(
-        (customer) => {
-            historyService.push(`/customer/resetPwd/${customer.name}/${customer.userId}`);
-            //   const res = await request(userService.ResetUserPwd({ id }, {}));
-        },
-        []
-    );
-
     const queryDataFunction = useCallback(async (filters) => {
         const cusList = await request(saleService.QueryUserList({}, filters));
         if (cusList.isSuccess && cusList.result) {
@@ -268,7 +260,12 @@ const CustomerList: FC = () => {
                 {
                     text: "重置密码",
                     event(data) {
-                        resetPwd(data);
+                        const value = {
+                            title: "重置密码",
+                            content: `请确认为${data.name}重置密码?`,
+                            onOk: () => resetPwd(data.userId)
+                        }
+                        msgModal.createEvent("modal", value)
                     },
                 },
                 {
@@ -284,7 +281,7 @@ const CustomerList: FC = () => {
                     },
                 }]
         ]
-    }, [deleteCustomer, resetPwd, enable, disable, modify])
+    }, [deleteCustomer, enable, disable, modify])
 
     // 下拉
     /** 旧版本
@@ -512,3 +509,22 @@ const primarySearch = <>
         <Input style={{width: "70vw"}} placeholder="名称" allowClear/>
     </FormItem>
 </>
+
+export const resetPwd = async(id:number) => {
+    const res:any = await request(userService.ResetUserPwd({ id }, {}));
+    const value = {
+        title: "重置密码",
+        content: <div style={{display:"flex",width:'100%',flexDirection:"column",alignItems:"center"}}>
+            <div style={{color:"#68e047",marginBottom:5}}>
+                <IconFont type={'iconchenggong'} style={{width:10,marginRight:10}} />
+                <span className='success'>重置密码成功</span>
+            </div>
+            <div style={{display:"flex",alignItems:"center",padding:'5px 10px',border:"1px solid #eee",borderRadius:5}}>
+                <span onDoubleClick={()=>copy(res.result)}>{res.result}</span>
+                <IconFont type="iconwendangfuzhi" onClick={()=>copy(res.result)} />
+            </div>
+        </div>
+
+    }
+    msgModal.createEvent("modal", value)
+}

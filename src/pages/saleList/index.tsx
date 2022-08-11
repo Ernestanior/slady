@@ -7,7 +7,7 @@ import Template from "@/common/template";
 import {SALE_LIST} from "@/pages/sale/create";
 import SaleFilter from "@/pages/saleList/filter";
 import SaleFilterMobile from "@/pages/saleList/filterMobile";
-import {E_USER_STATUS_COLUMN} from "@/pages/customerList";
+import {E_USER_STATUS_COLUMN, resetPwd} from "@/pages/customerList";
 import {E_USER_TYPE} from "@/store/account/service";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
@@ -50,13 +50,6 @@ const SaleList:FC = () => {
     //     reqAndReload(config)
     // }, [])
 
-    //重置密码
-    const resetPwd = useCallback(
-        (user) => {
-            historyService.push(`/sale/resetPwd/${user.name}/${user.userId}`);
-        },
-        []
-    );
     // modify
     const deleteUser = useCallback(({id}) => {
         const config = saleService.Delete({ saleId: id }, {});
@@ -110,7 +103,12 @@ const SaleList:FC = () => {
                 {
                     text: "重置密码",
                     event(data) {
-                        resetPwd(data);
+                        const value = {
+                            title: "重置密码",
+                            content: `请确认为${data.name}重置密码?`,
+                            onOk: () => resetPwd(data.id)
+                        }
+                        msgModal.createEvent("modal", value)
                     },
                 },
                 {
@@ -126,7 +124,7 @@ const SaleList:FC = () => {
                     },
                 }]
         ]
-    }, [resetPwd,deleteUser,reAssignCustomer,modify])
+    }, [deleteUser,reAssignCustomer,modify])
 
     // 下拉
     /** 老版本
