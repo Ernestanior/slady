@@ -1,7 +1,6 @@
 import React, {FC, useEffect, useState} from "react"
-import "./index.less";
-import useMessage from "@/store/message";
 import {Modal} from "antd";
+import useMessage from "@/store/message";
 
 const ModalX:FC = () => {
     const msg = useMessage()
@@ -30,11 +29,10 @@ const ModalX:FC = () => {
             cancelText={value.cancelText || '取消'}
             zIndex={7000}
         >
-            <div className="comp-global-dialog">
+            <div style={{display:"flex",alignItems:"center",paddingLeft:10}}>
                 {value.content}
             </div>
         </Modal>:<></>
-
 }
 
 export default ModalX;

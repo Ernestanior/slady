@@ -1,5 +1,5 @@
-import { Layout, Spin } from "antd"
 import React, { FC } from "react"
+import { Layout, Spin } from "antd"
 import "./index.less";
 
 /**
