@@ -44,7 +44,7 @@ const TimeFilter: FC<IFormComponent<ITimeFilter>> = ({value, onChange}) => {
         <Row gutter={30} align="middle">
             <Col flex={1}/>
             {isMobile ?
-                <Col style={{width:150,position:"absolute",top:"12.5vh",right:0}}>
+                <Col style={{width:150,marginBottom:10}}>
                     <SelectP
                         defaultValue={ETimeFilter.CURRENT_MONTH}
                         data={[
@@ -68,7 +68,7 @@ const TimeFilter: FC<IFormComponent<ITimeFilter>> = ({value, onChange}) => {
                         </Tabs>
                     </Col>
                 </>}
-            <Col hidden={displayTime !== ETimeFilter.CUSTOM}>
+            <Col hidden={displayTime !== ETimeFilter.CUSTOM} style={{marginBottom:10}}>
                 <Space>
                     <RangePicker
                         value={[startDate, endDate]}

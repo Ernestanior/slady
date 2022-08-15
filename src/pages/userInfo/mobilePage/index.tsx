@@ -7,7 +7,7 @@ import FA2 from "@/pages/userInfo/2FA";
 
 const UserInfo:FC = () => {
     const saleInfo = useSaleInfo();
-    return <section style={{ width: 450, padding: 15 }}>
+    return <section style={{ padding: 15}}>
         <h3 style={{fontWeight:650}}>
             个人中心
         </h3>
@@ -27,7 +27,7 @@ const UserInfo:FC = () => {
             </Col>
         </Row>
         <Divider />
-        <Row gutter={[15, 15]}>
+        <Row gutter={[10, 10]}>
             <Col span={8}>
                 <ModifyPassword />
             </Col>

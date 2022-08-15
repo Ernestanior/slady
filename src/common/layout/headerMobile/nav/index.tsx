@@ -3,10 +3,11 @@ import { Menu} from 'antd';
 import {Link, useLocation} from "react-router-dom"
 import menuList from "@/common/layout/sider/config";
 import useAccountInfo from "@/store/account";
-import Logo from "@/pages/login/images/logo.png";
+import Logo from "./logo.png";
 import './index.less'
 import accountService from "@/store/account/service";
-import ConfirmInfo from "@/common/confirm";
+// import ConfirmInfo from "@/common/confirm";
+import IconFont from "@/common/icon";
 
 const { SubMenu } = Menu;
 
@@ -76,27 +77,29 @@ const Side:FC<IProps> = ({onClose}) => {
                 }
             </Menu>
         </section>
-
-        <section className="mobile-nav-footer">
-            <div className="mobile-footer-list">
-                {
-                    footList.map(item=><Link to={item.url} onClick={onClose} className="footer-item">{item.label}</Link>)
-                }
-            </div>
-
-            <ConfirmInfo info="确定退出登录？" submit={() => { accountService.autoLogout() }}>
-                <div className="logout">Log out</div>
-            </ConfirmInfo>
+        <section className="logout" onClick={()=>accountService.autoLogout()}>
+            <IconFont type="iconicon" style={{color:"#223046",fontSize:36}}/>退出
         </section>
+        {/*<section className="mobile-nav-footer">*/}
+        {/*    <div className="mobile-footer-list">*/}
+        {/*        {*/}
+        {/*            footList.map(item=><Link to={item.url} onClick={onClose} className="footer-item">{item.label}</Link>)*/}
+        {/*        }*/}
+        {/*    </div>*/}
+
+        {/*    <ConfirmInfo info="确定退出登录？" submit={() => { accountService.autoLogout() }}>*/}
+        {/*        <div className="logout">Log out</div>*/}
+        {/*    </ConfirmInfo>*/}
+        {/*</section>*/}
     </div>
 }
 
 export default Side;
 
-const footList = [
-    { label:"个人中心",url:""},
-    { label:"我的工单",url:""},
-    { label:"用户操作手册",url:""},
-    { label:"创建工单",url:""},
-    { label:"API文档",url:""},
-]
+// const footList = [
+//     { label:"个人中心",url:""},
+//     { label:"我的工单",url:""},
+//     { label:"用户操作手册",url:""},
+//     { label:"创建工单",url:""},
+//     { label:"API文档",url:""},
+// ]

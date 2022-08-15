@@ -7,7 +7,7 @@ import { IOperation, IColumnsTypeP, IOperationConfig } from "./interface";
 // import {DownOutlined} from "@ant-design/icons";
 import {ItemType} from "antd/lib/menu/hooks/useItems";
 import isMobile from "@/app/isMobile";
-
+import './index.less'
 /**
  * 构建操作列config,
  * @param optList 选项
@@ -135,7 +135,7 @@ export const OptListComp: FC<IOptProps> = (props) => {
         }
         if (!deviderAdded) {
           deviderAdded = true;
-          menuList.push({key: `divider-${idx1}`, type: "divider", style: { margin: 0 }});
+          // menuList.push({key: `divider-${idx1}`, type: "divider", style: { margin: 0 }});
           // <Menu.Divider style={{ margin: 0 }} key={} />
         }
         menuList.push(elo);
@@ -152,7 +152,7 @@ export const OptListComp: FC<IOptProps> = (props) => {
         label: optZ.label || eloText,
         disabled:optZ.disabled && optZ.disabled(props.value)
       }
-        menuList.push({key: `divider-${idx1}`, type: "divider", style: { margin: 0 }});
+        // menuList.push({key: `divider-${idx1}`, type: "divider", style: { margin: 0 }});
         menuList.push(elo);
     }
     return true;
@@ -162,13 +162,13 @@ export const OptListComp: FC<IOptProps> = (props) => {
     return null
   }
 
-  const menus = <Menu onClick={handleClick} items={menuList} />
+  const menus = <Menu className="temp_opt_menu" onClick={handleClick} items={menuList} />
 
   return (
-    <Dropdown key="tb_opt" overlay={menus} trigger={['click','hover']}>
-      <Button className="cdn-opt-btn">
-        更多
-      </Button>
-    </Dropdown>
+        <Dropdown key="tb_opt" overlay={menus} trigger={['click','hover']}>
+          <Button className="cdn-opt-btn">
+            更多
+          </Button>
+        </Dropdown>
   );
 };

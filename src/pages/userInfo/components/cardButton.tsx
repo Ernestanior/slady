@@ -10,7 +10,7 @@ interface IProps{
 
 const CardButton:FC<IProps> = ({icon, text, onClick}) => {
     return <Card hoverable onClick={onClick}>
-        <Row gutter={[15, 15]} align="middle">
+        <Row gutter={[10, 10]} align="middle">
             <Col span={24} style={{textAlign:"center"}}>
                 {icon}
             </Col>

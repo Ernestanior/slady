@@ -1,10 +1,10 @@
 import {FC, useCallback} from "react";
 import CardDetail from "@/pages/userInfo/components/cardDetail";
-import {KeyOutlined} from "@ant-design/icons";
 import {userService} from "@/store/apis/account";
 import request from "@/store/request";
 import MdyPwdForm from "@/pages/userInfo/modifyPassword/form";
 import {encrypt} from "@/pages/login/form";
+import IconFont from "@/common/icon";
 
 const ModifyPassword:FC = () => {
     const submit = useCallback( async (data: any) => {
@@ -21,7 +21,7 @@ const ModifyPassword:FC = () => {
         return request(config);
     }, [])
     return <CardDetail
-        icon={<KeyOutlined style={{ fontSize: "2em" }} />}
+        icon={<IconFont type="iconxiugaimima" style={{fontSize: "3.5em" }} />}
         text="修改密码"
         submit={submit}
     >

@@ -43,8 +43,12 @@ const SendEmail:FC = () => {
         return [{
             text: '批量删除',
             event(selectIds){
-                const config = emailService.EmailDelete(selectIds)
-                reqAndReload(config)
+                const value = {
+                    title: "删除",
+                    content: `你确定删除邮件 ID：${selectIds}`,
+                    onOk: () => reqAndReload(emailService.EmailDelete(selectIds))
+                }
+                msgModal.createEvent("modal", value)
             }
         }]
     }, [])
@@ -61,7 +65,7 @@ const SendEmail:FC = () => {
                     // deleteCustomer(data);
                     const value = {
                         title: "删除",
-                        content: "确定删除此邮件？",
+                        content: `你确定删除邮件 ID：${data.id}`,
                         onOk: () => deleteEmail([data])
                     }
                     msgModal.createEvent("modal", value)

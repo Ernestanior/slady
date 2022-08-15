@@ -146,7 +146,7 @@ const NewsList:FC = () => {
                     // setDelModalVisible(true)
                     const value = {
                         title: "删除",
-                        content: "确定要删除此新闻条目么？",
+                        content: `你确定要删除新闻 ID：${data.id}`,
                         onOk: () => del()
                     }
                     msgModal.createEvent("modal", value)

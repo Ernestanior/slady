@@ -27,7 +27,7 @@ const ArchiveCustomer:FC = () => {
                 event:(data)=>{
                     const value = {
                         title: "重启客户",
-                        content: "确定要重启客户么？",
+                        content: `你确定要重启客户：${data.name}`,
                         onOk: () => reOpenCustomer(data)
                     }
                     msgModal.createEvent("modal", value)

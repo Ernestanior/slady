@@ -5,8 +5,9 @@ import {ISubmit} from "@/common/interface";
 import useSubmitEvent from "@/hooks/utils/useSubmitEvent";
 import {trimAndRemoveUndefined} from "@/common/utils";
 import {Popup} from "antd-mobile";
-import {FilterOutlined, SearchOutlined} from "@ant-design/icons";
+import { SearchOutlined} from "@ant-design/icons";
 import './filter.less'
+import IconFont from "@/common/icon";
 
 interface IProps{
     submit: ISubmit;
@@ -35,7 +36,7 @@ const Filter:FC<IProps> = ({submit, primarySearch,children}) => {
                         </Button>
                 </Form>
             }
-            <Button type="primary" style={{padding:5}} onClick={()=>setVisible(true)}><FilterOutlined style={{fontSize:20}}/></Button>
+            <Button type="primary" style={{padding:5}} onClick={()=>setVisible(true)}><IconFont type="iconfilter_major_monotone" style={{fontSize:20}}/></Button>
         </Row>
         <Popup
             visible={visible}

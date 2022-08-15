@@ -189,7 +189,7 @@ const CustomerList: FC = () => {
                             node: <section>
                                 <Row>客户名称：{name}</Row>
                                 <Row>客户邮箱：{email}</Row>
-                                <Row>销售员：{saleName}</Row>
+                                <Row>销售员：{saleName?saleName:"-"}</Row>
                                 <Row>客户类型：{type}</Row>
                                 <Row>账号状态：{
                                     probation? <Tooltip title="测试" placement="left">
@@ -239,7 +239,7 @@ const CustomerList: FC = () => {
                     event(data) {
                         const value = {
                             title: "禁用",
-                            content: "确定要禁用么？",
+                            content: `你确定要禁用客户: ${data.name} ？`,
                             onOk: () => disable(data)
                         }
                         msgModal.createEvent("modal", value)
@@ -251,7 +251,7 @@ const CustomerList: FC = () => {
                     event(data) {
                         const value = {
                             title: "启用",
-                            content: "确定要启用么？",
+                            content: `你确定要启用客户: ${data.name} ？`,
                             onOk: () => enable(data)
                         }
                         msgModal.createEvent("modal", value)
