@@ -48,9 +48,9 @@ const CustomerList: FC = () => {
       }
     },
     {
-      key: "parentEmail",
-      title: "主账号",
-      dataIndex: "parentEmail",
+      key: "parentName",
+      title: "客戶名称(主账号)",
+      dataIndex: "parentName",
     },
     {
       key: "status",
