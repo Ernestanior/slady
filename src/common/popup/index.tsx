@@ -23,7 +23,7 @@ const PopupX:FC = () => {
             visible={visible}
             onMaskClick={()=>setVisible(false)}
             position='left'
-            bodyStyle={{ width: '80vw',padding:30 }}
+            bodyStyle={{ width: '90vw',padding:30 }}
             className='popup-x'
         >
             <section className="header">

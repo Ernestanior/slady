@@ -1,6 +1,6 @@
-import { FC, useCallback } from "react";
+import React, { FC, useCallback } from "react";
 import Template from "@/common/template";
-import {Button, Input, Row, Space, TableColumnProps} from "antd";
+import {Button, Input, Space, TableColumnProps} from "antd";
 import {userService} from "@/store/apis/account";
 import Status from "@/common/status";
 import { E_COLOR } from "@/common/const";
@@ -10,6 +10,7 @@ import CustomerFilterMobile from "./filterMobile";
 import FormItem from "@/common/Form/formItem";
 import isMobile from "@/app/isMobile";
 import msgModal from "@/store/message/service";
+import View from "@/common/popup/view";
 
 const CustomerList: FC = () => {
   const queryDataFunction = useCallback(async (filters) => {
@@ -94,14 +95,15 @@ const CustomerList: FC = () => {
                 parentEmail,
                 status
               } = data
+              const dataList=[
+                {label:'ID',content:id},
+                {label:'邮箱',content:email},
+                {label:'类型',content:subTypeMap(subType)},
+                {label:'主账号',content:parentEmail},
+                {label:'状态',content:status === 1?<Status color={E_COLOR.enable}>启用</Status>:<Status color={E_COLOR.disable}>禁用</Status>},
+              ]
               const value = {
-                node: <section>
-                  <Row>ID：{id}</Row>
-                  <Row>邮箱：{email}</Row>
-                  <Row>类型：{subTypeMap(subType)}</Row>
-                  <Row>主账号：{parentEmail}</Row>
-                  <Row>状态：{status === 1?<Status color={E_COLOR.enable}>启用</Status>:<Status color={E_COLOR.disable}>禁用</Status>}</Row>
-                </section>,
+                node: <View dataList={dataList} />,
               }
               msgModal.createEvent("popup", value)
             }

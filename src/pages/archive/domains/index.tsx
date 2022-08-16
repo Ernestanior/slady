@@ -1,12 +1,13 @@
-import {FC, useCallback} from "react";
+import React, {FC, useCallback} from "react";
 import Template from "@/common/template";
 import {domainService} from "@/store/apis/site";
-import {Button, Input, Row, TableColumnProps} from "antd";
+import {Button, Input, TableColumnProps} from "antd";
 import ArchiveDomainFilter from "@/pages/archive/domains/filters";
 import ArchiveDomainFilterMobile from "@/pages/archive/domains/filterMobile";
 import FormItem from "@/common/Form/formItem";
 import isMobile from "@/app/isMobile";
 import msgModal from "@/store/message/service";
+import View from "@/common/popup/view";
 
 const ArchiveDomains:FC = () => {
     const query = useCallback((data) => {
@@ -50,14 +51,15 @@ const columnMobile : TableColumnProps<any>[] = [
                             customerName,
                             createDate,
                         } = data
+                        const dataList=[
+                            {label:'主机记录值',content:displayName},
+                            {label:'站点名称',content:siteName},
+                            {label:'源点',content:upstream.split(" ").filter((item:any)=>item).join(", ")},
+                            {label:'客户名称',content:customerName},
+                            {label:'创建时间',content:createDate},
+                        ]
                         const value = {
-                            node: <section>
-                                <Row>主机记录值：{displayName}</Row>
-                                <Row>站点名称：{siteName}</Row>
-                                <Row>源点：{upstream.split(" ").filter((item:any)=>item).join(", ")}</Row>
-                                <Row>客户名称：{customerName}</Row>
-                                <Row>创建时间：{createDate}</Row>
-                            </section>,
+                            node: <View dataList={dataList}/>,
                         }
                         msgModal.createEvent("popup", value)
                     }

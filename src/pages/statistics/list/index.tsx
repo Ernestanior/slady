@@ -1,6 +1,6 @@
-import {FC, useCallback, useMemo} from "react";
+import React, {FC, useCallback, useMemo} from "react";
 import Template from "@/common/template";
-import { Input, Row, TableColumnProps} from "antd";
+import { Input, TableColumnProps} from "antd";
 import historyService from "@/store/history";
 import {customerService} from "@/store/apis/account";
 import request from "@/store/request";
@@ -14,6 +14,7 @@ import FormItem from "@/common/Form/formItem";
 import isMobile from "@/app/isMobile";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
+import View from "@/common/popup/view";
 
 // 流量计算倍率
 const MAGNIFICATION = 10;
@@ -67,18 +68,19 @@ const StatisticsList:FC = () => {
                                 saleStat,
                                 limitDefence
                             } = data
+                            const dataList=[
+                                {label:'客户名称',content:name},
+                                {label:'销售员',content:saleName?saleName:"-"},
+                                {label:'带宽额度(Mbps)',content:typeof limitBandwidth !== "number"?"-":toFixed(limitBandwidth / 1000000, 2)},
+                                {label:'上个月95带宽(Mbps)',content:(!data.saleStat || typeof data.saleStat.bandwidthOfLastMonth !== "number")? "-":getCompareRender(saleStat.bandwidthOfLastMonth, data)},
+                                {label:'本月95带宽(Mbps)',content:(!data.saleStat || typeof data.saleStat.bandwidthOfCurrentMonth !== "number")? "-":getCompareRender(saleStat.bandwidthOfCurrentMonth, data)},
+                                {label:'最近-14-7天流量(M)',content:(!data.saleStat || typeof data.saleStat.flowOfLast14To7Day !== "number")? "-":toFixed(saleStat.flowOfLast14To7Day/1000000, 2)},
+                                {label:'最近7天流量(M)',content:(!data.saleStat || typeof data.saleStat.flowOfLast7Day !== "number")? "-":toFixed(saleStat.flowOfLast7Day/1000000, 2)},
+                                {label:'域名(站点)额度',content:domainRender(data)},
+                                {label:'防御额度(GB)',content:limitDefence===-1?"Unlimited":limitDefence || "-"},
+                            ]
                             const value = {
-                                node: <section>
-                                    <Row>客户名称：{name}</Row>
-                                    <Row>销售员：{saleName?saleName:"-"}</Row>
-                                    <Row>带宽额度(Mbps)：{typeof limitBandwidth !== "number"?"-":toFixed(limitBandwidth / 1000000, 2)}</Row>
-                                    <Row>上个月95带宽(Mbps)：{(!data.saleStat || typeof data.saleStat.bandwidthOfLastMonth !== "number")? "-":getCompareRender(saleStat.bandwidthOfLastMonth, data)}</Row>
-                                    <Row>本月95带宽(Mbps)：{(!data.saleStat || typeof data.saleStat.bandwidthOfCurrentMonth !== "number")? "-":getCompareRender(saleStat.bandwidthOfCurrentMonth, data)}</Row>
-                                    <Row>最近-14-7天流量(M)：{(!data.saleStat || typeof data.saleStat.flowOfLast14To7Day !== "number")? "-":toFixed(saleStat.flowOfLast14To7Day/1000000, 2)}</Row>
-                                    <Row>最近7天流量(M)：{(!data.saleStat || typeof data.saleStat.flowOfLast7Day !== "number")? "-":toFixed(saleStat.flowOfLast7Day/1000000, 2)}</Row>
-                                    <Row>域名(站点)额度：{domainRender(data)}</Row>
-                                    <Row>防御额度(GB)：{limitDefence===-1?"Unlimited":limitDefence || "-"}</Row>
-                                </section>,
+                                node: <View dataList={dataList} />,
                             }
                             msgModal.createEvent("popup", value)
                         }

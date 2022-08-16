@@ -3,7 +3,7 @@ import Template from "@/common/template";
 import CustomerFilter from "@/pages/customerList/filter";
 import MobileFilter from "@/pages/customerList/filterMobile";
 import {INormalEvent} from "@/common/interface";
-import {Input, notification, Row, TableColumnProps, Tooltip} from "antd";
+import {Input, notification, TableColumnProps, Tooltip} from "antd";
 import {
     agentService,
     customerService,
@@ -28,6 +28,7 @@ import FormItem from "@/common/Form/formItem";
 import isMobile from "@/app/isMobile";
 import IconFont from "@/common/icon";
 import TipBox from "@/common/tip";
+import View from "@/common/popup/view";
 
 /**
  * 用户启用禁用状态
@@ -186,43 +187,33 @@ const CustomerList: FC = () => {
                             usedDomains,
                             limitDedicatedPlans
                         } = data
-                        const value = {
-                            node: <section>
-                                <Row>客户名称：{name}</Row>
-                                <Row>客户邮箱：{email}</Row>
-                                <Row>销售员：{saleName?saleName:"-"}</Row>
-                                <Row>客户类型：{type}</Row>
-                                <Row>账号状态：{
-                                    probation? <Tooltip title="测试" placement="left">
+                        const dataList=[
+                            {label:'客户名称',content:name},
+                            {label:'客户邮箱',content:email},
+                            {label:'销售员',content:saleName?saleName:"-"},
+                            {label:'客户类型',content:type},
+                            {label:'账号状态',content:probation? <Tooltip title="测试" placement="left">
                                     <Status color={E_COLOR.warn}>测试</Status>
-                                    </Tooltip>:status === 1?<Status color={E_COLOR.enable}>正式</Status>:<Status color={E_COLOR.disable}>禁用</Status>
-
-                                }</Row>
-                                <Row>CDN：
-                                    {
-                                        type === USER_TYPE[2].id ?
-                                            "-" :
-                                            cdnServiceFlag !== 1 ?
-                                                <Status color={E_COLOR.off}>未启用</Status>
-                                                : <>
-                                                    <Status color={E_COLOR.enable}>启用</Status>
-                                                    {usedMasterDomains || 0}/{limitMasterDomains}{" "}
-                                                </>
-                                    }
-                                </Row>
-                                <Row>DNS：
-                                    {
-                                        type === USER_TYPE[2].id ?
-                                            "-" :
-                                            dnsServiceFlag !== 1 ?
-                                                <Status color={E_COLOR.off}>未启用</Status>
-                                                : <>
-                                                    <Status color={E_COLOR.enable}>启用</Status>
-                                                    {usedDomains || 0}/{limitDedicatedPlans || 0}{" "}
-                                                </>
-                                    }
-                                </Row>
-                            </section>,
+                                </Tooltip>:status === 1?<Status color={E_COLOR.enable}>正式</Status>:<Status color={E_COLOR.disable}>禁用</Status>
+                            },
+                            {label:'CDN',content:type === USER_TYPE[2].id ?"-" :
+                                    cdnServiceFlag !== 1 ?
+                                        <Status color={E_COLOR.off}>未启用</Status>
+                                        : <>
+                                            <Status color={E_COLOR.enable}>启用</Status>
+                                            {usedMasterDomains || 0}/{limitMasterDomains}{" "}
+                                        </>
+                            },
+                            {label:'DNS',content:type === USER_TYPE[2].id ? "-" :
+                                    dnsServiceFlag !== 1 ?
+                                        <Status color={E_COLOR.off}>未启用</Status>
+                                        : <>
+                                            <Status color={E_COLOR.enable}>启用</Status>
+                                            {usedDomains || 0}/{limitDedicatedPlans || 0}{" "}
+                                        </>},
+                        ]
+                        const value = {
+                            node:<View dataList={dataList} />,
                         }
                         msgModal.createEvent("popup", value)
                     }

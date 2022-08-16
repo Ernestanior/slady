@@ -1,6 +1,6 @@
-import {FC, useCallback, useMemo} from "react";
+import React, {FC, useCallback, useMemo} from "react";
 import Template from "@/common/template";
-import { Input, Row, TableColumnProps} from "antd";
+import { Input, TableColumnProps} from "antd";
 import ArchiveCustomerFilter from "@/pages/archive/customers/filters";
 import ArchiveCustomerFilterMobile from "@/pages/archive/customers/filterMobile";
 import {customerService} from "@/store/apis/account";
@@ -9,6 +9,7 @@ import FormItem from "@/common/Form/formItem";
 import isMobile from "@/app/isMobile";
 import msgModal from "@/store/message/service";
 import {IOperationConfig} from "@/common/template/interface";
+import View from "@/common/popup/view";
 
 const ArchiveCustomer:FC = () => {
     const query = useCallback((data) => {
@@ -46,16 +47,17 @@ const ArchiveCustomer:FC = () => {
                             modifyDate,
                             autoDeletion
                         } = data
+                        const dataList = [
+                            {label:'ID',content:id},
+                            {label:'用户名',content:name},
+                            {label:'登录邮箱',content:email},
+                            {label:'创建者',content:creatorName},
+                            {label:'创建时间',content:createDate},
+                            {label:'删除时间',content:modifyDate},
+                            {label:'删除方式',content:autoDeletion?"自动删除":"手动删除"},
+                        ]
                         const value = {
-                            node: <section>
-                                <Row>ID：{id}</Row>
-                                <Row>用户名：{name}</Row>
-                                <Row>登录邮箱：{email}</Row>
-                                <Row>创建者：{creatorName}</Row>
-                                <Row>创建时间：{createDate}</Row>
-                                <Row>删除时间：{modifyDate}</Row>
-                                <Row>删除方式：{autoDeletion?"自动删除":"手动删除"}</Row>
-                            </section>,
+                            node: <View dataList={dataList}/>,
                         }
                         msgModal.createEvent("popup", value)
                     }

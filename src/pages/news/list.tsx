@@ -1,4 +1,4 @@
-import {FC, ReactNode, useCallback, useMemo, useRef, useState} from "react";
+import React, {FC, ReactNode, useCallback, useMemo, useRef, useState} from "react";
 import Template, {reloadMainList} from "@/common/template";
 import NewsFilter from "@/pages/news/filter";
 import NewsFilterMobile from "@/pages/news/filterMobile";
@@ -6,7 +6,7 @@ import {INormalEvent} from "@/common/interface";
 import historyService from "@/store/history";
 import {AxiosRequestConfig} from "axios";
 import requestNews from "@/store/request/requestNews";
-import { Image, Space, TableColumnProps, Modal, notification, Input, Row} from "antd";
+import { Image, Space, TableColumnProps, Modal, notification, Input} from "antd";
 import {from} from "rxjs";
 import ViewNewsDetail from "@/pages/news/view";
 import {LanguageType} from "@/pages/news/form";
@@ -15,6 +15,7 @@ import isMobile from "@/app/isMobile";
 import FormItem from "@/common/Form/formItem";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
+import View from "@/common/popup/view";
 
 interface IPage{
     pages: number,
@@ -111,19 +112,15 @@ const NewsList:FC = () => {
                             locales,
                             publishDate
                         } = data
+                        const dataList=[
+                            {label:'ID',content:id},
+                            {label:'条目名称',content:entry},
+                            {label:'图片',content:<Image width={150} height={80} src={imageUrl} fallback={errorImage}/>},
+                            {label:'语言',content:localeRender(locales)},
+                            {label:'发布日期',content:publishDate},
+                        ]
                         const value = {
-                            node: <section>
-                                <Row>ID：{id}</Row>
-                                <Row>条目名称：{entry}</Row>
-                                <Row>图片：<Image
-                                    width={150}
-                                    height={80}
-                                    src={imageUrl}
-                                    fallback={errorImage}
-                                /></Row>
-                                <Row> 语言：{localeRender(locales)}</Row>
-                                <Row>发布日期：{publishDate}</Row>
-                            </section>,
+                            node: <View dataList={dataList} />,
                         }
                         msgModal.createEvent("popup", value)
                     }

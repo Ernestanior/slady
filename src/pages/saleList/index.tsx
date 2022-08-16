@@ -12,11 +12,12 @@ import {E_USER_TYPE} from "@/store/account/service";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
 import FormItem from "@/common/Form/formItem";
-import {Input, Row} from "antd";
+import {Input} from "antd";
 import isMobile from "@/app/isMobile";
 import Status from "@/common/status";
 import {E_COLOR} from "@/common/const";
 import TipBox from "@/common/tip";
+import View from "@/common/popup/view";
 
 const SaleList:FC = () => {
 
@@ -76,12 +77,13 @@ const SaleList:FC = () => {
                                 type,
                                 status
                             } = data
+                            const dataList = [
+                                {label:'客户名称',content:name},
+                                {label:'客户类型',content:type},
+                                {label:'账号状态',content:status === 1?<Status color={E_COLOR.enable}>正式</Status>:<Status color={E_COLOR.disable}>禁用</Status>},
+                            ]
                             const value = {
-                                node: <section>
-                                    <Row>客户名称：{name}</Row>
-                                    <Row>客户类型：{type}</Row>
-                                    <Row>账号状态：{status === 1?<Status color={E_COLOR.enable}>正式</Status>:<Status color={E_COLOR.disable}>禁用</Status>}</Row>
-                                </section>,
+                                node: <View dataList={dataList} />,
                             }
                             msgModal.createEvent("popup", value)
                         }

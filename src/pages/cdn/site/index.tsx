@@ -1,7 +1,7 @@
-import {FC, useCallback} from "react";
+import React, {FC, useCallback} from "react";
 import Template from "@/common/template";
 import {siteService} from "@/store/apis/site";
-import {Button, Input, Row, Space, TableColumnProps} from "antd";
+import {Button, Input, Space, TableColumnProps} from "antd";
 import CDNSiteListFilter from "@/pages/cdn/site/filters";
 import CDNSiteListFilterMobile from "@/pages/cdn/site/filterMobile";
 import {E_USER_STATUS_COLUMN} from "@/pages/customerList";
@@ -10,6 +10,7 @@ import FormItem from "@/common/Form/formItem";
 import Status from "@/common/status";
 import {E_COLOR} from "@/common/const";
 import msgModal from "@/store/message/service";
+import View from "@/common/popup/view";
 
 const CDNSiteList:FC = () => {
     const query = useCallback((data) => {
@@ -78,16 +79,17 @@ const columnMobile: TableColumnProps<any>[] = [
                             upstream,
                             status
                         } = data
+                        const dataList=[
+                            {label:'站点名称',content:name},
+                            {label:'客户名称',content:customerName},
+                            {label:'站点类型',content:type},
+                            {label:'记录数',content:records},
+                            {label:'UniqueName',content:uniqueName},
+                            {label:'源点',content:upstream.split(" ").filter((item:any)=>item).join(", ")},
+                            {label:'站点状态',content:status === 1?<Status color={E_COLOR.enable}>正式</Status>:<Status color={E_COLOR.disable}>禁用</Status>},
+                        ]
                         const value = {
-                            node: <section>
-                                <Row>站点名称：{name}</Row>
-                                <Row>客户名称：{customerName}</Row>
-                                <Row>站点类型：{type}</Row>
-                                <Row>记录数：{records}</Row>
-                                <Row>UniqueName：{uniqueName}</Row>
-                                <Row>源点：{upstream.split(" ").filter((item:any)=>item).join(", ")}</Row>
-                                <Row>站点状态：{status === 1?<Status color={E_COLOR.enable}>正式</Status>:<Status color={E_COLOR.disable}>禁用</Status>}</Row>
-                            </section>,
+                            node: <View dataList={dataList} />,
                         }
                         msgModal.createEvent("popup", value)
                     }
