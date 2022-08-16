@@ -27,6 +27,7 @@ import msgModal from "@/store/message/service";
 import FormItem from "@/common/Form/formItem";
 import isMobile from "@/app/isMobile";
 import IconFont from "@/common/icon";
+import TipBox from "@/common/tip";
 
 /**
  * 用户启用禁用状态
@@ -262,7 +263,7 @@ const CustomerList: FC = () => {
                     event(data) {
                         const value = {
                             title: "重置密码",
-                            content: `请确认为${data.name}重置密码?`,
+                            content: <TipBox style={{width:440}} type="warning" title="提示">请确认为{data.name}重置密码?</TipBox>,
                             onOk: () => resetPwd(data.userId)
                         }
                         msgModal.createEvent("modal", value)

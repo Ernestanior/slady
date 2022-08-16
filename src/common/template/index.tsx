@@ -184,6 +184,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
                     } else {
                         console.error("接口数据请求失败");
                     }
+                    setSelectIds([])
                     setTableData(resultData);
                 } catch (error) {
                     console.error(error);

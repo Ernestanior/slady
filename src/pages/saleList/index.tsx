@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo} from "react";
+import React, {FC, useCallback, useMemo} from "react";
 import {INormalEvent} from "@/common/interface";
 import historyService from "@/store/history";
 import {saleService} from "@/store/apis/account";
@@ -16,6 +16,7 @@ import {Input, Row} from "antd";
 import isMobile from "@/app/isMobile";
 import Status from "@/common/status";
 import {E_COLOR} from "@/common/const";
+import TipBox from "@/common/tip";
 
 const SaleList:FC = () => {
 
@@ -105,7 +106,7 @@ const SaleList:FC = () => {
                     event(data) {
                         const value = {
                             title: "重置密码",
-                            content: `请确认为${data.name}重置密码?`,
+                            content: <TipBox style={{width:440}} type="warning" title="提示">请确认为{data.name}重置密码?</TipBox>,
                             onOk: () => resetPwd(data.id)
                         }
                         msgModal.createEvent("modal", value)
