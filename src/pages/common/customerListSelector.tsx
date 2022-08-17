@@ -4,6 +4,7 @@ import request from "@/store/request";
 import {customerService} from "@/store/apis/account";
 import SelectP from "@/common/select";
 import {IFormComponent} from "@/common/interface";
+import isMobile from "@/app/isMobile";
 
 interface IProps{
     bordered?: boolean;
@@ -39,7 +40,7 @@ const CustomerListSelector:FC<IFormComponent & IProps> = ({includeArchiveCustome
         data={list}
         value={value}
         onChange={onChange}
-        placeholder="选择客户"
+        placeholder={isMobile?"":"选择客户"}
     />
 }
 

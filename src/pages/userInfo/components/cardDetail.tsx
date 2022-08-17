@@ -13,7 +13,7 @@ const CardDetail:FC<IProps & ISubmitAsyncModule> = ({icon, text, submit, childre
     const [event$, sendMessage] = useUniDirectionalEvent();
     return <>
         <Card hoverable onClick={() => sendMessage(true)}>
-            <Row gutter={[15, 15]} align="middle">
+            <Row gutter={[10, 10]} align="middle">
                 <Col span={24} style={{textAlign:"center"}}>
                     {icon}
                 </Col>

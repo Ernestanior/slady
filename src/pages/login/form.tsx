@@ -13,7 +13,7 @@ import accountService from "@/store/account/service";
 import moment from "moment";
 import forge from "node-forge"
 import {rsaPublic} from "@/pages/login/rsa_public";
-
+import isMobile from "@/app/isMobile";
 const publicKey = forge.pki.publicKeyFromPem(rsaPublic);
 
 // 密码加密
@@ -93,7 +93,7 @@ const LoginForm: FC = () => {
     );
     const submitClick = useSubmitEvent(submitEvent);
     return (
-        <section className="page-login-form">
+        <section className={isMobile?"mobile-login-form":"page-login-form"}>
             <Form layout="vertical" form={form} className="comp-form-lg">
                 <ConditionShow className="login-loading-container" visible={loading}>
                     <div className="login-loading">
@@ -158,7 +158,7 @@ const LoginForm: FC = () => {
                     {loginError}
                 </div>
             </Form>
-            <div className="fix-foot">Copyright ©{moment().format("YYYY")} Greypanel. All Rights Reserved.</div>
+            {!isMobile&&<div className="fix-foot">Copyright ©{moment().format("YYYY")} Greypanel. All Rights Reserved.</div>}
         </section>
     );
 };

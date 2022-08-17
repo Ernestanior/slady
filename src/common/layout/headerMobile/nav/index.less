@@ -1,0 +1,70 @@
+@import "src/styles/config/color";
+@font-color:#223046;
+.mobile-nav{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .mobile-nav-body{
+    padding: 2vh 5vw;
+  }
+  .logo{
+    margin-top: 4vh;
+    height: 5vh;
+    width: 43vw;
+  }
+
+  .mobile-menu-list{
+    margin-top: 3vh;
+    height:60vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    .ant-menu-item-selected{
+      a{
+        color: @font-color;
+      }
+      background-color: #fff;
+    }
+    .ant-menu-submenu-title:hover{
+      color:@font-color
+    }
+    .ant-menu-item a{
+      color:@font-color
+    }
+    .ant-menu-submenu-arrow{
+      color:@font-color !important;
+    }
+    .mobile-menu-item{
+      margin-top: 10px;
+      font-size: 4vw;
+      font-weight: 550;
+      color:@font-color;
+    }
+  }
+  //.mobile-nav-footer{
+  //  width: 100%;
+  //  flex: 1;
+  //  background-color: #c5c4c4;
+  //  padding:5vw 10vw;
+  //  color:#fff;
+  //  font-size: 3vw;
+  //  .mobile-footer-list{
+  //    display: flex;
+  //    flex-wrap: wrap;
+  //    height: 10vh;
+  //    .footer-item{
+  //      color:#fff;
+  //      flex: 50%;
+  //    }
+  //  }
+  //
+  //}
+}
+.logout{
+  display: flex;
+  align-items: center;
+  color:@font-color;
+  margin-left: 10vw;
+  margin-top:5vh;
+  font-size: 6vw;
+  font-weight: 550;
+}

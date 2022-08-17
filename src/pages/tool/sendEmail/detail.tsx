@@ -77,7 +77,7 @@ const DetailEmail:FC = () => {
                     </section>
 
                 </section>
-                <div dangerouslySetInnerHTML = {{ __html: content.detail}}/>
+                <div style={{overflow:"scroll"}} dangerouslySetInnerHTML = {{ __html: content.detail}}/>
                 <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
                     {Object.keys(content.attachments).map((item)=><div key={item}><PaperClipOutlined /><a rel="noreferrer" target="_Blank" href={'http://stg-portal.greycdn.com'+content.attachments[item]}>{item}</a></div>)}
                 </div>

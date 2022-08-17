@@ -8,9 +8,10 @@ import FA2 from "@/pages/userInfo/2FA";
 const UserInfo:FC = () => {
     const saleInfo = useSaleInfo();
     return <section style={{ width: 450, padding: 15 }}>
-        <p style={{fontWeight: "bolder", fontSize: "1.2em"}}>
+        <h3 style={{fontWeight:650}}>
             个人中心
-        </p>
+        </h3>
+        <br/>
         <Row gutter={[15, 15]}>
             <Col span={6}>
                 用户名称

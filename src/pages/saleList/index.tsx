@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo} from "react";
+import React, {FC, useCallback, useMemo} from "react";
 import {INormalEvent} from "@/common/interface";
 import historyService from "@/store/history";
 import {saleService} from "@/store/apis/account";
@@ -6,10 +6,18 @@ import {queryValueFromListRender, reqAndReload} from "@/common/utils";
 import Template from "@/common/template";
 import {SALE_LIST} from "@/pages/sale/create";
 import SaleFilter from "@/pages/saleList/filter";
-import {E_USER_STATUS_COLUMN} from "@/pages/customerList";
+import SaleFilterMobile from "@/pages/saleList/filterMobile";
+import {E_USER_STATUS_COLUMN, resetPwd} from "@/pages/customerList";
 import {E_USER_TYPE} from "@/store/account/service";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
+import FormItem from "@/common/Form/formItem";
+import {Input} from "antd";
+import isMobile from "@/app/isMobile";
+import Status from "@/common/status";
+import {E_COLOR} from "@/common/const";
+import TipBox from "@/common/tip";
+import View from "@/common/popup/view";
 
 const SaleList:FC = () => {
 
@@ -44,13 +52,6 @@ const SaleList:FC = () => {
     //     reqAndReload(config)
     // }, [])
 
-    //重置密码
-    const resetPwd = useCallback(
-        (user) => {
-            historyService.push(`/sale/resetPwd/${user.name}/${user.userId}`);
-        },
-        []
-    );
     // modify
     const deleteUser = useCallback(({id}) => {
         const config = saleService.Delete({ saleId: id }, {});
@@ -66,6 +67,28 @@ const SaleList:FC = () => {
     const options: IOperationConfig = useMemo(() => {
         return [
             [
+                {
+                    text: "查看",
+                    hide: () => !isMobile,
+                    event(data) {
+                        if (data) {
+                            const {
+                                name,
+                                type,
+                                status
+                            } = data
+                            const dataList = [
+                                {label:'客户名称',content:name},
+                                {label:'客户类型',content:type},
+                                {label:'账号状态',content:status === 1?<Status color={E_COLOR.enable}>正式</Status>:<Status color={E_COLOR.disable}>禁用</Status>},
+                            ]
+                            const value = {
+                                node: <View dataList={dataList} />,
+                            }
+                            msgModal.createEvent("popup", value)
+                        }
+                    },
+                },
                 {
                     text: "分配客户",
                     hide:(data)=>!(data.type === E_USER_TYPE.SALE),
@@ -83,7 +106,12 @@ const SaleList:FC = () => {
                 {
                     text: "重置密码",
                     event(data) {
-                        resetPwd(data);
+                        const value = {
+                            title: "重置密码",
+                            content: <TipBox style={{width:isMobile?320:440}} type="warning" title="提示">请确认为{data.name}重置密码?</TipBox>,
+                            onOk: () => resetPwd(data.id)
+                        }
+                        msgModal.createEvent("modal", value)
                     },
                 },
                 {
@@ -92,14 +120,14 @@ const SaleList:FC = () => {
                         // deleteCustomer(data);
                         const value = {
                             title:"删除",
-                            content:"你确定要删除该客户么？",
+                            content:`你确定要删除销售: ${data.name}`,
                             onOk:()=>deleteUser(data)
                         }
-                        msgModal.createEvent(value)
+                        msgModal.createEvent("modal",value)
                     },
                 }]
         ]
-    }, [resetPwd,deleteUser,reAssignCustomer,modify])
+    }, [deleteUser,reAssignCustomer,modify])
 
     // 下拉
     /** 老版本
@@ -124,27 +152,49 @@ const SaleList:FC = () => {
     */
     return <section>
         <Template
+            primarySearch={primarySearch}
             optList={options}
-            filter={<SaleFilter />}
+            filter={isMobile?<SaleFilterMobile/>:<SaleFilter />}
             event={buttons}
-            columns={columns}
+            columns={isMobile?columnMobile:columns}
             queryData={query}
             rowKey="id"
+            scroll={isMobile?{}:{
+                x: 1200,
+            }}
         />
     </section>
 }
 
 export default SaleList
 
-const columns = [
+const columnMobile = [
     {
         dataIndex: "name",
-        title: "名称"
+        title: "名称",
+        width:120
     },
     {
         dataIndex: "type",
         title: "类型",
-        render: queryValueFromListRender(SALE_LIST)
+        width:80,
+        render: queryValueFromListRender(SALE_LIST),
+    }
+]
+const columns = [
+    {
+        dataIndex: "name",
+        title: "名称",
+    },
+    {
+        dataIndex: "type",
+        title: "类型",
+        render: queryValueFromListRender(SALE_LIST),
     },
     E_USER_STATUS_COLUMN
 ]
+const primarySearch=<>
+    <FormItem noStyle name="name" >
+        <Input style={{width:"70vw"}} placeholder="用户名" allowClear/>
+    </FormItem>
+</>

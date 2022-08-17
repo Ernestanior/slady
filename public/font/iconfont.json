@@ -6,6 +6,41 @@
   "description": "icons of greypanel",
   "glyphs": [
     {
+      "icon_id": "31214306",
+      "name": "Group 3911",
+      "font_class": "a-Group3911",
+      "unicode": "e6d8",
+      "unicode_decimal": 59096
+    },
+    {
+      "icon_id": "31194376",
+      "name": "filter_major_monotone",
+      "font_class": "filter_major_monotone",
+      "unicode": "e6d7",
+      "unicode_decimal": 59095
+    },
+    {
+      "icon_id": "1727448",
+      "name": "217时间-线性",
+      "font_class": "shijian-xianxing",
+      "unicode": "e8c4",
+      "unicode_decimal": 59588
+    },
+    {
+      "icon_id": "16615976",
+      "name": "delete",
+      "font_class": "delete",
+      "unicode": "e68c",
+      "unicode_decimal": 59020
+    },
+    {
+      "icon_id": "13197739",
+      "name": "效验",
+      "font_class": "xiaoyan",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
+    {
       "icon_id": "7152817",
       "name": "美国国旗",
       "font_class": "meiguoguoqi",
@@ -18,13 +53,6 @@
       "font_class": "tishi1",
       "unicode": "e773",
       "unicode_decimal": 59251
-    },
-    {
-      "icon_id": "7739269",
-      "name": "中国",
-      "font_class": "tubiaozhizuomoban",
-      "unicode": "e65d",
-      "unicode_decimal": 58973
     },
     {
       "icon_id": "29641294",

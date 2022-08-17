@@ -22,7 +22,6 @@ export const SALE_LIST = [
 ]
 
 const CreateSale:FC = () => {
-
     const [form] = useForm()
 
     const submit = useCallback(() => {

@@ -81,6 +81,9 @@ const DNSInfo: FC<IProps> = ({id})=> {
             title: '额度',
             dataIndex: "total",
             width: "30%",
+          onCell:(_,index)=>{
+                return index && index>=1?{rowSpan:0}:{rowSpan:4}
+            }
           },
         ]}
         pagination={{

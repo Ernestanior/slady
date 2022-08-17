@@ -1,11 +1,16 @@
-import { FC, useCallback } from "react";
+import React, { FC, useCallback } from "react";
 import Template from "@/common/template";
-import { TableColumnProps } from "antd";
+import {Button, Input, Space, TableColumnProps} from "antd";
 import {userService} from "@/store/apis/account";
 import Status from "@/common/status";
 import { E_COLOR } from "@/common/const";
 import request from "@/store/request";
 import CustomerFilter from "./filter";
+import CustomerFilterMobile from "./filterMobile";
+import FormItem from "@/common/Form/formItem";
+import isMobile from "@/app/isMobile";
+import msgModal from "@/store/message/service";
+import View from "@/common/popup/view";
 
 const CustomerList: FC = () => {
   const queryDataFunction = useCallback(async (filters) => {
@@ -44,9 +49,9 @@ const CustomerList: FC = () => {
       }
     },
     {
-      key: "parentEmail",
-      title: "主账号",
-      dataIndex: "parentEmail",
+      key: "parentName",
+      title: "客戶名称(主账号)",
+      dataIndex: "parentName",
     },
     {
       key: "status",
@@ -65,15 +70,57 @@ const CustomerList: FC = () => {
       }
     }
   ];
-
+  const columnMobile: TableColumnProps<any>[] = [
+    {
+      key: "name",
+      title: "名称",
+      dataIndex: "name",
+    },
+    {
+      key: "email",
+      title: "邮箱",
+      dataIndex: "email",
+    },
+    {
+      title: "操作",
+      dataIndex: "opt",
+      render(_:any, data:any){
+        return <Space>
+          <Button onClick={() => {
+            if (data) {
+              const {
+                id,
+                email,
+                subType,
+                parentEmail,
+                status
+              } = data
+              const dataList=[
+                {label:'ID',content:id},
+                {label:'邮箱',content:email},
+                {label:'类型',content:subTypeMap(subType)},
+                {label:'主账号',content:parentEmail},
+                {label:'状态',content:status === 1?<Status color={E_COLOR.enable}>启用</Status>:<Status color={E_COLOR.disable}>禁用</Status>},
+              ]
+              const value = {
+                node: <View dataList={dataList} />,
+              }
+              msgModal.createEvent("popup", value)
+            }
+          }}>查看</Button>
+        </Space>
+      }
+    }
+  ]
   return (
     <section>
       <Template
-        filter={<CustomerFilter />}
-        columns={columns}
+        filter={isMobile?<CustomerFilterMobile />:<CustomerFilter />}
+        columns={isMobile?columnMobile:columns}
         // queryData={query}
         queryDataFunction={queryDataFunction}
         rowKey="id"
+        primarySearch={primarySearch}
       />
     </section>
   );
@@ -81,5 +128,19 @@ const CustomerList: FC = () => {
 
 export default CustomerList;
 
+const primarySearch=<>
+  <FormItem noStyle name="parentName" >
+    <Input style={{width:"70vw"}} placeholder="客户名称（主账号）" allowClear/>
+  </FormItem>
+</>
 
-
+const subTypeMap=(type:string)=>{
+  switch (type){
+    case 'viewer':
+      return '查看员'
+    case 'admin':
+      return '管理员'
+    case 'operator':
+      return '编辑员'
+  }
+}

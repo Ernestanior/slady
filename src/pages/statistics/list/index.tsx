@@ -1,14 +1,20 @@
-import {FC, useCallback, useMemo} from "react";
+import React, {FC, useCallback, useMemo} from "react";
 import Template from "@/common/template";
-import {Button, Space, TableColumnProps} from "antd";
+import { Input, TableColumnProps} from "antd";
 import historyService from "@/store/history";
 import {customerService} from "@/store/apis/account";
 import request from "@/store/request";
 import {ITableDataModule} from "@/common/interface";
 import {statService} from "@/store/apis/stat";
 import StatFilter from "@/pages/statistics/list/filter";
+import StatFilterMobile from "@/pages/statistics/list/filterMobile";
 import {toFixed} from "@/common/utils";
-import {LABEL_COLOR} from "@/common/const";
+import { LABEL_COLOR} from "@/common/const";
+import FormItem from "@/common/Form/formItem";
+import isMobile from "@/app/isMobile";
+import {IOperationConfig} from "@/common/template/interface";
+import msgModal from "@/store/message/service";
+import View from "@/common/popup/view";
 
 // 流量计算倍率
 const MAGNIFICATION = 10;
@@ -49,45 +55,56 @@ const StatisticsList:FC = () => {
         return null;
     }, []);
 
-    // const options: IOperationConfig = useMemo(() => {
-    //     return [
-    //             {
-    //                 text: "查看",
-    //                 icon: 'iconchakan1',
-    //                 event(data) {
-    //                     historyService.push("/statistics/" + data.id)
-    //                 },
-    //             }
-    //     ]
-    // }, [])
-
-    // 下拉
-
-    const _columns:any = useMemo(() => {
+    const options: IOperationConfig = useMemo(() => {
         return [
-            ...columns,
-            {
-                title: "操作",
-                dataIndex: "opt",
-                width: 200,
-                fixed: "right",
-                render(_:any, data:any){
-                    return <Space>
-                        <Button onClick={() => { historyService.push(`/statistics/${data.id}`) }}>查看</Button>
-                    </Space>
-                }
-            }
-        ]
-    }, [])
+                {
+                    text: "查看",
+                    hide:()=>!isMobile,
+                    event(data) {
+                        if (data) {
+                            const {
+                                name,
+                                saleName,
+                                limitBandwidth,
+                                saleStat,
+                                limitDefence
+                            } = data
+                            const dataList=[
+                                {label:'客户名称',content:name},
+                                {label:'销售员',content:saleName?saleName:"-"},
+                                {label:'带宽额度(Mbps)',content:typeof limitBandwidth !== "number"?"-":toFixed(limitBandwidth / 1000000, 2)},
+                                {label:'上个月95带宽(Mbps)',content:(!data.saleStat || typeof data.saleStat.bandwidthOfLastMonth !== "number")? "-":getCompareRender(saleStat.bandwidthOfLastMonth, data)},
+                                {label:'本月95带宽(Mbps)',content:(!data.saleStat || typeof data.saleStat.bandwidthOfCurrentMonth !== "number")? "-":getCompareRender(saleStat.bandwidthOfCurrentMonth, data)},
+                                {label:'最近-14-7天流量(M)',content:(!data.saleStat || typeof data.saleStat.flowOfLast14To7Day !== "number")? "-":toFixed(saleStat.flowOfLast14To7Day/1000000, 2)},
+                                {label:'最近7天流量(M)',content:(!data.saleStat || typeof data.saleStat.flowOfLast7Day !== "number")? "-":toFixed(saleStat.flowOfLast7Day/1000000, 2)},
+                                {label:'域名(站点)额度',content:domainRender(data)},
+                                {label:'防御额度(GB)',content:limitDefence===-1?"Unlimited":limitDefence || "-"},
+                            ]
+                            const value = {
+                                node: <View dataList={dataList} />,
+                            }
+                            msgModal.createEvent("popup", value)
+                        }
+                    },
+                },
+                {
+                    text: "统计",
+                    event(data) {
+                        historyService.push(`/statistics/${data.id}`)
+                    }
+                },
+            ]
 
+    }, [])
     return <section>
         <Template
-            filter={<StatFilter />}
-            columns={_columns}
-            // optList={options}
+            filter={isMobile?<StatFilterMobile/>:<StatFilter />}
+            columns={isMobile?columnMobile:columns}
+            optList={options}
+            primarySearch={primarySearch}
             queryDataFunction={queryFunction}
             rowKey="id"
-            scroll={{
+            scroll={isMobile?{}:{
                 x: 1600
             }}
         />
@@ -96,14 +113,27 @@ const StatisticsList:FC = () => {
 
 export default StatisticsList;
 
-
+const columnMobile: TableColumnProps<any>[] = [
+    {
+        title: "客户名称",
+        dataIndex: "name",
+        width: 110,
+        sorter: true,
+    },
+    {
+        title: "销售员",
+        dataIndex: "saleName",
+        width: 90,
+        render:(value:any)=> value?value:"-"
+    },
+]
 const columns: TableColumnProps<any>[] = [
     {
         title: "客户名称",
         dataIndex: "name",
         width: 200,
         sorter: true,
-        fixed: "left"
+        fixed: isMobile?undefined:"left"
     },
     {
         title: "销售员",
@@ -229,4 +259,27 @@ function getCompareRender(value:number, data:any){
         color = LABEL_COLOR.RED;
     }
     return <div {...getLabelStyle(color, "#fff")}>{toFixed(value / 1000000, 2)}</div>
+}
+const primarySearch=<>
+    <FormItem noStyle name="name" >
+        <Input style={{width:"70vw"}} placeholder="用户名" allowClear/>
+    </FormItem>
+</>
+
+const domainRender=(data:any)=>{
+    if(data.type === "normal"){
+        if(!data.saleStat || typeof data.saleStat.usedMasterDomains !== "number"){
+            return "-"
+        }
+        const value = data.saleStat.usedMasterDomains;
+        return `${value}/${data.limitMasterDomains}`;
+    }
+    if(data.type === "cname"){
+        if(!data.saleStat || typeof data.saleStat.usedSites !== "number"){
+            return "-"
+        }
+        const value = data.saleStat.usedSites;
+        return `${value}/${data.limitCnames}`;
+    }
+    return "-"
 }

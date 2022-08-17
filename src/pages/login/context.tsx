@@ -1,9 +1,11 @@
-import {FC} from "react";
+import React, {FC} from "react";
 import "./context.less";
+import isMobile from "@/app/isMobile";
 import LoginForm from "@/pages/login/form";
+import moment from "moment";
 
 const LoginContext:FC = () => {
-    return <section className="page-login">
+    return <section className={isMobile?"mobile-login":"page-login"}>
         <div className="left">
             <div className="text">
                 <div className="title">
@@ -22,6 +24,8 @@ const LoginContext:FC = () => {
         <div className="right">
             <LoginForm />
         </div>
+        {isMobile&&<div className="fix-foot">Copyright ©{moment().format("YYYY")} Greypanel. All Rights Reserved.</div>}
+
     </section>
 }
 

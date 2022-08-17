@@ -8,6 +8,7 @@ import AgentList from "@/pages/sale/agentList";
 import useObserver from "@/hoc/useObserver";
 import Period from "@/pages/customer/service/component/period";
 import moment from "moment";
+import isMobile from "@/app/isMobile";
 
 const Account:FC<IObserverForm> = ({data$}) => {
     const formData = useObserver(data$, {
@@ -37,38 +38,39 @@ const Account:FC<IObserverForm> = ({data$}) => {
         return moment(formData.probationStart, "YYYY/MM/DD")
     }, [formData.probationStart])
 
+    const span = useMemo(()=>isMobile?24:12,[])
     return <section className="cdn-block">
         <p>用户信息</p>
         <Row gutter={15}>
-            <FormItem span={12} label="客户名称" name="name">
+            <FormItem span={span} label="客户名称" name="name">
                 <Input />
             </FormItem>
-            <FormItem span={12} label="登陆邮箱" name="email">
+            <FormItem span={span} label="登陆邮箱" name="email">
                 <Input />
             </FormItem>
-            <FormItem span={12} label="客户类型" name="customerType" initialValue={E_L_USER_TYPE[0].id}>
+            <FormItem span={span} label="客户类型" name="customerType" initialValue={E_L_USER_TYPE[0].id}>
                 <SelectP disabled={disableCustomerType} data={customerTypeList} />
             </FormItem>
-            <FormItem hidden={formData.customerType === E_L_USER_TYPE[1].id} span={12} />
-            <FormItem hidden={formData.customerType !== E_L_USER_TYPE[1].id} span={12} label="选择代理" name="agentId">
+            {isMobile?"":<FormItem hidden={formData.customerType === E_L_USER_TYPE[1].id} span={span} />}
+            <FormItem hidden={formData.customerType !== E_L_USER_TYPE[1].id} span={span} label="选择代理" name="agentId">
                 <AgentList saleId={formData.saleId} />
             </FormItem>
             <FormItem noStyle hidden={formData.customerType === E_L_USER_TYPE[2].id}>
-                <FormItem span={12} label="客户状态" name='probation' initialValue={1}>
+                <FormItem span={span} label="客户状态" name='probation' initialValue={1}>
                     <SelectP data={customerStatus} />
                 </FormItem>
-                <FormItem  hidden={formData.probation === customerStatus[0].id} span={12} />
-                <FormItem hidden={formData.probation !== customerStatus[0].id} span={12} label="试用期" name="probationPeriod" initialValue={15}>
+                {isMobile?"":<FormItem  hidden={formData.probation === customerStatus[0].id} span={span} />}
+                <FormItem hidden={formData.probation !== customerStatus[0].id} span={span} label="试用期" name="probationPeriod" initialValue={15}>
                     <Period startDate={startDate} />
                 </FormItem>
             </FormItem>
-            <FormItem hidden={formData.customerType === E_L_USER_TYPE[2].id} span={12} label="可使用API数" name="limitTokens" initialValue={1}>
+            <FormItem hidden={formData.customerType === E_L_USER_TYPE[2].id} span={span} label="可使用API数" name="limitTokens" initialValue={1}>
                 <InputNumber />
             </FormItem>
-            <FormItem hidden={formData.customerType === E_L_USER_TYPE[2].id} span={12} label="可添加子账号" name="limitSubAccounts" initialValue={3}>
+            <FormItem hidden={formData.customerType === E_L_USER_TYPE[2].id} span={span} label="可添加子账号" name="limitSubAccounts" initialValue={3}>
                 <InputNumber />
             </FormItem>
-            <FormItem hidden span={12} label="DNS Value" name="dnsValue">
+            <FormItem hidden span={span} label="DNS Value" name="dnsValue">
                 <Input />
             </FormItem>
             <FormItem hidden name="id" initialValue={0}>

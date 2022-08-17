@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 1180738 */
-  src: url('iconfont.woff2?t=1653642043638') format('woff2'),
-       url('iconfont.woff?t=1653642043638') format('woff'),
-       url('iconfont.ttf?t=1653642043638') format('truetype'),
-       url('iconfont.svg?t=1653642043638#iconfont') format('svg');
+  src: url('iconfont.woff2?t=1660295001480') format('woff2'),
+       url('iconfont.woff?t=1660295001480') format('woff'),
+       url('iconfont.ttf?t=1660295001480') format('truetype'),
+       url('iconfont.svg?t=1660295001480#iconfont') format('svg');
 }
 
 .iconfont {
@@ -14,16 +14,32 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icona-Group3911:before {
+  content: "\e6d8";
+}
+
+.iconfilter_major_monotone:before {
+  content: "\e6d7";
+}
+
+.iconshijian-xianxing:before {
+  content: "\e8c4";
+}
+
+.icondelete:before {
+  content: "\e68c";
+}
+
+.iconxiaoyan:before {
+  content: "\e660";
+}
+
 .iconmeiguoguoqi:before {
   content: "\e65c";
 }
 
 .icontishi1:before {
   content: "\e773";
-}
-
-.icontubiaozhizuomoban:before {
-  content: "\e65d";
 }
 
 .iconzhongwenfanti:before {

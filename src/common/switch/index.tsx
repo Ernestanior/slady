@@ -1,6 +1,7 @@
 import {IFormComponent, ISwitchValue} from "@/common/interface";
 import {FC, useCallback} from "react";
 import {Col, Row, Switch} from "antd";
+import isMobile from "@/app/isMobile";
 
 interface IProps{
     label?: string;
@@ -32,11 +33,11 @@ const SwitchP:FC<IFormComponent & IProps & ISwitchValue> = ({label, marginTop, t
 
     // inline
     if(label){
-        return <Row gutter={15} style={{marginBottom: 12, marginTop: marginTop || 30, lineHeight: "30px"}} align="middle">
-            <Col span={8}>
+        return <Row gutter={15} style={isMobile?{marginBottom: 12,marginTop: 12}:{marginBottom: 12, marginTop: marginTop || 30, lineHeight: "30px"}} align="middle">
+            <Col span={isMobile?16:8}>
                 {label}
             </Col>
-            <Col span={16}>
+            <Col span={isMobile?8:16}>
                 <Switch disabled={disable} checked={checked} onChange={_onChange} />
             </Col>
         </Row>

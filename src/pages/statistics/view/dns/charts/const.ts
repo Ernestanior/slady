@@ -1,4 +1,5 @@
 import { EChartsOption } from "echarts-for-react"
+import isMobile from "@/app/isMobile";
 
 export const option: EChartsOption = (chartDatas: any, title: string) => {
     let _opt: any = {
@@ -35,12 +36,17 @@ export const option: EChartsOption = (chartDatas: any, title: string) => {
             }
         },
         legend: {
-            right: 40,
+            right: 10,
             orient: 'vertical',
             top: 20,
             type: "scroll"
         },
-        grid: {
+        grid: isMobile?{
+            left: '1px',
+            right: '1px',
+            bottom: '3%',
+            containLabel: true
+        }:{
             left: '30px',
             right: '250px',
             bottom: '3%',
@@ -52,7 +58,7 @@ export const option: EChartsOption = (chartDatas: any, title: string) => {
             axisLabel: {
                 rotate: 0,
             },
-            splitNumber: 15,
+            splitNumber: isMobile?8:15,
             splitLine: {
                 show: true
             },

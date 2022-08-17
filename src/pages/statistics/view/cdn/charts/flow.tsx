@@ -5,6 +5,7 @@ import * as echarts from "echarts"
 import moment from "moment";
 import {transformFlow, xAxisFormatterGenerate} from "@/common/utils";
 import {Col, Row} from "antd";
+import isMobile from "@/app/isMobile";
 
 export interface IFlowData{
     flowList: any[] | null;
@@ -50,7 +51,12 @@ const Flow:FC<IDataModule<IFlowData>> = ({data}) => {
                     saveAsImage: {}
                 }
             },
-            grid: {
+            grid: isMobile?{
+                left: '5px',
+                right: '5px',
+                bottom: '3%',
+                containLabel: true
+            }:{
                 left: '30px',
                 right: '20px',
                 bottom: '3%',
@@ -63,7 +69,7 @@ const Flow:FC<IDataModule<IFlowData>> = ({data}) => {
                     rotate: 0,
                     formatter: xAxisFormatterGenerate(data.flowList)
                 },
-                splitNumber: 20,
+                splitNumber: isMobile?8:20,
                 splitLine: {
                     show: true
                 },
