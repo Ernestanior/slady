@@ -254,7 +254,7 @@ const CustomerList: FC = () => {
                     event(data) {
                         const value = {
                             title: "重置密码",
-                            content: <TipBox style={{width:440}} type="warning" title="提示">请确认为{data.name}重置密码?</TipBox>,
+                            content: <TipBox style={{width:isMobile?320:440}} type="warning" title="提示">请确认为{data.name}重置密码</TipBox>,
                             onOk: () => resetPwd(data.userId)
                         }
                         msgModal.createEvent("modal", value)

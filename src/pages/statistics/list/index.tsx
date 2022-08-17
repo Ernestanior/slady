@@ -59,6 +59,7 @@ const StatisticsList:FC = () => {
         return [
                 {
                     text: "查看",
+                    hide:()=>!isMobile,
                     event(data) {
                         if (data) {
                             const {
