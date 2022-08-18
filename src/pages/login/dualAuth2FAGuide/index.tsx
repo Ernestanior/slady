@@ -8,6 +8,7 @@ import FormItem from "@/common/Form/formItem";
 import {authService} from "@/store/apis/account";
 import {from} from "rxjs";
 import request from "@/store/request";
+import isMobile from "@/app/isMobile";
 
 const DualAuth2FAGuide: FC = () => {
     const verifySubmit = useCallback((data) => {
@@ -20,7 +21,7 @@ const DualAuth2FAGuide: FC = () => {
     }, []);
 
     return (
-        <Layout className="succeed-guide-page">
+        <Layout className={isMobile?"succeed-guide-page-mobile":"succeed-guide-page"}>
             <section className="succeed-guide-main-con">
                 <header>
                     欢迎登录Greypanel帐户
