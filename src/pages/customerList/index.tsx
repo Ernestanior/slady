@@ -29,6 +29,7 @@ import isMobile from "@/app/isMobile";
 import IconFont from "@/common/icon";
 import TipBox from "@/common/tip";
 import View from "@/common/popup/view";
+import {dnsPlanService} from "@/store/apis/dns";
 
 /**
  * 用户启用禁用状态
@@ -102,7 +103,7 @@ const CustomerList: FC = () => {
                 });
             }
 
-            const customerIds = data.content
+            const customerIds:number[] = data.content
                 .filter((item: { type: string }) => item.type !== USER_TYPE[2].id)
                 .map((item: { id: number }) => item.id);
             const cdnUsage = await request<any[]>(
@@ -116,6 +117,44 @@ const CustomerList: FC = () => {
                         }
                     });
                 });
+            }
+            const dnsInfo = await request<any[]>(dnsPlanService.customerListDnsPlan({}, customerIds));
+            if(dnsInfo.isSuccess && dnsInfo.result){
+                dnsInfo.result.forEach((item:any)=>{
+                    data.content.forEach((i: any) => {
+                        if (i.id === item.customerId) {
+                            const list: any[] = [];
+                            const l = item.customPlanBalance;
+                            if (l) {
+                                if (l?.customised) {
+                                    list.push({
+                                        label:  '定制版',
+                                        used: l?.customised?.usedAmount,
+                                    })
+                                }
+                                if (l?.enterprise) {
+                                    list.push({
+                                        label:  '企业版',
+                                        used: l?.enterprise?.usedAmount,
+                                    })
+                                }
+                                if (l?.free) {
+                                    list.push({
+                                        label: '免费版',
+                                        used: l?.free?.usedAmount,
+                                    })
+                                }
+                                if (l?.standard) {
+                                    list.push({
+                                        label: '标准版',
+                                        used: l?.standard?.usedAmount,
+                                    })
+                                }
+                            }
+                            i['dnsPlanBalance'] = list;
+                        }
+                    });
+                })
             }
             return data;
         }
@@ -448,12 +487,12 @@ const columns: TableColumnProps<any>[] = [
             if (data.dnsServiceFlag !== 1) {
                 return <Status color={E_COLOR.off}>未启用</Status>;
             }
-
+            const dnsTip = data.dnsPlanBalance.map((item:any)=><div key={item.label}>{item.label}: {item.used}</div>)
             return (
-                <div>
+                <Tooltip title={dnsTip}>
                     <Status color={E_COLOR.enable}>启用</Status>
                     {data.usedDomains || 0}/{data.limitDedicatedPlans || 0}
-                </div>
+                </Tooltip>
             );
         },
     },
