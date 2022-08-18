@@ -64,9 +64,9 @@ const FAFormItem:FC<IObserverForm> = ({data$, cb, form}) => {
     useEffect(() => {
         if(info){
             // 用户本来未开启
-            if(info.authFlag === -1){
+            if(info.authFlag !== 1){
                 // 准备开启
-                if(formData.authFlag !== -1){
+                if(formData.authFlag && formData.authFlag !== -1){
                     form.setFieldsValue({
                         qrCode: true
                     })
