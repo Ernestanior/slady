@@ -1,6 +1,6 @@
 import {Form, Input, Row, Col, notification, Button} from "antd";
 import React, { FC, useCallback, useRef, useState } from "react";
-import Logo from "./images/logo.png";
+import Logo from "@/common/layout/headerMobile/nav/logo.png";
 import LoadingGif from "./images/loading-2.gif";
 import "./form.less";
 import ReCAPTCHA from "react-google-recaptcha"

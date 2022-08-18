@@ -108,6 +108,18 @@ class PlanAPI {
         return config;
     }
 
+    customerListDnsPlan = (params: {}, data:number[]) => {
+        const config: AxiosRequestConfig = {
+            url: '/dns/domain-plan/list-by-customer-ids',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
     FindCustomerPlane = (params: IFindPlanParams, data: IPlanListForm) => {
         const config: AxiosRequestConfig = {
             url: '/dns/domain-plan/page',
