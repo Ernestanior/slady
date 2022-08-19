@@ -487,7 +487,7 @@ const columns: TableColumnProps<any>[] = [
             if (data.dnsServiceFlag !== 1) {
                 return <Status color={E_COLOR.off}>未启用</Status>;
             }
-            const dnsTip = data.dnsPlanBalance.map((item:any)=><div key={item.label}>{item.label}: {item.used}</div>)
+            const dnsTip = data.dnsPlanBalance && data.dnsPlanBalance.map((item:any)=><div key={item.label}>{item.label}: {item.used}</div>)
             return (
                 <Tooltip title={dnsTip}>
                     <Status color={E_COLOR.enable}>启用</Status>
