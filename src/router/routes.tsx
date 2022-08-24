@@ -25,6 +25,7 @@ import CreateEmail from "@/pages/tool/sendEmail/create";
 import DetailEmail from "@/pages/tool/sendEmail/detail";
 import SubAccountQuery from "@/pages/tool/subAccountQuery";
 import Profile from '@/pages/userInfo/mobilePage'
+import OperateLog from "@/pages/cdn/operateLog";
 /**
  * 项目路由组件
  * 可以在此根据用户相应的权限组装路由
@@ -73,6 +74,9 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/cdn/record">
                     <CDNDomains />
+                </Route>
+                <Route path="/cdn/operate-log">
+                    <OperateLog />
                 </Route>
                 <Route path="/archive/domain">
                     <ArchiveDomains />

@@ -29,7 +29,7 @@ const CDN:FC<IObserverForm> = ({data$, form}) => {
                 </FormItem>
             </Col>
         </Row>
-        <Row>
+        <Row gutter={15}>
             <FormItem noStyle hidden={!formData.cdnServiceFlag}>
                 <FormItem noStyle span={span} name="type" initialValue='normal'>
                     <SwitchP

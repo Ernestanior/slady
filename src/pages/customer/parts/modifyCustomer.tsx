@@ -66,6 +66,7 @@ const CustomerForm:FC<IObserverForm> = ({form, data$}) => {
                 delete data.agentId;
             }
             data.dedicatedPlanFlag = 1
+            data.dedicatedPlanId = 3
             config = customerService.ModifyCustomer({}, data);
         }
         from(request(config)).subscribe((res) => {

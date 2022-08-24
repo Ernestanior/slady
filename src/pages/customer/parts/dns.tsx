@@ -36,7 +36,7 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
     useEffect(() => {
         if(Array.isArray(planList) && planList.length > 0){
             form.setFieldsValue({
-                dedicatedPlanId: planList[0].id
+                dedicatedPlanId: planList[2].id
             })
         }
     }, [planList, form])
@@ -109,7 +109,7 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
         </Row>
         <Row gutter={15}>
             <FormItem noStyle hidden={!formData.dnsServiceFlag}>
-                <FormItem span={span} label="域名套餐" name="dedicatedPlanId">
+                <FormItem hidden span={span} label="域名套餐" name="dedicatedPlanId">
                     <SelectP data={planList} />
                 </FormItem>
                 <FormItem hidden name="dedicatedPlanFlag" label="锁定域名套餐" initialValue={1}>

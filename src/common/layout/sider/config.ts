@@ -36,6 +36,10 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
             {
                 url: "/cdn/record",
                 text: "记录管理"
+            },
+            {
+                url: "/cdn/operate-log",
+                text: "客户操作日志"
             }
         ]
     },

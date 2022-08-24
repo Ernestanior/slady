@@ -1076,5 +1076,6 @@ interface IFindSiteSearchListData {
     status?: 0,
     type?: string,
     uniqueName?: string,
-    upstream?: string
+    upstream?: string,
+    siteUniqueNamePreciseSearch?:number
 }
