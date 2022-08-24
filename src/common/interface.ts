@@ -110,6 +110,7 @@ export interface IFormComponent<T=any>{
     value?: T;
     onChange?: IChangeModule;
     disable?: boolean;
+    type?: string;
 }
 
 export interface ISwitchValue{

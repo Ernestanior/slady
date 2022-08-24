@@ -8,7 +8,7 @@ interface IProps{
 const View:FC<IProps> = ({dataList,children}) => {
     return <>
         {dataList?.map((item)=>{
-           return <Row>
+           return <Row key={item.label}>
                <Col span={8} style={{fontWeight:550}}>{item.label}</Col>
                <Col offset={1} span={15} style={{flexWrap:"wrap",wordBreak:"break-all"}}>{item.content}</Col>
            </Row>

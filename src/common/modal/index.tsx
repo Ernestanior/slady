@@ -28,6 +28,7 @@ const ModalX:FC = () => {
             okText={value.okText || '确定'}
             cancelText={value.cancelText || '取消'}
             zIndex={7000}
+            width={value.width || 600}
         >
             <div style={{display:"flex",alignItems:"center",paddingLeft:10}}>
                 {value.content}

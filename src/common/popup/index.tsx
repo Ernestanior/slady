@@ -30,19 +30,22 @@ const PopupX:FC = () => {
                 <h2>查看</h2>
                 <Button onClick={() =>setVisible(false)}>返回</Button>
             </section>
-            {value && value.arrayData && value.arrayData.map((item:any)=>
-                <Row style={{fontSize:16,marginBottom:5}}>
-                    {item}
-                </Row>
-            )}
-            {value && value.objData && Object.keys(value.objData).map((item:any)=>
-                <Row style={{fontSize:16,marginBottom:5}}>
-                    {item}:{value[item]}
-                </Row>
-            )}
-            <section className="node">
-                {value && value.node }
+            <section className="body">
+                {value && value.arrayData && value.arrayData.map((item:any)=>
+                    <Row key={item} style={{fontSize:16,marginBottom:5}}>
+                        {item}
+                    </Row>
+                )}
+                {value && value.objData && Object.keys(value.objData).map((item:any)=>
+                    <Row key={item} style={{fontSize:16,marginBottom:5}}>
+                        {item}:{value[item]}
+                    </Row>
+                )}
+                <section className="node">
+                    {value && value.node }
+                </section>
             </section>
+
         </Popup>
 }
 

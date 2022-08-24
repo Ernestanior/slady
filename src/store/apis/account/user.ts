@@ -317,12 +317,10 @@ class UserAPI {
      * findUserList
      * 生成请求参数
      */
-    FindUserList = (params: IFindUserListParams, data: {}) => {
+    FindUserList = () => {
         const config: AxiosRequestConfig = {
             url: '/user/list/by-type',
-            method: 'get',
-            params,
-            data
+            method: 'get'
         };
         config.headers = {};
         return config;
@@ -535,7 +533,7 @@ class UserAPI {
      */
     queryFunctionResourceList = () => {
         const config: AxiosRequestConfig = {
-            url: 'resource/list-all',
+            url: '/resource/list-all',
             method: 'post',
             params: {},
             data: {}
@@ -627,10 +625,6 @@ interface IFindAccessWhiteListParams {
 /** findUserPageByCustomer的请求参数*/
 interface IFindUserPageByCustomerParams {
     customerId: number;
-}
-
-/** findUserList的请求参数*/
-interface IFindUserListParams {
 }
 
 /** subUserList的请求参数*/

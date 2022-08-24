@@ -92,6 +92,18 @@ class CustomerAPI {
         return config;
     }
 
+    FetchCustomerByUserIds = (params: {}, data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/customer/fetch-customer-by-userids',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
     /**
      * 根据客户ids查看客户列表
      * 生成请求参数
