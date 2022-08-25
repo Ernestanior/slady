@@ -9,6 +9,7 @@ interface IContactConfig{
     lineList: string[];
     skypeList: string[];
     emailList: string[];
+    nextSwitchDate:string;
 }
 
 const useContactInfo = () => {
@@ -30,6 +31,7 @@ const useContactInfo = () => {
                         lineList: res.result.lineList === null ? [] : res.result.lineList,
                         skypeList: res.result.skypeList === null ? [] : res.result.skypeList,
                         emailList: res.result.emailList === null ? [] : res.result.emailList,
+                        nextSwitchDate: res.result.nextSwitchDate,
                     })
                 }
             })
