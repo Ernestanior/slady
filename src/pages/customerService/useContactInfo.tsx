@@ -10,6 +10,14 @@ interface IContactConfig{
     skypeList: string[];
     emailList: string[];
     nextSwitchDate:string;
+    currentContact:IContactMedia;
+    nextContact:IContactMedia;
+}
+interface IContactMedia{
+    email:string;
+    line:string;
+    skype:string;
+    telegram:string;
 }
 
 const useContactInfo = () => {
@@ -32,6 +40,8 @@ const useContactInfo = () => {
                         skypeList: res.result.skypeList === null ? [] : res.result.skypeList,
                         emailList: res.result.emailList === null ? [] : res.result.emailList,
                         nextSwitchDate: res.result.nextSwitchDate,
+                        currentContact:res.result.currentContact,
+                        nextContact:res.result.nextContact,
                     })
                 }
             })
