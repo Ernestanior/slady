@@ -38,7 +38,6 @@ const useDiffForm = () => {
         }
         return new Proxy(form, handler)
     }, [form, loadFieldsValueRef, setFieldsValueRef])
-
     return [formPlx, diff] as [IFormPlx, boolean]
 }
 
