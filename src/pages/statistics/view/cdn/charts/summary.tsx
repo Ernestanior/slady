@@ -58,15 +58,11 @@ const CustomerSummary:FC<IProps> = ({domain: originDomain, defence, packageInfo}
                                 type="circle"
                                 strokeLinecap="square"
                                 percent={percent}
-                                format={(percent) => {
+                                format={() => {
                                     return <ProgressCenter>
                                         <span className="domain">
                                             <span className="total">
-                                                {domain.totalAmount}
-                                            </span>
-                                            <br/>
-                                            <span className="percent">
-                                                {percent}%已用
+                                                {domain.usedAmount}/{domain.totalAmount}
                                             </span>
                                         </span>
                                     </ProgressCenter>
