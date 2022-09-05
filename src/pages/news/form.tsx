@@ -67,13 +67,13 @@ const NewsForm: FC<{ submitNews: ISubmit, title: string, data$: BehaviorSubject<
             languageList: value.filter(item => item !== type)
         })
     }, [form])
-
+    console.log(data.languageList)
     return <section style={{marginTop: 20}}>
         <Row>
             <Col flex={1}>
                 <h3>{title}</h3>
             </Col>
-            <Col hidden={data.languageList.length === 4}>
+            <Col hidden={data.languageList.filter(item=>item).length>=3}>
                 <Dropdown overlay={menu} placement="bottomLeft" arrow>
                     <Button type="primary">
                         <PlusCircleFilled/>

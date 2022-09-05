@@ -6,7 +6,7 @@ import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 import useUpdateRef from "@/hoc/useUpdateRef";
 import {uploadImageFile} from "@/pages/news/uploadImage";
 import {message} from "antd";
-import {debounceTime, Subject} from "rxjs";
+import {BehaviorSubject, debounceTime} from "rxjs";
 
 interface IProps{
     value?: string;
@@ -20,7 +20,7 @@ function MyEditor(props: IProps) {
     const [editor, setEditor] = useState<IDomEditor | null>(null) // 存储 editor 实例
     const onChangeRef = useUpdateRef(props.onChange)
     const imgUrlCallbackRef = useUpdateRef(props.imgUrlCallback)
-    const value$ = useRef(new Subject<string | undefined>())
+    const value$ = useRef(new BehaviorSubject<string | undefined>(""))
     const [html, setHtml] = useState("")
     useEffect(() => {
         value$.current.next(props.value);
@@ -28,6 +28,7 @@ function MyEditor(props: IProps) {
 
     useEffect(() => {
         const sub = value$.current.pipe(debounceTime(500)).subscribe(value => {
+            console.log(value)
             if(!!value){
                 const valueHtml = value.indexOf("<p>") !== 0
                     ? value.split(/\n/).map(line => `<p>${line}</p>`).join('\n') : value
