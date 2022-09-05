@@ -10,7 +10,6 @@ import { Image, Space, TableColumnProps, Modal, notification, Input} from "antd"
 import {from} from "rxjs";
 import ViewNewsDetail from "@/pages/news/view";
 import {LanguageType} from "@/pages/news/form";
-import IconFont from "@/common/icon";
 import isMobile from "@/app/isMobile";
 import FormItem from "@/common/Form/formItem";
 import {IOperationConfig} from "@/common/template/interface";
@@ -244,17 +243,18 @@ const columns: TableColumnProps<any>[] = [
     {
         title: "语言",
         dataIndex: "locales",
+        width:300,
         render(locales: string[]){
             const els: ReactNode[] = [];
             locales.forEach(locale => {
                 if(locale === LanguageType.ZH_CN){
-                    els.push(<IconFont key="icontubiaozhizuomoban" type="icontubiaozhizuomoban" />)
+                    els.push(<span style={{padding:10,borderRadius:5,backgroundColor:"#b6ecff"}}>简体中文</span>)
                 }
                 if(locale === LanguageType.ZH_TW){
-                    els.push(<IconFont key="iconzhongwenfanti" type="iconzhongwenfanti" />)
+                    els.push(<span style={{padding:10,borderRadius:5,backgroundColor:"#b6ffb7"}}>繁体中文</span>)
                 }
                 if(locale === LanguageType.EN_US){
-                    els.push(<IconFont key="iconmeiguoguoqi" type="iconmeiguoguoqi" />)
+                    els.push(<span style={{padding:10,borderRadius:5,backgroundColor:"#ffb6f9"}}>English</span>)
                 }
             })
             return <Space>
@@ -280,13 +280,13 @@ const localeRender=(locales:any[])=>{
     const els: ReactNode[] = [];
     locales.forEach(locale => {
         if(locale === LanguageType.ZH_CN){
-            els.push(<IconFont key="icontubiaozhizuomoban" type="icontubiaozhizuomoban" />)
+            els.push(<span style={{padding:10,borderRadius:5,backgroundColor:"#b6ecff"}}>简体中文</span>)
         }
         if(locale === LanguageType.ZH_TW){
-            els.push(<IconFont key="iconzhongwenfanti" type="iconzhongwenfanti" />)
+            els.push(<span style={{padding:10,borderRadius:5,backgroundColor:"#b6ffb7"}}>繁体中文</span>)
         }
         if(locale === LanguageType.EN_US){
-            els.push(<IconFont key="iconmeiguoguoqi" type="iconmeiguoguoqi" />)
+            els.push(<span style={{padding:10,borderRadius:5,backgroundColor:"#ffb6f9"}}>English</span>)
         }
     })
     return <Space>

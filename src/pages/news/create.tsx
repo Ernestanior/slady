@@ -1,9 +1,12 @@
-import {FC} from "react";
+import {FC, useEffect} from "react";
 import {Link} from "react-router-dom";
 import {Breadcrumb} from "antd"
 import CreateNewsForm from "@/pages/news/createForm";
 
 const NewsCreate:FC = () => {
+    useEffect(() => {
+        CreateNewsForm.loadData({});
+    }, [])
     return <section>
         <Breadcrumb separator=">">
             <Breadcrumb.Item>官网设置</Breadcrumb.Item>

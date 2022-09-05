@@ -1,6 +1,6 @@
 import {Form, FormInstance} from "antd";
 import {FC, useCallback, useEffect} from "react";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, skip} from "rxjs";
 import {FormLayout} from "antd/lib/form/Form";
 import {getValueFromForm} from "@/common/utils";
 import ConditionShow from "@/common/conditionShow";
@@ -39,13 +39,17 @@ function createObserverForm <S>(FormPart: FC<IObserverForm>, config: IConfigModu
         const [form, formPlx] = useObserverForm(data$);
 
         useEffect(() => {
-            const sub = data$.subscribe(data => {
+            const sub = data$.pipe(skip(1)).subscribe(data => {
                 form.setFieldsValue(data)
             })
-            return () => sub.unsubscribe();
+            return () => {
+                sub.unsubscribe()
+            }
+
         }, [form])
 
         const mergeFieldChange = useCallback((values) => {
+            console.log("mergeFieldChange", values)
             if(Array.isArray(values)){
                 const dataMerge = values.reduce((a, b) => {
                     return {
@@ -82,7 +86,7 @@ function createObserverForm <S>(FormPart: FC<IObserverForm>, config: IConfigModu
             setTimeout(() => {
                 data$.next(data)
             }, 50)
-        }
+        },
     } as ICreateObserverFrom<S>
 }
 
