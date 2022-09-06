@@ -45,14 +45,12 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
     const dnsServiceList = useDnsServerList(formData.dedicatedPlanId);
     useEffect(() => {
         if(Array.isArray(dnsServiceList) && dnsServiceList.length > 0){
-            console.log(dnsServiceList)
             form.setFieldsValue({
                 nameServerList: dnsServiceList[0].id,
                 nameServerId:dnsServiceList[0].nameServerId
             })
         }
     }, [dnsServiceList, form])
-    console.log(formData)
     // 启用自定义NS功能后，添加自定义NS服务器的下拉选项
     const dnsServiceListMerge = useMemo(() => {
         if(formData.customNameServerFlag){
