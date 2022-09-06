@@ -12,6 +12,7 @@ interface IPlanServer{
 interface IServer{
     id: string;
     name: string;
+    nameServerId:number;
 }
 
 /**
@@ -30,7 +31,8 @@ const useDnsServerList = (planId: number) => {
                     setServerList(res.result.map(server => {
                         return {
                             id: server.domains.join(","),
-                            name: `${server.name}-[${server.domains.join(",")}]`
+                            name: `${server.name}-[${server.domains.join(",")}]`,
+                            nameServerId:server.id
                         }
                     }))
                 }
