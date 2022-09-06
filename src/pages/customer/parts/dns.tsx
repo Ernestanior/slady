@@ -32,28 +32,27 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
     const span = useMemo(()=>isMobile?24:12,[])
 
     const planList = useDnsPlanList();
-
     // 设置域名套餐自动选中第一条
     useEffect(() => {
         if(Array.isArray(planList) && planList.length > 0){
             form.setFieldsValue({
-                dedicatedPlanId: planList[2].id
+                dedicatedPlanId: planList.filter(item=>item.name==="企业版")[0]?.id
             })
         }
     }, [planList, form])
 
     // 域名套餐自动选中第一个DNS服务器
     const dnsServiceList = useDnsServerList(formData.dedicatedPlanId);
-
     useEffect(() => {
         if(Array.isArray(dnsServiceList) && dnsServiceList.length > 0){
+            console.log(dnsServiceList)
             form.setFieldsValue({
                 nameServerList: dnsServiceList[0].id,
                 nameServerId:dnsServiceList[0].nameServerId
             })
         }
     }, [dnsServiceList, form])
-
+    console.log(formData)
     // 启用自定义NS功能后，添加自定义NS服务器的下拉选项
     const dnsServiceListMerge = useMemo(() => {
         if(formData.customNameServerFlag){

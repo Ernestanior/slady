@@ -49,7 +49,6 @@ function createObserverForm <S>(FormPart: FC<IObserverForm>, config: IConfigModu
         }, [form])
 
         const mergeFieldChange = useCallback((values) => {
-            console.log("mergeFieldChange", values)
             if(Array.isArray(values)){
                 const dataMerge = values.reduce((a, b) => {
                     return {
