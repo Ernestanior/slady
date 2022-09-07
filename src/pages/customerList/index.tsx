@@ -39,6 +39,7 @@ export const E_USER_STATUS_COLUMN: TableColumnProps<any> = {
     dataIndex: "status",
     width: 100,
     render(value, item) {
+        console.log(value,item)
         let leftTime = 0;
         const endDate = moment(item.probationStart, "YYYY/MM/DD").add(
             item.probationPeriod + 1,
@@ -46,6 +47,9 @@ export const E_USER_STATUS_COLUMN: TableColumnProps<any> = {
         );
         if (moment().isBefore(endDate)) {
             leftTime = endDate.diff(moment(), "day");
+        }
+        if (value === -1) {
+            return <Status color={E_COLOR.disable}>禁用</Status>;
         }
         if (item.probation) {
             return (
@@ -56,10 +60,8 @@ export const E_USER_STATUS_COLUMN: TableColumnProps<any> = {
                 </Tooltip>
             );
         }
-        if (value === 1) {
-            return <Status color={E_COLOR.enable}>正式</Status>;
-        }
-        return <Status color={E_COLOR.disable}>禁用</Status>;
+        return <Status color={E_COLOR.enable}>正式</Status>;
+        // return <Status color={E_COLOR.disable}>禁用</Status>;
     },
 };
 
