@@ -26,17 +26,17 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
         customNameServerFlag: 0,
         //使用自定义节点IP
         customDnsNodeFlag: 0,
-        nameServerList: ""
+        nameServerList: "",
+        nameServerId:0
     })
     const span = useMemo(()=>isMobile?24:12,[])
 
     const planList = useDnsPlanList();
-
     // 设置域名套餐自动选中第一条
     useEffect(() => {
         if(Array.isArray(planList) && planList.length > 0){
             form.setFieldsValue({
-                dedicatedPlanId: planList[2].id
+                dedicatedPlanId: planList.filter(item=>item.name==="企业版")[0]?.id
             })
         }
     }, [planList, form])
@@ -46,11 +46,11 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
     useEffect(() => {
         if(Array.isArray(dnsServiceList) && dnsServiceList.length > 0){
             form.setFieldsValue({
-                nameServerList: dnsServiceList[0].id
+                nameServerList: dnsServiceList[0].id,
+                nameServerId:dnsServiceList[0].nameServerId
             })
         }
     }, [dnsServiceList, form])
-
     // 启用自定义NS功能后，添加自定义NS服务器的下拉选项
     const dnsServiceListMerge = useMemo(() => {
         if(formData.customNameServerFlag){
@@ -58,7 +58,6 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
         }
         return dnsServiceList;
     }, [dnsServiceList, formData.customNameServerFlag])
-
     // 当自定义NS功能, 需要检测当前选中的内容是否为自定义, 如果是自定义，则自动切换为dns server中第一个
     useEffect(() => {
         if(!formData.customNameServerFlag){
@@ -123,6 +122,9 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
                 </FormItem>
                 <FormItem span={span} label="DNS服务器" name="nameServerList">
                     <SelectP data={dnsServiceListMerge} />
+                </FormItem>
+                <FormItem hidden name="nameServerId">
+                    <Input />
                 </FormItem>
                 <FormItem span={24} label="自定义DNS服务器" hidden={formData.nameServerList !== customNS.id} name="customNameServerList" initialValue={[]}>
                     <Select mode="tags" tokenSeparators={[" ", ",", ";"]} />
