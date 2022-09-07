@@ -39,7 +39,6 @@ export const E_USER_STATUS_COLUMN: TableColumnProps<any> = {
     dataIndex: "status",
     width: 100,
     render(value, item) {
-        console.log(value,item)
         let leftTime = 0;
         const endDate = moment(item.probationStart, "YYYY/MM/DD").add(
             item.probationPeriod + 1,
