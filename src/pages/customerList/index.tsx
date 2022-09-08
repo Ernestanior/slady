@@ -115,6 +115,7 @@ const CustomerList: FC = () => {
                     data.content.forEach((i: any) => {
                         if (i.id === item.customerId) {
                             i["usedMasterDomains"] = item.usedMasterDomains;
+                            i["usedSites"]=item.usedSites;
                         }
                     });
                 });
@@ -232,9 +233,11 @@ const CustomerList: FC = () => {
                             {label:'客户邮箱',content:email},
                             {label:'销售员',content:saleName?saleName:"-"},
                             {label:'客户类型',content:type},
-                            {label:'账号状态',content:probation? <Tooltip title="测试" placement="left">
-                                    <Status color={E_COLOR.warn}>测试</Status>
-                                </Tooltip>:status === 1?<Status color={E_COLOR.enable}>正式</Status>:<Status color={E_COLOR.disable}>禁用</Status>
+                            {label:'账号状态',content:status === -1?
+                                    <Status color={E_COLOR.disable}>禁用</Status>:
+                                    probation? <Tooltip title="测试" placement="left">
+                                    <Status color={E_COLOR.warn}>测试</Status></Tooltip>:
+                                    <Status color={E_COLOR.enable}>正式</Status>
                             },
                             {label:'CDN',content:type === USER_TYPE[2].id ?"-" :
                                     cdnServiceFlag !== 1 ?
@@ -466,7 +469,10 @@ const columns: TableColumnProps<any>[] = [
             return (
                 <>
                     <Status color={E_COLOR.enable}>启用</Status>
-                    {data.usedMasterDomains || 0}/{data.limitMasterDomains}{" "}
+                    {data.customerType==="cname"?
+                        <>{data.usedSites || 0}/{data.limitCnames}</>:
+                        <>{data.usedMasterDomains || 0}/{data.limitMasterDomains}</>
+                    }
                 </>
             );
 
