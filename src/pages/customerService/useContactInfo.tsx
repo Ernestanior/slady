@@ -12,6 +12,9 @@ interface IContactConfig{
     nextSwitchDate:string;
     currentContact:IContactMedia;
     nextContact:IContactMedia;
+    swapType:number;
+    weeks:number[];
+    days:number[];
 }
 interface IContactMedia{
     email:string;
@@ -42,6 +45,9 @@ const useContactInfo = () => {
                         nextSwitchDate: res.result.nextSwitchDate,
                         currentContact:res.result.currentContact,
                         nextContact:res.result.nextContact,
+                        swapType:res.result.swapType,
+                        weeks:res.result.weeks === null ? [] : res.result.weeks,
+                        days:res.result.days === null ? [] : res.result.days,
                     })
                 }
             })

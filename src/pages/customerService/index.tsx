@@ -1,25 +1,26 @@
-import {FC, useCallback, useEffect} from "react";
+import {FC, useCallback, useEffect, useState} from "react";
 import useContactInfo from "@/pages/customerService/useContactInfo";
-import {Button, Form, InputNumber, notification, Select} from "antd";
+import {Button, Form, InputNumber, notification, Row, Select} from "antd";
 import useDiffForm from "@/hoc/useDiffForm";
 import FormItem from "@/common/Form/formItem";
 import Footer from "@/common/Form/footer";
 import {AxiosRequestConfig} from "axios";
 import {delay, from} from "rxjs";
 import requestNews from "@/store/request/requestNews";
+import SelectP from "@/common/select";
+import SelectCheckBox from "@/common/select/selectCheckBox";
 
 const Col = {wrapperCol: {span: 24}, labelCol: {span: 24}}
-
 const CustomerService: FC = () => {
     const [config, reloadConfig] = useContactInfo();
     const [form, diff] = useDiffForm()
-
+    const [type,setType] = useState<number>(1)
     useEffect(() => {
         reloadConfig();
     }, [reloadConfig])
-
     useEffect(() => {
         if (config) {
+            setType(config.swapType)
             form.loadFieldsValue(config)
         }
     }, [config, form])
@@ -63,10 +64,31 @@ const CustomerService: FC = () => {
     return <section>
         <p>客户服务设置</p>
         <Form form={form} onFieldsChange={fieldChange}>
-            <FormItem label="轮询天数" name="interval" {...Col}>
-                <InputNumber/>
-            </FormItem>
-            <div style={{border:"1px solid #ccc",padding:10,marginBottom:20,borderRadius:5}}>
+            <div style={{padding:"15px 20px 1px 20px",backgroundColor:"#fff",marginBottom:20,borderRadius:5}}>
+                轮询方式:
+                <FormItem span={24}>
+                    <Row gutter={15}>
+                        <FormItem name="swapType" span={6}>
+                            <SelectP data={swapType} onChange={setType}/>
+                        </FormItem>
+                        {type===1 &&
+                            <FormItem name="days" span={18}>
+                                {/*<SelectP data={days} mode="multiple"/>*/}
+                                <SelectCheckBox data={days}/>
+                            </FormItem>}
+                        {type===2 &&
+                            <FormItem name="weeks" span={18}>
+                                {/*<SelectP data={week} mode="multiple"/>*/}
+                                <SelectCheckBox data={week}/>
+                            </FormItem>}
+                        {type===3 &&
+                            <FormItem name="interval" span={18}>
+                                <InputNumber/>
+                            </FormItem>}
+                    </Row>
+                </FormItem>
+            </div>
+            <div style={{padding:"10px 20px",marginBottom:20,borderRadius:5,backgroundColor:"#fff"}}>
                 <div><b>下一次切换</b></div>
                 <div style={{margin: "10px 0"}}>时间: {config?.nextSwitchDate}</div>
                 <div style={{margin: "10px 0"}}>Telegram: {config?.nextContact.telegram}</div>
@@ -75,34 +97,37 @@ const CustomerService: FC = () => {
                 <div style={{margin: "10px 0"}}>E-mail: {config?.nextContact.email}</div>
                 <Button onClick={switchContact} disabled={diff}>立即切换</Button>
             </div>
-            <FormItem label={`Telegram 客服列表, 当前为: ${config?.currentContact.telegram}`} name="telegramList" {...Col}>
-                <Select
-                    mode="tags"
-                    open={false}
-                    tokenSeparators={[",", " ", ":"]}
-                />
-            </FormItem>
-            <FormItem label={`Line 客服列表，当前为: ${config?.currentContact.line}`} name="lineList" {...Col}>
-                <Select
-                    mode="tags"
-                    open={false}
-                    tokenSeparators={[",", " ", ":"]}
-                />
-            </FormItem>
-            <FormItem label={`Skype 客服列表，当前为: ${config?.currentContact.skype}`} name="skypeList" {...Col}>
-                <Select
-                    mode="tags"
-                    open={false}
-                    tokenSeparators={[",", " ", ":"]}
-                />
-            </FormItem>
-            <FormItem label={`E-mail 客服列表，当前为: ${config?.currentContact.email}`} name="emailList" {...Col}>
-                <Select
-                    mode="tags"
-                    open={false}
-                    tokenSeparators={[",", " ", ":"]}
-                />
-            </FormItem>
+            <div style={{padding:"15px 20px",backgroundColor:"#fff",borderRadius:5}}>
+                <FormItem label={`Telegram 客服列表, 当前为: ${config?.currentContact.telegram}`} name="telegramList" {...Col}>
+                    <Select
+                        mode="tags"
+                        open={false}
+                        tokenSeparators={[",", " ", ":"]}
+                    />
+                </FormItem>
+                <FormItem label={`Line 客服列表，当前为: ${config?.currentContact.line}`} name="lineList" {...Col}>
+                    <Select
+                        mode="tags"
+                        open={false}
+                        tokenSeparators={[",", " ", ":"]}
+                    />
+                </FormItem>
+                <FormItem label={`Skype 客服列表，当前为: ${config?.currentContact.skype}`} name="skypeList" {...Col}>
+                    <Select
+                        mode="tags"
+                        open={false}
+                        tokenSeparators={[",", " ", ":"]}
+                    />
+                </FormItem>
+                <FormItem label={`E-mail 客服列表，当前为: ${config?.currentContact.email}`} name="emailList" {...Col}>
+                    <Select
+                        mode="tags"
+                        open={false}
+                        tokenSeparators={[",", " ", ":"]}
+                    />
+                </FormItem>
+            </div>
+
             {diff && <Footer marginBottom={30} submit={saveEvent} cancel={() => {
                 form.loadFieldsValue(config)
             }}/>}
@@ -111,3 +136,19 @@ const CustomerService: FC = () => {
 }
 
 export default CustomerService;
+
+const swapType = [
+    {id:1,name:"按月轮询"},
+    {id:2,name:"按周轮询"},
+    {id:3,name:"按日轮询"},
+]
+const week = [
+    {value:1,label:"星期一"},
+    {value:2,label:"星期二"},
+    {value:3,label:"星期三"},
+    {value:4,label:"星期四"},
+    {value:5,label:"星期五"},
+    {value:6,label:"星期六"},
+    {value:7,label:"星期日"},
+]
+const days=[...Array(31)].map((_,i)=>i+1)
