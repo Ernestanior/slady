@@ -9,6 +9,7 @@ import {delay, from} from "rxjs";
 import requestNews from "@/store/request/requestNews";
 import SelectP from "@/common/select";
 import SelectCheckBox from "@/common/select/selectCheckBox";
+import isMobile from "@/app/isMobile";
 
 const Col = {wrapperCol: {span: 24}, labelCol: {span: 24}}
 const CustomerService: FC = () => {
@@ -68,21 +69,21 @@ const CustomerService: FC = () => {
                 轮询方式:
                 <FormItem span={24}>
                     <Row gutter={15}>
-                        <FormItem name="swapType" span={6}>
+                        <FormItem name="swapType" span={isMobile?24:6}>
                             <SelectP data={swapType} onChange={setType}/>
                         </FormItem>
                         {type===1 &&
-                            <FormItem name="days" span={18}>
+                            <FormItem name="days" span={isMobile?24:18}>
                                 {/*<SelectP data={days} mode="multiple"/>*/}
                                 <SelectCheckBox data={days}/>
                             </FormItem>}
                         {type===2 &&
-                            <FormItem name="weeks" span={18}>
+                            <FormItem name="weeks" span={isMobile?24:18}>
                                 {/*<SelectP data={week} mode="multiple"/>*/}
                                 <SelectCheckBox data={week}/>
                             </FormItem>}
                         {type===3 &&
-                            <FormItem name="interval" span={18}>
+                            <FormItem name="interval" span={isMobile?24:18}>
                                 <InputNumber/>
                             </FormItem>}
                     </Row>
