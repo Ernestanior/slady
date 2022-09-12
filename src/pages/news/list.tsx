@@ -280,14 +280,11 @@ const localeRender=(locales:any[])=>{
     const els: ReactNode[] = [];
     locales.forEach(locale => {
         if(locale === LanguageType.ZH_CN){
-            els.push(<span style={{padding:10,borderRadius:5,backgroundColor:"#b6ecff"}}>简体中文</span>)
-        }
+            els.push(isMobile? '简体中文' :<span style={{padding:10,borderRadius:5,backgroundColor:"#b6ecff"}}>简体中文</span>)}
         if(locale === LanguageType.ZH_TW){
-            els.push(<span style={{padding:10,borderRadius:5,backgroundColor:"#b6ffb7"}}>繁体中文</span>)
-        }
+            els.push(isMobile? '繁体中文':<span style={{padding:10,borderRadius:5,backgroundColor:"#b6ffb7"}}>繁体中文</span>)}
         if(locale === LanguageType.EN_US){
-            els.push(<span style={{padding:10,borderRadius:5,backgroundColor:"#ffb6f9"}}>English</span>)
-        }
+            els.push(isMobile? 'English':<span style={{padding:10,borderRadius:5,backgroundColor:"#ffb6f9"}}>English</span>)}
     })
     return <Space>
         {els}
