@@ -7,7 +7,7 @@ import accountService from "@/store/account/service";
 const requestPlx = new RequestPlx();
 
 const dev_url = 'http://localhost:10087';
-// const dev_url = 'http://192.168.8.37:10087';
+// const dev_url = 'http://192.168.8.10:10087';
 
 // add dev server url
 requestPlx.middleware_before.use(async (config, next) => {
