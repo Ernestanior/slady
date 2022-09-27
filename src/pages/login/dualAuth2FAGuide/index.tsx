@@ -43,9 +43,16 @@ const DualAuth2FAGuide: FC = () => {
                         <FormItem name="pin" label="双重认证代码">
                             <Input />
                         </FormItem>
-                        <p style={{ fontSize: 14, color: "#ccc", textAlign: "left", }}>
-                            在移动设备上输入双重认证的程序代码
-                        </p>
+                        <div style={{ fontSize: 14, color: "#ccc", textAlign: "center", }}>
+                            <div>
+                                一条包含验证码的信息已经发送至您的Authenticator应用程序
+                            </div>
+                            <div>
+                                请输入您的6位数验证码完成双重认证设置
+                            </div>
+                        </div>
+
+
                         <div className={'faBtn'}>
                             <Button className="remove-hover" htmlType="submit">
                                 认证代码
