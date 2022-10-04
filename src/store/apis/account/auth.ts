@@ -90,11 +90,12 @@ class AuthAPI {
      * 生成请求参数
      */
     validateTwoFactorPin = (params: {}, data: {}) => {
-        const config: AxiosRequestConfig = {
+        const config: any = {
             url: '/user/validate/two-factor-pin',
             method: 'put',
             params,
-            data
+            data,
+            __message:{disable:true}
         };
         config.headers = {};
         config.headers['Content-Type'] = 'application/json';
