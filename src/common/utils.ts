@@ -8,6 +8,7 @@ import {reloadMainList} from "@/common/template";
 import {ICallback} from "@/common/interface";
 import moment from "moment";
 import {notification} from "antd";
+import { v4 as uuidV4 } from 'uuid';
 
 export const upperCasePlx = (value: string | number) =>
     typeof value === "string" ? value.toUpperCase() : value;
@@ -213,6 +214,20 @@ export const trimAndRemoveUndefined = (values: any) => {
         }
     }
     return _value
+}
+
+export const trimPlx = (str?: any) => {
+    if (typeof str !== "undefined") {
+        if (typeof str !== "string") {
+            return str;
+        }
+        return str.trim();
+    }
+    return ""
+}
+
+export const createUUid = () => {
+    return uuidV4()
 }
 
 // 复制功能

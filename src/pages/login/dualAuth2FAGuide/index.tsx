@@ -1,4 +1,4 @@
-import { Button, Form, Input, Layout } from "antd";
+import { Button, Form, Layout } from "antd";
 import React, { FC } from "react";
 import "./index.less";
 import { CheckCircleTwoTone } from "@ant-design/icons";
@@ -9,6 +9,7 @@ import {authService} from "@/store/apis/account";
 import {from} from "rxjs";
 import request from "@/store/request";
 import isMobile from "@/app/isMobile";
+import VerifyCode from "@/pages/login/dualAuth2FAGuide/verifyCode";
 
 const DualAuth2FAGuide: FC = () => {
     const verifySubmit = useCallback((data) => {
@@ -40,8 +41,9 @@ const DualAuth2FAGuide: FC = () => {
                         双重认证（2FA）
                     </p>
                     <Form onFinish={verifySubmit} className="mgTop25">
-                        <FormItem name="pin" label="双重认证代码">
-                            <Input />
+                        <FormItem name="pin">
+                            {/*<Input />*/}
+                            <VerifyCode maxLength={6}/>
                         </FormItem>
                         <div style={{ fontSize: 14, color: "#ccc", textAlign: "center", }}>
                             <div>
