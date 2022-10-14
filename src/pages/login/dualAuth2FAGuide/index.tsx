@@ -57,7 +57,7 @@ const DualAuth2FAGuide: FC = () => {
 
                         <div className={'faBtn'}>
                             <Button className="remove-hover" htmlType="submit">
-                                认证代码
+                                继续
                             </Button>
                             <Button className={'btn-return remove-hover'} htmlType="submit" onClick={() => accountService.autoLogout()}>
                                 返回
