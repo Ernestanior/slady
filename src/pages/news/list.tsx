@@ -7,7 +7,7 @@ import historyService from "@/store/history";
 import {AxiosRequestConfig} from "axios";
 import requestNews from "@/store/request/requestNews";
 import { Image, Space, TableColumnProps, Modal, notification, Input} from "antd";
-import {from} from "rxjs";
+import {forkJoin, from} from "rxjs";
 import ViewNewsDetail from "@/pages/news/view";
 import {LanguageType} from "@/pages/news/form";
 import isMobile from "@/app/isMobile";
@@ -157,12 +157,16 @@ const NewsList:FC = () => {
     // 生成静态Html页面
     const reGenerateStaticHtml = useCallback(() => {
         setLoading(true);
-        const config: AxiosRequestConfig = {
+        const configStatic: AxiosRequestConfig = {
             method: "get",
             url: "/api/generate/general/html"
         }
-        from(requestNews(config)).subscribe(res => {
-            if(res.isSuccess){
+        const configNews: AxiosRequestConfig = {
+            method: "get",
+            url: "/api/generate/industry/html"
+        }
+        forkJoin([requestNews(configStatic), requestNews(configNews)]).subscribe(reps => {
+            if(reps.every(rep => rep.isSuccess)){
                 setConfirmModalVisible(false)
             }else{
                 notification.error({
