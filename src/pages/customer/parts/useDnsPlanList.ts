@@ -28,4 +28,5 @@ const zhMap:any = {
     'standard': "标准版",
     'enterprise': "企业版",
     'customised': "定制版",
+    'new_enterprise': "新企业版",
 }

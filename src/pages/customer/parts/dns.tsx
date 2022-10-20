@@ -36,7 +36,7 @@ const DNS:FC<IObserverForm> = ({data$, form}) => {
     useEffect(() => {
         if(Array.isArray(planList) && planList.length > 0){
             form.setFieldsValue({
-                dedicatedPlanId: planList.filter(item=>item.name==="企业版")[0]?.id
+                dedicatedPlanId: planList.filter(item=>item.name==="新企业版")[0]?.id
             })
         }
     }, [planList, form])

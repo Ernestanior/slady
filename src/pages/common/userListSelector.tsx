@@ -18,7 +18,7 @@ const UserListSelector:FC<IFormComponent & IProps> = ({includeArchiveCustomer, e
     const [list, setList] = useState<any[]>([])
 
     useEffect(() => {
-        const sub = from(request<any[]>(userService.FindUserList())).subscribe(res => {
+        const sub = from(request<any[]>(userService.FindUserListAll())).subscribe(res => {
             if(res.isSuccess && res.result){
                 const map:any = {};
                 res.result.forEach(customer => {

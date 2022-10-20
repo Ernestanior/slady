@@ -45,7 +45,7 @@ const Side:FC = () => {
     }, [url, _menuList])
 
     return <AntSide width={200} className="cdn-ly-side cdn-scroll">
-        <Menu theme="dark" selectedKeys={selectKeys} mode="inline">
+        <Menu theme="dark" selectedKeys={selectKeys} mode="inline" >
             {
                 _menuList.map(menu => {
                     if(menu.childs){
@@ -68,7 +68,9 @@ const Side:FC = () => {
                     </Menu.Item>
                 })
             }
+            <div style={{position:"absolute",bottom:20,left:20}}>{ process.env.REACT_APP_VERSION || ""}</div>
         </Menu>
+
     </AntSide>
 }
 
