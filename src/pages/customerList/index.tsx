@@ -152,6 +152,12 @@ const CustomerList: FC = () => {
                                         used: l?.standard?.usedAmount,
                                     })
                                 }
+                                if (l?.new_enterprise) {
+                                    list.push({
+                                        label:  '新企业版',
+                                        used: l?.new_enterprise?.usedAmount,
+                                    })
+                                }
                             }
                             i['dnsPlanBalance'] = list;
                         }

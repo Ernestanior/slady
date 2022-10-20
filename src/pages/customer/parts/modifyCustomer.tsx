@@ -32,6 +32,7 @@ const CustomerForm:FC<IObserverForm> = ({form, data$}) => {
 
     const modifyEvent = useCallback(() => {
         let data = form.getFieldsValue();
+        console.log(data)
         if(data.email){
             data.email = data.email.trim();
         }
@@ -66,7 +67,7 @@ const CustomerForm:FC<IObserverForm> = ({form, data$}) => {
                 delete data.agentId;
             }
             data.dedicatedPlanFlag = 1
-            data.dedicatedPlanId = 3
+            // data.dedicatedPlanId = 5
             config = customerService.ModifyCustomer({}, data);
         }
         from(request(config)).subscribe((res) => {

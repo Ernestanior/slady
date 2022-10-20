@@ -327,6 +327,18 @@ class UserAPI {
     }
 
     /**
+     * findUserList
+     * 生成请求参数
+     */
+    FindUserListAll = () => {
+        const config: AxiosRequestConfig = {
+            url: '/user/list-all',
+            method: 'get'
+        };
+        config.headers = {};
+        return config;
+    }
+    /**
      * subUserList
      * 生成请求参数
      */

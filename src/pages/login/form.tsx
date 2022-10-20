@@ -158,7 +158,7 @@ const LoginForm: FC = () => {
                     {loginError}
                 </div>
             </Form>
-            {!isMobile&&<div className="fix-foot">Copyright ©{moment().format("YYYY")} Greypanel. All Rights Reserved.</div>}
+            {!isMobile&&<div className="fix-foot">Copyright ©{moment().format("YYYY")} Greypanel. All Rights Reserved. { process.env.REACT_APP_VERSION || ""}</div>}
         </section>
     );
 };
