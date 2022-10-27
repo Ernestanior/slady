@@ -4,6 +4,7 @@ import {Col, Input, Row} from "antd";
 import {createUUid, trimPlx} from "@/common/utils";
 import useUpdatedRef from "@/hooks/useUpdatedRef";
 import isMobile from "@/app/isMobile";
+import accountService from "@/store/account/service";
 
 const VerifyCode: FC<IFormComponent & {maxLength: number}> = ({value, onChange, maxLength}) => {
     const idPrefix = useRef(createUUid())
@@ -16,12 +17,20 @@ const VerifyCode: FC<IFormComponent & {maxLength: number}> = ({value, onChange, 
         let nextIndex = index + 1
         // 当前操作
         const char = e.key
+
         // 删除
         if(char === "Backspace"){
             nextIndex = updatedValue.length - 1;
             if(updatedValue[nextIndex]){
                 updatedValue[nextIndex] = "";
             }
+        }
+        // 提交
+        else if(char === "Enter"){
+            return
+        }else if(char === "Escape"){
+            accountService.autoLogout()
+            return
         }else{
             // 非数字不可以输入
             if(isNaN(parseInt(char))){
