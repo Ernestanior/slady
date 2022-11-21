@@ -50,7 +50,7 @@ const DualAuth2FAGuide: FC = () => {
                                 一条包含验证码的信息已经发送至您的Authenticator应用程序
                             </div>
                             <div>
-                                请输入您的6位数验证码完成双重认证设置
+                                请输入您的6位数验证码来验证身份
                             </div>
                         </div>
 
