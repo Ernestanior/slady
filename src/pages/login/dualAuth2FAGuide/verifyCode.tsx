@@ -101,9 +101,10 @@ const VerifyCode: FC<IFormComponent & {maxLength: number}> = ({value, onChange, 
             const currentValue = value ? value[savedIndex] : "";
             nodes.push(<Col key={key}>
                 <Input
+                    type={isMobile?"number":"text"}
                     value={currentValue}
                     id={key}
-                    style={isMobile?{width: 30, height:30}:{width: 40, height:40, textAlign:"center"}}
+                    style={isMobile?{width: 35, height:35}:{width: 40, height:40, textAlign:"center"}}
                     maxLength={1}
                     onKeyDown={e => changeEvent(e, savedIndex, value)}
                     onPaste={e => pasteEvent(e.clipboardData.getData('text'))}
@@ -111,7 +112,7 @@ const VerifyCode: FC<IFormComponent & {maxLength: number}> = ({value, onChange, 
             </Col>)
         }
     }
-    return <Row justify="center" gutter={15}>
+    return <Row justify="center" gutter={10}>
         {nodes}
     </Row>
 }
