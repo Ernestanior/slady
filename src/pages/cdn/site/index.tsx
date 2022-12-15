@@ -1,4 +1,4 @@
-import React, {FC, useCallback} from "react";
+import React, {FC, useCallback, useMemo} from "react";
 import Template from "@/common/template";
 import {siteService} from "@/store/apis/site";
 import {Button, Input, Space, TableColumnProps} from "antd";
@@ -11,16 +11,29 @@ import Status from "@/common/status";
 import {E_COLOR} from "@/common/const";
 import msgModal from "@/store/message/service";
 import View from "@/common/popup/view";
+import {IOperationConfig} from "@/common/template/interface";
+import historyService from "@/store/history";
 
 const CDNSiteList:FC = () => {
     const query = useCallback((data) => {
         return siteService.FindSite({}, data)
+    }, [])
+    const options: IOperationConfig = useMemo(() => {
+        return [
+            {
+                text: "性能统计",
+                event(data) {
+                    historyService.push(`/cdn/siteList/perform-sta/${data.id}`)
+                }
+            },
+        ]
     }, [])
 
     return <Template
         filter={isMobile?<CDNSiteListFilterMobile/>:<CDNSiteListFilter />}
         primarySearch={primarySearch}
         queryData={query}
+        optList={options}
         columns={isMobile?columnMobile:columns}
         rowKey="domain"
     />
