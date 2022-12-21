@@ -353,10 +353,10 @@ class StatAPI {
     * StatSiteIpTop
     * 生成请求参数
     */
-    StatSiteIpTop = (params: IStatSiteIpTopParams, data: {}) => {
+    StatSiteIpTop = (params: { }, data: {}) => {
         const config: AxiosRequestConfig = {
             url: '/stat/site-ip-top',
-            method: 'get',
+            method: 'post',
             params,
             data
         };
@@ -718,11 +718,6 @@ interface IStatStateListParams {
 
 /** summaryAgent的请求参数*/
 interface ISummaryAgentParams {
-}
-
-/** StatSiteIpTop的请求参数*/
-interface IStatSiteIpTopParams {
-    siteId: number
 }
 
 /** summaryCustomer的请求参数*/

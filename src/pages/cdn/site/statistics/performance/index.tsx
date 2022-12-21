@@ -12,12 +12,13 @@ import SourceChart from "@/pages/cdn/site/statistics/performance/sourceChart";
 
 const Performance: FC = () => {
   const urlInfo = useRouteMatch<{id:string}>("/cdn/siteList/perform-sta/:id")
+  const siteId = useMemo(()=>urlInfo&&parseInt(urlInfo.params.id),[urlInfo])
+
   const [filterData, setFilterData] = useState<any>({
     reportType: ETimeFilter.CURRENT_MONTH,
   });
   const [siteInfo,setSiteInfo]=useState<any>()
   const [loading, setLoading] = useState<boolean>(false);
-  const siteId = useMemo(()=>urlInfo&&parseInt(urlInfo.params.id),[urlInfo])
 
   useEffect(()=>{
     if (siteId){
