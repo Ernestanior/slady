@@ -15,6 +15,9 @@ import ViewStatistics from "@/pages/statistics/view";
 import ArchiveDomains from "@/pages/archive/domains";
 import ArchiveCustomer from "@/pages/archive/customers";
 import CDNSiteList from "@/pages/cdn/site";
+import PerformSta from "@/pages/cdn/site/statistics/performance";
+import DefendSta from "@/pages/cdn/site/statistics/defend";
+
 import CDNDomains from "@/pages/cdn/domain";
 import NewsList from "@/pages/news/list";
 import NewsCreate from "@/pages/news/create";
@@ -69,9 +72,16 @@ const ModuleRouter:FC = () => {
                 <Route path="/statistics">
                     <StatisticsList />
                 </Route>
+                <Route path="/cdn/siteList/perform-sta/:id">
+                    <PerformSta />
+                </Route>
+                <Route path="/cdn/siteList/defend-sta/:id">
+                    <DefendSta />
+                </Route>
                 <Route path="/cdn/siteList">
                     <CDNSiteList />
                 </Route>
+
                 <Route path="/cdn/record">
                     <CDNDomains />
                 </Route>

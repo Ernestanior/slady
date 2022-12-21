@@ -27,7 +27,7 @@ export const createOptList = (
         : "dropDown";
     const config: IColumnsTypeP = {
       key: "tb_action",
-      width: isMobile?65:120,
+      width: isMobile?100:120,
       fixed: "right",
       onCell() {
         return {

@@ -1,7 +1,7 @@
-import React, {FC, useCallback} from "react";
+import React, {FC, useCallback, useMemo} from "react";
 import Template from "@/common/template";
 import {siteService} from "@/store/apis/site";
-import {Button, Input, Space, TableColumnProps} from "antd";
+import {Input, TableColumnProps} from "antd";
 import CDNSiteListFilter from "@/pages/cdn/site/filters";
 import CDNSiteListFilterMobile from "@/pages/cdn/site/filterMobile";
 import {E_USER_STATUS_COLUMN} from "@/pages/customerList";
@@ -11,16 +11,65 @@ import Status from "@/common/status";
 import {E_COLOR} from "@/common/const";
 import msgModal from "@/store/message/service";
 import View from "@/common/popup/view";
+import {IOperationConfig} from "@/common/template/interface";
+import historyService from "@/store/history";
 
 const CDNSiteList:FC = () => {
     const query = useCallback((data) => {
         return siteService.FindSite({}, data)
+    }, [])
+    const options: IOperationConfig = useMemo(() => {
+        const option:IOperationConfig = [
+            {
+                text: "性能统计",
+                event(data) {
+                    historyService.push(`/cdn/siteList/perform-sta/${data.id}`)
+                }
+            },
+            {
+                text: "防御统计",
+                event(data) {
+                    historyService.push(`/cdn/siteList/defend-sta/${data.id}`)
+                }
+            },
+        ]
+        if (isMobile){
+            option.unshift({
+                text: "查看",
+                event(data) {
+                        const {
+                            name,
+                            customerName,
+                            type,
+                            records,
+                            uniqueName,
+                            upstream,
+                            status
+                        } = data
+                        const dataList=[
+                            {label:'站点名称',content:name},
+                            {label:'客户名称',content:customerName},
+                            {label:'站点类型',content:type},
+                            {label:'记录数',content:records},
+                            {label:'UniqueName',content:uniqueName},
+                            {label:'源点',content:upstream.split(" ").filter((item:any)=>item).join(", ")},
+                            {label:'站点状态',content:status === 1?<Status color={E_COLOR.enable}>正式</Status>:<Status color={E_COLOR.disable}>禁用</Status>},
+                        ]
+                        const value = {
+                            node: <View dataList={dataList} />,
+                        }
+                        msgModal.createEvent("popup", value)
+                }
+            })
+        }
+        return option
     }, [])
 
     return <Template
         filter={isMobile?<CDNSiteListFilterMobile/>:<CDNSiteListFilter />}
         primarySearch={primarySearch}
         queryData={query}
+        optList={options}
         columns={isMobile?columnMobile:columns}
         rowKey="domain"
     />
@@ -52,6 +101,7 @@ const columnMobile: TableColumnProps<any>[] = [
         title: "站点名称",
         dataIndex: "name",
         sorter: true,
+        width:150
     },
     {
         title: "客户名称",
@@ -62,42 +112,8 @@ const columnMobile: TableColumnProps<any>[] = [
             }
             return data;
         },
-    },
-    {
-        title: "操作",
-        dataIndex: "opt",
-        render(_:any, data:any){
-            return <Space>
-                <Button onClick={() => {
-                    if (data) {
-                        const {
-                            name,
-                            customerName,
-                            type,
-                            records,
-                            uniqueName,
-                            upstream,
-                            status
-                        } = data
-                        const dataList=[
-                            {label:'站点名称',content:name},
-                            {label:'客户名称',content:customerName},
-                            {label:'站点类型',content:type},
-                            {label:'记录数',content:records},
-                            {label:'UniqueName',content:uniqueName},
-                            {label:'源点',content:upstream.split(" ").filter((item:any)=>item).join(", ")},
-                            {label:'站点状态',content:status === 1?<Status color={E_COLOR.enable}>正式</Status>:<Status color={E_COLOR.disable}>禁用</Status>},
-                        ]
-                        const value = {
-                            node: <View dataList={dataList} />,
-                        }
-                        msgModal.createEvent("popup", value)
-                    }
-                }}>查看</Button>
-            </Space>
-        }
-    }
-]
+        width:150
+    }]
 export const columns: TableColumnProps<any>[] = [
     {
         title: "站点名称",
