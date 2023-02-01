@@ -596,6 +596,16 @@ class StatAPI {
         return config;
     }
 
+    SaleStatCustomer95 = (data: any) => {
+        const config: AxiosRequestConfig = {
+            url: '/stat/sale/stat-customer-bandwidth95',
+            method: 'post',
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
 }
 export default StatAPI;
 

@@ -13,6 +13,7 @@ import {createOptList} from "@/common/template/optList";
 import isMobile from "@/app/isMobile";
 import FilterMobile from "@/common/template/mobile/filter";
 import FooterDetail from "@/common/template/mobile/footer";
+import useUpdatedRef from "@/hooks/useUpdatedRef";
 
 interface ITableModule{
     columns: TableColumnProps<any>[];
@@ -25,7 +26,8 @@ interface ITableModule{
     scroll?: {
         x?: number;
         y?: number
-    }
+    },
+    dataMergeEvent?: (data: any[]) => Promise<any[]>
 }
 
 interface IMobile{
@@ -275,6 +277,24 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
         return conf;
     }, [props]);
 
+    const [mergeData, setMergeData] = useState<any[]>([])
+    const mergeFuncRef = useUpdatedRef(props.dataMergeEvent)
+    useEffect(() => {
+        if(tableData.length > 0){
+            if(mergeFuncRef.current){
+                const sub = from(mergeFuncRef.current(tableData))
+                    .subscribe(res => {
+                        setMergeData(res)
+                    })
+                return () => sub.unsubscribe();
+            }else{
+                setMergeData(tableData)
+            }
+        }else{
+            setMergeData([])
+        }
+    }, [tableData, mergeFuncRef])
+
     if (isMobile){
         return <section style={{ marginTop: (!props.filter && !props.event) ? 0 : 15 }}>
             <section style={{marginBottom:20}}>
@@ -284,7 +304,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
             </section>
             <Table
                 sticky
-                dataSource={tableData}
+                dataSource={mergeData}
                 pagination={false}
                 rowKey={props.rowKey}
                 onChange={tableOnChange}
@@ -304,7 +324,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
         <section style={{ marginTop: (!props.filter && !props.event) ? 0 : 15 }}>
             <Table
                 sticky
-                dataSource={tableData}
+                dataSource={mergeData}
                 pagination={{
                     ...pagination,
                     onChange: pageOnChange,

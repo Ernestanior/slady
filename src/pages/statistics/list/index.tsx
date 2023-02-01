@@ -55,6 +55,26 @@ const StatisticsList:FC = () => {
         return null;
     }, []);
 
+    // 查询95带宽
+    const update95 = useCallback(async (data: any[]) => {
+        const customerIds: number[] = data.map((t) => t.id);
+        const customerStatConfig = statService.SaleStatCustomer95(customerIds);
+        const responses = await request<any>(customerStatConfig);
+        const res:any[] = []
+        if(responses.isSuccess && responses.result){
+            data.forEach(item => {
+                res.push({
+                    ...item,
+                    saleStat: {
+                        ...item.saleStat,
+                        bandwidthOfCurrentMonth: responses.result[item.id]
+                    }
+                })
+            })
+        }
+        return res
+    }, [])
+
     const options: IOperationConfig = useMemo(() => {
         return [
                 {
@@ -107,6 +127,7 @@ const StatisticsList:FC = () => {
             scroll={isMobile?{}:{
                 x: 1600
             }}
+            dataMergeEvent={update95}
         />
     </section>
 }
