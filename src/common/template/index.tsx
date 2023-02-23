@@ -304,7 +304,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
             </section>
             <Table
                 sticky
-                dataSource={mergeData}
+                dataSource={mergeData.length > 0 ? mergeData : tableData}
                 pagination={false}
                 rowKey={props.rowKey}
                 onChange={tableOnChange}
@@ -324,7 +324,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
         <section style={{ marginTop: (!props.filter && !props.event) ? 0 : 15 }}>
             <Table
                 sticky
-                dataSource={mergeData}
+                dataSource={mergeData.length > 0 ? mergeData : tableData}
                 pagination={{
                     ...pagination,
                     onChange: pageOnChange,
