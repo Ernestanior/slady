@@ -1,9 +1,20 @@
 @import "/src/styles/config/color";
 
 .page-login{
-  height: 100%;
-  min-height: 900px;
-  display: flex;
+  .comp-header{
+    display: flex;
+    padding: 10px 60px 10px 30px;
+    background-color: @page-head-bg;
+    justify-content: space-between;
+    align-items: center;
+    img{
+      height:35px
+    }
+    .login-signup-btn{
+      font-weight: 550;
+      color:#fff;
+    }
+  }
   &>.left{
     width: 100% * (1080 / 1920);
     background: @side-bg;

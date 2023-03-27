@@ -1,27 +1,53 @@
-@color: #e3e3e3;
+
+@color: #396293;
 @line: 1px solid @color;
 
 .page-login-form {
+  box-shadow: 0 0 10px 0 #aaa;
+  width: 30%;
+  background-color: #fff;
+  padding:20px 40px;
+  margin: 10% auto;
   .comp-form-lg {
-    width: 48.75%;
-    margin: auto;
-
-    padding-top: 24%;
-
+    width: 100%;
     input {
-      height: 50px;
+      height: 30px;
     }
-
-    .logo {
-      height: auto;
+    .login-title{
+      color:@color;
+      display: flex;
+      justify-content: center;
+      font-weight: 550;
+      font-size:20px;
+      padding-bottom: 10px;
+      border-bottom:1px solid #e1e1e1;
+    }
+    .sign-up{
+      margin-bottom:20px;
+      display: inline-block;
+      color:#1a4481;
       width: 100%;
+      font-size: 12px;
+      text-align: end;
+      a{
+        color:#1a4481;
+        padding:1px;
+        border-bottom: 1px solid #1a4481;
+      }
     }
+    .login-label{
+      color:@color;
+      font-weight: 500;
+      font-size: 12px;
+    }
+    //.logo {
+    //  height: auto;
+    //  width: 100%;
+    //}
 
     .content {
-
       .username {
-        margin-top: 16%;
-        margin-bottom: 0;
+        margin-top: 10%;
       }
 
       input{
@@ -29,7 +55,7 @@
       }
 
       .password{
-        margin-top: 10%;
+        margin-top: 5%;
       }
 
       .pwd{

@@ -1,5 +1,5 @@
 import IconFont from "@/common/icon";
-import {Button, Dropdown, Menu, Space, Tooltip} from "antd";
+import {Dropdown, Menu, Space, Tooltip} from "antd";
 import React, { FC } from "react";
 // import { FormattedMessage } from "react-intl";
 import { XOR } from "ts-xor";
@@ -8,6 +8,7 @@ import { IOperation, IColumnsTypeP, IOperationConfig } from "./interface";
 import {ItemType} from "antd/lib/menu/hooks/useItems";
 import isMobile from "@/app/isMobile";
 import './index.less'
+import {EllipsisOutlined} from "@ant-design/icons";
 /**
  * 构建操作列config,
  * @param optList 选项
@@ -37,7 +38,7 @@ export const createOptList = (
           },
         };
       },
-      title: (optEl || "操作") as any,
+      title: (optEl || "Action") as any,
       render: (_, record) => {
         if (renderFn) {
           return renderFn(record) ? (
@@ -166,9 +167,7 @@ export const OptListComp: FC<IOptProps> = (props) => {
 
   return (
         <Dropdown key="tb_opt" overlay={menus} trigger={['click','hover']}>
-          <Button className="cdn-opt-btn">
-            更多
-          </Button>
+            <EllipsisOutlined style={{fontSize:25,color:'#2c66ad'}}/>
         </Dropdown>
   );
 };

@@ -1,7 +1,7 @@
 import {FC, ReactNode} from "react";
 import { IEventListModule, INormalEvent} from "@/common/interface";
 import useRoleFilter from "@/hooks/utils/useRoleFilter";
-import {Button, Space, Radio} from "antd";
+import {Button, Radio} from "antd";
 
 /**
  * 功能列表
@@ -31,10 +31,10 @@ const FuncList:FC<IEventListModule> = ({event}) => {
         }
     })
 
-    return <Space style={{ marginTop: 15 }}>
+    return <span style={{marginLeft:15}}>
         {primaryList}
         {normalList.length > 0 && normalList}
-    </Space>
+    </span>
 }
 
 export default FuncList

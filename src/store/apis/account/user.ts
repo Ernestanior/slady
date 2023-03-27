@@ -54,7 +54,7 @@ class UserAPI {
      */
     ViewUserBasic = (params: IViewUserBasicParams, data: {}) => {
         const config: AxiosRequestConfig = {
-            url: '/user/basic',
+            url: '/api/user/basic',
             method: 'get',
             params,
             data

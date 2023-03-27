@@ -12,13 +12,6 @@ const FA2Module:FC<IEventModule> = ({event$}) => {
         const sub = event$.pipe(throttleTime(50)).subscribe(res => {
             setVisible(res)
             // 加载数据
-            if(res){
-                if(info){
-                    FAForm.loadData({
-                        authFlag: info.authFlag
-                    })
-                }
-            }
         })
         return () => sub.unsubscribe()
     }, [event$, info])

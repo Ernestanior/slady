@@ -1,4 +1,4 @@
-import {FC, useCallback, useEffect} from "react";
+import {FC, useCallback} from "react";
 import {Input} from "antd"
 import createObserverForm, {IObserverForm} from "@/hoc/createObserverForm";
 import Footer from "@/common/Form/footer";
@@ -35,10 +35,6 @@ const FAFormItem:FC<IObserverForm> = ({data$, cb, form}) => {
         if(!infoRef.current){
             return;
         }
-        if(data.authFlag === infoRef.current?.authFlag){
-            closeEvent();
-            return;
-        }
         // 关闭
         if(data.authFlag === -1){
             from(request(authService.DisableTwoFactorAuth({}, {}))).subscribe(res => {
@@ -60,24 +56,6 @@ const FAFormItem:FC<IObserverForm> = ({data$, cb, form}) => {
             }
         })
     }, [closeEvent, form, infoRef])
-
-    useEffect(() => {
-        if(info){
-            // 用户本来未开启
-            if(info.authFlag !== 1){
-                // 准备开启
-                if(formData.authFlag && formData.authFlag !== -1){
-                    form.setFieldsValue({
-                        qrCode: true
-                    })
-                }else{
-                    form.setFieldsValue({
-                        qrCode: false
-                    })
-                }
-            }
-        }
-    }, [info, formData.authFlag, form])
 
     return <section>
         <FormItem noStyle span={12} name="authFlag" initialValue={-1}>

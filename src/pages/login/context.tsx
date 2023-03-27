@@ -2,30 +2,16 @@ import React, {FC} from "react";
 import "./context.less";
 import isMobile from "@/app/isMobile";
 import LoginForm from "@/pages/login/form";
-import moment from "moment";
+import Logo from "@/common/layout/header/logo.svg";
+import {Link} from "react-router-dom";
 
 const LoginContext:FC = () => {
     return <section className={isMobile?"mobile-login":"page-login"}>
-        <div className="left">
-            <div className="text">
-                <div className="title">
-                    Where Network Security Happens
-                </div>
-                <div className="text-1">
-                    Provide Network Security Service and Internet Solutions
-                </div>
-                <div className="text-2">
-                    Your
-                    <em> Asia Pacific Cybersecurity Expert</em>
-                </div>
-            </div>
-            <div className="cover" />
-        </div>
-        <div className="right">
-            <LoginForm />
-        </div>
-        {isMobile&&<div className="fix-foot">Copyright ©{moment().format("YYYY")} Greypanel. All Rights Reserved.</div>}
-
+        <nav className='comp-header'>
+            <img className="logo" src={Logo} alt="logo" />
+            <Link to="/signup" className="login-signup-btn">Sign Up</Link>
+        </nav>
+        <LoginForm />
     </section>
 }
 

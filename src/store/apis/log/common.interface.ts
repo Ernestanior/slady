@@ -8,6 +8,7 @@ export interface IAccessLogDto {
     userId: number;
 }
 export interface IAccessLogForm {
+    keyWord?:string;
     searchPage: ISearchPage;
 }
 export interface IBaseRespDto {

@@ -42,7 +42,20 @@ class AuthAPI {
         config.headers = {};
         return config;
     }
-
+    /**
+     * regist
+     * 生成请求参数
+     */
+    Regist = (params: ILogoutParams, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/auth/regist',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        return config;
+    }
     /**
      * 获取二维码
      */

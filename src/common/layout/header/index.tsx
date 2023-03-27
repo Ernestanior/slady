@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Space, Row, Col  } from 'antd';
-import Logo from "./logo.png";
+import Logo from "./logo.svg";
 import "./index.less";
 import accountService from "@/store/account/service";
 import ConfirmInfo from "@/common/confirm";

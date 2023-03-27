@@ -35,7 +35,6 @@ interface IMobile{
 }
 
 interface IPageParams {
-    keyWord: string;
     searchPage: ISearchPage;
     /** 高级搜索 */
     filters: any;
@@ -116,7 +115,6 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
     const params$ = useMemo(
         () =>
             new BehaviorSubject<IPageParams>({
-                keyWord: "",
                 searchPage: {
                     desc: 1,
                     page: 1,
@@ -150,7 +148,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
                         setLoading(true);
                     }
                     let { filters, moreFilters, ...paramObj } = params;
-                    paramObj = { ...paramObj, ...filters, ...moreFilters, keyWord: trimPlx(params.keyWord) };
+                    paramObj = { ...paramObj, ...filters, ...moreFilters};
                     //
                     delete paramObj.__disableLoading;
                     return from(queryEvent(paramObj));
@@ -181,10 +179,10 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
                             });
                             resultData = result;
                         } else {
-                            console.error("数据请求异常！");
+                            console.error("Data request error！");
                         }
                     } else {
-                        console.error("接口数据请求失败");
+                        console.error("Request fail!");
                     }
                     setSelectIds([])
                     setTableData(resultData);
@@ -298,7 +296,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
     if (isMobile){
         return <section style={{ marginTop: (!props.filter && !props.event) ? 0 : 15 }}>
             <section style={{marginBottom:20}}>
-                {props.filter && <FilterMobile primarySearch={props.primarySearch} submit={data => { submit('filters', data)}}>{props.filter}</FilterMobile>}
+                {props.primarySearch && <FilterMobile primarySearch={props.primarySearch} submit={data => { submit('filters', data)}}>{props.filter}</FilterMobile>}
                 {props.event && <FuncList event={props.event} />}
                 {props.batchEvent && <BatchFuncList batchEvent={props.batchEvent} selectItems={selectIds}/>}
             </section>
@@ -317,7 +315,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
             <FooterDetail {...footDetails} onChange={pageOnChange}/>
         </section>
     }
-    return <section>
+    return <section style={{backgroundColor:"#fff",padding:20,borderRadius:10}}>
         {props.filter && <Filter submit={data => { submit('filters', data)}}>{props.filter}</Filter>}
         {props.event && <FuncList event={props.event} />}
         {props.batchEvent && <BatchFuncList batchEvent={props.batchEvent} selectItems={selectIds}/>}

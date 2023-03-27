@@ -16,6 +16,7 @@ class RequestPlx<T=any>{
             await this.middleware_after.apply(response);
             return response;
         }catch (err: any){
+            console.log(err)
             await this.middleware_after.apply(err.response)
             return err as any
         }

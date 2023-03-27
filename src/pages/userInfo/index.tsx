@@ -1,12 +1,12 @@
 import {FC} from "react";
 import {Col, Divider, Row} from "antd";
 import ModifyPassword from "@/pages/userInfo/modifyPassword";
-import useSaleInfo from "@/store/account/useSaleInfo";
 import Safety from "@/pages/userInfo/safety";
 import FA2 from "@/pages/userInfo/2FA";
+import useAccountInfo from "@/store/account";
 
 const UserInfo:FC = () => {
-    const saleInfo = useSaleInfo();
+    const userInfo = useAccountInfo();
     return <section style={{ width: 450, padding: 15 }}>
         <h3 style={{fontWeight:650}}>
             个人中心
@@ -17,13 +17,13 @@ const UserInfo:FC = () => {
                 用户名称
             </Col>
             <Col span={18}>
-                {saleInfo && saleInfo.name}
+                {userInfo && userInfo.name}
             </Col>
             <Col span={6}>
                 登录邮箱
             </Col>
             <Col span={18}>
-                {saleInfo && saleInfo.email}
+                {userInfo && userInfo.email}
             </Col>
         </Row>
         <Divider />

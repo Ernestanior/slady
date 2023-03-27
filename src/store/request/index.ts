@@ -6,13 +6,14 @@ import accountService from "@/store/account/service";
 
 const requestPlx = new RequestPlx();
 
-const dev_url = 'http://localhost:10087';
+// const dev_url = 'http://localhost:10087';
+const dev_url = 'https://stg-gp-media-svc.greypanel.com';
 // const dev_url = 'http://10.69.3.110:10087';
 
 // add dev server url
 requestPlx.middleware_before.use(async (config, next) => {
     // prefix url
-    config.url = "/v3/api" + config.url;
+    // config.url = "/api"+config.url;
     if(process.env.NODE_ENV === "development"){
         config.url = dev_url + config.url;
     }
@@ -22,8 +23,8 @@ requestPlx.middleware_before.use(async (config, next) => {
 // header add token
 requestPlx.middleware_before.use(async (config, next) => {
     const token = getToken();
-    if(token && !config.headers["greycdn-token"]){
-        config.headers["greycdn-token"] = token;
+    if(token && !config.headers["gp-media-token"]){
+        config.headers["gp-media-token"] = token;
     }
     await next()
 })
@@ -68,14 +69,14 @@ requestPlx.middleware_after.use(async (rep, next) => {
             })
         }
         if(rep.data){
-            if(!!rep.data.code && rep.data.code !== 200){
+             if(!!rep.data.code && rep.data.code !== 200){
                 if(window.location.hash !== "#/login"){
                     notification.error({
                         message: rep.data.code,
-                        description: rep.data.msg
+                        description: rep.data.message
                     })
                 }
-                message = rep.data.msg;
+                message = rep.data.message;
             }else{
                 isSuccess = true
                 result = rep.data.data
@@ -98,11 +99,11 @@ async function request<T>(config: AxiosRequestConfig){
                 // 创建操作
                 if(config.url && config.url.toLowerCase().indexOf("create") > -1){
                     notification.success({
-                        message: "创建成功"
+                        message: "Success"
                     })
                 }else{
                     notification.success({
-                        message: "配置已更新"
+                        message: "Success"
                     })
                 }
             }

@@ -9,18 +9,18 @@ const UserInfo:FC = () => {
     const saleInfo = useSaleInfo();
     return <section style={{ padding: 15}}>
         <h3 style={{fontWeight:650}}>
-            个人中心
+            User Profile
         </h3>
         <br/>
         <Row gutter={[15, 15]}>
             <Col span={6}>
-                用户名称
+                Username
             </Col>
             <Col span={18}>
                 {saleInfo && saleInfo.name}
             </Col>
             <Col span={6}>
-                登录邮箱
+                Email
             </Col>
             <Col span={18}>
                 {saleInfo && saleInfo.email}

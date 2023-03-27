@@ -1,88 +1,53 @@
 import {IRoleLimitModule} from "@/common/interface";
-import {E_USER_TYPE} from "@/store/account/interface";
 import {XOR} from "ts-xor";
 
 interface IMenu extends IRoleLimitModule{
+    icon?:string;
     url: string;
     text: string;
 }
 
 interface IMultipleMenu extends IRoleLimitModule{
     text: string;
+    icon:string;
     childs: IMenu[]
 }
 
 const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
     {
-        url: "/customer",
-        text: "客户管理"
+        url: "/admin",
+        text: "Administrative",
+        icon:"icongeren2"
     },
     {
-        url: '/sale',
-        text: "销售部门",
-        role: [E_USER_TYPE.SALE_MANAGER]
+        url: '/customer',
+        text: "Customers",
+        icon:"icongeren2"
     },
     {
-        url: "/statistics",
-        text: "统计报表"
-    },
-    {
-        text: "CDN管理",
+        text: "Contents",
+        icon:"icongeren2",
         childs: [
             {
-                url: "/cdn/siteList",
-                text: "站点管理"
+                url: "/contents/classifications",
+                text: "Classifications"
             },
             {
-                url: "/cdn/record",
-                text: "记录管理"
+                url: "/contents/video",
+                text: "Video"
             },
             {
-                url: "/cdn/operate-log",
-                text: "客户操作日志"
+                url: "/contents/stream",
+                text: "Stream"
             }
         ]
     },
     {
-        text: "归档功能",
-        role: [E_USER_TYPE.SALE_MANAGER],
-        childs: [
-            {
-                url: "/archive/customer",
-                text: "归档客户"
-            },
-            {
-                url: "/archive/domain",
-                text: "归档域名"
-            }
-        ]
+        url: "/profile",
+        icon:"icongeren2",
+        text: "My Profile"
     },
-    {
-        text: "官网设置",
-        childs: [
-            {
-                text: "新闻",
-                url: "/news"
-            },
-            {
-                text: "客户服务设置",
-                url: "/contact-service"
-            }
-        ]
-    },
-    {
-        text: "工具",
-        childs: [
-            {
-                text: "批量邮件发送",
-                url: "/email"
-            },
-            {
-                text: "子账号查询",
-                url: "/sub-account-query"
-            }
-        ]
-    }
+
 ]
 
 export default menuList;

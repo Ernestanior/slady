@@ -30,9 +30,9 @@ class AccessLogAPI {
      * findAccessLog
      * 生成请求参数
      */
-    FindAccessLog = (params: IFindAccessLogParams, data: IAccessLogForm) => {
+    FindAccessLog = (params: {}, data: IAccessLogForm) => {
         const config: AxiosRequestConfig = {
-            url: '/access-log/list',
+            url: '/api/access-log/page',
             method: 'post',
             params,
             data
@@ -49,6 +49,4 @@ interface IDeleteParams {
     id: string;
     index: string;
 }
-/** findAccessLog的请求参数*/
-interface IFindAccessLogParams {
-}
+

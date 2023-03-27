@@ -1,4 +1,4 @@
-import {FC, useCallback, useEffect, useMemo, useState} from "react";
+import {FC, useCallback, useMemo, useState} from "react";
 import SubmitModuleUI from "@/common/submit";
 import useAccountInfo from "@/store/account";
 import {Col, Row} from "antd";
@@ -10,20 +10,11 @@ import accountService from "@/store/account/service";
 const ModifyLogoutTime:FC = () => {
     const info = useAccountInfo();
 
-    const [sessionExpire, setSessionExpire] = useState(info ? info.sessionExpire : 30);
-
-    useEffect(() => {
-        if(info){
-            setSessionExpire(info.sessionExpire);
-        }
-    }, [info])
+    const [sessionExpire, setSessionExpire] = useState( 30);
 
     const visible = useMemo(() => {
-        if(info){
-            return info.sessionExpire !== sessionExpire;
-        }
-        return false
-    }, [info, sessionExpire])
+        return !!info
+    }, [info])
 
     const submit = useCallback(() => {
         if(!info){
@@ -37,7 +28,7 @@ const ModifyLogoutTime:FC = () => {
 
     const cancel = useCallback(() => {
         if(info){
-            setSessionExpire(info.sessionExpire)
+            setSessionExpire(30)
         }
     }, [info])
 

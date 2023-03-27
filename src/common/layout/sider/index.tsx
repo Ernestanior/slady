@@ -1,8 +1,9 @@
-import {FC, useMemo} from "react";
+import React, {FC, useMemo} from "react";
 import {Layout, Menu} from 'antd';
 import {Link, useLocation} from "react-router-dom"
 import menuList from "@/common/layout/sider/config";
 import useAccountInfo from "@/store/account";
+import IconFont from "@/common/icon";
 
 const AntSide = Layout.Sider
 
@@ -44,15 +45,15 @@ const Side:FC = () => {
         return keys
     }, [url, _menuList])
 
-    return <AntSide width={200} className="cdn-ly-side cdn-scroll">
-        <Menu theme="dark" selectedKeys={selectKeys} mode="inline" >
+    return <AntSide width={250} >
+        <Menu selectedKeys={selectKeys} mode="inline" style={{fontWeight:550,marginTop:20}}>
             {
                 _menuList.map(menu => {
                     if(menu.childs){
-                        return <SubMenu key={menu.text} title={menu.text}>
+                        return <SubMenu key={menu.text} title={menu.text} style={{margin:"15px 0"}} icon={<IconFont type={menu.icon} style={{fontSize:24}}/>}>
                             {
                                 menu.childs.map(subMenu => {
-                                    return <Menu.Item key={subMenu.url}>
+                                    return <Menu.Item key={subMenu.url} >
                                         <Link to={subMenu.url}>
                                             {subMenu.text}
                                         </Link>
@@ -61,7 +62,14 @@ const Side:FC = () => {
                             }
                         </SubMenu>
                     }
-                    return <Menu.Item key={menu.url}>
+                    if (menu.icon){
+                        return <Menu.Item key={menu.url} style={{margin:"15px 0"}} icon={<IconFont type={menu.icon} style={{fontSize:24}}/>}>
+                            <Link to={menu.url}>
+                                {menu.text}
+                            </Link>
+                        </Menu.Item>
+                    }
+                    return <Menu.Item key={menu.url} style={{margin:"15px 0"}}>
                         <Link to={menu.url}>
                             {menu.text}
                         </Link>
