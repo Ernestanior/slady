@@ -7,6 +7,7 @@ import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
 import {adminService} from "@/store/apis/account";
 import request from "@/store/request";
+import {reloadMainList} from "@/common/template";
 
 interface IProps{
     visible:boolean;
@@ -26,12 +27,13 @@ const CreateAdmin:FC<IProps> = ({onOk,visible}) => {
         imgList.forEach(img => {
             formData.append('profileImage', img as RcFile);
         });
-        formData.append('email', videoForm.email);
-        formData.append('password', videoForm.password);
+        formData.append('email', videoForm.email || "");
+        formData.append('password', videoForm.password || "");
         setLoading(true)
         const res = await request(adminService.UserCreate({}, formData as any))
         setLoading(false)
         if (res.isSuccess){
+            reloadMainList();
             onOk()
         }
     }

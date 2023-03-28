@@ -7,6 +7,7 @@ import {RcFile} from "antd/lib/upload";
 import {customerService} from "@/store/apis/account";
 import moment from "moment";
 import request from "@/store/request";
+import {reloadMainList} from "@/common/template";
 
 interface IProps{
     visible:boolean;
@@ -42,6 +43,7 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
         const res = await request(customerService.CustomerModify({}, formData as any))
         setLoading(false)
         if (res.isSuccess){
+            reloadMainList();
             onOk()
         }
     }

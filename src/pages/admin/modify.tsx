@@ -7,6 +7,7 @@ import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
 import {adminService} from "@/store/apis/account";
 import request from "@/store/request";
+import {reloadMainList} from "@/common/template";
 
 interface IProps{
     visible:boolean;
@@ -28,12 +29,13 @@ const ModifyAdmin:FC<IProps> = ({onOk,visible,data}) => {
             formData.append('profileImage', img as RcFile);
         });
         formData.append('id', data.id+'');
-        formData.append('email', videoForm.email);
-        formData.append('password', videoForm.password);
+        formData.append('email', videoForm.email || "");
+        formData.append('password', videoForm.password || "");
         setLoading(true)
         const res = await request(adminService.UserModify({}, formData as any))
         setLoading(false)
         if (res.isSuccess){
+            reloadMainList();
             onOk()
         }
     }

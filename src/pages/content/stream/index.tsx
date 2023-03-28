@@ -71,7 +71,7 @@ const Stream:FC = () => {
                         // deleteCustomer(data);
                         const value = {
                             title: "Delete",
-                            content: `Confirm delete video: ${data.title} ？`,
+                            content: `Confirm delete video: ${data.title} ?`,
                             onOk: () => {
                                 const config = streamService.StreamDelete({}, [data.id]);
                                 reqAndReload(config, () => notification.success({message: "Delete Success"}));

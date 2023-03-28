@@ -7,6 +7,7 @@ import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
 import {videoService} from "@/store/apis/content";
 import request from "@/store/request";
+import {reloadMainList} from "@/common/template";
 
 interface IProps{
     visible:boolean;
@@ -32,13 +33,14 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
         imgList.forEach(img => {
             formData.append('imageFile', img as RcFile);
         });
-        formData.append('description', videoForm.description);
-        formData.append('title', videoForm.title);
+        formData.append('description', videoForm.description || "");
+        formData.append('title', videoForm.title || "" );
         formData.append('classificationId', classificationId);
         setLoading(true)
         const res = await request(videoService.VideoCreate({}, formData as any))
         setLoading(false)
         if (res.isSuccess){
+            reloadMainList();
             onOk()
         }
     }

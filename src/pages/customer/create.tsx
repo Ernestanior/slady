@@ -8,6 +8,7 @@ import {customerService} from "@/store/apis/account";
 import {classificationService} from "@/store/apis/content";
 import {from} from "rxjs";
 import request from "@/store/request";
+import {reloadMainList} from "@/common/template";
 
 interface IProps{
     visible:boolean;
@@ -42,16 +43,16 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
         imgList.forEach(img => {
             formData.append('profileImage', img as RcFile);
         });
-        formData.append('email', videoForm.email);
-        formData.append('password', videoForm.password);
-        videoForm.birthday && formData.append('birthday', videoForm.birthday.format('YYYY-MM-DD'));
-        formData.append('ic', videoForm.ic);
-        formData.append('contact', videoForm.contact);
-        formData.append('gender', videoForm.gender);
-        formData.append('postCode', videoForm.postCode);
-        formData.append('address', videoForm.address);
-        formData.append('unitNumber', videoForm.unitNumber);
-        formData.append('period', videoForm.period);
+        formData.append('email', videoForm.email || "");
+        formData.append('password', videoForm.password || "");
+        videoForm.birthday && formData.append('birthday', videoForm.birthday.format('YYYY-MM-DD') || "");
+        formData.append('ic', videoForm.ic || "");
+        formData.append('contact', videoForm.contact || "");
+        formData.append('gender', videoForm.gender || "");
+        formData.append('postCode', videoForm.postCode || "");
+        formData.append('address', videoForm.address || "");
+        formData.append('unitNumber', videoForm.unitNumber || "");
+        formData.append('period', videoForm.period || "");
         formData.append('status', videoForm.status?"1":"0");
         videoForm.subscription && subs && subs.forEach((item:any,index:number)=>{
             formData.append(`subscriptionItemList[${index}].classificationId`,item.id)
@@ -61,6 +62,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
         const res = await request(customerService.CustomerCreate({}, formData as any))
         setLoading(false)
         if (res.isSuccess){
+            reloadMainList();
             onOk()
         }
     }

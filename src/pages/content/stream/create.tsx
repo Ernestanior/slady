@@ -7,6 +7,7 @@ import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
 import {streamService} from "@/store/apis/content";
 import request from "@/store/request";
+import {reloadMainList} from "@/common/template";
 
 interface IProps{
     visible:boolean;
@@ -28,16 +29,16 @@ const CreateStream:FC<IProps> = ({onOk,visible,classificationId}) => {
         imgList.forEach(img => {
             formData.append('coverPage', img as RcFile);
         });
-        formData.append('description', videoForm.description);
-        formData.append('title', videoForm.title);
-        formData.append('streamSource', videoForm.streamSource);
+        formData.append('description', videoForm.description || "");
+        formData.append('title', videoForm.title || "");
+        formData.append('streamSource', videoForm.streamSource || "");
         formData.append('classificationId', classificationId);
         const res = await request(streamService.StreamCreate({}, formData as any))
         setLoading(false)
         if (res.isSuccess){
+            reloadMainList();
             onOk()
         }
-
     }
     return <Modal
         confirmLoading={loading}
