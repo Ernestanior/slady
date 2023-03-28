@@ -21,7 +21,7 @@ const ModalX:FC = () => {
     }
 
     return value? <Modal
-            title={value.title}
+        title={<div style={{color:'#fff',fontWeight:550}}>{value.title}</div>}
             visible={visible}
             onCancel={value.onCancel || defaultCancel}
             onOk={onOk}

@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useMemo, useState} from "react";
+import React, {FC, useCallback, useMemo, useState} from "react";
 import {INormalEvent} from "@/common/interface";
 import {customerService} from "@/store/apis/account";
 import {reqAndReload} from "@/common/utils";
@@ -6,89 +6,99 @@ import Template from "@/common/template";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
 import FormItem from "@/common/Form/formItem";
-import {Checkbox, Form, Input, InputNumber, notification, Switch} from "antd";
-import {classificationService} from "@/store/apis/content";
-import {from} from "rxjs";
-import request from "@/store/request";
+import {Input, notification} from "antd";
+import CreateCustomer from "@/pages/customer/create";
+import ModifyCustomer from "@/pages/customer/modify";
+import {E_COLOR} from "@/common/const";
+import Status from "@/common/status";
+import SubsCustomer from "@/pages/customer/subscription";
 const CustomerList:FC = () => {
-    const [subs,setSubs]=useState<any[]>([])
-    useEffect(()=>{
-       const config = classificationService.ClassList({}, {
-           searchPage:{desc:0,page:0,pageSize:999,sort:""}
-       })
-        const sub = from(request(config)).subscribe((res:any) => {
-            if(res.isSuccess){
-                setSubs(res.result.content)
-            }
-        })
-        return () => sub.unsubscribe()
-    },[])
+    const [createFlag,setCreateFlag]=useState<boolean>(false)
+    const [editFlag,setEditFlag]=useState<boolean>(false)
+    const [subsFlag,setSubsFlag]=useState<boolean>(false)
+    const [selectData,setSelectData] = useState<any>()
+
     const buttons: INormalEvent[] = useMemo(() => {
-        return subs.length?[
+        return [
             {
                 text: "Create",
                 primary: true,
                 event() {
-                    const value = {
-                        title: "Create",
-                        api: customerService.CustomerCreate,
-                        content: <section>
-                            <Form.Item name="email" label={<span className="login-label">Login Email</span>}>
-                                <Input />
-                            </Form.Item>
-                            <Form.Item name="password" label={<span className="login-label">Password</span>}>
-                                <Input />
-                            </Form.Item>
-                            <Form.Item name="subscription" label="Subscriptions">
-                                <Checkbox.Group>
-                                    {subs.map((item)=><Checkbox value={item} >
-                                        {item.name}
-                                    </Checkbox>
-                                    )}
-                                </Checkbox.Group>
-                            </Form.Item>
-                            <Form.Item name="period" label="Period" >
-                                <InputNumber/>
-                            </Form.Item>
-                            <Form.Item name="status" label="Status" >
-                                <Switch />
-                            </Form.Item>
-
-                        </section>,
-                    }
-                    msgModal.createEvent("modalF", value)
+                    setCreateFlag(true)
                 },
             },
-        ]:[];
-    }, [subs]);
+        ];
+    }, []);
 
 
     const query = useCallback((data) => {
         return customerService.CustomerList({}, data);
     }, [])
 
-
     const options: IOperationConfig = useMemo(() => {
         return [
             [
                 {
+                    text: "Disable",
+                    hide: (data) => data.status !== 1,
+                    event(data) {
+                        const value = {
+                            title: "Disable",
+                            content: `Confirm disable: ${data.name} ？`,
+                            onOk: () => {
+                                const config = customerService.CustomerStatus({}, {ids: [data.id],status:0});
+                                reqAndReload(config);
+                            }
+                        }
+                        msgModal.createEvent("modal", value)
+                    }
+                },
+                {
+                    text: "Enable",
+                    hide: (data) => data.status === 1,
+                    event(data) {
+                        const value = {
+                            title: "Enable",
+                            content: `Confirm enable: ${data.name} ？`,
+                            onOk: () => {
+                                const config = customerService.CustomerStatus({}, {ids: [data.id],status:1});
+                                reqAndReload(config);
+                            }
+                        }
+                        msgModal.createEvent("modal", value)
+                    }
+                },
+                {
                     text: "Modify",
                     event(data) {
-                        // historyService.push("/admin/create");
-                        const value = {
-                            title: "Edit",
-                            api: customerService.CustomerModify,
-                            data,
-                            content: <section>
-                                <Form.Item name="name" label={<span className="login-label">Name</span>}>
-                                    <Input />
-                                </Form.Item>
-                            </section>,
-                        }
-                        msgModal.createEvent("modalF", value)
+                        setSelectData(data)
+                        setEditFlag(true)
                     },
-
                 },
+                {
+                    text: "Subscriptions",
+                    event(data) {
+                        setSelectData(data)
+                        setSubsFlag(true)
+                    },
+                },
+                // {
+                //     text: "Modify",
+                //     event(data) {
+                //         // historyService.push("/admin/create");
+                //         const value = {
+                //             title: "Edit",
+                //             api: customerService.CustomerModify,
+                //             data,
+                //             content: <section>
+                //                 <Form.Item name="name" label={<span className="login-label">Name</span>}>
+                //                     <Input />
+                //                 </Form.Item>
+                //             </section>,
+                //         }
+                //         msgModal.createEvent("modalF", value)
+                //     },
+                // },
                 {
                     text: "Delete",
                     event(data) {
@@ -117,8 +127,11 @@ const CustomerList:FC = () => {
             event={buttons}
             columns={columns}
             queryData={query}
-            rowKey="id"
+            rowKey="email"
         />
+        <CreateCustomer onOk={()=>setCreateFlag(false)} visible={createFlag}></CreateCustomer>
+        <ModifyCustomer onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyCustomer>
+        <SubsCustomer onOk={()=>setSubsFlag(false)} visible={subsFlag} data={selectData}></SubsCustomer>
     </section>
 }
 
@@ -126,8 +139,15 @@ export default CustomerList
 
 const columns = [
     {
-        dataIndex: "name",
-        title: "名称",
+        dataIndex: "email",
+        title: "Name",
+    },
+    {
+        dataIndex: "status",
+        title: "Status",
+        render:(data:any)=>{
+            return data?<Status color={E_COLOR.enable}>Enable</Status>:<Status color={E_COLOR.disable}>Disable</Status>
+        }
     },
 ]
 

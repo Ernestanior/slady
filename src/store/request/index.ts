@@ -70,12 +70,12 @@ requestPlx.middleware_after.use(async (rep, next) => {
         }
         if(rep.data){
              if(!!rep.data.code && rep.data.code !== 200){
-                if(window.location.hash !== "#/login"){
+                // if(window.location.hash !== "#/login"){
                     notification.error({
                         message: rep.data.code,
                         description: rep.data.message
                     })
-                }
+                // }
                 message = rep.data.message;
             }else{
                 isSuccess = true

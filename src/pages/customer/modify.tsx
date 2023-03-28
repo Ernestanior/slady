@@ -1,19 +1,19 @@
 import React, {FC, useEffect, useState} from "react";
-import FormItem from "@/common/Form/formItem";
-import {Button, Col, Form, Input, Modal, Row, Upload} from "antd";
+import {Button, Col, DatePicker, Form, Input, Modal, Row, Select, Switch, Upload} from "antd";
 import {useForm} from "antd/es/form/Form";
 import {PaperClipOutlined} from "@ant-design/icons";
 import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
 import {reqAndReload} from "@/common/utils";
-import {adminService} from "@/store/apis/account";
+import {customerService} from "@/store/apis/account";
+import moment from "moment";
 
 interface IProps{
     visible:boolean;
     onOk:()=>void;
     data:any;
 }
-const ModifyAdmin:FC<IProps> = ({onOk,visible,data}) => {
+const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
     const [form] = useForm()
     const [imgList,setImgList] = useState<UploadFile[]>([])
     const [loading,setLoading] = useState<boolean>(false)
@@ -30,15 +30,23 @@ const ModifyAdmin:FC<IProps> = ({onOk,visible,data}) => {
         formData.append('id', data.id+'');
         formData.append('email', videoForm.email);
         formData.append('password', videoForm.password);
+        formData.append('birthday', videoForm.birthday);
+        formData.append('ic', videoForm.ic);
+        formData.append('contact', videoForm.contact);
+        formData.append('postCode', videoForm.postCode);
+        formData.append('address', videoForm.address);
+        formData.append('unitNumber', videoForm.unitNumber);
+        formData.append('status', videoForm.status==="true"?"1":"0");
+        // formData.append('subscriptionItemList', JSON.stringify(videoForm.subscription));
         setLoading(true)
-        reqAndReload(adminService.UserModify({}, formData as any),
+        reqAndReload(customerService.CustomerModify({}, formData as any),
             () => {
             onOk();
             setLoading(false)
         });
     }
     useEffect(()=>{
-        data && form.setFieldsValue(data)
+        data && form.setFieldsValue({...data,birthday:moment(data.birthday)})
     },[form,data])
     return <Modal
         confirmLoading={loading}
@@ -48,16 +56,39 @@ const ModifyAdmin:FC<IProps> = ({onOk,visible,data}) => {
         onOk={onFinish}
         okText={'Save'}
         cancelText={'Cancel'}
-        zIndex={7000}
         width={600}
     >
         <Form form={form} className="email-new">
-            <FormItem name="email" label="Email">
+            <Form.Item name="email" label={<span className="login-label">Login Email</span>}>
                 <Input />
-            </FormItem>
-            <FormItem name="password" label="Password">
-                <Input.Password />
-            </FormItem>
+            </Form.Item>
+            <Form.Item name="birthday" label={<span className="login-label">Birthday</span>}>
+                <DatePicker />
+            </Form.Item>
+            <Form.Item name="gender" label={<span className="login-label">Gender</span>}>
+                <Select options={[
+                    { value: 'male', label: 'Male' },
+                    { value: 'female', label: 'Female' },
+                ]}/>
+            </Form.Item>
+            <Form.Item name="ic" label={<span className="login-label">NIRC No.</span>}>
+                <Input />
+            </Form.Item>
+            <Form.Item name="contact" label={<span className="login-label">Contact No.</span>}>
+                <Input />
+            </Form.Item>
+            <Form.Item name="postCode" label={<span className="login-label">Post Code</span>}>
+                <Input />
+            </Form.Item>
+            <Form.Item name="address" label={<span className="login-label">Address</span>}>
+                <Input />
+            </Form.Item>
+            <Form.Item name="unitNumber" label={<span className="login-label">unitNumber</span>}>
+                <Input />
+            </Form.Item>
+            <Form.Item name="status" label="Status" >
+                <Switch />
+            </Form.Item>
             <Row gutter={15} style={{marginTop:20,marginBottom:30}}>
                 <Col>Profile Image</Col>
                 <Col>
@@ -82,4 +113,4 @@ const ModifyAdmin:FC<IProps> = ({onOk,visible,data}) => {
     </Modal>
 }
 
-export default ModifyAdmin;
+export default ModifyCustomer;

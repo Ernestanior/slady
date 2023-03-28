@@ -21,7 +21,9 @@ const ProjectRouter:FC = () => {
         accountService.autoLogin()
     }, [])
     if(loginState === E_LOGIN_STATE.pending){
+        accountService.autoLogin()
         return <div>Pending</div>;
+
     }
     if(loginState === E_LOGIN_STATE.fail){
         return <Router history={historyService}>

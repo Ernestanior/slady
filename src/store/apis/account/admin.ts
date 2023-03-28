@@ -68,16 +68,28 @@ class AdminAPI {
          * delete
          * 生成请求参数
          */
-        UserDelete = (params: {}, data: number[]) => {
-            const config: AxiosRequestConfig = {
-                url: '/api/user/delete',
-                method: 'delete',
-                params,
-                data
-            };
-            config.headers = {};
-            return config;
-        }
+    UserDelete = (params: {}, data: number[]) => {
+        const config: AxiosRequestConfig = {
+            url: '/api/user/delete',
+            method: 'delete',
+            params,
+            data
+        };
+        config.headers = {};
+        return config;
+    }
+
+    UserStatus = (params: any, data: {ids:number[], status:number }) => {
+        const config: AxiosRequestConfig = {
+            url: '/api/user/change-status',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
 }
 export default AdminAPI;
 

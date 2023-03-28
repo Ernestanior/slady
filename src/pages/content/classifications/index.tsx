@@ -12,7 +12,7 @@ const Classification:FC = () => {
     const buttons: INormalEvent[] = useMemo(() => {
         return [
             {
-                text: "Create",
+                text: "Create Classification",
                 primary: true,
                 event() {
                     // historyService.push("/admin/create");
@@ -38,7 +38,7 @@ const Classification:FC = () => {
                     event(data) {
                         // historyService.push("/admin/create");
                         const value = {
-                            title: "Edit",
+                            title: "Modify",
                             api: classificationService.ClassModify,
                             data,
                             content: <section>

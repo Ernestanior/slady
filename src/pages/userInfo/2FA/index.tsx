@@ -9,7 +9,7 @@ const FA2:FC = () => {
     return <>
         <CardButton
             icon={<IconFont type="icona-Group3911" style={{ color:"#464747",fontSize: "3.5em" }} />}
-            text="二次验证"
+            text="二次验证a"
             onClick={() => sendMessage(true)}
         />
         <FA2Module event$={event$} />

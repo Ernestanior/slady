@@ -12,7 +12,7 @@ interface IProps{
     visible:boolean;
     onOk:()=>void;
 }
-const CreateVideo:FC<IProps> = ({onOk,visible}) => {
+const CreateAdmin:FC<IProps> = ({onOk,visible}) => {
     const [form] = useForm()
     const [imgList,setImgList] = useState<UploadFile[]>([])
     const [loading,setLoading] = useState<boolean>(false)
@@ -38,7 +38,7 @@ const CreateVideo:FC<IProps> = ({onOk,visible}) => {
     }
     return <Modal
         confirmLoading={loading}
-        title={<div style={{color:"#fff",fontWeight:550}}>Create Video</div>}
+        title={<div style={{color:"#fff",fontWeight:550}}>Create Admin</div>}
         visible={visible}
         onCancel={ onCancel}
         onOk={onFinish}
@@ -52,7 +52,7 @@ const CreateVideo:FC<IProps> = ({onOk,visible}) => {
                 <Input />
             </FormItem>
             <FormItem name="password" label="Password">
-                <Input />
+                <Input.Password />
             </FormItem>
             <Row gutter={15} style={{marginTop:20,marginBottom:30}}>
                 <Col>Profile Image</Col>
@@ -78,4 +78,4 @@ const CreateVideo:FC<IProps> = ({onOk,visible}) => {
     </Modal>
 }
 
-export default CreateVideo;
+export default CreateAdmin;

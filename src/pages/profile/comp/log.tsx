@@ -3,6 +3,7 @@ import Template from "@/common/template";
 import {Input, TableColumnProps, Tooltip} from "antd";
 import FormItem from "@/common/Form/formItem";
 import {accessLogService} from "@/store/apis/log";
+import moment from "moment";
 
 const AccessLog:FC = () => {
     const query = useCallback((data) => {
@@ -35,6 +36,9 @@ const columns: TableColumnProps<any>[] = [
     {
         title: "Access On",
         dataIndex: "accessTime",
+        render:(data)=>{
+            return moment(data).format("YYYY-MM-DD HH:mm:ss")
+        }
     },
     {
         title: "Login IP",

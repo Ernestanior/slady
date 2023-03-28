@@ -49,7 +49,7 @@ const Video:FC = () => {
                     event(data) {
                         // historyService.push("/admin/create");
                         const value = {
-                            title: "Edit",
+                            title: "Modify",
                             api: videoService.VideoModify,
                             data,
                             content: <section>
@@ -113,15 +113,15 @@ const columns: TableColumnProps<any>[] = [
     {
         title:"Description",
         dataIndex: "description",
+        render:(data)=>data || '-'
     },
     {
         title: "Cover page",
         dataIndex: "imagePath",
         render:(data,item)=>{
-            console.log(item)
             return <a rel="noreferrer" target='_blank' href={"https://stg-gp-media-svc.greypanel.com/media"+item.contentPath}>
                 <img alt="" style={{width:250}}  src={"https://stg-gp-media-svc.greypanel.com/media"+data}></img>
-            </a>  }
+            </a> }
     },
     {
         title:"Time",
@@ -130,10 +130,6 @@ const columns: TableColumnProps<any>[] = [
     {
         title:"Upload time",
         dataIndex: "createDate",
-    },
-    {
-        title:"Like",
-        dataIndex: "likeCount",
     },
 
 ];

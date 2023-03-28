@@ -10,6 +10,7 @@ import {INormalEvent} from "@/common/interface";
 import CreateStream from "@/pages/content/stream/create";
 import {from} from "rxjs";
 import request from "@/store/request";
+import moment from "moment";
 
 const {TabPane} = Tabs;
 const Stream:FC = () => {
@@ -48,7 +49,7 @@ const Stream:FC = () => {
                     event(data) {
                         // historyService.push("/admin/create");
                         const value = {
-                            title: "Edit",
+                            title: "Modify",
                             api: streamService.StreamModify,
                             data,
                             content: <section>
@@ -110,27 +111,14 @@ const columns: TableColumnProps<any>[] = [
         dataIndex: "title",
     },
     {
-        title:"Description",
-        dataIndex: "description",
-    },
-    {
-        title: "Cover page",
-        dataIndex: "imagePath",
-        render:(data)=>{
-            return data
-        }
-    },
-    {
-        title:"Time",
-        dataIndex: "length",
+        title:"Stream Source",
+        dataIndex: "streamSource",
     },
     {
         title:"Upload time",
         dataIndex: "createDate",
-    },
-    {
-        title:"Like",
-        dataIndex: "likeCount",
-    },
-
+        render:(data)=>{
+           return moment(data).format("YYYY-MM-DD")
+        }
+    }
 ]

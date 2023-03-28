@@ -1,6 +1,6 @@
 import React, {FC, useState} from "react";
 import FormItem from "@/common/Form/formItem";
-import {Button, Col, Form, Input, Modal, notification, Row, Upload} from "antd";
+import {Button, Col, Form, Input, Modal, Row, Upload} from "antd";
 import {useForm} from "antd/es/form/Form";
 import {PaperClipOutlined} from "@ant-design/icons";
 import {UploadFile} from "antd/es/upload/interface";
@@ -13,7 +13,7 @@ interface IProps{
     onOk:()=>void;
     classificationId:string;
 }
-const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
+const CreateStream:FC<IProps> = ({onOk,visible,classificationId}) => {
     const [form] = useForm()
     const [imgList,setImgList] = useState<UploadFile[]>([])
     const [loading,setLoading] = useState<boolean>(false)
@@ -34,7 +34,6 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
         setLoading(true)
         reqAndReload(streamService.StreamCreate({}, formData as any),
             () => {
-            notification.success({message: "配置已更新"});
             onOk();
             setLoading(false)
         });
@@ -42,7 +41,7 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
     }
     return <Modal
         confirmLoading={loading}
-        title={<div style={{color:"#fff",fontWeight:550}}>Create Video</div>}
+        title={<div style={{color:"#fff",fontWeight:550}}>Create Stream</div>}
         visible={visible}
         onCancel={ onCancel}
         onOk={onFinish}
@@ -85,4 +84,4 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
     </Modal>
 }
 
-export default CreateVideo;
+export default CreateStream;

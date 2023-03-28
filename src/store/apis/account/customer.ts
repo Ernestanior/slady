@@ -55,7 +55,51 @@ class CustomerAPI {
         return config;
     }
 
+    CustomerStatus = (params: any, data: {ids:number[], status:number }) => {
+        const config: AxiosRequestConfig = {
+            url: '/api/customer/change-status',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
+    SubsList = (params: {customerId:number}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/api/subscription/customer/list',
+            method: 'get',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+    SubsModify = (params: {}, data: ISubsModify) => {
+        const config: AxiosRequestConfig = {
+            url: '/api/subscription/customer/modify',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+
 }
 
 export default CustomerAPI;
 
+interface ISubsModify{
+    customerId:number;
+    subscriptionItemList:ISubscriptionItem[]
+}
+export interface ISubscriptionItem{
+    classificationId:number;
+    period:number;
+    status:number;
+}

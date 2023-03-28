@@ -18,7 +18,7 @@ class AuthAPI {
      */
     Login = (params: ILoginParams, data: ILoginForm) => {
         const config: AxiosRequestConfig = {
-            url: '/auth/login',
+            url: '/api/auth/login',
             method: 'post',
             params,
             data
@@ -48,7 +48,7 @@ class AuthAPI {
      */
     Regist = (params: ILogoutParams, data: {}) => {
         const config: AxiosRequestConfig = {
-            url: '/auth/regist',
+            url: '/api/auth/regist',
             method: 'put',
             params,
             data
@@ -61,7 +61,7 @@ class AuthAPI {
      */
     ViewTwoFactorAuth = (params: {}, data: {}) => {
         const config: AxiosRequestConfig = {
-            url: '/user/view/two-factor-auth',
+            url: '/api/user/view/two-factor-auth',
             method: 'get',
             params,
             data
@@ -76,7 +76,7 @@ class AuthAPI {
      */
     EnableTwoFactorAuth = (params: {}, data: any) => {
         const config: AxiosRequestConfig = {
-            url: '/user/enable/two-factor-auth',
+            url: '/api/user/enable/two-factor-auth',
             method: 'put',
             params,
             data
@@ -88,7 +88,7 @@ class AuthAPI {
 
     DisableTwoFactorAuth = (params: {}, data: {}) => {
         const config: AxiosRequestConfig = {
-            url: '/user/disable/two-factor-auth',
+            url: '/api/user/disable/two-factor-auth',
             method: 'put',
             params,
             data
@@ -104,7 +104,7 @@ class AuthAPI {
      */
     validateTwoFactorPin = (params: {}, data: {}) => {
         const config: any = {
-            url: '/user/validate/two-factor-pin',
+            url: '/api/user/validate/two-factor-pin',
             method: 'put',
             params,
             data,
