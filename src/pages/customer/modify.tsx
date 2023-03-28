@@ -4,9 +4,9 @@ import {useForm} from "antd/es/form/Form";
 import {PaperClipOutlined} from "@ant-design/icons";
 import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
-import {reqAndReload} from "@/common/utils";
 import {customerService} from "@/store/apis/account";
 import moment from "moment";
+import request from "@/store/request";
 
 interface IProps{
     visible:boolean;
@@ -36,14 +36,14 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
         formData.append('postCode', videoForm.postCode);
         formData.append('address', videoForm.address);
         formData.append('unitNumber', videoForm.unitNumber);
-        formData.append('status', videoForm.status==="true"?"1":"0");
+        formData.append('status', videoForm.status===true?"1":"0");
         // formData.append('subscriptionItemList', JSON.stringify(videoForm.subscription));
         setLoading(true)
-        reqAndReload(customerService.CustomerModify({}, formData as any),
-            () => {
-            onOk();
-            setLoading(false)
-        });
+        const res = await request(customerService.CustomerModify({}, formData as any))
+        setLoading(false)
+        if (res.isSuccess){
+            onOk()
+        }
     }
     useEffect(()=>{
         data && form.setFieldsValue({...data,birthday:moment(data.birthday)})

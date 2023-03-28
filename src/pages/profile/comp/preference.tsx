@@ -11,9 +11,13 @@ const Preference: FC = () => {
     const [edit,setEdit]=useState<boolean>(false)
     const [email,setEmail] = useState<string>("")
     const userInfo = useAccountInfo();
+
     const onSubmit=useCallback(async ()=>{
+        const formData = new FormData()
         if (userInfo){
-            const config = adminService.UserModify({},{id:userInfo.id,email})
+            formData.append('id', userInfo.id+"");
+            formData.append('email', email);
+            const config = adminService.UserModify({},formData as any)
             reqAndReload(config, () => {
                 accountService.reloadInfo();
                 setEdit(false)

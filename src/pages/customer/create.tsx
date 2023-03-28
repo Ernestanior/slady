@@ -4,7 +4,6 @@ import {useForm} from "antd/es/form/Form";
 import {PaperClipOutlined} from "@ant-design/icons";
 import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
-import {reqAndReload} from "@/common/utils";
 import {customerService} from "@/store/apis/account";
 import {classificationService} from "@/store/apis/content";
 import {from} from "rxjs";
@@ -59,11 +58,11 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
             formData.append(`subscriptionItemList[${index}].status`,videoForm.subscription.includes(item.id)?'1':'0')
         })
         setLoading(true)
-        reqAndReload(customerService.CustomerCreate({}, formData as any),
-            () => {
-            onOk();
-            setLoading(false)
-        });
+        const res = await request(customerService.CustomerCreate({}, formData as any))
+        setLoading(false)
+        if (res.isSuccess){
+            onOk()
+        }
     }
     return <Modal
         confirmLoading={loading}

@@ -5,8 +5,8 @@ import {useForm} from "antd/es/form/Form";
 import {PaperClipOutlined} from "@ant-design/icons";
 import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
-import {reqAndReload} from "@/common/utils";
 import {adminService} from "@/store/apis/account";
+import request from "@/store/request";
 
 interface IProps{
     visible:boolean;
@@ -29,12 +29,11 @@ const CreateAdmin:FC<IProps> = ({onOk,visible}) => {
         formData.append('email', videoForm.email);
         formData.append('password', videoForm.password);
         setLoading(true)
-        reqAndReload(adminService.UserCreate({}, formData as any),
-            () => {
-            onOk();
-            setLoading(false)
-        });
-
+        const res = await request(adminService.UserCreate({}, formData as any))
+        setLoading(false)
+        if (res.isSuccess){
+            onOk()
+        }
     }
     return <Modal
         confirmLoading={loading}

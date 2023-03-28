@@ -1,12 +1,12 @@
 import React, {FC, useState} from "react";
 import FormItem from "@/common/Form/formItem";
-import {Button, Col, Form, Input, Modal, notification, Row, Upload} from "antd";
+import {Button, Col, Form, Input, Modal, Row, Upload} from "antd";
 import {useForm} from "antd/es/form/Form";
 import {PaperClipOutlined} from "@ant-design/icons";
 import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
 import {videoService} from "@/store/apis/content";
-import {reqAndReload} from "@/common/utils";
+import request from "@/store/request";
 
 interface IProps{
     visible:boolean;
@@ -23,6 +23,7 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
         onOk()
     }
     const onFinish =async ()=>{
+        setLoading(true)
         const videoForm = form.getFieldsValue()
         const formData = new FormData()
         fileList.forEach(file => {
@@ -35,13 +36,11 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
         formData.append('title', videoForm.title);
         formData.append('classificationId', classificationId);
         setLoading(true)
-        reqAndReload(videoService.VideoCreate({}, formData as any),
-            () => {
-            notification.success({message: "配置已更新"});
-            onOk();
-            setLoading(false)
-        });
-
+        const res = await request(videoService.VideoCreate({}, formData as any))
+        setLoading(false)
+        if (res.isSuccess){
+            onOk()
+        }
     }
     return <Modal
         confirmLoading={loading}

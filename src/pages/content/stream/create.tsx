@@ -6,7 +6,7 @@ import {PaperClipOutlined} from "@ant-design/icons";
 import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
 import {streamService} from "@/store/apis/content";
-import {reqAndReload} from "@/common/utils";
+import request from "@/store/request";
 
 interface IProps{
     visible:boolean;
@@ -22,6 +22,7 @@ const CreateStream:FC<IProps> = ({onOk,visible,classificationId}) => {
         onOk()
     }
     const onFinish =async ()=>{
+        setLoading(true)
         const videoForm = form.getFieldsValue()
         const formData = new FormData()
         imgList.forEach(img => {
@@ -31,12 +32,11 @@ const CreateStream:FC<IProps> = ({onOk,visible,classificationId}) => {
         formData.append('title', videoForm.title);
         formData.append('streamSource', videoForm.streamSource);
         formData.append('classificationId', classificationId);
-        setLoading(true)
-        reqAndReload(streamService.StreamCreate({}, formData as any),
-            () => {
-            onOk();
-            setLoading(false)
-        });
+        const res = await request(streamService.StreamCreate({}, formData as any))
+        setLoading(false)
+        if (res.isSuccess){
+            onOk()
+        }
 
     }
     return <Modal
