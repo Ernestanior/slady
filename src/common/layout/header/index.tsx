@@ -23,7 +23,7 @@ const HeaderPlx:FC = () => {
                         type="iconai-i"
                     />
                     <UserPopover />
-                    <ConfirmInfo info="确定退出登录？" submit={() => { accountService.autoLogout() }}>
+                    <ConfirmInfo info="Confirm logout?" submit={() => { accountService.autoLogout() }}>
                         <IconFont type="iconicon" style={{fontSize:24}}/>
                     </ConfirmInfo>
                 </Space>

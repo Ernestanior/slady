@@ -10,6 +10,7 @@ import {INormalEvent} from "@/common/interface";
 import CreateVideo from "@/pages/content/video/create";
 import {from} from "rxjs";
 import request from "@/store/request";
+import moment from "moment";
 
 const {TabPane} = Tabs;
 const Video:FC = () => {
@@ -126,10 +127,14 @@ const columns: TableColumnProps<any>[] = [
     {
         title:"Time",
         dataIndex: "length",
+
     },
     {
         title:"Upload time",
         dataIndex: "createDate",
+        render:(data)=>{
+            return moment(data).format("YYYY-MM-DD")
+        }
     },
 
 ];
