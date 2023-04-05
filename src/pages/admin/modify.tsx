@@ -71,7 +71,8 @@ const ModifyAdmin:FC<IProps> = ({onOk,visible,data}) => {
                             setImgList(newFileList);
                         }}
                         beforeUpload={(file)=>{
-                            setImgList([...imgList, file]);
+                            // setImgList([...imgList, file]);
+                            setImgList([file]);
                             return false;
                         }}
                         fileList={imgList}

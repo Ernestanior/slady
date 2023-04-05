@@ -69,7 +69,7 @@ const SubsCustomer:FC<IProps> = ({onOk,visible,data}) => {
             <span style={{flex:1}}>Period</span>
         </section>
         {!!subs.length && subs.map((item:any)=><section key={item.id} style={{padding:"10px 0",display:"flex",alignItems:"center"}}>
-                <Checkbox style={{flex:1}} value={item.classificationId} checked={!!item.status} onChange={checkboxChange}>
+                <Checkbox style={{flex:1}} value={item.classificationId} checked={!!item.status} onChange={checkboxChange} disabled={!item.alterableFlag}>
                     {item.classificationName}
                 </Checkbox>
             {!!item.status && <div style={{flex:1}} >

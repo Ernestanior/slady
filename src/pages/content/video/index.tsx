@@ -22,7 +22,7 @@ const Video:FC = () => {
         })
         const sub = from(request(config)).subscribe((res:any) => {
             if(res.isSuccess){
-                setSubs(res.result.content)
+                setSubs(res.result.content.filter((item:any)=>item.id!==1))
             }
         })
         return () => sub.unsubscribe()

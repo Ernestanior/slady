@@ -40,6 +40,7 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
         const res = await request(videoService.VideoCreate({}, formData as any))
         setLoading(false)
         if (res.isSuccess){
+            form.resetFields()
             reloadMainList();
             onOk()
         }
@@ -73,7 +74,8 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
                             setFileList(newFileList);
                         }}
                         beforeUpload={(file)=>{
-                            setFileList([...fileList, file]);
+                            // setFileList([...fileList, file]);
+                            setFileList([file]);
                             return false;
                         }}
                         maxCount={1}
@@ -93,7 +95,8 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
                             setImgList(newFileList);
                         }}
                         beforeUpload={(file)=>{
-                            setImgList([...imgList, file]);
+                            // setImgList([...imgList, file]);
+                            setImgList([file]);
                             return false;
                         }}
                         fileList={imgList}

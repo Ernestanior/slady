@@ -39,6 +39,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
     };
     const onFinish =async ()=>{
         const videoForm = form.getFieldsValue()
+        console.log(videoForm)
         const formData = new FormData()
         imgList.forEach(img => {
             formData.append('profileImage', img as RcFile);
@@ -62,6 +63,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
         const res = await request(customerService.CustomerCreate({}, formData as any))
         setLoading(false)
         if (res.isSuccess){
+            form.resetFields()
             reloadMainList();
             onOk()
         }
@@ -76,7 +78,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
         cancelText={'Cancel'}
         width={600}
     >
-        <Form form={form} className="email-new">
+        <Form form={form} className="email-new" initialValues={{status:1}}>
             <Form.Item name="email" label={<span className="login-label">Login Email</span>}>
                 <Input />
             </Form.Item>
@@ -92,7 +94,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
                     { value: 'female', label: 'Female' },
                 ]}/>
             </Form.Item>
-            <Form.Item name="ic" label={<span className="login-label">NIRC No.</span>}>
+            <Form.Item name="ic" label={<span className="login-label">NRIC No.</span>}>
                 <Input />
             </Form.Item>
             <Form.Item name="contact" label={<span className="login-label">Contact No.</span>}>
@@ -109,7 +111,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
             </Form.Item>
             <Form.Item name="subscription" label="Subscriptions">
                 <Checkbox.Group>
-                    {subs.map((item)=><Checkbox key={item.id} value={item.id} >
+                    {subs.map((item)=><Checkbox key={item.id} value={item.id} defaultChecked={item.defaultStatus} disabled={!item.alterableFlag}>
                             {item.name}
                         </Checkbox>
                     )}
@@ -118,7 +120,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
             <Form.Item name="period" label="Period" >
                 <InputNumber/>
             </Form.Item>
-            <Form.Item name="status" label="Status" >
+            <Form.Item name="status" label="Status" valuePropName="checked">
                 <Switch/>
             </Form.Item>
             <Row gutter={15} style={{marginTop:20,marginBottom:30}}>
@@ -132,7 +134,8 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
                             setImgList(newFileList);
                         }}
                         beforeUpload={(file)=>{
-                            setImgList([...imgList, file]);
+                            // setImgList([...imgList, file]);
+                            setImgList([file]);
                             return false;
                         }}
                         fileList={imgList}

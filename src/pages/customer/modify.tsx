@@ -19,7 +19,6 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
     const [imgList,setImgList] = useState<UploadFile[]>([])
     const [loading,setLoading] = useState<boolean>(false)
     const onCancel=()=>{
-        form.resetFields()
         onOk()
     }
     const onFinish =async ()=>{
@@ -48,6 +47,7 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
         }
     }
     useEffect(()=>{
+        console.log(data)
         data && form.setFieldsValue({...data,birthday:moment(data.birthday)})
     },[form,data])
     return <Modal
@@ -60,7 +60,7 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
         cancelText={'Cancel'}
         width={600}
     >
-        <Form form={form} className="email-new">
+        {data && <Form form={form} className="email-new">
             <Form.Item name="email" label={<span className="login-label">Login Email</span>}>
                 <Input />
             </Form.Item>
@@ -73,7 +73,7 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
                     { value: 'female', label: 'Female' },
                 ]}/>
             </Form.Item>
-            <Form.Item name="ic" label={<span className="login-label">NIRC No.</span>}>
+            <Form.Item name="ic" label={<span className="login-label">NRIC No.</span>}>
                 <Input />
             </Form.Item>
             <Form.Item name="contact" label={<span className="login-label">Contact No.</span>}>
@@ -88,8 +88,8 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
             <Form.Item name="unitNumber" label={<span className="login-label">unitNumber</span>}>
                 <Input />
             </Form.Item>
-            <Form.Item name="status" label="Status" >
-                <Switch />
+            <Form.Item name="status" valuePropName="checked" label="Status" >
+                <Switch/>
             </Form.Item>
             <Row gutter={15} style={{marginTop:20,marginBottom:30}}>
                 <Col>Profile Image</Col>
@@ -102,7 +102,8 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
                             setImgList(newFileList);
                         }}
                         beforeUpload={(file)=>{
-                            setImgList([...imgList, file]);
+                            // setImgList([...imgList, file]);
+                            setImgList([file]);
                             return false;
                         }}
                         fileList={imgList}
@@ -111,7 +112,7 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
                     </Upload>
                 </Col>
             </Row>
-        </Form>
+        </Form>}
     </Modal>
 }
 

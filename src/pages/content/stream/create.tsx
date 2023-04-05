@@ -36,6 +36,7 @@ const CreateStream:FC<IProps> = ({onOk,visible,classificationId}) => {
         const res = await request(streamService.StreamCreate({}, formData as any))
         setLoading(false)
         if (res.isSuccess){
+            form.resetFields()
             reloadMainList();
             onOk()
         }
@@ -72,7 +73,8 @@ const CreateStream:FC<IProps> = ({onOk,visible,classificationId}) => {
                             setImgList(newFileList);
                         }}
                         beforeUpload={(file)=>{
-                            setImgList([...imgList, file]);
+                            // setImgList([...imgList, file]);
+                            setImgList([file]);
                             return false;
                         }}
                         fileList={imgList}

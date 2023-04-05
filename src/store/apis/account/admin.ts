@@ -16,7 +16,7 @@ class AdminAPI {
          */
         UserList = (params: { }, data: IUserList) => {
             const config: AxiosRequestConfig = {
-                url: '/api/user/list',
+                url: '/api/user/page',
                 method: 'post',
                 params,
                 data

@@ -34,6 +34,7 @@ const CreateAdmin:FC<IProps> = ({onOk,visible}) => {
         setLoading(false)
         if (res.isSuccess){
             reloadMainList();
+            form.resetFields();
             onOk()
         }
     }
@@ -66,7 +67,8 @@ const CreateAdmin:FC<IProps> = ({onOk,visible}) => {
                             setImgList(newFileList);
                         }}
                         beforeUpload={(file)=>{
-                            setImgList([...imgList, file]);
+                            // setImgList([...imgList, file]);
+                            setImgList([file]);
                             return false;
                         }}
                         fileList={imgList}
