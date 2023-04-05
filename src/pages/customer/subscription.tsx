@@ -4,8 +4,8 @@ import {useForm} from "antd/es/form/Form";
 import {customerService} from "@/store/apis/account";
 import {from} from "rxjs";
 import request from "@/store/request";
-import {reqAndReload} from "@/common/utils";
 import {ISubscriptionItem} from "@/store/apis/account/customer";
+import {reloadMainList} from "@/common/template";
 
 interface IProps{
     visible:boolean;
@@ -46,11 +46,15 @@ const SubsCustomer:FC<IProps> = ({onOk,visible,data}) => {
     }
     const onFinish =async ()=>{
         setLoading(true)
-        reqAndReload(customerService.SubsModify({}, {customerId:data.id,subscriptionItemList:subs} ),
-            () => {
-            onOk();
+        const config = customerService.SubsModify({}, {customerId:data.id,subscriptionItemList:subs})
+        from(request(config)).subscribe(res => {
             setLoading(false)
-        });
+            if(res.isSuccess){
+                reloadMainList();
+                onOk()
+            }
+        })
+
     }
 
     return <Modal
@@ -77,7 +81,7 @@ const SubsCustomer:FC<IProps> = ({onOk,visible,data}) => {
                     {/*<DatePicker disabledDate={disabledDate} value={moment(item.expiryDate)} onChange={(e)=>timerChange(e,item.classificationId)}/>*/}
                 </div>}
             {!!item.status && <div style={{flex:1}} >
-                <InputNumber value={item.period} onChange={(e)=>dateChange(e,item.classificationId)}/>
+                <InputNumber min={1} value={item.period} onChange={(e)=>dateChange(e,item.classificationId)}/>
             </div>}
         </section>
 

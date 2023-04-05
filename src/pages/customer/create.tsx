@@ -78,7 +78,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
         cancelText={'Cancel'}
         width={600}
     >
-        <Form form={form} className="email-new" initialValues={{status:1}}>
+        <Form form={form} className="email-new" initialValues={{status:1,subscription:[1]}}>
             <Form.Item name="email" label={<span className="login-label">Login Email</span>}>
                 <Input />
             </Form.Item>

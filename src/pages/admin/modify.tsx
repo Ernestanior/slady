@@ -30,7 +30,7 @@ const ModifyAdmin:FC<IProps> = ({onOk,visible,data}) => {
         });
         formData.append('id', data.id+'');
         formData.append('email', videoForm.email || "");
-        formData.append('password', videoForm.password || "");
+        // formData.append('password', videoForm.password || "");
         setLoading(true)
         const res = await request(adminService.UserModify({}, formData as any))
         setLoading(false)
@@ -57,9 +57,9 @@ const ModifyAdmin:FC<IProps> = ({onOk,visible,data}) => {
             <FormItem name="email" label="Email">
                 <Input />
             </FormItem>
-            <FormItem name="password" label="Password">
-                <Input.Password />
-            </FormItem>
+            {/*<FormItem name="password" label="Password">*/}
+            {/*    <Input.Password />*/}
+            {/*</FormItem>*/}
             <Row gutter={15} style={{marginTop:20,marginBottom:30}}>
                 <Col>Profile Image</Col>
                 <Col>
