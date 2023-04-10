@@ -123,7 +123,7 @@ const columns: TableColumnProps<any>[] = [
             </Tooltip> || '-'
     },
     {
-        title: "Cover page",
+        title: "Image Path",
         dataIndex: "imagePath",
         render:(data,item)=>{
             return <a rel="noreferrer" target='_blank' href={"https://stg-gp-media-svc.greypanel.com/media"+item.contentPath}>

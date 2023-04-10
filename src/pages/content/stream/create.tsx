@@ -27,7 +27,7 @@ const CreateStream:FC<IProps> = ({onOk,visible,classificationId}) => {
         const videoForm = form.getFieldsValue()
         const formData = new FormData()
         imgList.forEach(img => {
-            formData.append('coverPage', img as RcFile);
+            formData.append('imagePath', img as RcFile);
         });
         formData.append('description', videoForm.description || "");
         formData.append('title', videoForm.title || "");

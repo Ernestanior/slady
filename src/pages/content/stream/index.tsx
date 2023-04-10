@@ -110,13 +110,7 @@ const columns: TableColumnProps<any>[] = [
         title:"Name",
         dataIndex: "title",
     },
-    {
-        title:"Image Path",
-        dataIndex: "imagePath",
-        render:(data)=>{
-            return <img alt="" src={"https://stg-gp-media-svc.greypanel.com/media"+data} style={{width:"100%",height:"100%"}}/>
-        }
-    },
+
     {
         title:"Description",
         dataIndex: "description",
@@ -127,6 +121,13 @@ const columns: TableColumnProps<any>[] = [
             <Tooltip placement={"topLeft"} title={data} >
                 <span>{data}</span>
             </Tooltip> || '-'
+    },
+    {
+        title:"Image Path",
+        dataIndex: "imagePath",
+        render:(data)=>{
+            return <img alt="" src={"https://stg-gp-media-svc.greypanel.com/media"+data} style={{width:"100%",height:"100%"}}/>
+        }
     },
     {
         title:"Stream Source",
