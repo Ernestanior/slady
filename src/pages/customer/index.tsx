@@ -131,7 +131,7 @@ const CustomerList:FC = () => {
         />
         <CreateCustomer onOk={()=>setCreateFlag(false)} visible={createFlag}></CreateCustomer>
         <ModifyCustomer onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyCustomer>
-        <SubsCustomer onOk={()=>setSubsFlag(false)} visible={subsFlag} data={selectData}></SubsCustomer>
+        <SubsCustomer onOk={()=>{setSubsFlag(false);setSelectData(undefined)}} visible={subsFlag} data={selectData}></SubsCustomer>
     </section>
 }
 

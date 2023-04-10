@@ -41,6 +41,7 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
         setLoading(false)
         if (res.isSuccess){
             form.resetFields()
+            setImgList([])
             reloadMainList();
             onOk()
         }
@@ -81,6 +82,7 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
                         maxCount={1}
                         fileList={fileList}>
                         <Button icon={<PaperClipOutlined />}/>
+                        <span style={{marginLeft:10}}>(Maximum 500MB. Supported video format: mp4, m4v, mov)</span>
                     </Upload>
                 </Col>
             </Row>
@@ -102,6 +104,7 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
                         fileList={imgList}
                         maxCount={1}>
                         <Button icon={<PaperClipOutlined />}/>
+                        <span style={{marginLeft:10}}>(Supported image format: png, jpg, jpeg, svg)</span>
                     </Upload>
                 </Col>
             </Row>

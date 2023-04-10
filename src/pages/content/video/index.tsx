@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useMemo, useState} from "react";
 import Template from "@/common/template";
 import {classificationService, videoService} from "@/store/apis/content";
-import { Form, Input, notification, TableColumnProps, Tabs} from "antd";
+import {Form, Input, notification, TableColumnProps, Tabs, Tooltip} from "antd";
 import FormItem from "@/common/Form/formItem";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
@@ -114,7 +114,13 @@ const columns: TableColumnProps<any>[] = [
     {
         title:"Description",
         dataIndex: "description",
-        render:(data)=>data || '-'
+        ellipsis:{
+            showTitle:false
+        },
+        render:(data)=>
+                <Tooltip placement={"topLeft"} title={data} >
+                <span>{data}</span>
+            </Tooltip> || '-'
     },
     {
         title: "Cover page",
@@ -133,7 +139,7 @@ const columns: TableColumnProps<any>[] = [
         title:"Upload time",
         dataIndex: "createDate",
         render:(data)=>{
-            return moment(data).format("YYYY-MM-DD")
+            return moment(data).format("YYYY-MM-DD HH:mm:ss")
         }
     },
 

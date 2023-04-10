@@ -37,6 +37,7 @@ const CreateStream:FC<IProps> = ({onOk,visible,classificationId}) => {
         setLoading(false)
         if (res.isSuccess){
             form.resetFields()
+            setImgList([])
             reloadMainList();
             onOk()
         }
@@ -80,6 +81,7 @@ const CreateStream:FC<IProps> = ({onOk,visible,classificationId}) => {
                         fileList={imgList}
                         maxCount={1}>
                         <Button icon={<PaperClipOutlined />}/>
+                        <span style={{marginLeft:10}}>(Supported image format: png, jpg, jpeg, svg)</span>
                     </Upload>
                 </Col>
             </Row>

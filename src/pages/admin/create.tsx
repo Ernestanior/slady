@@ -74,7 +74,9 @@ const CreateAdmin:FC<IProps> = ({onOk,visible}) => {
                         fileList={imgList}
                         maxCount={1}>
                         <Button icon={<PaperClipOutlined />}/>
+                        <span style={{marginLeft:10}}>(Supported image format: png, jpg, jpeg, svg)</span>
                     </Upload>
+
                 </Col>
             </Row>
         </Form>

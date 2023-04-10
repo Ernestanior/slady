@@ -1,5 +1,5 @@
 import {BehaviorSubject, from, skip, Subject} from "rxjs";
-import {IAccountInfo, ISaleInfo} from "./interface";
+import {IAccountInfo} from "./interface";
 import {ICallback} from "@/common/interface";
 import request from "@/store/request";
 import {userService} from "@/store/apis/account";
@@ -23,7 +23,6 @@ export enum E_LOGIN_STATE{
  */
 class Account{
     readonly info$ = new BehaviorSubject<IAccountInfo | null>(null);
-    readonly saleInfo$ = new BehaviorSubject<ISaleInfo | null>(null);
     readonly loginState$ = new BehaviorSubject<E_LOGIN_STATE>(E_LOGIN_STATE.pending);
     /** 二级验证 */
     readonly auth2FAuth$ = new BehaviorSubject(true);
@@ -69,8 +68,8 @@ class Account{
 
     autoLogout = () => {
         removeToken();
-        this.info$.next(null)
-        this.saleInfo$.next(null)
+        // this.info$.next(null)
+        window.location.reload()
     }
 
     private sessionExpired$ = new Subject<boolean>();

@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useMemo, useState} from "react";
 import Template from "@/common/template";
 import {classificationService, streamService} from "@/store/apis/content";
-import { Form, Input, notification, TableColumnProps, Tabs} from "antd";
+import {Form, Input, notification, TableColumnProps, Tabs, Tooltip} from "antd";
 import FormItem from "@/common/Form/formItem";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
@@ -111,6 +111,24 @@ const columns: TableColumnProps<any>[] = [
         dataIndex: "title",
     },
     {
+        title:"Image Path",
+        dataIndex: "imagePath",
+        render:(data)=>{
+            return <img alt="" src={"https://stg-gp-media-svc.greypanel.com/media"+data} style={{width:"100%",height:"100%"}}/>
+        }
+    },
+    {
+        title:"Description",
+        dataIndex: "description",
+        ellipsis:{
+            showTitle:false
+        },
+        render:(data)=>
+            <Tooltip placement={"topLeft"} title={data} >
+                <span>{data}</span>
+            </Tooltip> || '-'
+    },
+    {
         title:"Stream Source",
         dataIndex: "streamSource",
     },
@@ -118,7 +136,7 @@ const columns: TableColumnProps<any>[] = [
         title:"Upload time",
         dataIndex: "createDate",
         render:(data)=>{
-           return moment(data).format("YYYY-MM-DD")
+           return moment(data).format("YYYY-MM-DD HH:mm:ss")
         }
     }
 ]

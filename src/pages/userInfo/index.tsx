@@ -11,12 +11,6 @@ const UserInfo:FC = () => {
         <br/>
         <Row gutter={[15, 15]}>
             <Col span={6}>
-                User Name
-            </Col>
-            <Col span={18}>
-                {userInfo && userInfo.name}
-            </Col>
-            <Col span={6}>
                 Login Email
             </Col>
             <Col span={18}>
