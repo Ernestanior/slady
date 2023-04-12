@@ -105,7 +105,7 @@ const CustomerList:FC = () => {
                         // deleteCustomer(data);
                         const value = {
                             title: "Delete",
-                            content: `Confirm delete customer: ${data.name} ？`,
+                            content: `Confirm delete: ${data.name} ？`,
                             onOk: () => {
                                 const config = customerService.CustomerDelete({}, [data.id]);
                                 reqAndReload(config, () => notification.success({message: "Delete Success"}));
