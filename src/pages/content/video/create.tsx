@@ -42,6 +42,7 @@ const CreateVideo:FC<IProps> = ({onOk,visible,classificationId}) => {
         if (res.isSuccess){
             form.resetFields()
             setImgList([])
+            setFileList([])
             reloadMainList();
             onOk()
         }

@@ -21,7 +21,7 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
     },
     {
         url: '/customer',
-        text: "Customers",
+        text: "Subscriber",
         icon:"icongeren2"
     },
     {

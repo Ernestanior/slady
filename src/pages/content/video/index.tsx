@@ -126,8 +126,8 @@ const columns: TableColumnProps<any>[] = [
         title: "Image Path",
         dataIndex: "imagePath",
         render:(data,item)=>{
-            return <a rel="noreferrer" target='_blank' href={"https://stg-gp-media-svc.greypanel.com/media"+item.contentPath}>
-                <img alt="" style={{width:250}}  src={"https://stg-gp-media-svc.greypanel.com/media"+data}></img>
+            return <a rel="noreferrer" target='_blank' href={"https://stg-media-web.k4t8q.com/media"+item.contentPath}>
+                <img alt="" style={{width:250}}  src={"https://stg-media-web.k4t8q.com/media"+data}></img>
             </a> }
     },
     {

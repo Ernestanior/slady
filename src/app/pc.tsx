@@ -6,7 +6,6 @@ import ModalF from "@/common/modal/modalF";
 
 function PC() {
     const languagePackage = useLanguage();
-
     if (!languagePackage) {
         return null;
     }

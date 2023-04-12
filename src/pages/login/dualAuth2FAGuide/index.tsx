@@ -25,7 +25,7 @@ const DualAuth2FAGuide: FC = () => {
         <Layout className={isMobile?"succeed-guide-page-mobile":"succeed-guide-page"}>
             <section className="succeed-guide-main-con">
                 <header>
-                    欢迎登录Greypanel帐户
+                    welcome
                 </header>
                 <div style={{ textAlign: "center" }} className="mgTop25">
                     <CheckCircleTwoTone
@@ -33,7 +33,7 @@ const DualAuth2FAGuide: FC = () => {
                         twoToneColor="#62CA32"
                     />
                     <p className="mgTop15">
-                        登录成功
+                        Login success
                     </p>
                 </div>
                 <div className="dual-auth-2fa-con mgTop15">
