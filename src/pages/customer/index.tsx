@@ -6,12 +6,13 @@ import Template from "@/common/template";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
 import FormItem from "@/common/Form/formItem";
-import {Input, notification} from "antd";
+import {Input, notification, Tooltip} from "antd";
 import CreateCustomer from "@/pages/customer/create";
 import ModifyCustomer from "@/pages/customer/modify";
 import {E_COLOR} from "@/common/const";
 import Status from "@/common/status";
 import SubsCustomer from "@/pages/customer/subscription";
+import moment from "moment";
 const CustomerList:FC = () => {
     const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [editFlag,setEditFlag]=useState<boolean>(false)
@@ -71,6 +72,7 @@ const CustomerList:FC = () => {
                 {
                     text: "Modify",
                     event(data) {
+                        console.log(data)
                         setSelectData(data)
                         setEditFlag(true)
                     },
@@ -147,6 +149,21 @@ const columns = [
         title: "Status",
         render:(data:any)=>{
             return data?<Status color={E_COLOR.enable}>Enable</Status>:<Status color={E_COLOR.disable}>Disable</Status>
+        }
+    },
+    {
+        dataIndex: "probationStatus",
+        title: "ProbationStatus",
+        render:(data:any, item:any)=>{
+            console.log(item)
+            return <Tooltip title={<section>
+                <div>startDate:{item.probationStart?moment(item.probationStart).format('YYYY-MM-DD'):'unknow'}</div>
+                <div>endDate:{item.probationEnd?moment(item.probationEnd).format('YYYY-MM-DD'):'unknow'}</div>
+            </section>}>
+                {
+                    data?<Status color={E_COLOR.enable}>Enable</Status>:<Status color={E_COLOR.disable}>Disable</Status>
+                }
+            </Tooltip>
         }
     },
 ]

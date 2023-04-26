@@ -85,7 +85,20 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
             <Form.Item name="unitNumber" label={<span className="login-label">unitNumber</span>}>
                 <Input />
             </Form.Item>
+            {/*<Form.Item name="planId" label="Plan">*/}
+            {/*    <Select options={[{value:1,label:'monthly'},*/}
+            {/*        {value:2,label:'quarterly'},*/}
+            {/*        {value:3,label:'yearly'}]}/>*/}
+            {/*</Form.Item>*/}
+            {/*<Form.Item name="discountId" label="Discount" >*/}
+            {/*    <Select options={[{value:0,label:'-'},*/}
+            {/*        {value:1,label:'90% discount'},*/}
+            {/*        {value:2,label:'80% discount'}]}/>*/}
+            {/*</Form.Item>*/}
             <Form.Item name="status" valuePropName="checked" label="Status" >
+                <Switch/>
+            </Form.Item>
+            <Form.Item name="probationStatus" label="ProbationStatus" valuePropName="checked">
                 <Switch/>
             </Form.Item>
         </Form>}

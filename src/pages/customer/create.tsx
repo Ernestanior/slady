@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from "react";
-import {Button, Checkbox, Col, DatePicker, Form, Input, InputNumber, Modal, Row, Select, Switch, Upload} from "antd";
+import {Button, Checkbox, Col, DatePicker, Form, Input, Modal, Row, Select, Switch, Upload} from "antd";
 import {useForm} from "antd/es/form/Form";
 import {PaperClipOutlined} from "@ant-design/icons";
 import {UploadFile} from "antd/es/upload/interface";
@@ -53,7 +53,8 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
         formData.append('postCode', videoForm.postCode || "");
         formData.append('address', videoForm.address || "");
         formData.append('unitNumber', videoForm.unitNumber || "");
-        formData.append('period', videoForm.period || "");
+        formData.append('planId', videoForm.planId || 1);
+        formData.append('discountId', videoForm.discountId || 0);
         formData.append('status', videoForm.status?"1":"0");
         videoForm.subscription && subs && subs.forEach((item:any,index:number)=>{
             formData.append(`subscriptionItemList[${index}].classificationId`,item.id)
@@ -117,10 +118,20 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
                     )}
                 </Checkbox.Group>
             </Form.Item>
-            <Form.Item name="period" label="Period" >
-                <InputNumber/>
+            <Form.Item name="planId" label="Plan" initialValue={1}>
+                <Select options={[{value:1,label:'monthly'},
+                    {value:2,label:'quarterly'},
+                    {value:3,label:'yearly'}]}/>
+            </Form.Item>
+            <Form.Item name="discountId" label="Discount" initialValue={0}>
+                <Select options={[{value:0,label:'-'},
+                    {value:1,label:'90% discount'},
+                    {value:2,label:'80% discount'}]}/>
             </Form.Item>
             <Form.Item name="status" label="Status" valuePropName="checked">
+                <Switch/>
+            </Form.Item>
+            <Form.Item name="probationStatus" label="ProbationStatus" valuePropName="checked">
                 <Switch/>
             </Form.Item>
             <Row gutter={15} style={{marginTop:20,marginBottom:30}}>
