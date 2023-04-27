@@ -36,7 +36,8 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
         // formData.append('status', videoForm.status===true?"1":"0");
         // formData.append('subscriptionItemList', JSON.stringify(videoForm.subscription));
         setLoading(true)
-        const res = await request(customerService.CustomerModify({}, {...newData,id:data.id}))
+        console.log(newData)
+        const res = await request(customerService.CustomerModify({}, {...newData,id:data.id,probationStatus:newData.probationStatus?1:0}))
         setLoading(false)
         if (res.isSuccess){
             reloadMainList();

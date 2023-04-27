@@ -39,7 +39,6 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
     };
     const onFinish =async ()=>{
         const videoForm = form.getFieldsValue()
-        console.log(videoForm)
         const formData = new FormData()
         imgList.forEach(img => {
             formData.append('profileImage', img as RcFile);
@@ -56,6 +55,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
         formData.append('planId', videoForm.planId || 1);
         formData.append('discountId', videoForm.discountId || 0);
         formData.append('status', videoForm.status?"1":"0");
+        formData.append('probationStatus', videoForm.probationStatus?"1":"0");
         videoForm.subscription && subs && subs.forEach((item:any,index:number)=>{
             formData.append(`subscriptionItemList[${index}].classificationId`,item.id)
             formData.append(`subscriptionItemList[${index}].status`,videoForm.subscription.includes(item.id)?'1':'0')

@@ -155,7 +155,6 @@ const columns = [
         dataIndex: "probationStatus",
         title: "ProbationStatus",
         render:(data:any, item:any)=>{
-            console.log(item)
             return <Tooltip title={<section>
                 <div>startDate:{item.probationStart?moment(item.probationStart).format('YYYY-MM-DD'):'unknow'}</div>
                 <div>endDate:{item.probationEnd?moment(item.probationEnd).format('YYYY-MM-DD'):'unknow'}</div>
