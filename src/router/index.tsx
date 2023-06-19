@@ -20,36 +20,23 @@ const ProjectRouter:FC = () => {
     useEffect(() => {
         accountService.autoLogin()
     }, [])
-    if(loginState === E_LOGIN_STATE.pending){
-        // accountService.autoLogin()
-        return <div>Pending</div>;
-
-    }
-    if(loginState === E_LOGIN_STATE.fail){
-        return <Router history={historyService}>
-            <Switch>
-                <Route path="/login">
-                    <Login />
-                </Route>
-                <Route path="/signup">
-                    <SignUp />
-                </Route>
-                <Redirect to="/login" />
-            </Switch>
-        </Router>;
-    }
-
-    // if (!user2FAuthInfo) {
-    //     return (
-    //         <Router history={historyService}>
-    //             <Switch>
-    //                 <Route path="/verify-2fa">
-    //                     <DualAuth2FAGuide />
-    //                 </Route>
-    //                 <Redirect to="/verify-2fa" />
-    //             </Switch>
-    //         </Router>
-    //     )
+    // if(loginState === E_LOGIN_STATE.pending){
+    //     // accountService.autoLogin()
+    //     return <div>Pending</div>;
+    //
+    // }
+    // if(loginState === E_LOGIN_STATE.fail){
+    //     return <Router history={historyService}>
+    //         <Switch>
+    //             <Route path="/login">
+    //                 <Login />
+    //             </Route>
+    //             <Route path="/signup">
+    //                 <SignUp />
+    //             </Route>
+    //             <Redirect to="/login" />
+    //         </Switch>
+    //     </Router>;
     // }
 
     return <Suspense fallback={<LoadContext />}>

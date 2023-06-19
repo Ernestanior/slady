@@ -12,7 +12,12 @@ import CreateAdmin from "@/pages/admin/create";
 import ModifyAdmin from "@/pages/admin/modify";
 import Status from "@/common/status";
 import {E_COLOR} from "@/common/const";
-
+import item1 from '../../assets/1.jpg'
+import item2 from '../../assets/2.jpg'
+import item3 from '../../assets/3.jpg'
+import item4 from '../../assets/4.jpg'
+import item5 from '../../assets/5.jpg'
+import item6 from '../../assets/6.jpg'
 const AdminList: FC = () => {
     const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [editFlag,setEditFlag]=useState<boolean>(false)
@@ -30,12 +35,12 @@ const AdminList: FC = () => {
     }, []);
 
     const queryDataFunction = useCallback(async (filters) => {
-        const cusList = await request(adminService.UserList({}, {type:'admin',...filters}));
-        if (cusList.isSuccess && cusList.result) {
-            const data: any = cusList.result;
-            return data;
-        }
-        return null;
+        // const cusList = await request(adminService.UserList({}, {type:'admin',...filters}));
+        // if (cusList.isSuccess && cusList.result) {
+        //     const data: any = cusList.result;
+        //     return data;
+        // }
+        return staticData;
     }, []);
 
     const options: IOperationConfig = useMemo(() => {
@@ -136,14 +141,63 @@ export default AdminList;
 
 const columns: TableColumnProps<any>[] = [
     {
-        title: "Users",
-        dataIndex: "email",
+        title: "照片",
+        dataIndex: "pic",
+        render:(item)=>{
+            console.log(item)
+            switch (item){
+                case 1:
+                    return <img src={item1}/>
+                case 2:
+                    return <img src={item2}/>
+                case 3:
+                    return <img src={item3}/>
+                case 4:
+                    return <img src={item4}/>
+                case 5:
+                    return <img src={item5}/>
+                case 6:
+                    return <img src={item6}/>
+            }
+
+        }
+
     },
     {
-        dataIndex: "status",
-        title: "Status",
-        render:(data:any)=>{
-            return data?<Status color={E_COLOR.enable}>Enable</Status>:<Status color={E_COLOR.disable}>Disable</Status>
-        }
+        title: "设计编号",
+        dataIndex: "designId",
+    },
+    {
+        title: "库存",
+        dataIndex: "sum",
+    },
+    {
+        title: "价格",
+        dataIndex: "price",
     },
 ];
+const staticData = {
+    number:0,
+    numberOfElements:10,
+    size:10,
+    totalElements:16,
+    totalPages:6,
+    content:[
+        {designId:1, pic:1, sum:5, price:199},
+        {designId:2, pic:2, sum:5, price:199},
+        {designId:3, pic:6, sum:5, price:199},
+        {designId:4, pic:4, sum:5, price:199},
+        {designId:5, pic:5, sum:5, price:199},
+        {designId:6, pic:1, sum:5, price:199},
+        {designId:7, pic:2, sum:5, price:199},
+        {designId:8, pic:4, sum:5, price:199},
+        {designId:9, pic:4, sum:5, price:199},
+        {designId:10, pic:5, sum:5, price:199},
+        {designId:11, pic:6, sum:5, price:199},
+        {designId:12, pic:1, sum:5, price:199},
+        {designId:13, pic:2, sum:5, price:199},
+        {designId:14, pic:4, sum:5, price:199},
+        {designId:15, pic:5, sum:5, price:199},
+        {designId:16, pic:1, sum:5, price:199},
+    ]
+}

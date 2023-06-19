@@ -76,7 +76,7 @@ const Side:FC = () => {
                     </Menu.Item>
                 })
             }
-            <div style={{position:"absolute",bottom:20,left:20}}>{ process.env.REACT_APP_VERSION || ""}</div>
+            {/*<div style={{position:"absolute",bottom:20,left:20}}>{ process.env.REACT_APP_VERSION || ""}</div>*/}
         </Menu>
 
     </AntSide>

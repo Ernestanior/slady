@@ -38,7 +38,7 @@ export const createOptList = (
           },
         };
       },
-      title: (optEl || "Action") as any,
+      title: (optEl || "操作") as any,
       render: (_, record) => {
         if (renderFn) {
           return renderFn(record) ? (
