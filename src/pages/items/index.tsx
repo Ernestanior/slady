@@ -1,15 +1,15 @@
 import React, {FC, useCallback, useMemo, useState} from "react";
 import Template from "@/common/template";
 import {INormalEvent} from "@/common/interface";
-import {Input, notification, TableColumnProps} from "antd";
+import {Button, Input, notification, TableColumnProps} from "antd";
 import {adminService} from "@/store/apis/account";
 import { reqAndReload} from "@/common/utils";
 import request from "@/store/request";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
 import FormItem from "@/common/Form/formItem";
-import CreateAdmin from "@/pages/admin/create";
-import ModifyAdmin from "@/pages/admin/modify";
+import CreateAdmin from "@/pages/items/create";
+import ModifyAdmin from "@/pages/items/modify";
 import Status from "@/common/status";
 import {E_COLOR} from "@/common/const";
 import item1 from '../../assets/1.jpg'
@@ -18,6 +18,9 @@ import item3 from '../../assets/3.jpg'
 import item4 from '../../assets/4.jpg'
 import item5 from '../../assets/5.jpg'
 import item6 from '../../assets/6.jpg'
+import {RightOutlined} from "@ant-design/icons";
+import Filter from "@/common/template/filter";
+import Search from "antd/es/input/Search";
 const AdminList: FC = () => {
     const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [editFlag,setEditFlag]=useState<boolean>(false)
@@ -47,66 +50,26 @@ const AdminList: FC = () => {
         return [
             [
                 {
-                    text: "Disable",
-                    hide: (data) => data.status !== 1,
-                    event(data) {
-                        const value = {
-                            title: "Disable",
-                            content: `Confirm disable: ${data.name} ？`,
-                            onOk: () => {
-                                const config = adminService.UserStatus({}, {ids: [data.id],status:0});
-                                reqAndReload(config);
-                            }
-                        }
-                        msgModal.createEvent("modal", value)
-                    }
-                },
-                {
-                    text: "Enable",
-                    hide: (data) => data.status === 1,
-                    event(data) {
-                        const value = {
-                            title: "Enable",
-                            content: `Confirm enable: ${data.name} ？`,
-                            onOk: () => {
-                                const config = adminService.UserStatus({}, {ids: [data.id],status:1});
-                                reqAndReload(config);
-                            }
-                        }
-                        msgModal.createEvent("modal", value)
-                    }
-                },
-                {
-                    text: "Modify",
+                    text: "详情",
                     event(data) {
                         setSelectData(data)
                         setEditFlag(true)
                     },
                 },
-                // {
-                //     text: "Modify",
-                //     event(data) {
-                //         // historyService.push("/admin/create");
-                //         const value = {
-                //             title: "Edit",
-                //             api: adminService.UserModify,
-                //             id:data.id,
-                //             content: <section>
-                //                 <Form.Item name="email" label={<span className="login-label">Login Email</span>}>
-                //                     <Input />
-                //                 </Form.Item>
-                //             </section>,
-                //         }
-                //         msgModal.createEvent("modalF", value)
-                //     },
-                // },
                 {
-                    text: "Delete",
+                    text: "修改",
+                    event(data) {
+                        setSelectData(data)
+                        setEditFlag(true)
+                    },
+                },
+                {
+                    text: "删除",
                     event(data) {
                         // deleteCustomer(data);
                         const value = {
-                            title: "Delete",
-                            content: `Confirm delete user: ${data.email} ？`,
+                            title: "删除",
+                            content: `确定删除该商品: ${data.email} ？`,
                             onOk: () => {
                                 const config = adminService.UserDelete({}, [data.id]);
                                 reqAndReload(config, () => notification.success({message: "Delete Success"}));
@@ -120,17 +83,22 @@ const AdminList: FC = () => {
 
     return (
         <section>
-            <Template
-                filter={<FormItem span={5} noStyle name="keyWord">
-                    <Input/>
-                </FormItem>}
-                event={buttons}
-                columns={columns}
-                // queryData={query}
-                optList={options}
-                queryDataFunction={queryDataFunction}
-                rowKey="id"
-            />
+            <Search  style={{width:300,marginBottom:30,marginRight:30}} enterButton/>
+            <Button type={"primary"}>新增</Button>
+            <div style={{display:"flex",flexWrap:"wrap"}}>
+                {staticData.content.map((item)=><div style={{backgroundColor:"#fff",width:500,display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd"}}>
+                        <img style={{height:"100%"}} src={item.pic}/>
+                        <div style={{width:"100%",display:"flex",padding:15,justifyContent:"space-between"}}>
+                            <div>
+                                <h3>{item.designId}</h3>
+                                <div style={{marginBottom:5}}>库存：{item.sum}</div>
+                                价格：<span style={{color:"#fa9829"}}>${item.price}</span>
+                            </div>
+                            <a style={{display:"flex",alignItems:"center",color:"#b67c39",fontSize:15,fontWeight:600}}>详情<RightOutlined /></a>
+                        </div>
+                    </div>
+                )}
+            </div>
             <CreateAdmin onOk={()=>setCreateFlag(false)} visible={createFlag}></CreateAdmin>
             <ModifyAdmin onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyAdmin>
         </section>
@@ -181,23 +149,17 @@ const staticData = {
     numberOfElements:10,
     size:10,
     totalElements:16,
-    totalPages:6,
+    totalPages:2,
     content:[
-        {designId:1, pic:1, sum:5, price:199},
-        {designId:2, pic:2, sum:5, price:199},
-        {designId:3, pic:6, sum:5, price:199},
-        {designId:4, pic:4, sum:5, price:199},
-        {designId:5, pic:5, sum:5, price:199},
-        {designId:6, pic:1, sum:5, price:199},
-        {designId:7, pic:2, sum:5, price:199},
-        {designId:8, pic:4, sum:5, price:199},
-        {designId:9, pic:4, sum:5, price:199},
-        {designId:10, pic:5, sum:5, price:199},
-        {designId:11, pic:6, sum:5, price:199},
-        {designId:12, pic:1, sum:5, price:199},
-        {designId:13, pic:2, sum:5, price:199},
-        {designId:14, pic:4, sum:5, price:199},
-        {designId:15, pic:5, sum:5, price:199},
-        {designId:16, pic:1, sum:5, price:199},
+        {designId:"618-212", pic:item1, sum:5, price:199.01},
+        {designId:"618-212", pic:item2, sum:5, price:199.01},
+        {designId:"618-212", pic:item5, sum:5, price:199.01},
+        {designId:"618-212", pic:item4, sum:5, price:199.01},
+        {designId:"618-212", pic:item5, sum:5, price:199.01},
+        {designId:"618-212", pic:item6, sum:5, price:199.01},
+        {designId:"618-212", pic:item1, sum:5, price:199.01},
+        {designId:"618-212", pic:item2, sum:5, price:199.01},
+        {designId:"618-212", pic:item4, sum:5, price:199.01},
+
     ]
 }

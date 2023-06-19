@@ -15,38 +15,35 @@ interface IMultipleMenu extends IRoleLimitModule{
 
 const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
     {
-        url: '/customer',
+        url: '/staff',
         text: "员工管理",
-        icon:"icongeren2"
+        icon:"icon-customer"
     },
     {
         url: "/item",
         text: "商品",
-        icon:"icongeren2"
+        icon:"icon-shopping"
     },
     {
         text: "订单物流",
-        icon:"icongeren2",
-        childs: [
-            {
-                url: "/contents/slady",
-                text: "Slady一店"
-            },
-            {
-                url: "/contents/sl",
-                text: "SL二店"
-            },
-        ]
+        icon:"icon-order",
+        url: "/contents",
+
     },
     {
         url: "/top10",
-        icon:"icongeren2",
+        icon:"icon-top-raning",
         text: "爆款"
     },
     {
         url: "/bot10",
-        icon:"icongeren2",
-        text: "爆冷款"
+        icon:"icon-cry",
+        text: "冷款"
+    },
+    {
+        url: "/bot10",
+        icon:"icon-writing",
+        text: "员工操作历史记录"
     },
 ]
 

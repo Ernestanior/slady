@@ -19,17 +19,17 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
     const [imgList,setImgList] = useState<UploadFile[]>([])
     const [loading,setLoading] = useState<boolean>(false)
     const [subs,setSubs]=useState<any[]>([])
-    useEffect(()=>{
-        const config = classificationService.ClassList({}, {
-            searchPage:{desc:0,page:0,pageSize:999,sort:""}
-        })
-        const sub = from(request(config)).subscribe((res:any) => {
-            if(res.isSuccess){
-                setSubs(res.result.content)
-            }
-        })
-        return () => sub.unsubscribe()
-    },[])
+    // useEffect(()=>{
+    //     const config = classificationService.ClassList({}, {
+    //         searchPage:{desc:0,page:0,pageSize:999,sort:""}
+    //     })
+    //     const sub = from(request(config)).subscribe((res:any) => {
+    //         if(res.isSuccess){
+    //             setSubs(res.result.content)
+    //         }
+    //     })
+    //     return () => sub.unsubscribe()
+    // },[])
     const onCancel=()=>{
         form.resetFields()
         onOk()

@@ -2,12 +2,11 @@ import React, {FC} from "react";
 import {Redirect, Route, Router, Switch} from "react-router-dom";
 import historyService from "@/store/history"
 import LayoutPlx from "../common/layout";
-import ItemList from "@/pages/admin";
+import ItemList from "@/pages/items/index";
 import ResetPwd from "@/pages/resetPwd";
-import Customer from "@/pages/customer";
+import Staff from "@/pages/staff";
 import ClassificationPage from "@/pages/content/classifications";
 import VideoPage from "@/pages/content/video";
-import StreamPage from "@/pages/content/stream";
 
 import Profile from '@/pages/profile/index'
 /**
@@ -26,20 +25,17 @@ const ModuleRouter:FC = () => {
                 <Route path="/item">
                     <ItemList />
                 </Route>
-                <Route exact path="/customer/resetPwd/:name/:id">
+                <Route exact path="/staff/resetPwd/:name/:id">
                     <ResetPwd />
                 </Route>
-                <Route path="/customer">
-                    <Customer />
+                <Route path="/staff">
+                    <Staff />
                 </Route>
-                <Route path="/contents/video">
+                <Route path="/contents/slady">
                     <VideoPage />
                 </Route>
-                <Route path="/contents/classifications">
+                <Route path="/contents/sl">
                     <ClassificationPage />
-                </Route>
-                <Route path="/contents/stream">
-                    <StreamPage />
                 </Route>
                 <Route path="/profile">
                     <Profile />
