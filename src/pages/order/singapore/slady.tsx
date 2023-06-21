@@ -65,7 +65,6 @@ const columns: any = [
         title: "照片",
         dataIndex: "pic",
         render:(item:any)=>{
-            console.log(item)
             switch (item){
                 case 1:
                     return <img src={item1}/>
@@ -118,6 +117,10 @@ const columns: any = [
         dataIndex:"status",
         editable:true
     },
+    {
+        title:"待定日期",
+        dataIndex:"pendingDate",
+    },
 ];
 const staticData = {
     number:0,
@@ -126,19 +129,19 @@ const staticData = {
     totalElements:16,
     totalPages:2,
     content:[
-        {designId:"0411", pic:1, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",note:"店补"},
-        {designId:"0411", pic:2, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"2023.6.23",note:"serene 90001100 已付"},
-        {designId:"0411", pic:6, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"已发货",note:"已付"},
-        {designId:"0411", pic:4, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",note:"已付"},
-        {designId:"0411", pic:5, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",note:"已付"},
-        {designId:"0411", pic:1, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",note:"已付"},
-        {designId:"0411", pic:2, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",note:"已付"},
-        {designId:"0411", pic:4, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",note:"已付"},
-        {designId:"0411", pic:4, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",note:"已付"},
-        {designId:"0411", pic:5, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",note:"已付"},
-        {designId:"0411", pic:6, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",note:"已付"},
-        {designId:"0411", pic:1, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",note:"已付"},
-        {designId:"0411", pic:2, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",note:"已付"},
+        {designId:"0411", pic:1, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"店补"},
+        {designId:"0411", pic:2, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"待定",pendingDate:"2023.6.23",note:"serene 90001100 已付"},
+        {designId:"0411", pic:6, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"已发货",pendingDate:"",note:"已付"},
+        {designId:"0411", pic:4, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
+        {designId:"0411", pic:5, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
+        {designId:"0411", pic:1, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
+        {designId:"0411", pic:2, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
+        {designId:"0411", pic:4, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
+        {designId:"0411", pic:4, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
+        {designId:"0411", pic:5, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
+        {designId:"0411", pic:6, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
+        {designId:"0411", pic:1, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
+        {designId:"0411", pic:2, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
     ]
 }
 

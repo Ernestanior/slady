@@ -1,10 +1,11 @@
 import React, {FC, useEffect, useState} from "react";
-import {DatePicker, Form, Input, Modal, Select, Switch} from "antd";
+import {DatePicker, Form, Input, Modal, notification, Select, Switch} from "antd";
 import {useForm} from "antd/es/form/Form";
 import {customerService} from "@/store/apis/account";
 import moment from "moment";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
+import Log from "@/pages/profile/comp/log";
 
 interface IProps{
     visible:boolean;
@@ -21,17 +22,24 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
     }
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
-    setLoading(true)
-        const res = await request(customerService.CustomerModify({}, {...newData,id:data.id,probationStatus:newData.probationStatus?1:0}))
-        setLoading(false)
-        if (res.isSuccess){
-            reloadMainList();
-            onOk()
+        console.log(newData)
+        if (newData.status===STATUS.DONE && !newData.price){
+            notification.error({message:"修改状态为OK时，必须填写价格"})
+            return
         }
+        setLoading(true)
+        // const res = await request(customerService.CustomerModify({}, {...newData,id:data.id,probationStatus:newData.probationStatus?1:0}))
+        setLoading(false)
+        // if (res.isSuccess){
+        //     reloadMainList();
+        //     onOk()
+        // }
     }
     useEffect(()=>{
-        console.log(data)
-        data && form.setFieldsValue({...data,birthday:moment(data.birthday)})
+        if(data){
+            form.setFieldsValue({...data})
+            setStatus(data.status)
+        }
     },[form,data])
 
     return <Modal
@@ -54,7 +62,7 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
                     options={[{ value: STATUS.DONE, label: 'OK' },{ value: STATUS.PENDING, label: '待定' },{ value: STATUS.SEND, label: '已发货' }]}
                 />
             </Form.Item>
-            {status===STATUS.PENDING && <Form.Item name="data" label={<span className="login-label">日期</span>}>
+            {status===STATUS.PENDING && <Form.Item name="data" label={<span className="login-label">待定日期</span>}>
                 <Input />
             </Form.Item>}
             {status===STATUS.DONE && <Form.Item name="price" label={<span className="login-label">价格</span>}>

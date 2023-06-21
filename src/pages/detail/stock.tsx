@@ -10,11 +10,11 @@ const Stock: FC = () => {
     return (
         <section>
             <Tabs defaultActiveKey="1">
-                <TabPane tab="SL一店" key="1">
-                    <Sl></Sl>
-                </TabPane>
-                <TabPane tab="Slady二店" key="2">
+                <TabPane tab="Slady一店" key="1">
                     <Slady></Slady>
+                </TabPane>
+                <TabPane tab="SL二店" key="2">
+                    <Sl></Sl>
                 </TabPane>
             </Tabs>
 

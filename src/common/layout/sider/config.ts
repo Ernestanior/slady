@@ -45,6 +45,16 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
         text: "冷款"
     },
     {
+        url: "/import",
+        icon:"icon-cry",
+        text: "入库"
+    },
+    {
+        url: "/export",
+        icon:"icon-cry",
+        text: "出库"
+    },
+    {
         url: "/operate",
         icon:"icon-writing",
         text: "员工操作历史记录"

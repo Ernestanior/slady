@@ -5,14 +5,13 @@ const Sl: FC = () => {
     return (
         <section style={{padding:20}}>
             <h3>库存</h3>
-
             <div>
-                {Object.keys(sData).map((item)=><>
-                        <section style={{display:"flex",marginBottom:20}}>
+                {Object.keys(sData).map((item,index)=><>
+                        <section key={index} style={{display:"flex",marginBottom:20}}>
                             <div style={{flex:1}}>{item}</div>
                             <div style={{flex:6,display:"flex",justifyContent:"flex-start"}}>
-                                {sData[item].map((i:any)=>
-                                    <div style={{flex:"30%"}}>
+                                {sData[item].map((i:any,index:number)=>
+                                    <div key={index} style={{flex:"30%"}}>
                                         <div style={{marginBottom:10}}>{i.size}</div>
                                         <div>{i.number}</div>
                                     </div>)}

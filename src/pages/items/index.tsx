@@ -12,7 +12,7 @@ import item6 from '../../assets/6.jpg'
 import {RightOutlined} from "@ant-design/icons";
 import Search from "antd/es/input/Search";
 import historyService from "@/store/history";
-const AdminList: FC = () => {
+const ItemList: FC = () => {
     const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [selectData,setSelectData] = useState<any>()
@@ -37,7 +37,7 @@ const AdminList: FC = () => {
             <Search  style={{width:300,marginBottom:30,marginRight:30}} enterButton/>
             <Button type={"primary"}>新增</Button>
             <div style={{display:"flex",flexWrap:"wrap"}}>
-                {staticData.content.map((item)=><div style={{backgroundColor:"#fff",width:500,display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd"}}>
+                {staticData.content.map((item,index)=><div key={index} style={{backgroundColor:"#fff",width:500,display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd"}}>
                         <img style={{height:"100%"}} src={item.pic}/>
                         <div style={{width:"100%",display:"flex",padding:15,justifyContent:"space-between"}}>
                             <div>
@@ -56,45 +56,8 @@ const AdminList: FC = () => {
     );
 };
 
-export default AdminList;
+export default ItemList;
 
-const columns: TableColumnProps<any>[] = [
-    {
-        title: "照片",
-        dataIndex: "pic",
-        render:(item)=>{
-            console.log(item)
-            switch (item){
-                case 1:
-                    return <img src={item1}/>
-                case 2:
-                    return <img src={item2}/>
-                case 3:
-                    return <img src={item3}/>
-                case 4:
-                    return <img src={item4}/>
-                case 5:
-                    return <img src={item5}/>
-                case 6:
-                    return <img src={item6}/>
-            }
-
-        }
-
-    },
-    {
-        title: "设计编号",
-        dataIndex: "designId",
-    },
-    {
-        title: "库存",
-        dataIndex: "sum",
-    },
-    {
-        title: "价格",
-        dataIndex: "price",
-    },
-];
 const staticData = {
     number:0,
     numberOfElements:10,

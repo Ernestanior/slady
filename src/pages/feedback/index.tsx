@@ -2,8 +2,6 @@ import React, {FC} from "react";
 import {Tabs} from "antd";
 import KoreaSlady from './korea/slady'
 import KoreaSl from './korea/sl'
-import SingaporeSlady from './singapore/slady'
-import SingaporeSl from './singapore/sl'
 const { TabPane } = Tabs;
 const Feedback: FC = () => {
     return (

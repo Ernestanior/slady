@@ -38,27 +38,13 @@ const OrderList: FC = () => {
         return [
             [
                 {
-                    text: "修改",
+                    text: "修改状态",
                     event(data) {
                         setSelectData(data)
                         setEditFlag(true)
                     },
-                },
-                {
-                    text: "删除",
-                    event(data) {
-                        // deleteCustomer(data);
-                        const value = {
-                            title: "删除",
-                            content: `确定删除: ${data.name} ？`,
-                            onOk: () => {
-                                const config = customerService.CustomerDelete({}, [data.id]);
-                                reqAndReload(config, () => notification.success({message: "Delete Success"}));
-                            }
-                        }
-                        msgModal.createEvent("modal", value)
-                    },
-                }]
+                }
+            ]
         ]
     }, [])
 
@@ -146,15 +132,17 @@ const columns: any = [
     {
         title:"状态",
         dataIndex:"status",
-        editable: true,
     },
     {
         title:"待定日期",
         dataIndex:"pendingData",
         render:(value:any)=>{
-           return  <Popconfirm title="确定取消?" onConfirm={onCancel} okText={"确定"} cancelText={"取消"}>
-               <a>{value}</a>
-           </Popconfirm>
+            return value && <>
+                <div>{value}</div>
+                <Popconfirm title="确定取消?" onConfirm={onCancel} okText={"确定"} cancelText={"取消"}>
+                    <a>取消订单</a>
+                </Popconfirm>
+            </>
         }
     },
 ];

@@ -13,6 +13,8 @@ import OperationList from "@/pages/operation";
 import Detail from "@/pages/detail";
 import Order from "@/pages/order";
 import Feedback from "@/pages/feedback";
+import Import from "@/pages/import";
+import Export from "@/pages/export";
 /**
  * 项目路由组件
  * 可以在此根据用户相应的权限组装路由
@@ -49,6 +51,12 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/botsale">
                     <BotSale />
+                </Route>
+                <Route path="/import">
+                    <Import />
+                </Route>
+                <Route path="/export">
+                    <Export />
                 </Route>
                 <Route path="/operate">
                     <OperationList />
