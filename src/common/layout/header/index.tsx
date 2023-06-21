@@ -17,14 +17,14 @@ const HeaderPlx:FC = () => {
             </Col>
             <Col>
                 <Space className="right-options" size="large">
-                    <IconFont
-                        className="ant-dropdown-link"
-                        style={{ fontSize: 24 }}
-                        type="iconai-i"
-                    />
+                    {/*<IconFont*/}
+                    {/*    className="ant-dropdown-link"*/}
+                    {/*    style={{ fontSize: 24 }}*/}
+                    {/*    type="icon-customer-bussinessman"*/}
+                    {/*/>*/}
                     <UserPopover />
                     <ConfirmInfo info="Confirm logout?" submit={() => { accountService.autoLogout() }}>
-                        <IconFont type="iconicon" style={{fontSize:24}}/>
+                        <IconFont type="icon-shut-down" style={{fontSize:24}}/>
                     </ConfirmInfo>
                 </Space>
             </Col>

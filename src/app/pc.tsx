@@ -11,11 +11,13 @@ function PC() {
     }
 
     return (
-        <IntlProvider messages={languagePackage} locale="en">
-            <ModalX />
-            <ModalF/>
-            <Routers />
-        </IntlProvider>
+        <div style={{minWidth:1400}}>
+            <IntlProvider messages={languagePackage} locale="en">
+                <ModalX />
+                <ModalF/>
+                <Routers />
+            </IntlProvider>
+        </div>
     );
 }
 

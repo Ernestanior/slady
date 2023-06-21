@@ -5,10 +5,14 @@ import LayoutPlx from "../common/layout";
 import ItemList from "@/pages/items/index";
 import ResetPwd from "@/pages/resetPwd";
 import Staff from "@/pages/staff";
-import ClassificationPage from "@/pages/content/classifications";
-import VideoPage from "@/pages/content/video";
 
 import Profile from '@/pages/profile/index'
+import TopSale from "@/pages/topSale";
+import BotSale from "@/pages/botSale";
+import OperationList from "@/pages/operation";
+import Detail from "@/pages/detail";
+import Order from "@/pages/order";
+import Feedback from "@/pages/feedback";
 /**
  * 项目路由组件
  * 可以在此根据用户相应的权限组装路由
@@ -22,25 +26,37 @@ const ModuleRouter:FC = () => {
                 <Route exact path="/admin/resetPwd/:name/:id">
                     <ResetPwd />
                 </Route>
+                <Route path="/item/detail">
+                    <Detail />
+                </Route>
                 <Route path="/item">
                     <ItemList />
                 </Route>
                 <Route exact path="/staff/resetPwd/:name/:id">
                     <ResetPwd />
                 </Route>
+                <Route path="/order">
+                    <Order />
+                </Route>
                 <Route path="/staff">
                     <Staff />
                 </Route>
-                <Route path="/contents/slady">
-                    <VideoPage />
+                <Route path="/feedback">
+                    <Feedback />
                 </Route>
-                <Route path="/contents/sl">
-                    <ClassificationPage />
+                <Route path="/topsale">
+                    <TopSale />
+                </Route>
+                <Route path="/botsale">
+                    <BotSale />
+                </Route>
+                <Route path="/operate">
+                    <OperationList />
                 </Route>
                 <Route path="/profile">
                     <Profile />
                 </Route>
-                <Redirect to="/admin" />
+                <Redirect to="/item" />
             </Switch>
         </LayoutPlx>
     </Router>

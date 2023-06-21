@@ -11,7 +11,7 @@ const ContentP: FC = (props) => {
             </section>
         </Layout.Content>;
     }
-    return <Layout.Content className="comp-layout-content">
+    return <Layout.Content className="comp-layout-content" style={{minHeight:800}}>
         <section className="cdn-scroll" style={{paddingRight: 15}}>
             {props.children}
         </section>

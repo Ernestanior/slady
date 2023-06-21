@@ -27,21 +27,25 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
     {
         text: "订单物流",
         icon:"icon-order",
-        url: "/contents",
-
+        url: "/order",
     },
     {
-        url: "/top10",
+        text: "韩国反馈",
+        icon:"icon-order",
+        url: "/feedback",
+    },
+    {
+        url: "/topsale",
         icon:"icon-top-raning",
         text: "爆款"
     },
     {
-        url: "/bot10",
+        url: "/botsale",
         icon:"icon-cry",
         text: "冷款"
     },
     {
-        url: "/bot10",
+        url: "/operate",
         icon:"icon-writing",
         text: "员工操作历史记录"
     },
