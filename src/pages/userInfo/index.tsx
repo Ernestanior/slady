@@ -1,9 +1,9 @@
 import {FC} from "react";
 import {Col, Divider, Row} from "antd";
-import useAccountInfo from "@/store/account";
+// import useAccountInfo from "@/store/account";
 
 const UserInfo:FC = () => {
-    const userInfo = useAccountInfo();
+    // const userInfo = useAccountInfo();
     return <section style={{ width: 450, padding: 15 }}>
         <h3 style={{fontWeight:650}}>
             个人资料

@@ -18,7 +18,7 @@ class AuthAPI {
      */
     Login = (params: ILoginParams, data: ILoginForm) => {
         const config: AxiosRequestConfig = {
-            url: '/api/auth/login',
+            url: '/auth/login',
             method: 'post',
             params,
             data

@@ -20,6 +20,4 @@ const Feedback: FC = () => {
 
 export default Feedback;
 
-const staticData = {
 
-}

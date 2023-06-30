@@ -1,17 +1,14 @@
 import React, {FC, useCallback, useMemo, useState} from "react";
 import {INormalEvent} from "@/common/interface";
-import {customerService} from "@/store/apis/account";
+import {userService} from "@/store/apis/account";
 import {reqAndReload} from "@/common/utils";
 import Template from "@/common/template";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
 import FormItem from "@/common/Form/formItem";
-import {Input, notification, Tooltip} from "antd";
+import {Input, notification} from "antd";
 import CreateCustomer from "@/pages/staff/create";
 import ModifyCustomer from "@/pages/staff/modify";
-import {E_COLOR} from "@/common/const";
-import Status from "@/common/status";
-import moment from "moment";
 const CustomerList:FC = () => {
     const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [editFlag,setEditFlag]=useState<boolean>(false)
@@ -34,8 +31,8 @@ const CustomerList:FC = () => {
     //     return customerService.CustomerList({}, data);
     // }, [])
 
-    const queryData=useCallback(async()=>{
-        return staticData
+    const queryData=useCallback((data)=>{
+        return userService.FindUser({},data)
     },[])
 
     const options: IOperationConfig = useMemo(() => {
@@ -56,7 +53,7 @@ const CustomerList:FC = () => {
                             title: "删除",
                             content: `确定删除: ${data.name} ？`,
                             onOk: () => {
-                                const config = customerService.CustomerDelete({}, [data.id]);
+                                const config = userService.DeleteUser({},[data.id])
                                 reqAndReload(config, () => notification.success({message: "Delete Success"}));
                             }
                         }
@@ -75,8 +72,8 @@ const CustomerList:FC = () => {
             </FormItem>}
             event={buttons}
             columns={columns}
-            // queryData={query}
-            queryDataFunction={queryData}
+            queryData={queryData}
+            // queryDataFunction={queryData}
 
             rowKey="email"
         />
@@ -93,21 +90,7 @@ const columns = [
         title: "名字",
     },
     {
-        dataIndex: "role",
+        dataIndex: "type",
         title: "职位",
     },
 ]
-
-const staticData = {
-    number:0,
-    numberOfElements:10,
-    size:10,
-    totalElements:16,
-    totalPages:6,
-    content:[
-        {name:"Ahri", role:"销售"},
-        {name:"Shawn", role:"销售经理"},
-        {name:"Ann", role:"订单物流"},
-        {name:"Hu Xiaoyi", role:"库存管理"},
-    ]
-}

@@ -6,6 +6,7 @@ import SignUp from "@/pages/signUp";
 import accountService, {E_LOGIN_STATE} from "@/store/account/service";
 import useLoginState from "@/store/account/useLoginState";
 import LoadContext from "@/common/loading/context";
+import {Spin} from "antd";
 const ModuleProject = lazy(() => import("@/router/routes"));
 
 /**
@@ -16,28 +17,27 @@ const ModuleProject = lazy(() => import("@/router/routes"));
 const ProjectRouter:FC = () => {
     const loginState = useLoginState();
     /** 二级验证有效状态 */
-    // const user2FAuthInfo = use2FAuthInfo();
     useEffect(() => {
         accountService.autoLogin()
     }, [])
-    // if(loginState === E_LOGIN_STATE.pending){
-    //     // accountService.autoLogin()
-    //     return <div>Pending</div>;
-    //
-    // }
-    // if(loginState === E_LOGIN_STATE.fail){
-    //     return <Router history={historyService}>
-    //         <Switch>
-    //             <Route path="/login">
-    //                 <Login />
-    //             </Route>
-    //             <Route path="/signup">
-    //                 <SignUp />
-    //             </Route>
-    //             <Redirect to="/login" />
-    //         </Switch>
-    //     </Router>;
-    // }
+    if(loginState === E_LOGIN_STATE.pending){
+        // accountService.autoLogin()
+        return <div><Spin/></div>;
+
+    }
+    if(loginState === E_LOGIN_STATE.fail){
+        return <Router history={historyService}>
+            <Switch>
+                <Route path="/login">
+                    <Login />
+                </Route>
+                <Route path="/signup">
+                    <SignUp />
+                </Route>
+                <Redirect to="/login" />
+            </Switch>
+        </Router>;
+    }
 
     return <Suspense fallback={<LoadContext />}>
         <ModuleProject />

@@ -24,10 +24,19 @@ const columns = [
     {
         dataIndex: "pic",
         title: "入库商品",
+        render:(pic:string)=><img alt="" src={pic}/>
     },
     {
         dataIndex: "designId",
         title: "设计师号",
+    },
+    {
+        dataIndex: "color",
+        title: "颜色",
+    },
+    {
+        dataIndex: "size",
+        title: "尺码",
     },
     {
         dataIndex: "operator",

@@ -1,17 +1,23 @@
 import React, {FC, useState} from "react";
-import {Form, Input, Modal, notification, Select} from "antd";
+import {Form, Input, InputNumber, Modal, notification, Select} from "antd";
 import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
-import {userService} from "@/store/apis/account";
+import {orderService} from "@/store/apis/order";
 
 interface IProps{
     visible:boolean;
     onOk:()=>void;
+    data:any
 }
-const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
+enum orderType{
+    REPLENISH,
+    ORDER
+}
+const Rpelenish:FC<IProps> = ({onOk,visible,data}) => {
     const [form] = useForm()
     const [loading,setLoading] = useState<boolean>(false)
+    console.log(data)
     // useEffect(()=>{
     //     const config = classificationService.ClassList({}, {
     //         searchPage:{desc:0,page:0,pageSize:999,sort:""}
@@ -29,10 +35,10 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
     }
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
-        const {name,type,password}=newData
-        if (name && type && password){
+        const {amount}=newData
+        if (amount){
             setLoading(true)
-            const config = userService.CreateUser({},newData)
+            const config = orderService.OrderCreate({},{itemId:data.id,amount,type:orderType.REPLENISH,remark:'店补'})
             const res = await request(config)
             setLoading(false)
             if (res.isSuccess){
@@ -47,7 +53,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
     }
     return <Modal
         confirmLoading={loading}
-        title={<div style={{color:"#fff",fontWeight:550}}>Create</div>}
+        title={<div style={{color:"#fff",fontWeight:550}}>店补</div>}
         visible={visible}
         onCancel={ onCancel}
         onOk={onFinish}
@@ -55,27 +61,13 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
         cancelText={'Cancel'}
         width={600}
     >
-        <Form form={form} className="email-new" initialValues={{status:1,subscription:[1]}}>
-            <Form.Item name="name" label={<span className="login-label">账号</span>}>
-                <Input />
-            </Form.Item>
-            {/*<Form.Item name="password" label={<span className="login-label">Password</span>}>*/}
-            {/*    <Input.Password />*/}
-            {/*</Form.Item>*/}
 
-            <Form.Item name="type" label={<span className="login-label">权限</span>}>
-                <Select options={[
-                    { value: 'admin', label: '老板' },
-                    { value: 'saler', label: '销售员工' },
-                    { value: 'operator', label: '后台人员' },
-                    { value: 'kr-logistics', label: '韩国物流' },
-                ]}/>
-            </Form.Item>
-            <Form.Item name="password" label={<span className="login-label">密码</span>}>
-                <Input.Password />
+        <Form form={form} className="email-new" initialValues={{status:1,subscription:[1]}}>
+            <Form.Item name="amount" label={<span className="login-label">店补数量</span>}>
+                <InputNumber min={0}/>
             </Form.Item>
         </Form>
     </Modal>
 }
 
-export default CreateCustomer;
+export default Rpelenish;

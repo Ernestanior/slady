@@ -1,7 +1,9 @@
 import React, {FC} from "react";
-import {Button, Divider} from "antd";
+import {Divider} from "antd";
 
-const Slady: FC = () => {
+
+const Sl: FC = () => {
+
     return (
         <section style={{padding:20}}>
             <h3>库存</h3>
@@ -16,19 +18,19 @@ const Slady: FC = () => {
                                         <div>{i.number}</div>
                                     </div>)}
                             </div>
+
                         </section>
                         <Divider/>
                     </>
 
-                )}
+                    )}
             </div>
-            <Button style={{marginRight:20}}>店补</Button>
-            <Button>客订</Button>
+
         </section>
     );
 };
 
-export default Slady;
+export default Sl;
 
 const staticData=[
     {color:"棕色",size:"M",number:157},

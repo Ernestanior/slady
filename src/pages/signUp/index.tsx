@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import Logo from "@/common/layout/header/logo.svg";
+import Logo from "@/common/layout/header/logo.png";
 import SignupForm from "@/pages/signUp/form";
 import {Link} from "react-router-dom";
 const Login: FC = () => {
@@ -11,7 +11,6 @@ const Login: FC = () => {
                 <Link to='/login' className="login-signup-btn">Login</Link>
             </nav>
             <SignupForm />
-            {/*{isMobile&&<div className="fix-foot">Copyright ©{moment().format("YYYY")} Greypanel. All Rights Reserved.</div>}*/}
         </section>
   );
 };

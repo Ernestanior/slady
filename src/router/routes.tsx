@@ -2,19 +2,18 @@ import React, {FC} from "react";
 import {Redirect, Route, Router, Switch} from "react-router-dom";
 import historyService from "@/store/history"
 import LayoutPlx from "../common/layout";
-import ItemList from "@/pages/items/index";
+import ItemList from "@/pages/design/index";
 import ResetPwd from "@/pages/resetPwd";
 import Staff from "@/pages/staff";
 
 import Profile from '@/pages/profile/index'
-import TopSale from "@/pages/topSale";
-import BotSale from "@/pages/botSale";
 import OperationList from "@/pages/operation";
-import Detail from "@/pages/detail";
+import Detail from "@/pages/design/detail";
 import Order from "@/pages/order";
 import Feedback from "@/pages/feedback";
-import Import from "@/pages/import";
-import Export from "@/pages/export";
+import Rank from "@/pages/rank";
+import StorageRecord from "@/pages/storage";
+import CreateItem from "@/pages/design/create";
 /**
  * 项目路由组件
  * 可以在此根据用户相应的权限组装路由
@@ -28,8 +27,11 @@ const ModuleRouter:FC = () => {
                 <Route exact path="/admin/resetPwd/:name/:id">
                     <ResetPwd />
                 </Route>
-                <Route path="/item/detail">
+                <Route path="/item/detail/:design">
                     <Detail />
+                </Route>
+                <Route path="/item/create">
+                    <CreateItem />
                 </Route>
                 <Route path="/item">
                     <ItemList />
@@ -46,17 +48,11 @@ const ModuleRouter:FC = () => {
                 <Route path="/feedback">
                     <Feedback />
                 </Route>
-                <Route path="/topsale">
-                    <TopSale />
+                <Route path="/rank">
+                    <Rank />
                 </Route>
-                <Route path="/botsale">
-                    <BotSale />
-                </Route>
-                <Route path="/import">
-                    <Import />
-                </Route>
-                <Route path="/export">
-                    <Export />
+                <Route path="/storageRecord">
+                    <StorageRecord />
                 </Route>
                 <Route path="/operate">
                     <OperationList />

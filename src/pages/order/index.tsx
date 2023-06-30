@@ -5,6 +5,20 @@ import KoreaSl from './korea/sl'
 import SingaporeSlady from './singapore/slady'
 import SingaporeSl from './singapore/sl'
 const { TabPane } = Tabs;
+
+export enum areaType{
+    ALL,
+    SINGAPORE,
+    KOREA,
+    CHINA
+}
+export enum orderType{
+    NULL='0',
+    PENDING='1',
+    DONE='2',
+    SEND='3',
+    CANCEL='4'
+}
 const Order: FC = () => {
     return (
         <section>

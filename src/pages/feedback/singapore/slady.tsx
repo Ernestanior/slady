@@ -8,8 +8,7 @@ import request from "@/store/request";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
 import FormItem from "@/common/Form/formItem";
-import CreateAdmin from "@/pages/items/create";
-import ModifyAdmin from "@/pages/items/modify";
+import ModifyAdmin from "@/pages/design/modify";
 import Status from "@/common/status";
 import {E_COLOR} from "@/common/const";
 import item1 from '../../../assets/1.jpg'
@@ -56,7 +55,6 @@ const OrderList: FC = () => {
                 queryDataFunction={queryDataFunction}
                 rowKey="id"
             />
-            <CreateAdmin onOk={()=>setCreateFlag(false)} visible={createFlag}></CreateAdmin>
             <ModifyAdmin onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyAdmin>
         </section>
     );

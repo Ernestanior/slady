@@ -41,9 +41,11 @@ class Account{
     }
 
     // 载入token，需要校验token有效
-    loadToken = (token: string, cb?: ICallback) => {
+    loadToken = (token: any, cb?: ICallback) => {
+        // saveToken(token);
+        // accountService.info$.next(token)
         const infoConfig = userService.ViewUserBasic({}, {});
-        infoConfig.headers["gp-media-token"] = token;
+        infoConfig.headers["ims-token"] = token;
         from(request<IAccountInfo>(infoConfig)).subscribe(res => {
             if(res.isSuccess && res.result){
                     // save token
@@ -79,6 +81,7 @@ class Account{
 
     // 返回是否触发
     autoLogin = () => {
+        console.log(this.info$.value)
         // 当前有登录用户，则不需要自动重新登录，但是需要告诉调用者，已经触发
         if(this.info$.value){
             return true;

@@ -12,7 +12,6 @@ import accountService from "@/store/account/service";
 import forge from "node-forge"
 import {rsaPublic} from "@/pages/login/rsa_public";
 import isMobile from "@/app/isMobile";
-import {Link} from "react-router-dom";
 const publicKey = forge.pki.publicKeyFromPem(rsaPublic);
 
 // 密码加密
@@ -37,10 +36,6 @@ const LoginForm: FC = () => {
     const [recaptcha, setRecaptcha] = useState<string | null>(null);
 
     const recaptchaRef = useRef<any>(null)
-    // 登录事件
-    const goSignUp=useCallback(()=>{
-
-    },[])
     const login = useCallback((data: any) => {
         if (loading) {
             return;
@@ -104,10 +99,10 @@ const LoginForm: FC = () => {
                     </div>
                 </ConditionShow>
                 <div className='login-title'>Login</div>
-                <span className='sign-up' onClick={goSignUp}>
-                    <Link to='/signup' className="login-signup-btn">Dont`t have an account?</Link>
-                </span>
-                <Form.Item name="username" label={<span className="login-label">Username</span>}>
+                {/*<span className='sign-up' onClick={goSignUp}>*/}
+                {/*    <Link to='/signup' className="login-signup-btn">Dont`t have an account?</Link>*/}
+                {/*</span>*/}
+                <Form.Item name="name" label={<span className="login-label">Username</span>}>
                     <Input style={{height:40}} />
                 </Form.Item>
                 <Form.Item name="password" label={<span className="login-label">Password</span>}>
@@ -142,11 +137,7 @@ const LoginForm: FC = () => {
                         Login
                     </Button>
                 </div>
-                {/*<div hidden={!loginError} className="login-info">*/}
-                {/*    {loginError}*/}
-                {/*</div>*/}
             </Form>
-            {/*{!isMobile&&<div className="fix-foot">Copyright ©{moment().format("YYYY")} Greypanel. All Rights Reserved. { process.env.REACT_APP_VERSION || ""}</div>}*/}
         </section>
     );
 };

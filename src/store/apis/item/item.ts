@@ -1,15 +1,18 @@
+/*jshint -W069 */
+// tslint:disable
 import { AxiosRequestConfig } from 'axios';
+import {ISearchPage} from "./common.interface";
 
 /**
- * @class AgentAPI
- * @description 代理管理API
+ * @class DomainAPI
+ * @description 域名管理API
  * @return 返回request的config
  */
-class CustomerAPI {
+class ItemAPI {
 
-     CustomerList = (params: {}, data: {}) => {
+    ItemList = (params: {}, data: IItemList) => {
         const config: AxiosRequestConfig = {
-            url: '/api/customer/page',
+            url: '/item/list',
             method: 'post',
             params,
             data
@@ -18,10 +21,9 @@ class CustomerAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-
-    CustomerCreate = (params: {}, data: any) => {
+    ItemModifyStock = (params: IItemModifyStock, data:{} ) => {
         const config: AxiosRequestConfig = {
-            url: '/api/customer/create',
+            url: '/item/modify-stock',
             method: 'put',
             params,
             data
@@ -30,22 +32,9 @@ class CustomerAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-
-    CustomerModify = (params: {}, data: any) => {
+    ItemDelete = (params: {}, data: number[]) => {
         const config: AxiosRequestConfig = {
-            url: '/api/customer/modify',
-            method: 'put',
-            params,
-            data
-        };
-        config.headers = {};
-        config.headers['Content-Type'] = 'application/json';
-        return config;
-    }
-
-    CustomerDelete = (params: any, data: any) => {
-        const config: AxiosRequestConfig = {
-            url: '/api/customer/delete',
+            url: '/item/delete',
             method: 'delete',
             params,
             data
@@ -54,10 +43,20 @@ class CustomerAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-
-    CustomerStatus = (params: any, data: {ids:number[], status:number }) => {
+    ItemDeleteByDesign = (params: {}, data: number[]) => {
         const config: AxiosRequestConfig = {
-            url: '/api/customer/change-status',
+            url: '/item/delete-by-design',
+            method: 'delete',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+    ItemCreate = (params: {}, data: {  }) => {
+        const config: AxiosRequestConfig = {
+            url: '/item/create',
             method: 'put',
             params,
             data
@@ -67,20 +66,9 @@ class CustomerAPI {
         return config;
     }
 
-    SubsList = (params: {customerId:number}, data: {}) => {
+    FileUpload = (params: {}, data: {}) => {
         const config: AxiosRequestConfig = {
-            url: '/api/subscription/customer/list',
-            method: 'get',
-            params,
-            data
-        };
-        config.headers = {};
-        config.headers['Content-Type'] = 'application/json';
-        return config;
-    }
-    SubsModify = (params: {}, data: ISubsModify) => {
-        const config: AxiosRequestConfig = {
-            url: '/api/subscription/customer/modify',
+            url: '/file/upload',
             method: 'put',
             params,
             data
@@ -89,17 +77,31 @@ class CustomerAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
+    FileList = (params: {}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/file/list',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+}
+export default ItemAPI;
 
+
+/** batchDelete的请求参数*/
+interface IItemList{
+    designId:any;
+    type?:string;
+    name?:string;
+    warehouseName?:string;
+    searchPage:ISearchPage;
 }
 
-export default CustomerAPI;
-
-interface ISubsModify{
-    customerId:number;
-    subscriptionItemList:ISubscriptionItem[]
-}
-export interface ISubscriptionItem{
-    classificationId:number;
-    period:number;
-    status:number;
+interface IItemModifyStock {
+    id:number;
+    stock:number;
 }

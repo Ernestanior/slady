@@ -6,8 +6,8 @@ import accountService from "@/store/account/service";
 
 const requestPlx = new RequestPlx();
 
-const dev_url = 'https://stg-media-web.k4t8q.com';
-// const dev_url = 'https://gp-media-svc:9000';
+// const dev_url = 'https://stg-media-web.k4t8q.com';
+const dev_url = 'http://10.10.20.11:10000';
 
 // add dev server url
 requestPlx.middleware_before.use(async (config, next) => {
@@ -22,8 +22,8 @@ requestPlx.middleware_before.use(async (config, next) => {
 // header add token
 requestPlx.middleware_before.use(async (config, next) => {
     const token = getToken();
-    if(token && !config.headers["gp-media-token"]){
-        config.headers["gp-media-token"] = token;
+    if(token && !config.headers["ims-token"]){
+        config.headers["ims-token"] = token;
     }
     await next()
 })

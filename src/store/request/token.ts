@@ -1,6 +1,6 @@
 import dataStore from "@/store/dateBase";
 
-const key = 'sale-system';
+const key = 'ims-token';
 
 export const getToken = () => {
     return dataStore.getValue(key);

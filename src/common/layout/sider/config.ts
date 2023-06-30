@@ -35,24 +35,14 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
         url: "/feedback",
     },
     {
-        url: "/topsale",
+        url: "/rank",
         icon:"icon-top-raning",
-        text: "爆款"
+        text: "爆/冷款"
     },
     {
-        url: "/botsale",
+        url: "/storageRecord",
         icon:"icon-cry",
-        text: "冷款"
-    },
-    {
-        url: "/import",
-        icon:"icon-cry",
-        text: "入库"
-    },
-    {
-        url: "/export",
-        icon:"icon-cry",
-        text: "出库"
+        text: "出/入库"
     },
     {
         url: "/operate",

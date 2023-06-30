@@ -1,18 +1,19 @@
 import React, {FC, useEffect, useState} from "react";
-import {DatePicker, Form, Input, Modal, notification, Select, Switch} from "antd";
+import {Form, Input, Modal, notification, Select} from "antd";
 import {useForm} from "antd/es/form/Form";
-import {customerService} from "@/store/apis/account";
-import moment from "moment";
+import {orderType} from "@/pages/order";
+import {orderService} from "@/store/apis/order";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
-import Log from "@/pages/profile/comp/log";
+import moment from "moment";
+
 
 interface IProps{
     visible:boolean;
     onOk:()=>void;
     data:any;
 }
-const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
+const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
     const [form] = useForm()
     const [status,setStatus]=useState<string>()
     // const [imgList,setImgList] = useState<UploadFile[]>([])
@@ -23,21 +24,22 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
         console.log(newData)
-        if (newData.status===STATUS.DONE && !newData.price){
+        console.log(data)
+        if (newData.status===orderType.DONE && !newData.quotedPrice){
             notification.error({message:"修改状态为OK时，必须填写价格"})
             return
         }
         setLoading(true)
-        // const res = await request(customerService.CustomerModify({}, {...newData,id:data.id,probationStatus:newData.probationStatus?1:0}))
+        const res = await request(orderService.OrderModify({}, {...newData,id:data.id,pendingDate:newData.status==="1"?newData.pendingDate:""}))
         setLoading(false)
-        // if (res.isSuccess){
-        //     reloadMainList();
-        //     onOk()
-        // }
+        if (res.isSuccess){
+            reloadMainList();
+            onOk()
+        }
     }
     useEffect(()=>{
         if(data){
-            form.setFieldsValue({...data})
+            form.setFieldsValue({...data,pendingDate:data.pendingDate?moment(data.pendingDate).format('YYYY-MM-DD'):""})
             setStatus(data.status)
         }
     },[form,data])
@@ -59,24 +61,19 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
                     defaultValue="lucy"
                     style={{ width: 120 }}
                     onChange={setStatus}
-                    options={[{ value: STATUS.DONE, label: 'OK' },{ value: STATUS.PENDING, label: '待定' },{ value: STATUS.SEND, label: '已发货' }]}
+                    options={[{ value: orderType.DONE, label: 'OK' },{ value: orderType.PENDING, label: '待定' },{ value: orderType.SEND, label: '已发货' }]}
                 />
             </Form.Item>
-            {status===STATUS.PENDING && <Form.Item name="data" label={<span className="login-label">待定日期</span>}>
+            {status===orderType.PENDING && <Form.Item name="pendingDate" label={<span className="login-label">待定日期</span>}>
                 <Input />
             </Form.Item>}
-            {status===STATUS.DONE && <Form.Item name="price" label={<span className="login-label">价格</span>}>
+            {status===orderType.DONE && <Form.Item name="quotedPrice" label={<span className="login-label">价格</span>}>
                 <Input />
             </Form.Item>}
         </Form>}
     </Modal>
 }
 
-export default ModifyCustomer;
+export default ModifyStatus;
 
-enum STATUS {
-    DONE='OK',
-    PENDING='待定',
-    SEND='已发货',
-    CANCEL='已取消'
-}
+

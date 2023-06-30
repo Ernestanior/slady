@@ -32,7 +32,7 @@ class AccessLogAPI {
      */
     FindAccessLog = (params: {}, data: IAccessLogForm) => {
         const config: AxiosRequestConfig = {
-            url: '/api/access-log/page',
+            url: '/operation-log/list',
             method: 'post',
             params,
             data

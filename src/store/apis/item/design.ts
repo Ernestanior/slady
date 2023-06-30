@@ -8,11 +8,11 @@ import {ISearchPage} from "./common.interface";
  * @description 域名管理API
  * @return 返回request的config
  */
-class VideoAPI {
+class DesignAPI {
 
-    VideoList = (params: {}, data: IVideoList) => {
+    DesignList = (params: {}, data: IDesignList) => {
         const config: AxiosRequestConfig = {
-            url: '/api/video/page',
+            url: '/design/list',
             method: 'post',
             params,
             data
@@ -21,9 +21,20 @@ class VideoAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    VideoModify = (params: {}, data: IVideoModify) => {
+    DesignDetail = (params: {}, data: {}) => {
         const config: AxiosRequestConfig = {
-            url: '/api/video/modify',
+            url: '/design/detail',
+            method: 'get',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+    DesignModify = (params: {}, data: IDesignModify) => {
+        const config: AxiosRequestConfig = {
+            url: '/design/modify',
             method: 'put',
             params,
             data
@@ -32,9 +43,9 @@ class VideoAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    VideoDelete = (params: {}, data: number[]) => {
+    DesignDelete = (params: {}, data: number[]) => {
         const config: AxiosRequestConfig = {
-            url: '/api/video/delete',
+            url: '/design/delete',
             method: 'delete',
             params,
             data
@@ -43,46 +54,32 @@ class VideoAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    VideoCreate = (params: {}, data: IVideo) => {
+    DesignCreate = (params: {}, data: IDesign) => {
         const config: AxiosRequestConfig = {
-            url: '/api/video/create',
+            url: '/design/create',
             method: 'put',
             params,
             data
         };
         config.headers = {};
-        return config;
-    }
-    VideoTestCreate = (params: {}, data: IVideo) => {
-        const config: AxiosRequestConfig = {
-            url: '/api/video/test-create',
-            method: 'put',
-            params,
-            data
-        };
-        config.headers = {};
-        config.headers['Content-Type'] = 'multipart/form-data';
+        config.headers['Content-Type'] = 'application/json';
         return config;
     }
 }
-export default VideoAPI;
+export default DesignAPI;
 
 
 /** batchDelete的请求参数*/
-interface IVideoList{
-    keyWord?:string;
+interface IDesignList{
+    type?:string;
+    name?:string;
     searchPage:ISearchPage;
 }
 
 /** batchDelete的请求参数*/
-export interface IVideo{
-    file:any;
-    image?:any;
-    videoForm:IVideoForm;
+interface IDesign{
+    name:string;
 }
-interface IVideoModify extends IVideo{
+interface IDesignModify extends IDesign{
     id:number;
-}
-interface IVideoForm {
-
 }

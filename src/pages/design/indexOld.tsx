@@ -8,10 +8,7 @@ import request from "@/store/request";
 import {IOperationConfig} from "@/common/template/interface";
 import msgModal from "@/store/message/service";
 import FormItem from "@/common/Form/formItem";
-import CreateAdmin from "@/pages/items/create";
-import ModifyAdmin from "@/pages/items/modify";
-import Status from "@/common/status";
-import {E_COLOR} from "@/common/const";
+import ModifyAdmin from "@/pages/design/modify";
 import item1 from '../../assets/1.jpg'
 import item2 from '../../assets/2.jpg'
 import item3 from '../../assets/3.jpg'
@@ -56,7 +53,6 @@ const AdminList: FC = () => {
                 queryDataFunction={queryDataFunction}
                 rowKey="id"
             />
-            <CreateAdmin onOk={()=>setCreateFlag(false)} visible={createFlag}></CreateAdmin>
             <ModifyAdmin onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyAdmin>
         </section>
     );

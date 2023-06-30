@@ -3,8 +3,6 @@ import {Breadcrumb, Button} from "antd";
 import {HomeOutlined} from "@ant-design/icons"
 import {Link, useRouteMatch} from "react-router-dom";
 import TipBox from "@/common/tip";
-import request from "@/store/request";
-import {userService} from "@/store/apis/account";
 import historyService from "@/store/history";
 import IconFont from "@/common/icon";
 import {copy} from "@/common/utils";
@@ -34,14 +32,14 @@ const ResetPwdPage:FC = () => {
         }
     }, [url])
 
-    const resetPwd = async() =>{
-        if(id){
-           const res = await request(userService.ResetUserPwd({ id }, {}));
-           if(res.isSuccess){
-               setNewPwd(res.result as string)
-           }
-        }
-    }
+    // const resetPwd = async() =>{
+    //     if(id){
+    //        const res = await request(userService.ResetUserPwd({ id }, {}));
+    //        if(res.isSuccess){
+    //            setNewPwd(res.result as string)
+    //        }
+    //     }
+    // }
     const onReturn = ()=>{
         historyService.push('/'+page)
     }
@@ -75,7 +73,7 @@ const ResetPwdPage:FC = () => {
         {
             newPwd ?<Button onClick={onReturn}>返回</Button>:
                 <>
-                    <Button type="primary" onClick={resetPwd}>应用</Button>
+                    {/*<Button type="primary" onClick={resetPwd}>应用</Button>*/}
                     <Button style={{marginLeft:15}} onClick={onReturn}>取消</Button>
                 </>
         }

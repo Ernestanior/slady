@@ -27,7 +27,8 @@ interface ITableModule{
         x?: number;
         y?: number
     },
-    dataMergeEvent?: (data: any[]) => Promise<any[]>
+    dataMergeEvent?: (data: any[]) => Promise<any[]>,
+    staticData?:any;
 }
 
 interface IMobile{
@@ -87,6 +88,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
     // ref 保证引用不会改变
     const { current: queryData } = useRef(props.queryData);
     const { current: queryDataFunction } = useRef(props.queryDataFunction);
+    const { current: staticData } = useRef(props.staticData);
 
     // 如果有强制大小限定
     const [selectIds, setSelectIds] = useState<string[]>([]);
@@ -118,7 +120,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
                 searchPage: {
                     desc: 1,
                     page: 1,
-                    pageSize: 15,
+                    pageSize: 999,
                     sort: "",
                 },
                 filters: {},
@@ -182,6 +184,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
                             console.error("Data request error！");
                         }
                     } else {
+                        resultData = staticData
                         console.error("Request fail!");
                     }
                     setSelectIds([])
@@ -263,7 +266,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
 
     const tableRowConfig: any = useMemo(() => {
         const {optList,columns} = props
-        const conf = columns.map(cof =>cof)
+        const conf = columns.map((cof:any) =>cof)
         if (!optList) {
             return conf;
         }
@@ -281,7 +284,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
         if(tableData.length > 0){
             if(mergeFuncRef.current){
                 const sub = from(mergeFuncRef.current(tableData))
-                    .subscribe(res => {
+                    .subscribe((res:any) => {
                         setMergeData(res)
                     })
                 return () => sub.unsubscribe();
@@ -323,13 +326,13 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
             <Table
                 sticky
                 dataSource={mergeData.length > 0 ? mergeData : tableData}
-                pagination={{
-                    ...pagination,
-                    onChange: pageOnChange,
-                    showQuickJumper: true,
-                    showSizeChanger: true,
-                    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`
-                }}
+                // pagination={{
+                //     ...pagination,
+                //     onChange: pageOnChange,
+                //     showQuickJumper: true,
+                //     showSizeChanger: true,
+                //     showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`
+                // }}
                 rowKey={props.rowKey}
                 onChange={tableOnChange}
                 rowSelection={rowSelection}

@@ -1,17 +1,17 @@
 /*jshint -W069 */
 // tslint:disable
 import { AxiosRequestConfig } from 'axios';
-import {ISearchPage} from "./common.interface";
 
 /**
  * @class DomainAPI
  * @description 域名管理API
  * @return 返回request的config
  */
-class StreamAPI {
-    StreamList = (params: {}, data: IStreamList) => {
+class OrderAPI {
+
+    OrderList = (params: {}, data: {}) => {
         const config: AxiosRequestConfig = {
-            url: '/api/stream/page',
+            url: '/order/list',
             method: 'post',
             params,
             data
@@ -20,9 +20,9 @@ class StreamAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    StreamModify = (params: {}, data: IStreamModify) => {
+    OrderModify= (params: {}, data:{} ) => {
         const config: AxiosRequestConfig = {
-            url: '/api/stream/modify',
+            url: '/order/modify',
             method: 'put',
             params,
             data
@@ -31,9 +31,9 @@ class StreamAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    StreamDelete = (params: {}, data: number[]) => {
+    OrderDelete = (params: {}, data: number[]) => {
         const config: AxiosRequestConfig = {
-            url: '/api/stream/delete',
+            url: '/order/delete',
             method: 'delete',
             params,
             data
@@ -42,35 +42,18 @@ class StreamAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    StreamCreate = (params: {}, data: IStream) => {
+    OrderCreate = (params: {}, data: {  }) => {
         const config: AxiosRequestConfig = {
-            url: '/api/stream/create',
+            url: '/order/create',
             method: 'put',
             params,
             data
         };
         config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
         return config;
     }
-}
-export default StreamAPI;
 
 
-/** batchDelete的请求参数*/
-interface IStreamList{
-    keyWord?:string;
-    searchPage:ISearchPage;
 }
-
-/** batchDelete的请求参数*/
-export interface IStream{
-    file:any;
-    image?:any;
-    streamForm:IStreamForm;
-}
-interface IStreamModify extends IStream{
-    id:number;
-}
-interface IStreamForm {
-
-}
+export default OrderAPI;

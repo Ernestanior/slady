@@ -11,14 +11,14 @@ import {
  * @return 返回request的config
  */
 class OperateLogAPI {
-    
+
         /**
          * findAccessLog
          * 生成请求参数
          */
         FindAccessLog = (params: IFindAccessLogParams, data: IOperateLogForm) => {
             const config: AxiosRequestConfig = {
-                url: '/operate-log/list',
+                url: '/operation-log/list',
                 method: 'post',
                 params,
                 data
@@ -27,7 +27,7 @@ class OperateLogAPI {
             config.headers['Content-Type'] = 'application/json';
             return config;
         }
-    
+
 }
 export default OperateLogAPI;
 

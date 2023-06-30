@@ -1,17 +1,9 @@
 import React, {FC, useCallback, useMemo, useState} from "react";
 import Template from "@/common/template";
 import {INormalEvent} from "@/common/interface";
-import {Input, notification, TableColumnProps} from "antd";
-import {adminService} from "@/store/apis/account";
-import { reqAndReload} from "@/common/utils";
-import request from "@/store/request";
-import {IOperationConfig} from "@/common/template/interface";
-import msgModal from "@/store/message/service";
+import {Input, TableColumnProps} from "antd";
 import FormItem from "@/common/Form/formItem";
-import CreateAdmin from "@/pages/items/create";
-import ModifyAdmin from "@/pages/items/modify";
-import Status from "@/common/status";
-import {E_COLOR} from "@/common/const";
+import ModifyAdmin from "@/pages/design/modify";
 import item1 from '../../../assets/1.jpg'
 import item2 from '../../../assets/2.jpg'
 import item3 from '../../../assets/3.jpg'
@@ -19,20 +11,8 @@ import item4 from '../../../assets/4.jpg'
 import item5 from '../../../assets/5.jpg'
 import item6 from '../../../assets/6.jpg'
 const OrderList: FC = () => {
-    const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [selectData,setSelectData] = useState<any>()
-    const buttons: INormalEvent[] = useMemo(() => {
-        return [
-            {
-                text: "新增",
-                primary: true,
-                event() {
-                    setCreateFlag(true)
-                },
-            },
-        ];
-    }, []);
 
     const queryDataFunction = useCallback(async (filters) => {
         // const cusList = await request(adminService.UserList({}, {type:'admin',...filters}));
@@ -51,12 +31,10 @@ const OrderList: FC = () => {
                 filter={<FormItem span={5} noStyle name="keyWord">
                     <Input/>
                 </FormItem>}
-                event={buttons}
                 columns={columns}
                 queryDataFunction={queryDataFunction}
                 rowKey="id"
             />
-            <CreateAdmin onOk={()=>setCreateFlag(false)} visible={createFlag}></CreateAdmin>
             <ModifyAdmin onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyAdmin>
         </section>
     );
@@ -72,17 +50,17 @@ const columns: TableColumnProps<any>[] = [
             console.log(item)
             switch (item){
                 case 1:
-                    return <img src={item1}/>
+                    return <img alt={""} src={item1}/>
                 case 2:
-                    return <img src={item2}/>
+                    return <img alt={""} src={item2}/>
                 case 3:
-                    return <img src={item3}/>
+                    return <img alt={""} src={item3}/>
                 case 4:
-                    return <img src={item4}/>
+                    return <img alt={""} src={item4}/>
                 case 5:
-                    return <img src={item5}/>
+                    return <img alt={""} src={item5}/>
                 case 6:
-                    return <img src={item6}/>
+                    return <img alt={""} src={item6}/>
             }
 
         }
