@@ -3,7 +3,6 @@ import Template from "@/common/template";
 import {INormalEvent} from "@/common/interface";
 import {Input, TableColumnProps} from "antd";
 import FormItem from "@/common/Form/formItem";
-import ModifyAdmin from "@/pages/design/modify";
 import item1 from '../../../assets/1.jpg'
 import item2 from '../../../assets/2.jpg'
 import item3 from '../../../assets/3.jpg'
@@ -36,7 +35,6 @@ const OrderList: FC = () => {
                 queryDataFunction={queryDataFunction}
                 rowKey="id"
             />
-            <ModifyAdmin onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyAdmin>
         </section>
     );
 };

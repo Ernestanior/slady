@@ -3,7 +3,6 @@ import {Redirect, Route, Router, Switch} from "react-router-dom";
 import historyService from "@/store/history"
 import LayoutPlx from "../common/layout";
 import ItemList from "@/pages/design/index";
-import ResetPwd from "@/pages/resetPwd";
 import Staff from "@/pages/staff";
 
 import Profile from '@/pages/profile/index'
@@ -24,9 +23,6 @@ const ModuleRouter:FC = () => {
     return <Router history={historyService}>
         <LayoutPlx>
             <Switch>
-                <Route exact path="/admin/resetPwd/:name/:id">
-                    <ResetPwd />
-                </Route>
                 <Route path="/item/detail/:design">
                     <Detail />
                 </Route>
@@ -36,9 +32,7 @@ const ModuleRouter:FC = () => {
                 <Route path="/item">
                     <ItemList />
                 </Route>
-                <Route exact path="/staff/resetPwd/:name/:id">
-                    <ResetPwd />
-                </Route>
+
                 <Route path="/order">
                     <Order />
                 </Route>

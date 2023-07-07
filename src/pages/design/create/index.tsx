@@ -11,11 +11,11 @@ import SelectP from "@/common/select";
 import {designService, itemService} from "@/store/apis/item";
 import historyService from "@/store/history";
 
-const typeList = [ 'DR', 'TB', 'SK', 'PT', 'JK', 'JS-连体裤', 'AC', 'SH']
+export const typeList = [ 'DR', 'TB', 'SK', 'PT', 'JK', 'JS-连体裤', 'AC', 'SH']
 // const color = ['灰色','橙色','黄色','绿色','蓝色','紫色','白色','粉色','米色','棕色','灰褐色','香槟色','深蓝色','天空色','芥末黄','薄荷绿','蜜桃色','奶油色','炭黑色']
-const colorList = ['Grey','Orange','Yellow','Green','Blue','purple','White','Pink','beige','Brown','Champagne','Navy','Sky','Mustard','Mint','Peach','Cream','Charcoal']
+export const colorList = ['Grey','Orange','Yellow','Green','Blue','purple','White','Pink','beige','Brown','Champagne','Navy','Sky','Mustard','Mint','Peach','Cream','Charcoal']
 // const size = [{label:'XS',value:'XS'},{label:'S',value:'S'},{label:'M',value:'M'},{label:'L',value:'L'},{label:'XL',value:'XL'}]
-const size = ['XS','S','M','L','XL']
+export const size = ['XXS','XS','S','M','L','XL','XXL','3XL','4XL']
 let index=0
 const CreateItem: FC = () => {
     const [form] = useForm()
@@ -25,9 +25,6 @@ const CreateItem: FC = () => {
     const [color, setColor] = useState('');
     const inputRef = useRef<InputRef>(null);
 
-    const onColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor(event.target.value);
-    };
     const addColor = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
         e.preventDefault();
         setItems([...items, color || `New item ${index++}`]);
@@ -60,17 +57,6 @@ const CreateItem: FC = () => {
                         historyService.replace('/item')
                 }
             }
-
-
-        // formData.append('email', videoForm.email || "");
-        // formData.append('password', videoForm.password || "");
-        // setLoading(true)
-        // const res = await request(itemService.FileUpload({}, formData as any))
-        // setLoading(false)
-        // if (res.isSuccess){
-        //     reloadMainList();
-        //     form.resetFields();
-        // }
     }
     return (
         <section>
@@ -93,7 +79,7 @@ const CreateItem: FC = () => {
                                         placeholder="Please enter item"
                                         ref={inputRef}
                                         value={color}
-                                        onChange={onColorChange}
+                                        onChange={(e)=>setColor(e.target.value)}
                                     />
                                     <Button type="text" icon={<PlusOutlined />} onClick={addColor}>
                                         Add Color

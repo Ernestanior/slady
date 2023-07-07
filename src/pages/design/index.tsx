@@ -9,7 +9,7 @@ import item6 from '../../assets/6.jpg'
 import {RightOutlined} from "@ant-design/icons";
 import Search from "antd/es/input/Search";
 import historyService from "@/store/history";
-import request from "@/store/request";
+import request, {dev_url} from "@/store/request";
 import {designService, itemService} from "@/store/apis/item";
 import {from} from "rxjs";
 
@@ -38,27 +38,10 @@ const DesignList: FC = () => {
             }
         })
         from(request(config)).subscribe((res:any)=>{
-            // const newData = data?.result?.content.reduce((total:any,current:any)=>{
-            //     const itemExit = total.some((item:any)=>item.design===current.design)
-            //     if (itemExit){
-            //         total.forEach((item:any)=> {
-            //             if(item.design === current.design) {
-            //                 item.stockNumber+=current.stockNumber
-            //                 item.item.push(current)
-            //             }
-            //
-            //         })
-            //         return total
-            //     }else{
-            //         total.push({design:current.design,salePrice:current.salePrice,stockNumber:current.stockNumber || 0,item:[current]})
-            //         return total
-            //     }
-            // },[])
             setDisplayData(res.result)
         })
 
     },[type])
-
     return (
         <section>
             <section style={{marginBottom:10}}>
@@ -72,7 +55,7 @@ const DesignList: FC = () => {
             </section>
             <div style={{display:"flex",flexWrap:"wrap"}}>
                 {displayData && displayData.map((item:any,index:number)=><div key={index} style={{backgroundColor:"#fff",width:500,display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd"}}>
-                        <img style={{height:"100%"}} src={item.pic}/>
+                        <img style={{height:"100%"}} src={dev_url+item.previewPhoto}/>
                         <div style={{width:"100%",display:"flex",padding:15,justifyContent:"space-between"}}>
                             <div>
                                 <h3>{item.design}</h3>
@@ -83,21 +66,7 @@ const DesignList: FC = () => {
                         </div>
                     </div>
                 )}
-                {/*{staticData && staticData.content.map((item:any,index:number)=><div key={index} style={{backgroundColor:"#fff",width:500,display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd"}}>*/}
-                {/*        <img style={{height:"100%"}} src={item.pic}/>*/}
-                {/*        <div style={{width:"100%",display:"flex",padding:15,justifyContent:"space-between"}}>*/}
-                {/*            <div>*/}
-                {/*                <h3>{item.design}</h3>*/}
-                {/*                <div style={{marginBottom:5}}>库存：{item.stockNumber}</div>*/}
-                {/*                价格：<span style={{color:"#fa9829"}}>${item.salePrice}</span>*/}
-                {/*            </div>*/}
-                {/*            <a style={{display:"flex",alignItems:"center",color:"#b67c39",fontSize:15,fontWeight:600}} onClick={goDetail}>详情<RightOutlined /></a>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*)}*/}
             </div>
-            {/*<CreateItem/>*/}
-            {/*<ModifyAdmin onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyAdmin>*/}
         </section>
     );
 };

@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sales-system 
+  name: slady
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: sales-system
+      app: slady
   template:
     metadata:
       labels:
-        app: sales-system
+        app: slady
     spec:
       imagePullSecrets:
       - name: harbor
       containers:
-      - name: sales-system
-        image: harbor.greypanel.com/greycdn/sales-system:latest
+      - name: slady
+        image: slady
         imagePullPolicy: Always
         ports:
         - name: http-port
@@ -24,13 +24,13 @@ spec:
         readinessProbe:
           httpGet:
             path: /
-            port: 10087 
+            port: 10087
           initialDelaySeconds: 20
-          periodSeconds: 20        
+          periodSeconds: 20
         livenessProbe:
           httpGet:
             path: /
-            port: 10087 
+            port: 10087
           failureThreshold: 1
           periodSeconds: 20
 

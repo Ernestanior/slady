@@ -43,7 +43,7 @@ class DesignAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    DesignDelete = (params: {}, data: number[]) => {
+    DesignDelete = (params: {}, data: any[]) => {
         const config: AxiosRequestConfig = {
             url: '/design/delete',
             method: 'delete',

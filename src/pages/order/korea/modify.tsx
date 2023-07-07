@@ -23,8 +23,10 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
     }
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
-        console.log(newData)
-        console.log(data)
+        if (newData.status===orderType.PENDING && !newData.pendingDate){
+            notification.error({message:"修改状态为待定时，必须填写日期"})
+            return
+        }
         if (newData.status===orderType.DONE && !newData.quotedPrice){
             notification.error({message:"修改状态为OK时，必须填写价格"})
             return

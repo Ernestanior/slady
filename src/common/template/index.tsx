@@ -77,7 +77,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
         const { current, pageSize,total,totalPages } = pagination;
         const  _total= total || 0;
         return {
-            size:pageSize || 10,
+            size:pageSize || 999,
             total:total || 0,
             hide: _total <= 0,
             current: current || 1,
@@ -281,7 +281,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
     const [mergeData, setMergeData] = useState<any[]>([])
     const mergeFuncRef = useUpdatedRef(props.dataMergeEvent)
     useEffect(() => {
-        if(tableData.length > 0){
+        if(tableData && tableData.length > 0){
             if(mergeFuncRef.current){
                 const sub = from(mergeFuncRef.current(tableData))
                     .subscribe((res:any) => {
@@ -340,6 +340,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
                 loading={loading}
                 rowClassName={rowClassName}
                 scroll={props.scroll}
+                pagination={false}
             />
         </section>
     </section>

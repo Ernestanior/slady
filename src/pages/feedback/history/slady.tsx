@@ -1,25 +1,13 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, useCallback, useMemo, useState} from "react";
 import Template from "@/common/template";
 import {Input, Popconfirm, TableColumnProps} from "antd";
 import FormItem from "@/common/Form/formItem";
 import {orderService} from "@/store/apis/order";
 import {areaType} from "@/pages/order";
 import moment from "moment/moment";
-import {from} from "rxjs";
-import request from "@/store/request";
 const OrderList: FC = () => {
-
     const [editFlag,setEditFlag]=useState<boolean>(false)
-    const [totalPrice,setTotalPrice] = useState<any>()
-    useEffect(()=>{
-        const config = orderService.OrderCount({},{})
-        from(request(config)).subscribe((res:any)=>{
-            if (res.isSuccess){
-                const data = res.result.filter((item:any)=>item.warehouseName==="Slady一店")
-                data.length && setTotalPrice(data[0].count)
-            }
-        })
-    },[])
+    const [selectData,setSelectData] = useState<any>()
     return (
         <section>
             <Template
@@ -34,10 +22,6 @@ const OrderList: FC = () => {
                 })}
                 rowKey="id"
             />
-            <div style={{marginTop:20}}>
-                <span style={{fontWeight:"600"}}>总价: $ {totalPrice}</span>
-
-            </div>
         </section>
     );
 };

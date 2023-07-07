@@ -17,7 +17,8 @@ export enum orderType{
     PENDING='1',
     DONE='2',
     SEND='3',
-    CANCEL='4'
+    CANCELREQUEST='4',
+
 }
 const Order: FC = () => {
     return (

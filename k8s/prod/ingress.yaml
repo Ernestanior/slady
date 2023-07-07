@@ -14,7 +14,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
   rules:
-    - host: sales.greypanel.com
+    - host: slady.com
       http:
         paths:
         - path: /

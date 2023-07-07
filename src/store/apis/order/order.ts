@@ -53,6 +53,17 @@ class OrderAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
+    OrderCount = (params: {}, data: {  }) => {
+        const config: AxiosRequestConfig = {
+            url: '/order/count',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
 
 
 }

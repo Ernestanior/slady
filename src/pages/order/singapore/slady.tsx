@@ -37,15 +37,31 @@ const OrderList: FC = () => {
                 event(data) {
                     const value = {
                         title: "请求取消订单",
-                        content: `确定发生取消订单请求: ${data.design} ？`,
+                        content: `确定发送取消订单请求: ${data.design} ？`,
                         onOk: () => {
-                            const config = orderService.OrderDelete({}, [data.id]);
+                            console.log(data)
+                            const config = orderService.OrderModify({}, {...data,status:"4"});
                             reqAndReload(config);
                         }
                     }
                     msgModal.createEvent("modal", value)
                 }
+            },
+        {
+            text: "撤回请求",
+            hide: (data) => data.status !== orderType.CANCELREQUEST,
+            event(data) {
+                const value = {
+                    title: "撤回请求",
+                    content: `确定撤回取消订单的请求: ${data.design} ？`,
+                    onOk: () => {
+                        const config = orderService.OrderModify({}, {...data,status:"1"});
+                        reqAndReload(config);
+                    }
+                }
+                msgModal.createEvent("modal", value)
             }
+        }
     ], [])
 
     return (
@@ -76,7 +92,8 @@ const columns: any = [
     {
         title: "照片",
         dataIndex: "preViewPhoto",
-        render:(item:any)=><img alt="" src={item}/>
+        width: 120,
+        render:(item:any)=><img style={{height:150,width:120}} alt="" src={item}/>
     },
     {
         title: "设计师",
@@ -112,6 +129,7 @@ const columns: any = [
     {
         title:"状态",
         dataIndex:"status",
+        width:130,
         render:(value:string)=>{
             switch (value){
                 case '0':
@@ -122,11 +140,17 @@ const columns: any = [
                     return 'OK'
                 case '3':
                     return '已发货'
+                case '4':
+                    return '待定(请求取消)'
             }
         }
     },
     {
         title:"待定日期",
-        dataIndex:"pendingData",
+        dataIndex:"pendingDate",
+        width:110,
+        render:(value:any)=>{
+            return value && <div>{moment(value).format('YYYY-MM-DD')}</div>
+        }
     },
 ];

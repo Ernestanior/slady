@@ -80,7 +80,7 @@ class ItemAPI {
     FileList = (params: {}, data: {}) => {
         const config: AxiosRequestConfig = {
             url: '/file/list',
-            method: 'put',
+            method: 'get',
             params,
             data
         };
