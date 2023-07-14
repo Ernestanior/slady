@@ -8,7 +8,7 @@ const Rank: FC = () => {
     console.log(type)
     return (
         <section>
-            <div style={{marginBottom:10}}>
+            <div style={{marginBottom:30}}>
                 <Button type={type==="top"?'primary':'default'} onClick={()=>setType('top')}>爆款</Button>
                 <Button type={type==="bot"?'primary':'default'} onClick={()=>setType('bot')} style={{marginLeft:10}}>冷款</Button>
             </div>

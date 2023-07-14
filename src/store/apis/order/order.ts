@@ -31,6 +31,17 @@ class OrderAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
+    OrderModifyStatus= (params: {}, data:[] ) => {
+        const config: AxiosRequestConfig = {
+            url: '/order/modify-status',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
     OrderDelete = (params: {}, data: number[]) => {
         const config: AxiosRequestConfig = {
             url: '/order/delete',
@@ -56,6 +67,17 @@ class OrderAPI {
     OrderCount = (params: {}, data: {  }) => {
         const config: AxiosRequestConfig = {
             url: '/order/count',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
+    OrderExport = (params: {}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/order/export',
             method: 'post',
             params,
             data

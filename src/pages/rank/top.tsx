@@ -1,22 +1,49 @@
-import React, {FC} from "react";
-import item1 from '../../assets/1.jpg'
-import item2 from '../../assets/2.jpg'
-import item4 from '../../assets/4.jpg'
-import item5 from '../../assets/5.jpg'
-import item6 from '../../assets/6.jpg'
+import React, {FC, useEffect, useState} from "react";
 import {RightOutlined} from "@ant-design/icons";
 import IconFont from "@/common/icon";
+import {Button} from "antd";
+import {typeList} from "@/pages/design";
+import {designService} from "@/store/apis/item";
+import {from} from "rxjs";
+import request, {dev_url} from "@/store/request";
+import historyService from "@/store/history";
 const TopSale: FC = () => {
+    const [type,setType] = useState<string>('')
+    const [displayData,setDisplayData]=useState<any>([])
+
+    useEffect(()=>{
+        const config = designService.DesignList({}, {
+            type,
+            "searchPage": {
+                "desc": 0,
+                "page": 1,
+                "pageSize": 999,
+                "sort": "hot"
+            }
+        })
+        from(request(config)).subscribe((res:any)=>{
+            setDisplayData(res.result)
+        })
+    },[type])
+
+    const goDetail=(id:string)=>{
+        historyService.push(`/item/detail/${id}`)
+    }
     return (
         <section>
+            <section style={{marginBottom:10}}>
+                {typeList.map((item)=><>
+                    <Button type={type===item.id?'primary':'default'} style={{borderRadius:20,marginRight:5}} onClick={()=>setType(item.id)}>{item.value}</Button>
+                </>)}
+            </section>
             <div>
-                {staticData.content.map((item,index)=><div key={index} style={{backgroundColor:"#fff",display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd"}}>
-                        <img alt="" style={{height:"100%"}} src={item.pic}/>
+                {displayData && displayData.map((item:any,index:number)=><div key={index} style={{backgroundColor:"#fff",display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd"}}>
+                    <div style={{height:150,width:300}} ><img alt="" style={{height:"100%"}} src={dev_url+item.previewPhoto}/></div>
                         <div style={{width:"100%",display:"flex",padding:15,justifyContent:"space-between",alignItems:"center"}}>
                                 <div>
                                     <h3>{item.designId}</h3>
-                                    <div style={{marginBottom:5}}>销量：{item.sum}</div>
-                                    价格：<span style={{color:"#fa9829"}}>${item.price}</span>
+                                    <div style={{marginBottom:5}}>编号：{item.design}</div>
+                                    热度：<span style={{color:"#fa9829"}}>{item.hot || 0}</span>
                                 </div>
                             <div style={{display:"flex",width:600,justifyContent:"space-between"}}>
                                 <div >
@@ -24,34 +51,17 @@ const TopSale: FC = () => {
                                     {index===1&&<IconFont type="icon-jiangbei-1" style={{fontSize:40}}/>}
                                     {index===2&&<IconFont type="icon-jiangbei-2" style={{fontSize:40}}/>}
                                 </div>
-                                <a href="#" style={{display:"flex",alignItems:"center",color:"#b67c39",fontSize:15,fontWeight:600}}>详情<RightOutlined /></a>
+                                <a href="#" style={{display:"flex",alignItems:"center",color:"#b67c39",fontSize:15,fontWeight:600}} onClick={()=>goDetail(item.id)}>详情<RightOutlined /></a>
                             </div>
                         </div>
                     </div>
                 )}
             </div>
+
         </section>
     );
 };
 
 export default TopSale;
 
-const staticData = {
-    number:0,
-    numberOfElements:10,
-    size:10,
-    totalElements:16,
-    totalPages:2,
-    content:[
-        {designId:"618-212", pic:item1, sum:25, price:199.01},
-        {designId:"618-212", pic:item2, sum:45, price:199.01},
-        {designId:"618-212", pic:item5, sum:52, price:199.01},
-        {designId:"618-212", pic:item4, sum:23, price:199.01},
-        {designId:"618-212", pic:item5, sum:87, price:199.01},
-        {designId:"618-212", pic:item6, sum:231, price:199.01},
-        {designId:"618-212", pic:item1, sum:255, price:199.01},
-        {designId:"618-212", pic:item2, sum:351, price:199.01},
-        {designId:"618-212", pic:item4, sum:225, price:199.01},
 
-    ]
-}

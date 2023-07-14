@@ -44,14 +44,14 @@ const Detail: FC = () => {
     // const sladyData = useMemo(()=>data && data.filter((item:any)=>item.warehouseName==='Slady一店'),[data])
     // const SLData = useMemo(()=>data && data.filter((item:any)=>item.warehouseName==='SL二店'),[data])
     const goPic=async()=>{
-        const config = itemService.FileList({folderPath:data.photos},{})
-        const res = await request(config)
-        console.log(res)
+        // const config = itemService.FileList({folderPath:data.photos},{})
+        // const res = await request(config)
+        data?.photos && historyService.push({pathname:`/item/images`,search:`forderPath=${data.photos}`})
     }
     return (
         <section>
             <section style={{display:"flex"}}>
-                <img src={dev_url+data?.photos} height={200} onClick={goPic}/>
+                <img src={dev_url+data?.previewPhoto} height={200} onClick={goPic}/>
                 <div style={{width:300,marginLeft:20}}>
                     <Row style={{marginBottom:10}}>
                         <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>设计编号</Col>

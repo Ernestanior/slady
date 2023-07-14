@@ -13,6 +13,7 @@ import Feedback from "@/pages/feedback";
 import Rank from "@/pages/rank";
 import StorageRecord from "@/pages/storage";
 import CreateItem from "@/pages/design/create";
+import ImgView from "@/pages/design/imgView";
 /**
  * 项目路由组件
  * 可以在此根据用户相应的权限组装路由
@@ -23,6 +24,9 @@ const ModuleRouter:FC = () => {
     return <Router history={historyService}>
         <LayoutPlx>
             <Switch>
+                <Route path="/item/images">
+                    <ImgView />
+                </Route>
                 <Route path="/item/detail/:design">
                     <Detail />
                 </Route>

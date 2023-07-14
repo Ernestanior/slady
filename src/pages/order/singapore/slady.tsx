@@ -8,6 +8,7 @@ import {areaType, orderType} from "@/pages/order";
 import {reqAndReload} from "@/common/utils";
 import msgModal from "@/store/message/service";
 import moment from "moment";
+import {dev_url} from "@/store/request";
 // import ModifyStatus from "./modify";
 
 
@@ -83,17 +84,15 @@ const OrderList: FC = () => {
     );
 };
 
-const cancelOrder=(e:any)=>{
-    console.log(e)
-}
+
 export default OrderList;
 
 const columns: any = [
     {
         title: "照片",
-        dataIndex: "preViewPhoto",
+        dataIndex: "previewPhoto",
         width: 120,
-        render:(item:any)=><img style={{height:150,width:120}} alt="" src={item}/>
+        render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
     },
     {
         title: "设计师",
@@ -150,7 +149,8 @@ const columns: any = [
         dataIndex:"pendingDate",
         width:110,
         render:(value:any)=>{
-            return value && <div>{moment(value).format('YYYY-MM-DD')}</div>
+            // return value && <div>{moment(value).format('YYYY-MM-DD')}</div>
+            return value && <div>{value}</div>
         }
     },
 ];

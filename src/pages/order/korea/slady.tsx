@@ -7,7 +7,7 @@ import {orderService} from "@/store/apis/order";
 import {areaType} from "@/pages/order";
 import ModifyStatus from "./modify";
 import moment from "moment";
-import request from "@/store/request";
+import request, {dev_url} from "@/store/request";
 import {reqAndReload} from "@/common/utils";
 
 
@@ -58,8 +58,8 @@ export default OrderList;
 const columns: any = [
     {
         title: "照片",
-        dataIndex: "preViewPhoto",
-        render:(item:any)=><img style={{height:150,width:120}} alt="" src={item}/>
+        dataIndex: "previewPhoto",
+        render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
     },
     {
         title: "设计编号",
@@ -108,9 +108,9 @@ const columns: any = [
         dataIndex:"pendingDate",
         width:110,
         render:(value:any,item:any)=>{
-            console.log(item)
             return value && <>
-                <div>{moment(value).format('YYYY-MM-DD')}</div>
+                {/*<div>{moment(value).format('YYYY-MM-DD')}</div>*/}
+                <div>{value}</div>
                 {
                     item.status==="4" &&
                     <Popconfirm title="确定取消?" onConfirm={()=>cancelOrder(item)} okText={"确定"} cancelText={"取消"}>

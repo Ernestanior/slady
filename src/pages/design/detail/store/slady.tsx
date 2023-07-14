@@ -12,6 +12,7 @@ import {userService} from "@/store/apis/account";
 import {reqAndReload} from "@/common/utils";
 import {notification} from "antd";
 import msgModal from "@/store/message/service";
+import CustomerOrder from "@/pages/design/detail/store/customerOrder";
 
 interface IProps{
 }
@@ -19,6 +20,7 @@ const Slady: FC<IProps> = () => {
     // const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [editStock,setEditStock]=useState<boolean>(false)
     const [replenish,setReplenish]=useState<boolean>(false)
+    const [cusOrder,setCusOrder]=useState<boolean>(false)
     const [selectedItem,setSelectedItem] = useState<any>()
     const [type,setType]=useState<boolean>(true)
     const [createFlag,setCreateFlag]=useState<boolean>(false)
@@ -59,7 +61,7 @@ const Slady: FC<IProps> = () => {
                     text: "客订",
                     event(data) {
                         setSelectedItem(data)
-                        setReplenish(true)
+                        setCusOrder(true)
                     },
                 },
                 {
@@ -96,6 +98,8 @@ const Slady: FC<IProps> = () => {
             />
             <EditStock onOk={()=>setEditStock(false)} visible={editStock} data={selectedItem}></EditStock>
             <Replenish onOk={()=>setReplenish(false)} visible={replenish} data={selectedItem}></Replenish>
+            <CustomerOrder onOk={()=>setCusOrder(false)} visible={cusOrder} data={selectedItem}></CustomerOrder>
+
             <CreateItem onOk={()=>setCreateFlag(false)} visible={createFlag} designId={designId}></CreateItem>
 
         </section>

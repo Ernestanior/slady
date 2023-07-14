@@ -1,19 +1,34 @@
-import React, {FC} from "react";
-import {Tabs} from "antd";
+import React, {FC, useState} from "react";
+import {Button, Tabs} from "antd";
 import KoreaSlady from './korea/slady'
 import KoreaSl from './korea/sl'
+import HistorySlady from "@/pages/feedback/history/slady";
+import HistorySl from "@/pages/feedback/history/sl";
 const { TabPane } = Tabs;
 const Feedback: FC = () => {
+    const [payStatus,setPayStatus]=useState<boolean>(false)
     return (
         <section>
-            <Tabs defaultActiveKey="1">
+            <div style={{marginBottom:30}}>
+                <Button type={payStatus?'default':'primary'} onClick={()=>setPayStatus(false)}>未付款</Button>
+                <Button type={payStatus?'primary':'default'} onClick={()=>setPayStatus(true)} style={{marginLeft:10}}>已付款</Button>
+            </div>
+            {payStatus?<Tabs defaultActiveKey="1">
+                <TabPane tab="Slady一店" key="1">
+                    <HistorySlady></HistorySlady>
+                </TabPane>
+                <TabPane tab="SL二店" key="2">
+                    <HistorySl></HistorySl>
+                </TabPane>
+            </Tabs>:<Tabs defaultActiveKey="1">
                 <TabPane tab="Slady一店" key="1">
                     <KoreaSlady></KoreaSlady>
                 </TabPane>
                 <TabPane tab="SL二店" key="2">
                     <KoreaSl></KoreaSl>
                 </TabPane>
-            </Tabs>
+            </Tabs>}
+
         </section>
     );
 };

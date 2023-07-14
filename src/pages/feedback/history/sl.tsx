@@ -9,7 +9,7 @@ import item3 from '../../../assets/3.jpg'
 import item4 from '../../../assets/4.jpg'
 import item5 from '../../../assets/5.jpg'
 import item6 from '../../../assets/6.jpg'
-const OrderList: FC = () => {
+const HistorySl: FC = () => {
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [selectData,setSelectData] = useState<any>()
 
@@ -38,7 +38,7 @@ const OrderList: FC = () => {
     );
 };
 
-export default OrderList;
+export default HistorySl;
 
 const columns: TableColumnProps<any>[] = [
     {

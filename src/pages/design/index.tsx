@@ -16,11 +16,15 @@ import {from} from "rxjs";
 type Type ='All' | 'DR' | 'TB' | 'SK' | 'PT' | 'JK' | 'JS-连体裤' | 'AC' | 'SH'
 
 // export const typeList:Type[] = ['All', 'Dresses', 'Blouses', 'Skirts', 'Pants', 'Jackets', 'Sets', 'Accessories', 'Shoes']
-export const typeList:Type[] = ['All', 'DR', 'TB', 'SK', 'PT', 'JK', 'JS-连体裤', 'AC', 'SH']
+// export const typeList:Type[] = ['All', 'DR', 'TB', 'SK', 'PT', 'JK', 'JS-连体裤', 'AC', 'SH']
+export const typeList:any[] = [{id:'',value:'ALL'}, {id:'DR',value:'DR连衣裙'},
+    {id:'TB',value:'TB上衣'},{id:'SK',value:'SK半裙'},{id:'PT',value:'PT裤子'},{id:'GO',value:'GO晚礼服'},
+    {id:'JK',value:'JK外套'},{id:'JS',value:'JS连体裤'},{id:'BT',value:'BT皮带'},{id:'SH',value:'SH鞋子'},{id:'SE',value:'SE套装'},
+    {id:'SI',value:'SI真丝'},{id:'AC',value:'AC'}]
 
 const DesignList: FC = () => {
     const [displayData,setDisplayData]=useState<any>([])
-    const [type,setType] = useState<string>('All')
+    const [type,setType] = useState<string>('')
     const [name,setName] = useState<string>('')
 
     const goDetail=(id:string)=>{
@@ -29,7 +33,7 @@ const DesignList: FC = () => {
 
     useEffect(()=>{
         const config = designService.DesignList({}, {
-            // type,
+            type,
             "searchPage": {
                 "desc": 0,
                 "page": 1,
@@ -46,7 +50,7 @@ const DesignList: FC = () => {
         <section>
             <section style={{marginBottom:10}}>
                 {typeList.map((item)=><>
-                    <Button type={type===item?'primary':'default'} style={{borderRadius:20,marginRight:5}} onClick={()=>setType(item)}>{item}</Button>
+                    <Button type={type===item.id?'primary':'default'} style={{borderRadius:20,marginRight:5}} onClick={()=>setType(item.id)}>{item.value}</Button>
                 </>)}
             </section>
             <section>
@@ -54,8 +58,8 @@ const DesignList: FC = () => {
                 <Button type={"primary"} onClick={()=>historyService.push('/item/create')}>新增</Button>
             </section>
             <div style={{display:"flex",flexWrap:"wrap"}}>
-                {displayData && displayData.map((item:any,index:number)=><div key={index} style={{backgroundColor:"#fff",width:500,display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd"}}>
-                        <img style={{height:"100%"}} src={dev_url+item.previewPhoto}/>
+                {displayData && displayData.map((item:any,index:number)=><div key={index} style={{backgroundColor:"#fff",width:500,display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd",overflow:"hidden"}}>
+                        <img style={{height:150}} src={dev_url+item.previewPhoto}/>
                         <div style={{width:"100%",display:"flex",padding:15,justifyContent:"space-between"}}>
                             <div>
                                 <h3>{item.design}</h3>
@@ -72,22 +76,3 @@ const DesignList: FC = () => {
 };
 
 export default DesignList;
-
-const staticData = {
-    number:0,
-    numberOfElements:10,
-    size:10,
-    totalElements:16,
-    totalPages:2,
-    content:[
-        {design:"618-212", pic:item1, stockNumber:5, salePrice:199.01},
-        {design:"618-212", pic:item2, stockNumber:5, salePrice:199.01},
-        {design:"618-212", pic:item5, stockNumber:5, salePrice:199.01},
-        {design:"618-212", pic:item4, stockNumber:5, salePrice:199.01},
-        {design:"618-212", pic:item5, stockNumber:5, salePrice:199.01},
-        {design:"618-212", pic:item6, stockNumber:5, salePrice:199.01},
-        {design:"618-212", pic:item1, stockNumber:5, salePrice:199.01},
-        {design:"618-212", pic:item2, stockNumber:5, salePrice:199.01},
-        {design:"618-212", pic:item4, stockNumber:5, salePrice:199.01},
-    ]
-}

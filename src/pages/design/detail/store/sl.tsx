@@ -1,51 +1,127 @@
-import React, {FC} from "react";
-import {Divider} from "antd";
+import React, {FC, useMemo, useState} from "react";
+import Template from "@/common/template";
+import {IOperationConfig} from "@/common/template/interface";
+import {itemService} from "@/store/apis/item";
+import {useRouteMatch} from "react-router-dom";
+import EditStock from "@/pages/design/detail/store/editStock";
+import Replenish from "@/pages/design/detail/store/replenish";
+import {INormalEvent} from "@/common/interface";
+import CreateCustomer from "@/pages/staff/create";
+import CreateItem from "@/pages/design/detail/store/createItem";
+import {userService} from "@/store/apis/account";
+import {reqAndReload} from "@/common/utils";
+import {notification} from "antd";
+import msgModal from "@/store/message/service";
+import CustomerOrder from "@/pages/design/detail/store/customerOrder";
 
+interface IProps{
+}
+const Slady: FC<IProps> = () => {
+    // const [createFlag,setCreateFlag]=useState<boolean>(false)
+    const [editStock,setEditStock]=useState<boolean>(false)
+    const [replenish,setReplenish]=useState<boolean>(false)
+    const [cusOrder,setCusOrder]=useState<boolean>(false)
+    const [selectedItem,setSelectedItem] = useState<any>()
+    const [type,setType]=useState<boolean>(true)
+    const [createFlag,setCreateFlag]=useState<boolean>(false)
 
-const Sl: FC = () => {
+    const url = useRouteMatch<{id:string }>("/item/detail/:id");
+    const designId = useMemo(()=>url?.params.id,[url])
 
+    const buttons: INormalEvent[] = useMemo(() => {
+        return [
+            {
+                text: "Create",
+                primary: true,
+                event() {
+                    setCreateFlag(true)
+                },
+            },
+        ];
+    }, []);
+
+    const options: IOperationConfig = useMemo(() => {
+        return [
+            [
+                {
+                    text: "修改库存",
+                    event(data) {
+                        setSelectedItem(data)
+                        setEditStock(true)
+                    },
+                },
+                {
+                    text: "店补",
+                    event(data) {
+                        setSelectedItem(data)
+                        setReplenish(true)
+                    },
+                },
+                {
+                    text: "客订",
+                    event(data) {
+                        setSelectedItem(data)
+                        setCusOrder(true)
+                    },
+                },
+                {
+                    text: "删除",
+                    event(data) {
+                        const value = {
+                            title: "删除",
+                            content: `目前库存为${data.stock}，确定删除: ${data.color}/ ${data.size} ？`,
+                            onOk: () => {
+                                const config = itemService.ItemDelete({},[data.id])
+                                reqAndReload(config, () => notification.success({message: "Delete Success"}));
+                            }
+                        }
+                        msgModal.createEvent("modal", value)
+                    },
+                }
+            ]
+        ]
+    }, [])
     return (
         <section style={{padding:20}}>
             <h3>库存</h3>
-            <div>
-                {Object.keys(sData).map((item,index)=><>
-                        <section key={index} style={{display:"flex",marginBottom:20}}>
-                            <div style={{flex:1}}>{item}</div>
-                            <div style={{flex:6,display:"flex",justifyContent:"flex-start"}}>
-                                {sData[item].map((i:any,index:number)=>
-                                    <div key={index} style={{flex:"30%"}}>
-                                        <div style={{marginBottom:10}}>{i.size}</div>
-                                        <div>{i.number}</div>
-                                    </div>)}
-                            </div>
+            <Template
+                event={buttons}
+                columns={columns}
+                queryData={(data)=>itemService.ItemList({},{
+                    designId,
+                    warehouseName:"SL二店",
+                    ...data
+                })}
+                // queryDataFunction={queryData}
+                optList={options}
+                rowKey="email"
+            />
+            <EditStock onOk={()=>setEditStock(false)} visible={editStock} data={selectedItem}></EditStock>
+            <Replenish onOk={()=>setReplenish(false)} visible={replenish} data={selectedItem}></Replenish>
+            <CustomerOrder onOk={()=>setCusOrder(false)} visible={cusOrder} data={selectedItem}></CustomerOrder>
 
-                        </section>
-                        <Divider/>
-                    </>
-
-                    )}
-            </div>
+            <CreateItem onOk={()=>setCreateFlag(false)} visible={createFlag} designId={designId}></CreateItem>
 
         </section>
     );
 };
 
-export default Sl;
+export default Slady;
 
-const staticData=[
-    {color:"棕色",size:"M",number:157},
-    {color:"棕色",size:"L",number:261},
-    {color:"棕色",size:"XL",number:67},
-    {color:"白色",size:"S",number:9},
-    {color:"白色",size:"M",number:121},
-    {color:"白色",size:"L",number:83},
-    {color:"粉色",size:"M",number:67},
+const columns:any = [
+    {
+        dataIndex: "color",
+        title: "颜色",
+    },
+    {
+        dataIndex: "size",
+        title: "尺寸",
+    },
+    {
+        dataIndex: "stock",
+        title: "库存数量",
+    },
 ]
-const sData:any= {
-    '棕色':[{size:"M",number:157},{size:"L",number:261},{size:"XL",number:9}],
-    '白色':[{size:"S",number:66},{size:"M",number:421},{size:"L",number:19}],
-    '粉色':[{size:"M",number:86}],
-}
 
 
 

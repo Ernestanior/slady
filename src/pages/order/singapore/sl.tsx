@@ -1,77 +1,105 @@
-import React, {FC, useCallback, useMemo, useState} from "react";
+import React, {FC, useMemo, useState} from "react";
 import Template from "@/common/template";
-import {INormalEvent} from "@/common/interface";
-import {Input, TableColumnProps} from "antd";
+import {Input, Popconfirm} from "antd";
+import {IOperationConfig} from "@/common/template/interface";
 import FormItem from "@/common/Form/formItem";
-import item1 from '../../../assets/1.jpg'
-import item2 from '../../../assets/2.jpg'
-import item3 from '../../../assets/3.jpg'
-import item4 from '../../../assets/4.jpg'
-import item5 from '../../../assets/5.jpg'
-import item6 from '../../../assets/6.jpg'
+import {orderService} from "@/store/apis/order";
+import {areaType, orderType} from "@/pages/order";
+import {reqAndReload} from "@/common/utils";
+import msgModal from "@/store/message/service";
+import moment from "moment";
+// import ModifyStatus from "./modify";
+
+
 const OrderList: FC = () => {
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [selectData,setSelectData] = useState<any>()
 
-    const queryDataFunction = useCallback(async (filters) => {
-        // const cusList = await request(adminService.UserList({}, {type:'admin',...filters}));
-        // if (cusList.isSuccess && cusList.result) {
-        //     const data: any = cusList.result;
-        //     return data;
-        // }
-        return staticData;
-    }, []);
+    const options: IOperationConfig = useMemo(() => [
+        {
+            text: "取消订单",
+            hide: (data) => data.status,
+            event(data) {
+                const value = {
+                    title: "取消订单",
+                    content: `确定取消订单: ${data.design} ？`,
+                    onOk: () => {
+                        const config = orderService.OrderDelete({}, [data.id]);
+                        reqAndReload(config);
+                    }
+                }
+                msgModal.createEvent("modal", value)
+            }
+        },
+        {
+            text: "请求取消订单",
+            hide: (data) => data.status !== orderType.PENDING,
+            event(data) {
+                const value = {
+                    title: "请求取消订单",
+                    content: `确定发送取消订单请求: ${data.design} ？`,
+                    onOk: () => {
+                        console.log(data)
+                        const config = orderService.OrderModify({}, {...data,status:"4"});
+                        reqAndReload(config);
+                    }
+                }
+                msgModal.createEvent("modal", value)
+            }
+        },
+        {
+            text: "撤回请求",
+            hide: (data) => data.status !== orderType.CANCELREQUEST,
+            event(data) {
+                const value = {
+                    title: "撤回请求",
+                    content: `确定撤回取消订单的请求: ${data.design} ？`,
+                    onOk: () => {
+                        const config = orderService.OrderModify({}, {...data,status:"1"});
+                        reqAndReload(config);
+                    }
+                }
+                msgModal.createEvent("modal", value)
+            }
+        }
+    ], [])
 
     return (
         <section>
             <Template
-                filter={<>
-                    <FormItem span={5} noStyle label={"设计编号"} name="keyWord">
-                        <Input/>
-                    </FormItem>
-                </>
-                }
+                filter={<FormItem span={5} noStyle name="keyWord">
+                    <Input/>
+                </FormItem>}
                 columns={columns}
-                queryDataFunction={queryDataFunction}
+                queryData={(data)=>orderService.OrderList({},{
+                    areaType:areaType.SINGAPORE,
+                    warehouseName:"SL二店",
+                    ...data
+                })}
                 rowKey="id"
+                optList={options}
             />
         </section>
     );
 };
 
+
 export default OrderList;
 
-const columns: TableColumnProps<any>[] = [
+const columns: any = [
     {
         title: "照片",
         dataIndex: "preViewPhoto",
-        render:(item)=>{
-            console.log(item)
-            switch (item){
-                case 1:
-                    return <img alt="" src={item1}/>
-                case 2:
-                    return <img alt="" src={item2}/>
-                case 3:
-                    return <img alt="" src={item3}/>
-                case 4:
-                    return <img alt="" src={item4}/>
-                case 5:
-                    return <img alt="" src={item5}/>
-                case 6:
-                    return <img alt="" src={item6}/>
-            }
-
-        }
-
+        width: 120,
+        render:(item:any)=><img style={{height:150,width:120}} alt="" src={item}/>
     },
     {
         title: "设计师",
-        dataIndex: "designId",
+        dataIndex: "design",
     },
     {
         title: "价格",
-        dataIndex: "price",
+        dataIndex: "salePrice",
     },
 
     {
@@ -84,44 +112,43 @@ const columns: TableColumnProps<any>[] = [
     },
     {
         title: "数量",
-        dataIndex: "sum",
+        dataIndex: "amount",
     },
     {
         title: "时间",
-        dataIndex: "time",
+        dataIndex: "date",
+        width:110,
+        render:(data:string)=>moment(data).format('YYYY-MM-DD')
     },
     {
         title: "备注",
-        dataIndex: "note",
+        dataIndex: "remark",
     },
     {
         title:"状态",
         dataIndex:"status",
+        width:130,
+        render:(value:string)=>{
+            switch (value){
+                case '0':
+                    return ''
+                case '1':
+                    return '待定'
+                case '2':
+                    return 'OK'
+                case '3':
+                    return '已发货'
+                case '4':
+                    return '待定(请求取消)'
+            }
+        }
     },
     {
         title:"待定日期",
         dataIndex:"pendingDate",
+        width:110,
+        render:(value:any)=>{
+            return value && <div>{moment(value).format('YYYY-MM-DD')}</div>
+        }
     },
 ];
-const staticData = {
-    number:0,
-    numberOfElements:10,
-    size:10,
-    totalElements:16,
-    totalPages:2,
-    content:[
-        {designId:"0411", pic:1, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"店补"},
-        {designId:"0411", pic:2, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"待定",pendingDate:"2023.6.23",note:"serene 90001100 已付"},
-        {designId:"0411", pic:6, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"已发货",pendingDate:"",note:"已付"},
-        {designId:"0411", pic:4, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
-        {designId:"0411", pic:5, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
-        {designId:"0411", pic:1, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
-        {designId:"0411", pic:2, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
-        {designId:"0411", pic:4, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
-        {designId:"0411", pic:4, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
-        {designId:"0411", pic:5, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
-        {designId:"0411", pic:6, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
-        {designId:"0411", pic:1, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
-        {designId:"0411", pic:2, sum:5, price:199,size:"M",color:"白色",time:"2023-6-20",status:"OK",pendingDate:"",note:"已付"},
-    ]
-}

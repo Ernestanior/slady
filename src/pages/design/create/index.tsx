@@ -1,5 +1,5 @@
 import React, {FC, useRef, useState} from "react";
-import {Button, Divider, Form, Input, InputRef, Select, Space} from "antd";
+import {Button, Divider, Form, Input, InputRef, notification, Select, Space} from "antd";
 import FormItem from "@/common/Form/formItem";
 import { PlusOutlined} from "@ant-design/icons";
 import {useForm} from "antd/es/form/Form";
@@ -11,7 +11,8 @@ import SelectP from "@/common/select";
 import {designService, itemService} from "@/store/apis/item";
 import historyService from "@/store/history";
 
-export const typeList = [ 'DR', 'TB', 'SK', 'PT', 'JK', 'JS-连体裤', 'AC', 'SH']
+// export const typeList = [ 'DR', 'TB', 'SK', 'PT', 'GO', 'JK', 'JS', 'BT', 'SE', 'SI', 'AC', 'SH']
+export const typeList:any[] =['DR连衣裙','TB上衣','SK半裙','PT裤子','GO晚礼服','JK外套','JS连体裤','BT皮带','SH鞋子','SE套装','SI真丝','AC']
 // const color = ['灰色','橙色','黄色','绿色','蓝色','紫色','白色','粉色','米色','棕色','灰褐色','香槟色','深蓝色','天空色','芥末黄','薄荷绿','蜜桃色','奶油色','炭黑色']
 export const colorList = ['Grey','Orange','Yellow','Green','Blue','purple','White','Pink','beige','Brown','Champagne','Navy','Sky','Mustard','Mint','Peach','Cream','Charcoal']
 // const size = [{label:'XS',value:'XS'},{label:'S',value:'S'},{label:'M',value:'M'},{label:'L',value:'L'},{label:'XL',value:'XL'}]
@@ -38,8 +39,13 @@ const CreateItem: FC = () => {
     //     form.resetFields()
     // }
     const onFinish =async (e:any)=>{
-        const itemForm = form.getFieldsValue()
+        const itemForm:any = form.getFieldsValue()
         const formData = new FormData()
+        const {design,type,color,size}=itemForm
+        if (!design || !type || !color || !size){
+            notification.error({message:'请填写完整'})
+            return
+        }
         imgList.forEach(img => {
             formData.append('files', img.originFileObj as RcFile);
         });

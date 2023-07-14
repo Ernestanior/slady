@@ -1,11 +1,14 @@
 import React, {FC, useMemo, useState} from "react";
-import Template from "@/common/template";
+import Template, {reloadMainList} from "@/common/template";
 import {Input, Popconfirm} from "antd";
 import {IOperationConfig} from "@/common/template/interface";
 import FormItem from "@/common/Form/formItem";
 import {orderService} from "@/store/apis/order";
 import {areaType} from "@/pages/order";
 import ModifyStatus from "./modify";
+import moment from "moment";
+import request from "@/store/request";
+import {reqAndReload} from "@/common/utils";
 
 
 const OrderList: FC = () => {
@@ -46,8 +49,9 @@ const OrderList: FC = () => {
     );
 };
 
-const cancelOrder=(e:any)=>{
-    console.log(e)
+const cancelOrder= async (item:any)=>{
+    const config = orderService.OrderDelete({},[item.id])
+    reqAndReload(config);
 }
 export default OrderList;
 
@@ -55,7 +59,7 @@ const columns: any = [
     {
         title: "照片",
         dataIndex: "preViewPhoto",
-        render:(item:any)=><img alt="" src={item}/>
+        render:(item:any)=><img style={{height:150,width:120}} alt="" src={item}/>
     },
     {
         title: "设计编号",
@@ -94,18 +98,25 @@ const columns: any = [
                     return 'OK'
                 case '3':
                     return '已发货'
+                case '4':
+                    return '待定(请求取消)'
             }
         }
     },
     {
         title:"待定日期",
-        dataIndex:"pendingData",
-        render:(value:any)=>{
+        dataIndex:"pendingDate",
+        width:110,
+        render:(value:any,item:any)=>{
+            console.log(item)
             return value && <>
-                <div>{value}</div>
-                <Popconfirm title="确定取消?" onConfirm={cancelOrder} okText={"确定"} cancelText={"取消"}>
-                    <span style={{color:"red"}}>取消订单</span>
-                </Popconfirm>
+                <div>{moment(value).format('YYYY-MM-DD')}</div>
+                {
+                    item.status==="4" &&
+                    <Popconfirm title="确定取消?" onConfirm={()=>cancelOrder(item)} okText={"确定"} cancelText={"取消"}>
+                        <span style={{color:"red",cursor:"pointer"}}>取消订单</span>
+                    </Popconfirm>
+                }
             </>
         }
     },

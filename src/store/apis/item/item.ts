@@ -88,6 +88,17 @@ class ItemAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
+    FileModify = (params: {}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/file/modify',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
 }
 export default ItemAPI;
 
