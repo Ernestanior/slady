@@ -1,8 +1,7 @@
 import React, {FC, useEffect, useMemo, useState} from "react";
-import item1 from '@/assets/1.jpg'
 import {Button, Col, Row, Tabs} from "antd";
 import {useRouteMatch} from "react-router-dom";
-import {designService, itemService} from "@/store/apis/item";
+import {designService} from "@/store/apis/item";
 import {from} from "rxjs";
 import request, {dev_url} from "@/store/request";
 import Slady from "@/pages/design/detail/store/slady";
@@ -11,6 +10,7 @@ import {reqAndReload} from "@/common/utils";
 import historyService from "@/store/history";
 import msgModal from "@/store/message/service";
 import ModifyDesign from "@/pages/design/detail/modify";
+import {WAREHOUSE} from "@/common/const";
 
 const { TabPane } = Tabs;
 
@@ -41,17 +41,13 @@ const Detail: FC = () => {
         }
         msgModal.createEvent("modal", value)
     }
-    // const sladyData = useMemo(()=>data && data.filter((item:any)=>item.warehouseName==='Slady一店'),[data])
-    // const SLData = useMemo(()=>data && data.filter((item:any)=>item.warehouseName==='SL二店'),[data])
     const goPic=async()=>{
-        // const config = itemService.FileList({folderPath:data.photos},{})
-        // const res = await request(config)
-        data?.photos && historyService.push({pathname:`/item/images`,search:`forderPath=${data.photos}`})
+        data?.photos && historyService.push({pathname:`/item/images/${id}`,search:`forderPath=${data.photos}`})
     }
     return (
         <section>
             <section style={{display:"flex"}}>
-                <img src={dev_url+data?.previewPhoto} height={200} onClick={goPic}/>
+                <img alt="" src={dev_url+data?.previewPhoto} height={200} onClick={goPic}/>
                 <div style={{width:300,marginLeft:20}}>
                     <Row style={{marginBottom:10}}>
                         <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>设计编号</Col>
@@ -90,10 +86,10 @@ const Detail: FC = () => {
                 <Button style={{marginLeft:20,color:"red"}} onClick={deleteDesign}>删除商品</Button>
             </section>
             <Tabs defaultActiveKey="1">
-                <TabPane tab="Slady一店" key="1">
+                <TabPane tab={WAREHOUSE.SLADY} key="1">
                     <Slady></Slady>
                 </TabPane>
-                <TabPane tab="SL二店" key="2">
+                <TabPane tab={WAREHOUSE.SL} key="2">
                     <Sl></Sl>
                 </TabPane>
             </Tabs>

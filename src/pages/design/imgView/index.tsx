@@ -1,9 +1,8 @@
-import React, {FC, useEffect, useRef, useState} from "react";
-import {Button, Image, Divider, Form, Input, InputRef, notification, Select, Space, Spin, Badge} from "antd";
-
+import React, {FC, useEffect, useMemo, useState} from "react";
+import {Button, Image, notification, Spin, Badge} from "antd";
 import historyService from "@/store/history";
 import {itemService} from "@/store/apis/item";
-import {useLocation} from "react-router-dom";
+import {useLocation, useRouteMatch} from "react-router-dom";
 import {from} from "rxjs";
 import request, {dev_url} from "@/store/request";
 import {LeftOutlined} from "@ant-design/icons";
@@ -12,15 +11,16 @@ import {RcFile} from "antd/lib/upload";
 
 const ImgView: FC = () => {
     const path:any = useLocation()
-    console.log(path)
     const folderPath = path.search.split("=")[1]
+    const url = useRouteMatch<{id:string }>("/item/images/:id");
+    const id:any = useMemo(()=>url?.params.id,[url])
+
     const [imgList,setImgList] = useState<any>([])
     const [deleteList,setDeleteList] = useState<any>([])
     const [restList,setRestList] = useState<any>([])
     const [uploadList,setUploadList] = useState<any>([])
     const [loading,setLoading]=useState<boolean>(true)
     const [modifyMode,setModifyMode] = useState<boolean>(false)
-
     useEffect(()=>{
         setLoading(true)
         const config = itemService.FileList({folderPath},{})
@@ -34,7 +34,6 @@ const ImgView: FC = () => {
     },[])
 
     const onSubmit=async ()=>{
-        console.log(deleteList,uploadList)
         const formData = new FormData()
         uploadList.forEach((img:any) => {
             formData.append('addFiles', img.originFileObj as RcFile);
@@ -42,7 +41,7 @@ const ImgView: FC = () => {
         deleteList.forEach((url:any) => {
             formData.append('deleteFiles', url);
         });
-        formData.append('folder', folderPath);
+        formData.append('designId', id);
 
         // setLoading(true)
         const config = itemService.FileModify({},formData)
@@ -52,8 +51,6 @@ const ImgView: FC = () => {
         // setModifyMode(false)
     }
     const onDelete =(name:string,index:number)=>{
-        console.log(restList.length)
-        console.log(uploadList.length)
         if(restList.length+uploadList.length<=1){
             notification.error({message:"图片至少需要一张"})
             return
@@ -83,7 +80,7 @@ const ImgView: FC = () => {
             </>:<>
                 <Spin spinning={loading}></Spin>
                 <section style={{display:"flex",flexWrap:"wrap",marginTop:20}}>
-                    {imgList.map((res:any)=><div style={{width:200,marginRight:20,cursor:"pointer"}}>
+                    {imgList.map((res:any)=><div key={res} style={{width:200,marginRight:20,cursor:"pointer"}}>
                         <Image style={{width:"100%"}} src={dev_url+res}
                                preview={{src: dev_url+res}}/>
                     </div>)}

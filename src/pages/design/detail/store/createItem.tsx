@@ -3,12 +3,12 @@ import {Button, Divider, Form, Input, InputNumber, InputRef, Modal, notification
 import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
-import {userService} from "@/store/apis/account";
 import FormItem from "@/common/Form/formItem";
 import {PlusOutlined} from "@ant-design/icons";
 import SelectP from "@/common/select";
 import {colorList, size} from "@/pages/design/create";
 import {itemService} from "@/store/apis/item";
+import {WAREHOUSE} from "@/common/const";
 
 interface IProps{
     visible:boolean;
@@ -16,7 +16,7 @@ interface IProps{
     designId:any;
 }
 let index=0
-const warehouse = ['Slady一店','SL二店']
+const warehouse = [WAREHOUSE.SLADY,WAREHOUSE.SL]
 const CreateItem:FC<IProps> = ({onOk,visible,designId}) => {
     const [form] = useForm()
     const [loading,setLoading] = useState<boolean>(false)
@@ -38,8 +38,8 @@ const CreateItem:FC<IProps> = ({onOk,visible,designId}) => {
     }
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
-        const {warehouseName,color,size,stock}=newData
-        if (warehouseName.length && color.length && size.length && stock && designId){
+        const {warehouseName,color,size}=newData
+        if (warehouseName.length && color.length && size.length && designId){
             const id = parseInt(designId)
             setLoading(true)
             const config = itemService.ItemCreate({},{designId:id,...newData})

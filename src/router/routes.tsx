@@ -24,7 +24,7 @@ const ModuleRouter:FC = () => {
     return <Router history={historyService}>
         <LayoutPlx>
             <Switch>
-                <Route path="/item/images">
+                <Route path="/item/images/:id">
                     <ImgView />
                 </Route>
                 <Route path="/item/detail/:design">

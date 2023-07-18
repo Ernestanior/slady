@@ -1,76 +1,118 @@
-import React, {FC, useCallback, useMemo, useState} from "react";
+import React, {FC, useCallback, useEffect, useState} from "react";
 import Template from "@/common/template";
-import {INormalEvent} from "@/common/interface";
-import {Input, TableColumnProps} from "antd";
-import FormItem from "@/common/Form/formItem";
-import item1 from '../../../assets/1.jpg'
-import item2 from '../../../assets/2.jpg'
-import item3 from '../../../assets/3.jpg'
-import item4 from '../../../assets/4.jpg'
-import item5 from '../../../assets/5.jpg'
-import item6 from '../../../assets/6.jpg'
+import {Button, notification} from "antd";
+import {orderService} from "@/store/apis/order";
+import {areaType} from "@/pages/order";
+import moment from "moment/moment";
+import {from} from "rxjs";
+import request, {dev_url} from "@/store/request";
+import {IPageResult} from "@/store/apis/log/common.interface";
+import {reqAndReload} from "@/common/utils";
+import {WAREHOUSE} from "@/common/const";
+import Query from "./query";
+import {handleDatetime} from "@/common/utilsx";
 const OrderList: FC = () => {
-    const [editFlag,setEditFlag]=useState<boolean>(false)
-    const [selectData,setSelectData] = useState<any>()
 
-    const queryDataFunction = useCallback(async (filters) => {
-        // const cusList = await request(adminService.UserList({}, {type:'admin',...filters}));
-        // if (cusList.isSuccess && cusList.result) {
-        //     const data: any = cusList.result;
-        //     return data;
-        // }
-        return staticData;
-    }, []);
+    const [data,setData]=useState<any>()
+    const [totalPrice,setTotalPrice] = useState<any>()
+    useEffect(()=>{
+        const config = orderService.OrderCount({},{
+            areaType:areaType.KOREA,
+            warehouseName:WAREHOUSE.SLADY,
+            status:2,
+            paymentStatus:0,
+            searchPage:{desc:1,page:1,pageSize:999,sort:"create_date"}
+        })
+        from(request(config)).subscribe((res:any)=>{
+            if (res.isSuccess){
+                const data = res.result.filter((item:any)=>item.warehouseName===WAREHOUSE.SLADY)
+                data.length && setTotalPrice(data[0].count)
+            }
+        })
+    },[])
 
+    const query = useCallback(async(data)=>{
+        const {operateDate,...filters}=data
+        if (operateDate) {
+            const d: string[] = handleDatetime(data.operateDate);
+            filters.startDate = d[0]+" 00:00:00";
+            filters.endDate = d[1]+" 23:59:59";
+        }
+        const config = orderService.OrderList({},{
+            areaType:areaType.KOREA,
+            warehouseName:WAREHOUSE.SL,
+            status:2,
+            paymentStatus:0,
+            ...filters
+        })
+        const res = await request<IPageResult<any>>(config);
+        if (res.isSuccess){
+            setData(res.result)
+            return res.result
+        }
+        return null
+    },[])
 
+    const changeStatus = async() =>{
+        if(!data.length){
+            notification.error({message:"当前无未结清的订单"})
+            return
+        }
+        const ids = data.map((item:any)=>item.id)
+        const config = orderService.OrderModifyStatus({status:1},ids)
+        reqAndReload(config)
+    }
 
+    const onPrint = async() =>{
+        if(!data.length){
+            notification.error({message:"当前无未结清的订单"})
+            return
+        }
+        const config = orderService.OrderExport({},{})
+        const res = await request(config)
+        res.isSuccess && window.open(dev_url+res.result)
+    }
     return (
         <section>
             <Template
-                filter={<FormItem span={5} noStyle name="keyWord">
-                    <Input/>
-                </FormItem>}
+                filter={<Query/>}
                 columns={columns}
-                queryDataFunction={queryDataFunction}
+                queryDataFunction={query}
                 rowKey="id"
             />
+            <div style={{padding:20,display:"flex",justifyContent:"space-between"}}>
+                <span style={{fontWeight:"600"}}>总价: $ {totalPrice}</span>
+                <div>
+                    <Button style={{marginRight:20}} onClick={onPrint}>打印</Button>
+                    <Button onClick={changeStatus}>清空</Button>
+                </div>
+            </div>
         </section>
     );
 };
 
 export default OrderList;
 
-const columns: TableColumnProps<any>[] = [
+const columns: any = [
+    {
+        title: "下单日期",
+        dataIndex: "date",
+        render:(value:any)=>moment(value).format("YYYY-MM-DD")
+    },
     {
         title: "照片",
-        dataIndex: "pic",
-        render:(item)=>{
-            console.log(item)
-            switch (item){
-                case 1:
-                    return <img alt={""} src={item1}/>
-                case 2:
-                    return <img alt={""} src={item2}/>
-                case 3:
-                    return <img alt={""} src={item3}/>
-                case 4:
-                    return <img alt={""} src={item4}/>
-                case 5:
-                    return <img alt={""} src={item5}/>
-                case 6:
-                    return <img alt={""} src={item6}/>
-            }
-
+        dataIndex: "previewPhoto",
+        render:(value:any)=>{
+            return <img style={{height:150,width:120}} alt="" src={dev_url+value}/>
         }
-
     },
     {
         title: "设计编号",
-        dataIndex: "designId",
+        dataIndex: "designCode",
     },
     {
         title: "客户",
-        dataIndex:"customer",
+        dataIndex:"warehouseName",
     },
     {
         title: "颜色",
@@ -82,32 +124,22 @@ const columns: TableColumnProps<any>[] = [
     },
     {
         title: "数量",
-        dataIndex: "sum",
+        dataIndex: "amount",
+    },
+    {
+        title: "单价",
+        dataIndex: "quotedPrice",
+        render:(value:any)=>`$${value}`
+    },
+    {
+        title: "总价",
+        dataIndex: "quotedPrice",
+        render:(value:any,item:any)=>`$${value*item.amount}`
     },
     {
         title: "备注",
         dataIndex: "note",
+        render:()=>"加急"
     },
 ];
-const staticData = {
-    number:0,
-    numberOfElements:10,
-    size:10,
-    totalElements:16,
-    totalPages:2,
-    content:[
-        {designId:"204-612", pic:1, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:2, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:6, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:4, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:5, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:1, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:2, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:4, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:4, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:5, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:6, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:1, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:2, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-    ]
-}
+

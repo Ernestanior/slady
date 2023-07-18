@@ -33,7 +33,7 @@ class OrderAPI {
     }
     OrderModifyStatus= (params: {}, data:[] ) => {
         const config: AxiosRequestConfig = {
-            url: '/order/modify-status',
+            url: '/order/modify-payment-status',
             method: 'put',
             params,
             data

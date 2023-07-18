@@ -1,76 +1,63 @@
-import React, {FC, useCallback, useMemo, useState} from "react";
+import React, {FC, useCallback} from "react";
 import Template from "@/common/template";
-import {INormalEvent} from "@/common/interface";
-import {Input, TableColumnProps} from "antd";
-import FormItem from "@/common/Form/formItem";
-import item1 from '../../../assets/1.jpg'
-import item2 from '../../../assets/2.jpg'
-import item3 from '../../../assets/3.jpg'
-import item4 from '../../../assets/4.jpg'
-import item5 from '../../../assets/5.jpg'
-import item6 from '../../../assets/6.jpg'
-const HistorySl: FC = () => {
-    const [editFlag,setEditFlag]=useState<boolean>(false)
-    const [selectData,setSelectData] = useState<any>()
-
-    const queryDataFunction = useCallback(async (filters) => {
-        // const cusList = await request(adminService.UserList({}, {type:'admin',...filters}));
-        // if (cusList.isSuccess && cusList.result) {
-        //     const data: any = cusList.result;
-        //     return data;
-        // }
-        return staticData;
-    }, []);
+import {orderService} from "@/store/apis/order";
+import {areaType} from "@/pages/order";
+import request, {dev_url} from "@/store/request";
+import {WAREHOUSE} from "@/common/const";
+import {handleDatetime} from "@/common/utilsx";
+import {IPageResult} from "@/store/apis/log/common.interface";
+import Query from "./query";
+const OrderList: FC = () => {
 
 
+    const query = useCallback(async(data)=>{
+        const {operateDate,...filters}=data
+        if (operateDate) {
+            const d: string[] = handleDatetime(data.operateDate);
+            filters.startDate = d[0]+" 00:00:00";
+            filters.endDate = d[1]+" 23:59:59";
+        }
+        const config = orderService.OrderList({},{
+            areaType:areaType.KOREA,
+            warehouseName:WAREHOUSE.SL,
+            status:2,
+            paymentStatus:1,
+            ...filters
+        })
+        const res = await request<IPageResult<any>>(config);
+        if (res.isSuccess){
+            return res.result
+        }
+        return null
+    },[])
 
     return (
         <section>
             <Template
-                filter={<FormItem span={5} noStyle name="keyWord">
-                    <Input/>
-                </FormItem>}
+                filter={<Query/>}
                 columns={columns}
-                queryDataFunction={queryDataFunction}
+                queryDataFunction={query}
                 rowKey="id"
             />
         </section>
     );
 };
 
-export default HistorySl;
+export default OrderList;
 
-const columns: TableColumnProps<any>[] = [
+const columns: any = [
     {
         title: "照片",
-        dataIndex: "pic",
-        render:(item)=>{
-            console.log(item)
-            switch (item){
-                case 1:
-                    return <img alt={""} src={item1}/>
-                case 2:
-                    return <img alt={""} src={item2}/>
-                case 3:
-                    return <img alt={""} src={item3}/>
-                case 4:
-                    return <img alt={""} src={item4}/>
-                case 5:
-                    return <img alt={""} src={item5}/>
-                case 6:
-                    return <img alt={""} src={item6}/>
-            }
-
-        }
-
+        dataIndex: "previewPhoto",
+        render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
     },
     {
         title: "设计编号",
-        dataIndex: "designId",
+        dataIndex: "designCode",
     },
     {
         title: "客户",
-        dataIndex:"customer",
+        dataIndex:"warehouseName",
     },
     {
         title: "颜色",
@@ -82,32 +69,17 @@ const columns: TableColumnProps<any>[] = [
     },
     {
         title: "数量",
-        dataIndex: "sum",
+        dataIndex: "amount",
+    },
+    {
+        title: "价格",
+        dataIndex: "quotedPrice",
+        render:(value:any)=>`$${value}`
     },
     {
         title: "备注",
         dataIndex: "note",
+        render:()=>"加急"
     },
 ];
-const staticData = {
-    number:0,
-    numberOfElements:10,
-    size:10,
-    totalElements:16,
-    totalPages:2,
-    content:[
-        {designId:"204-612", pic:1, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:2, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:6, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:4, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:5, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:1, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:2, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:4, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:4, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:5, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:6, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:1, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-        {designId:"204-612", pic:2, sum:5, customer:"SL",size:"M",color:"白色",note:"加急"},
-    ]
-}
+

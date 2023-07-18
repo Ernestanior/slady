@@ -91,7 +91,7 @@ class ItemAPI {
     FileModify = (params: {}, data: {}) => {
         const config: AxiosRequestConfig = {
             url: '/file/modify',
-            method: 'put',
+            method: 'post',
             params,
             data
         };

@@ -1,14 +1,16 @@
-import React, {FC, useMemo, useState} from "react";
-import Template, {reloadMainList} from "@/common/template";
-import {Input, Popconfirm} from "antd";
+import React, {FC, useCallback, useMemo, useState} from "react";
+import Template from "@/common/template";
+import {Popconfirm} from "antd";
 import {IOperationConfig} from "@/common/template/interface";
-import FormItem from "@/common/Form/formItem";
 import {orderService} from "@/store/apis/order";
 import {areaType} from "@/pages/order";
 import ModifyStatus from "./modify";
-import moment from "moment";
 import request, {dev_url} from "@/store/request";
 import {reqAndReload} from "@/common/utils";
+import {WAREHOUSE} from "@/common/const";
+import Query from "./query";
+import {handleDatetime} from "@/common/utilsx";
+import {IPageResult} from "@/store/apis/log/common.interface";
 
 
 const OrderList: FC = () => {
@@ -29,18 +31,31 @@ const OrderList: FC = () => {
         ]
     }, [])
 
+    const query = useCallback(async(data)=>{
+        const {operateDate,...filters}=data
+        if (operateDate) {
+            const d: string[] = handleDatetime(data.operateDate);
+            filters.startDate = d[0]+" 00:00:00";
+            filters.endDate = d[1]+" 23:59:59";
+        }
+        const config = orderService.OrderList({},{
+            areaType:areaType.KOREA,
+            warehouseName:WAREHOUSE.SLADY,
+            ...filters
+        })
+        const res = await request<IPageResult<any>>(config);
+        if (res.isSuccess){
+            return res.result
+        }
+        return null
+    },[])
+
     return (
         <section>
             <Template
-                filter={<FormItem span={5} noStyle name="keyWord">
-                    <Input/>
-                </FormItem>}
+                filter={<Query/>}
                 columns={columns}
-                queryData={(data)=>orderService.OrderList({},{
-                    areaType:areaType.KOREA,
-                    warehouseName:"Slady一店",
-                    ...data
-                })}
+                queryDataFunction={query}
                 rowKey="id"
                 optList={options}
             />

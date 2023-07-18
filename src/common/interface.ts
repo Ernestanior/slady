@@ -23,6 +23,7 @@ export type ISubmitPromise = (data: any) => Promise<{isSuccess: boolean}>;
 
 export interface IFilerModule{
     filter?: ReactNode;
+    moreFilter?:ReactNode;
 }
 
 export interface IPrimaryModule{

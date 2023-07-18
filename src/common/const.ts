@@ -9,24 +9,9 @@ export const E_L_CUSTOMER_TYPE = [
     }
 ]
 
-export const E_L_USER_TYPE = [
-    ...E_L_CUSTOMER_TYPE,
-    {
-        id: 3,
-        name: "代理"
-    }
-]
-
-export enum E_COLOR{
-    enable="#8BDEB0",
-    disable="#F0615B",
-    warn="#FFC96C",
-    off="#F0615B"
+export enum WAREHOUSE{
+    SLADY='Slady一店',
+    SL='SL二店',
 }
 
-export enum LABEL_COLOR{
-    RED= "#FF1600",
-    YELLOW="#FFA100",
-    LIGHT_YELLOW="#FFC96C",
-    GREEN="#04E314"
-}
+

@@ -4,6 +4,7 @@ import KoreaSlady from './korea/slady'
 import KoreaSl from './korea/sl'
 import HistorySlady from "@/pages/feedback/history/slady";
 import HistorySl from "@/pages/feedback/history/sl";
+import {WAREHOUSE} from "@/common/const";
 const { TabPane } = Tabs;
 const Feedback: FC = () => {
     const [payStatus,setPayStatus]=useState<boolean>(false)
@@ -14,17 +15,17 @@ const Feedback: FC = () => {
                 <Button type={payStatus?'primary':'default'} onClick={()=>setPayStatus(true)} style={{marginLeft:10}}>已付款</Button>
             </div>
             {payStatus?<Tabs defaultActiveKey="1">
-                <TabPane tab="Slady一店" key="1">
+                <TabPane tab={WAREHOUSE.SLADY} key="1">
                     <HistorySlady></HistorySlady>
                 </TabPane>
-                <TabPane tab="SL二店" key="2">
+                <TabPane tab={WAREHOUSE.SL} key="2">
                     <HistorySl></HistorySl>
                 </TabPane>
             </Tabs>:<Tabs defaultActiveKey="1">
-                <TabPane tab="Slady一店" key="1">
+                <TabPane tab={WAREHOUSE.SLADY} key="1">
                     <KoreaSlady></KoreaSlady>
                 </TabPane>
-                <TabPane tab="SL二店" key="2">
+                <TabPane tab={WAREHOUSE.SL} key="2">
                     <KoreaSl></KoreaSl>
                 </TabPane>
             </Tabs>}

@@ -1,13 +1,10 @@
 import React, {FC, useEffect, useMemo, useState} from "react";
-import {DatePicker, Form, Input, Modal, notification, Select} from "antd";
+import {Form, Input, Modal, notification, Select} from "antd";
 import {useForm} from "antd/es/form/Form";
 import {orderType} from "@/pages/order";
 import {orderService} from "@/store/apis/order";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
-import moment from "moment";
-
-
 interface IProps{
     visible:boolean;
     onOk:()=>void;
@@ -81,7 +78,7 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
             {status===orderType.PENDING && <Form.Item name="pendingDate" label={<span className="login-label">待定日期</span>}>
                 <Input></Input>
             </Form.Item>}
-            {status===orderType.DONE && <Form.Item name="quotedPrice" label={<span className="login-label">价格</span>}>
+            {status===orderType.DONE && <Form.Item name="quotedPrice" label={<span className="login-label">单价</span>}>
                 <Input />
             </Form.Item>}
         </Form>}

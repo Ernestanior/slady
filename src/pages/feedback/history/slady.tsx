@@ -1,39 +1,42 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, useCallback} from "react";
 import Template from "@/common/template";
-import {Button, Input, Popconfirm, TableColumnProps} from "antd";
-import FormItem from "@/common/Form/formItem";
 import {orderService} from "@/store/apis/order";
 import {areaType} from "@/pages/order";
-import moment from "moment/moment";
-import {from} from "rxjs";
-import request from "@/store/request";
+import request, {dev_url} from "@/store/request";
+import {WAREHOUSE} from "@/common/const";
+import {handleDatetime} from "@/common/utilsx";
+import {IPageResult} from "@/store/apis/log/common.interface";
+import Query from "./query";
 const OrderList: FC = () => {
 
-    const [editFlag,setEditFlag]=useState<boolean>(false)
-    const [totalPrice,setTotalPrice] = useState<any>()
-    useEffect(()=>{
-        const config = orderService.OrderCount({},{})
-        from(request(config)).subscribe((res:any)=>{
-            if (res.isSuccess){
-                const data = res.result.filter((item:any)=>item.warehouseName==="Slady一店")
-                data.length && setTotalPrice(data[0].count)
-            }
+
+    const query = useCallback(async(data)=>{
+        const {operateDate,...filters}=data
+        if (operateDate) {
+            const d: string[] = handleDatetime(data.operateDate);
+            filters.startDate = d[0]+" 00:00:00";
+            filters.endDate = d[1]+" 23:59:59";
+        }
+        const config = orderService.OrderList({},{
+            areaType:areaType.KOREA,
+            warehouseName:WAREHOUSE.SLADY,
+            status:2,
+            paymentStatus:1,
+            ...filters
         })
+        const res = await request<IPageResult<any>>(config);
+        if (res.isSuccess){
+            return res.result
+        }
+        return null
     },[])
+
     return (
         <section>
             <Template
-                filter={<FormItem span={5} noStyle name="keyWord">
-                    <Input/>
-                </FormItem>}
+                filter={<Query/>}
                 columns={columns}
-                queryData={(data)=>orderService.OrderList({},{
-                    areaType:areaType.KOREA,
-                    warehouseName:"Slady一店",
-                    status:2,
-                    paymentStatus:1,
-                    ...data
-                })}
+                queryDataFunction={query}
                 rowKey="id"
             />
         </section>
@@ -45,8 +48,8 @@ export default OrderList;
 const columns: any = [
     {
         title: "照片",
-        dataIndex: "preViewPhoto",
-        render:(item:any)=><img style={{height:150,width:120}} alt="" src={item}/>
+        dataIndex: "previewPhoto",
+        render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
     },
     {
         title: "设计编号",

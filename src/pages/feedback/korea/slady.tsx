@@ -1,7 +1,6 @@
 import React, {FC, useCallback, useEffect, useState} from "react";
 import Template from "@/common/template";
-import {Button, Input, notification} from "antd";
-import FormItem from "@/common/Form/formItem";
+import {Button, notification} from "antd";
 import {orderService} from "@/store/apis/order";
 import {areaType} from "@/pages/order";
 import moment from "moment/moment";
@@ -9,28 +8,42 @@ import {from} from "rxjs";
 import request, {dev_url} from "@/store/request";
 import {IPageResult} from "@/store/apis/log/common.interface";
 import {reqAndReload} from "@/common/utils";
+import {WAREHOUSE} from "@/common/const";
+import Query from "./query";
+import {handleDatetime} from "@/common/utilsx";
 const OrderList: FC = () => {
 
-    const [editFlag,setEditFlag]=useState<boolean>(false)
     const [data,setData]=useState<any>()
     const [totalPrice,setTotalPrice] = useState<any>()
     useEffect(()=>{
-        const config = orderService.OrderCount({},{})
+        const config = orderService.OrderCount({},{
+            areaType:areaType.KOREA,
+            warehouseName:WAREHOUSE.SLADY,
+            status:2,
+            paymentStatus:0,
+            searchPage:{desc:1,page:1,pageSize:999,sort:"create_date"}
+        })
         from(request(config)).subscribe((res:any)=>{
             if (res.isSuccess){
-                const data = res.result.filter((item:any)=>item.warehouseName==="Slady一店")
+                const data = res.result.filter((item:any)=>item.warehouseName===WAREHOUSE.SLADY)
                 data.length && setTotalPrice(data[0].count)
             }
         })
     },[])
 
-    const query = useCallback(async()=>{
+    const query = useCallback(async(data)=>{
+        const {operateDate,...filters}=data
+        if (operateDate) {
+            const d: string[] = handleDatetime(data.operateDate);
+            filters.startDate = d[0]+" 00:00:00";
+            filters.endDate = d[1]+" 23:59:59";
+        }
         const config = orderService.OrderList({},{
             areaType:areaType.KOREA,
-            warehouseName:"Slady一店",
+            warehouseName:WAREHOUSE.SLADY,
             status:2,
             paymentStatus:0,
-            searchPage:{desc:1,page:1,pageSize:999,sort:"create_date"}
+            ...filters
         })
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
@@ -62,9 +75,7 @@ const OrderList: FC = () => {
     return (
         <section>
             <Template
-                filter={<FormItem span={5} noStyle name="keyWord">
-                    <Input/>
-                </FormItem>}
+                filter={<Query/>}
                 columns={columns}
                 queryDataFunction={query}
                 rowKey="id"

@@ -72,6 +72,7 @@ export default DesignAPI;
 /** batchDelete的请求参数*/
 interface IDesignList{
     type?:string;
+    design?:string;
     name?:string;
     searchPage:ISearchPage;
 }

@@ -35,13 +35,19 @@ export const dateFomatter = (time: any, format?: string) => {
             if (format) {
                 return time_m.format(format);
             } else {
-                return time_m.format("YYYY/MM/DD");
+                return time_m.format("YYYY-MM-DD");
             }
         } else {
-            throw Error("时间格式有误！");
+            console.log("时间格式有误！");
         }
     } catch (error) {
         // console.error(error);
         return `${time}`;
     }
+};
+export const handleDatetime = (dateObj: any[]) => {
+    if (!Array.isArray(dateObj) || !dateObj) {
+        return ["", ""];
+    }
+    return Object.values(dateObj).map((t) => dateFomatter(t));
 };

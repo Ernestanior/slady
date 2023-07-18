@@ -1,20 +1,18 @@
-import React, {FC, useMemo, useState} from "react";
+import React, {FC, useCallback, useMemo } from "react";
 import Template from "@/common/template";
-import {Input, Popconfirm} from "antd";
 import {IOperationConfig} from "@/common/template/interface";
-import FormItem from "@/common/Form/formItem";
 import {orderService} from "@/store/apis/order";
 import {areaType, orderType} from "@/pages/order";
 import {reqAndReload} from "@/common/utils";
 import msgModal from "@/store/message/service";
 import moment from "moment";
-import {dev_url} from "@/store/request";
-// import ModifyStatus from "./modify";
-
+import request, {dev_url} from "@/store/request";
+import {WAREHOUSE} from "@/common/const";
+import {IPageResult} from "@/store/apis/log/common.interface";
+import Query from "@/pages/order/singapore/query";
+import {handleDatetime} from "@/common/utilsx";
 
 const OrderList: FC = () => {
-    const [editFlag,setEditFlag]=useState<boolean>(false)
-    const [selectData,setSelectData] = useState<any>()
 
     const options: IOperationConfig = useMemo(() => [
             {
@@ -65,18 +63,31 @@ const OrderList: FC = () => {
         }
     ], [])
 
+
+    const query = useCallback(async(data)=>{
+        const {operateDate,...filters}=data
+        if (operateDate) {
+            const d: string[] = handleDatetime(data.operateDate);
+            filters.startDate = d[0]+" 00:00:00";
+            filters.endDate = d[1]+" 23:59:59";
+        }
+        const config = orderService.OrderList({},{
+            areaType:areaType.SINGAPORE,
+            warehouseName:WAREHOUSE.SLADY,
+            ...filters
+        })
+        const res = await request<IPageResult<any>>(config);
+        if (res.isSuccess){
+            return res.result
+        }
+        return null
+    },[])
     return (
         <section>
             <Template
-                filter={<FormItem span={5} noStyle name="keyWord">
-                    <Input/>
-                </FormItem>}
+                filter={<Query/>}
                 columns={columns}
-                queryData={(data)=>orderService.OrderList({},{
-                    areaType:areaType.SINGAPORE,
-                    warehouseName:"Slady一店",
-                    ...data
-                })}
+                queryDataFunction={query}
                 rowKey="id"
                 optList={options}
             />
@@ -95,7 +106,7 @@ const columns: any = [
         render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
     },
     {
-        title: "设计师",
+        title: "编号",
         dataIndex: "design",
     },
     {

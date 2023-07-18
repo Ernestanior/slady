@@ -10,6 +10,7 @@ import ImageUpload from "@/pages/design/create/imageUpload";
 import SelectP from "@/common/select";
 import {designService, itemService} from "@/store/apis/item";
 import historyService from "@/store/history";
+import {WAREHOUSE} from "@/common/const";
 
 // export const typeList = [ 'DR', 'TB', 'SK', 'PT', 'GO', 'JK', 'JS', 'BT', 'SE', 'SI', 'AC', 'SH']
 export const typeList:any[] =['DR连衣裙','TB上衣','SK半裙','PT裤子','GO晚礼服','JK外套','JS连体裤','BT皮带','SH鞋子','SE套装','SI真丝','AC']
@@ -38,7 +39,7 @@ const CreateItem: FC = () => {
     // const onCancel=()=>{
     //     form.resetFields()
     // }
-    const onFinish =async (e:any)=>{
+    const onFinish =async ()=>{
         const itemForm:any = form.getFieldsValue()
         const formData = new FormData()
         const {design,type,color,size}=itemForm
@@ -58,7 +59,7 @@ const CreateItem: FC = () => {
                 photos = upload_result.result as string[]
                 const design_result:any = await request(designService.DesignCreate({}, {...itemForm,photos}));
                 if (design_result.isSuccess){
-                    const item_result = await request(itemService.ItemCreate({}, {...itemForm,designId:design_result.result.id,warehouseName:['Slady一店','SL二店']}));
+                    const item_result = await request(itemService.ItemCreate({}, {...itemForm,designId:design_result.result.id,warehouseName:[WAREHOUSE.SLADY,WAREHOUSE.SL]}));
                     if(item_result.isSuccess)
                         historyService.replace('/item')
                 }
