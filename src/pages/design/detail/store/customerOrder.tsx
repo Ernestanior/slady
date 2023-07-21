@@ -1,5 +1,5 @@
 import React, {FC, useState} from "react";
-import {Form, Input, InputNumber, Modal, notification, Select} from "antd";
+import {Form, Input, InputNumber, Modal, notification} from "antd";
 import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";

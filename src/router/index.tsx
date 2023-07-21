@@ -16,6 +16,7 @@ const ModuleProject = lazy(() => import("@/router/routes"));
  */
 const ProjectRouter:FC = () => {
     const loginState = useLoginState();
+
     /** 二级验证有效状态 */
     useEffect(() => {
         accountService.autoLogin()

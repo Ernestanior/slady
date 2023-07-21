@@ -6,9 +6,7 @@ import {useRouteMatch} from "react-router-dom";
 import EditStock from "@/pages/design/detail/store/editStock";
 import Replenish from "@/pages/design/detail/store/replenish";
 import {INormalEvent} from "@/common/interface";
-import CreateCustomer from "@/pages/staff/create";
 import CreateItem from "@/pages/design/detail/store/createItem";
-import {userService} from "@/store/apis/account";
 import {reqAndReload} from "@/common/utils";
 import {notification} from "antd";
 import msgModal from "@/store/message/service";
@@ -22,7 +20,6 @@ const Slady: FC<IProps> = () => {
     const [replenish,setReplenish]=useState<boolean>(false)
     const [cusOrder,setCusOrder]=useState<boolean>(false)
     const [selectedItem,setSelectedItem] = useState<any>()
-    const [type,setType]=useState<boolean>(true)
     const [createFlag,setCreateFlag]=useState<boolean>(false)
 
     const url = useRouteMatch<{id:string }>("/item/detail/:id");

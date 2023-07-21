@@ -20,7 +20,7 @@ const Detail: FC = () => {
     const url = useRouteMatch<{id:string }>("/item/detail/:id");
 
     const id = useMemo(()=>url?.params.id,[url])
-
+    console.log(url)
     useEffect(()=>{
         const config = designService.DesignDetail({id},{})
         from(request(config)).subscribe((res:any)=>{
@@ -54,7 +54,7 @@ const Detail: FC = () => {
                         <Col span={14} style={{fontWeight:550}}>{data?.design}</Col>
                     </Row>
                     <Row style={{marginBottom:10}}>
-                        <Col span={10} style={{color:"#9d692c"}}>类别</Col>
+                        <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>类别</Col>
                         <Col span={14} >{data?.type}</Col>
                     </Row>
                     <Row style={{marginBottom:10}}>
@@ -70,6 +70,10 @@ const Detail: FC = () => {
                         <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>尺寸</Col>
                         <Col span={14}>{data?.size.join(", ")}</Col>
                         {/*<Col span={14}><Select style={{width:300}} mode={"multiple"} defaultValue={["S","M","L"]}></Select></Col>*/}
+                    </Row>
+                    <Row style={{marginBottom:10}}>
+                        <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>热度</Col>
+                        <Col span={14}>{data?.hot}</Col>
                     </Row>
                     <Row style={{marginBottom:10}}>
                         <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>进货价</Col>

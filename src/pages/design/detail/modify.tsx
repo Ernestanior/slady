@@ -1,18 +1,11 @@
 import React, {FC, useEffect, useState} from "react";
 import FormItem from "@/common/Form/formItem";
-import {Button, Col, Divider, Form, Input, Modal, Row, Select, Space, Upload} from "antd";
+import {Form, Input, Modal} from "antd";
 import {useForm} from "antd/es/form/Form";
-import {PaperClipOutlined, PlusOutlined} from "@ant-design/icons";
-import {UploadFile} from "antd/es/upload/interface";
-import {RcFile} from "antd/lib/upload";
-import {adminService} from "@/store/apis/account";
 import request from "@/store/request";
-import {reloadMainList} from "@/common/template";
 import SelectP from "@/common/select";
-import ImageUpload from "@/pages/design/create/imageUpload";
 import {typeList} from "@/pages/design";
 import {designService} from "@/store/apis/item";
-import {reqAndReload} from "@/common/utils";
 
 interface IProps{
     visible:boolean;

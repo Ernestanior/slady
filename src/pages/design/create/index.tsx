@@ -11,9 +11,9 @@ import SelectP from "@/common/select";
 import {designService, itemService} from "@/store/apis/item";
 import historyService from "@/store/history";
 import {WAREHOUSE} from "@/common/const";
+import {typeList} from "@/pages/design";
 
 // export const typeList = [ 'DR', 'TB', 'SK', 'PT', 'GO', 'JK', 'JS', 'BT', 'SE', 'SI', 'AC', 'SH']
-export const typeList:any[] =['DR连衣裙','TB上衣','SK半裙','PT裤子','GO晚礼服','JK外套','JS连体裤','BT皮带','SH鞋子','SE套装','SI真丝','AC']
 // const color = ['灰色','橙色','黄色','绿色','蓝色','紫色','白色','粉色','米色','棕色','灰褐色','香槟色','深蓝色','天空色','芥末黄','薄荷绿','蜜桃色','奶油色','炭黑色']
 export const colorList = ['Grey','Orange','Yellow','Green','Blue','purple','White','Pink','beige','Brown','Champagne','Navy','Sky','Mustard','Mint','Peach','Cream','Charcoal']
 // const size = [{label:'XS',value:'XS'},{label:'S',value:'S'},{label:'M',value:'M'},{label:'L',value:'L'},{label:'XL',value:'XL'}]
@@ -72,7 +72,7 @@ const CreateItem: FC = () => {
                     <Input />
                 </FormItem>
                 <FormItem name="type" label="类别">
-                    <SelectP data={typeList}/>
+                    <Select options={typeList}/>
                 </FormItem>
                 <FormItem name="color" label="颜色">
                     <Select

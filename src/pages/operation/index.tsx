@@ -1,8 +1,6 @@
-import React, {FC, useEffect} from "react";
+import React, {FC} from "react";
 import Template from "@/common/template";
 import {accessLogService} from "@/store/apis/log";
-import {from} from "rxjs";
-import request from "@/store/request";
 
 const OperationList:FC = () => {
     return <section>

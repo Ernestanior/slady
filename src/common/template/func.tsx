@@ -31,10 +31,10 @@ const FuncList:FC<IEventListModule> = ({event}) => {
         }
     })
 
-    return <span style={{marginLeft:15}}>
+    return <div style={{marginTop:15}}>
         {primaryList}
         {normalList.length > 0 && normalList}
-    </span>
+    </div>
 }
 
 export default FuncList

@@ -198,6 +198,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
             });
         return () => sub.unsubscribe();
     }, [
+        staticData,
         params$$,
         params$,
         queryEvent,

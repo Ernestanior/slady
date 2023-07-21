@@ -26,11 +26,6 @@ const CustomerList:FC = () => {
         ];
     }, []);
 
-
-    // const query = useCallback((data) => {
-    //     return customerService.CustomerList({}, data);
-    // }, [])
-
     const queryData=useCallback((data)=>{
         return userService.FindUser({},data)
     },[])
@@ -48,7 +43,6 @@ const CustomerList:FC = () => {
                 {
                     text: "删除",
                     event(data) {
-                        // deleteCustomer(data);
                         const value = {
                             title: "删除",
                             content: `确定删除: ${data.name} ？`,
@@ -63,7 +57,6 @@ const CustomerList:FC = () => {
         ]
     }, [])
 
-
     return <section>
          <Template
             optList={options}
@@ -73,8 +66,6 @@ const CustomerList:FC = () => {
             event={buttons}
             columns={columns}
             queryData={queryData}
-            // queryDataFunction={queryData}
-
             rowKey="email"
         />
         <CreateCustomer onOk={()=>setCreateFlag(false)} visible={createFlag}></CreateCustomer>

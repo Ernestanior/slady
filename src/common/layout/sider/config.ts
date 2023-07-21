@@ -1,5 +1,6 @@
 import {IRoleLimitModule} from "@/common/interface";
 import {XOR} from "ts-xor";
+import {E_USER_TYPE} from "@/store/account/interface";
 
 interface IMenu extends IRoleLimitModule{
     icon?:string;
@@ -13,11 +14,15 @@ interface IMultipleMenu extends IRoleLimitModule{
     childs: IMenu[]
 }
 
+
+
+
 const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
     {
         url: '/staff',
         text: "员工管理",
-        icon:"icon-customer"
+        icon:"icon-customer",
+        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SUPERADMIN]
     },
     {
         url: "/item",
@@ -33,6 +38,7 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
         text: "韩国反馈",
         icon:"icon-order",
         url: "/feedback",
+        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SUPERADMIN]
     },
     {
         url: "/rank",
@@ -41,13 +47,13 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
     },
     {
         url: "/storageRecord",
-        icon:"icon-cry",
-        text: "出/入库"
+        icon:"icon-writing",
+        text: "库存修改记录",
     },
     {
         url: "/operate",
         icon:"icon-writing",
-        text: "员工操作历史记录"
+        text: "员工操作历史记录",
     },
 ]
 

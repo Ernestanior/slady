@@ -14,20 +14,63 @@ import Rank from "@/pages/rank";
 import StorageRecord from "@/pages/storage";
 import CreateItem from "@/pages/design/create";
 import ImgView from "@/pages/design/imgView";
+import useAccountInfo from "@/store/account";
+import {E_USER_TYPE} from "@/store/account/interface";
+
 /**
  * 项目路由组件
  * 可以在此根据用户相应的权限组装路由
  * @constructor
  */
 const ModuleRouter:FC = () => {
-
+    const userInfo = useAccountInfo()
+    console.log(userInfo?.type)
+    if (!userInfo){
+        return null
+    }
+    if (userInfo?.type===E_USER_TYPE.SALER || userInfo?.type===E_USER_TYPE.LOGISTICS){
+        return <Router history={historyService}>
+            <LayoutPlx>
+                <Switch>
+                    <Route path="/item/images/:id">
+                        <ImgView />
+                    </Route>
+                    <Route path="/item/detail/:id">
+                        <Detail />
+                    </Route>
+                    <Route path="/item/create">
+                        <CreateItem />
+                    </Route>
+                    <Route path="/item">
+                        <ItemList />
+                    </Route>
+                    <Route path="/order">
+                        <Order />
+                    </Route>
+                    <Route path="/rank">
+                        <Rank />
+                    </Route>
+                    <Route path="/storageRecord">
+                        <StorageRecord />
+                    </Route>
+                    <Route path="/operate">
+                        <OperationList />
+                    </Route>
+                    <Route path="/profile">
+                        <Profile />
+                    </Route>
+                    <Redirect to="/item" />
+                </Switch>
+            </LayoutPlx>
+        </Router>
+    }
     return <Router history={historyService}>
         <LayoutPlx>
             <Switch>
                 <Route path="/item/images/:id">
                     <ImgView />
                 </Route>
-                <Route path="/item/detail/:design">
+                <Route path="/item/detail/:id">
                     <Detail />
                 </Route>
                 <Route path="/item/create">

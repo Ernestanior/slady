@@ -1,6 +1,10 @@
 export enum E_USER_TYPE{
-    ADMIN = "admin",
-    CUSTOMER = 'customer'
+    ADMIN="admin",
+    SALER="saler",
+    OPERATOR="operator",
+    LOGISTICS="kr-logistics",
+
+    SUPERADMIN="superAdmin"
 }
 
 export enum E_All_USER_TYPE{

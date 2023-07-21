@@ -67,7 +67,7 @@ const OrderList: FC = () => {
     const query = useCallback(async(data)=>{
         const {operateDate,...filters}=data
         if (operateDate) {
-            const d: string[] = handleDatetime(data.operateDate);
+            const d: any[] = handleDatetime(data.operateDate);
             filters.startDate = d[0]+" 00:00:00";
             filters.endDate = d[1]+" 23:59:59";
         }

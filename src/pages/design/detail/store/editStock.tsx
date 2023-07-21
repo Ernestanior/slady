@@ -1,9 +1,8 @@
-import React, {FC, useState} from "react";
-import {Form, Input, InputNumber, Modal, notification, Select} from "antd";
+import React, {FC, useEffect, useState} from "react";
+import {Form, InputNumber, Modal, notification} from "antd";
 import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
-import {userService} from "@/store/apis/account";
 import {itemService} from "@/store/apis/item";
 
 interface IProps{
@@ -18,6 +17,9 @@ const CreateCustomer:FC<IProps> = ({onOk,visible,data}) => {
         form.resetFields()
         onOk()
     }
+    useEffect(()=>{
+        data && form.setFieldsValue(data)
+    },[form,data])
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
         const {stock}=newData

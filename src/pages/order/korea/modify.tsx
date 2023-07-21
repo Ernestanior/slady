@@ -50,9 +50,13 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
         }
     }
     useEffect(()=>{
-        if(data){
+        if(data && data.status){
             form.setFieldsValue({...data})
             setStatus(data.status)
+        }
+        else{
+            form.setFieldsValue({status:""})
+            setStatus("")
         }
     },[form,data])
 

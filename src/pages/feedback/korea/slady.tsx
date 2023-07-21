@@ -15,6 +15,7 @@ const OrderList: FC = () => {
 
     const [data,setData]=useState<any>()
     const [totalPrice,setTotalPrice] = useState<any>()
+    const [dateRange,setDateRange] = useState<any>()
     useEffect(()=>{
         const config = orderService.OrderCount({},{
             areaType:areaType.KOREA,
@@ -34,9 +35,10 @@ const OrderList: FC = () => {
     const query = useCallback(async(data)=>{
         const {operateDate,...filters}=data
         if (operateDate) {
-            const d: string[] = handleDatetime(data.operateDate);
+            const d: any[] = handleDatetime(data.operateDate);
             filters.startDate = d[0]+" 00:00:00";
             filters.endDate = d[1]+" 23:59:59";
+            setDateRange({startDate:d[0]+" 00:00:00",endDate:d[1]+" 23:59:59"})
         }
         const config = orderService.OrderList({},{
             areaType:areaType.KOREA,
@@ -59,7 +61,7 @@ const OrderList: FC = () => {
             return
         }
         const ids = data.map((item:any)=>item.id)
-        const config = orderService.OrderModifyStatus({status:1},ids)
+        const config = orderService.OrderModifyStatus({status:1,dateRange},ids)
         reqAndReload(config)
     }
 

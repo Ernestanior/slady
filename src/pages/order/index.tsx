@@ -5,6 +5,9 @@ import KoreaSl from './korea/sl'
 import SingaporeSlady from './singapore/slady'
 import SingaporeSl from './singapore/sl'
 import {WAREHOUSE} from "@/common/const";
+import useAccountInfo from "@/store/account";
+import {E_USER_TYPE} from "@/store/account/interface";
+
 const { TabPane } = Tabs;
 
 export enum areaType{
@@ -22,6 +25,28 @@ export enum orderType{
 
 }
 const Order: FC = () => {
+    const userInfo = useAccountInfo()
+    if (!userInfo) return null;
+    if (userInfo.type===E_USER_TYPE.SALER){
+        return <Tabs defaultActiveKey="1">
+            <TabPane tab={WAREHOUSE.SLADY} key="1">
+                <SingaporeSlady></SingaporeSlady>
+            </TabPane>
+            <TabPane tab={WAREHOUSE.SL} key="2">
+                <SingaporeSl></SingaporeSl>
+            </TabPane>
+        </Tabs>
+    }
+    if (userInfo.type===E_USER_TYPE.LOGISTICS){
+        return <Tabs defaultActiveKey="1">
+            <TabPane tab={WAREHOUSE.SLADY} key="1">
+                <KoreaSlady></KoreaSlady>
+            </TabPane>
+            <TabPane tab={WAREHOUSE.SL} key="2">
+                <KoreaSl></KoreaSl>
+            </TabPane>
+        </Tabs>
+    }
     return (
         <section>
                 <Tabs defaultActiveKey="1" type={"card"}>

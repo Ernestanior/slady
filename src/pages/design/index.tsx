@@ -6,10 +6,10 @@ import historyService from "@/store/history";
 import request, {dev_url} from "@/store/request";
 import {designService} from "@/store/apis/item";
 import {from} from "rxjs";
-export const typeList:any[] = [{id:'',value:'ALL'}, {id:'DR',value:'DR连衣裙'},
-    {id:'TB',value:'TB上衣'},{id:'SK',value:'SK半裙'},{id:'PT',value:'PT裤子'},{id:'GO',value:'GO晚礼服'},
-    {id:'JK',value:'JK外套'},{id:'JS',value:'JS连体裤'},{id:'BT',value:'BT皮带'},{id:'SH',value:'SH鞋子'},{id:'SE',value:'SE套装'},
-    {id:'SI',value:'SI真丝'},{id:'AC',value:'AC'}]
+export const typeList:any[] = [{value:'',label:'ALL'}, {value:'DR',label:'DR连衣裙'},
+    {value:'TB',label:'TB上衣'},{value:'SK',label:'SK半裙'},{value:'PT',label:'PT裤子'},{value:'GO',label:'GO晚礼服'},
+    {value:'JK',label:'JK外套'},{value:'JS',label:'JS连体裤'},{value:'BT',label:'BT皮带'},{value:'SH',label:'SH鞋子'},{value:'SE',label:'SE套装'},
+    {value:'SI',label:'SI真丝'},{value:'AC',label:'AC'}]
 
 const DesignList: FC = () => {
     const [displayData,setDisplayData]=useState<any>([])
@@ -21,9 +21,21 @@ const DesignList: FC = () => {
     }
 
     useEffect(()=>{
-        loadData()
+        const config = designService.DesignList({}, {
+            type,
+            design,
+            "searchPage": {
+                "desc": 0,
+                "page": 1,
+                "pageSize": 999,
+                "sort": ""
+            }
+        })
+        from(request(config)).subscribe((res:any)=>{
+            setDisplayData(res.result)
+        })
 
-    },[type])
+    },[type,design])
 
     const loadData = ()=>{
         const config = designService.DesignList({}, {
@@ -44,7 +56,7 @@ const DesignList: FC = () => {
         <section>
             <section style={{marginBottom:10}}>
                 {typeList.map((item)=><>
-                    <Button type={type===item.id?'primary':'default'} style={{borderRadius:20,marginRight:5}} onClick={()=>setType(item.id)}>{item.value}</Button>
+                    <Button type={type===item.id?'primary':'default'} style={{borderRadius:20,marginRight:5}} onClick={()=>setType(item.value)}>{item.label}</Button>
                 </>)}
             </section>
             <section>
@@ -60,7 +72,7 @@ const DesignList: FC = () => {
                                 <div style={{marginBottom:5}}>库存：{item.totalStock || 0}</div>
                                 价格：<span style={{color:"#fa9829"}}>${item.salePrice || 0}</span>
                             </div>
-                            <a style={{display:"flex",alignItems:"center",color:"#b67c39",fontSize:15,fontWeight:600}} onClick={()=>goDetail(item.id)}>详情<RightOutlined /></a>
+                            <div style={{cursor:"pointer",display:"flex",alignItems:"center",color:"#b67c39",fontSize:15,fontWeight:600}} onClick={()=>goDetail(item.id)}>详情<RightOutlined /></div>
                         </div>
                     </div>
                 )}

@@ -8,6 +8,7 @@ import {from} from "rxjs";
 import request, {dev_url} from "@/store/request";
 import historyService from "@/store/history";
 const TopSale: FC = () => {
+
     const [type,setType] = useState<string>('')
     const [displayData,setDisplayData]=useState<any>([])
 
@@ -15,7 +16,7 @@ const TopSale: FC = () => {
         const config = designService.DesignList({}, {
             type,
             "searchPage": {
-                "desc": 0,
+                "desc": 1,
                 "page": 1,
                 "pageSize": 999,
                 "sort": "hot"
@@ -29,11 +30,12 @@ const TopSale: FC = () => {
     const goDetail=(id:string)=>{
         historyService.push(`/item/detail/${id}`)
     }
+
     return (
         <section>
             <section style={{marginBottom:10}}>
                 {typeList.map((item)=><>
-                    <Button type={type===item.id?'primary':'default'} style={{borderRadius:20,marginRight:5}} onClick={()=>setType(item.id)}>{item.value}</Button>
+                    <Button type={type===item.id?'primary':'default'} style={{borderRadius:20,marginRight:5}} onClick={()=>setType(item.value)}>{item.label}</Button>
                 </>)}
             </section>
             <div>
@@ -51,7 +53,7 @@ const TopSale: FC = () => {
                                     {index===1&&<IconFont type="icon-jiangbei-1" style={{fontSize:40}}/>}
                                     {index===2&&<IconFont type="icon-jiangbei-2" style={{fontSize:40}}/>}
                                 </div>
-                                <a href="#" style={{display:"flex",alignItems:"center",color:"#b67c39",fontSize:15,fontWeight:600}} onClick={()=>goDetail(item.id)}>详情<RightOutlined /></a>
+                                <div style={{display:"flex",alignItems:"center",color:"#b67c39",fontSize:15,fontWeight:600}} onClick={()=>goDetail(item.id)}>详情<RightOutlined /></div>
                             </div>
                         </div>
                     </div>

@@ -31,7 +31,7 @@ const ImgView: FC = () => {
                 setImgList(res.result)
             }
         })
-    },[])
+    },[folderPath])
 
     const onSubmit=async ()=>{
         const formData = new FormData()
