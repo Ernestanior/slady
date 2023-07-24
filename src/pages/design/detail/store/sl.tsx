@@ -11,10 +11,13 @@ import {reqAndReload} from "@/common/utils";
 import {notification} from "antd";
 import msgModal from "@/store/message/service";
 import CustomerOrder from "@/pages/design/detail/store/customerOrder";
+import useAccountInfo from "@/store/account";
+import {E_USER_TYPE} from "@/store/account/interface";
 
 interface IProps{
 }
 const Slady: FC<IProps> = () => {
+    const userInfo = useAccountInfo()
     // const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [editStock,setEditStock]=useState<boolean>(false)
     const [replenish,setReplenish]=useState<boolean>(false)
@@ -26,16 +29,18 @@ const Slady: FC<IProps> = () => {
     const designId = useMemo(()=>url?.params.id,[url])
 
     const buttons: INormalEvent[] = useMemo(() => {
-        return [
-            {
-                text: "Create",
-                primary: true,
-                event() {
-                    setCreateFlag(true)
+        return userInfo?.type===E_USER_TYPE.SALER ? []:
+            [
+                {
+                    text: "Create",
+                    primary: true,
+                    event() {
+                        setCreateFlag(true)
+                    },
+
                 },
-            },
-        ];
-    }, []);
+            ];
+    }, [userInfo?.type]);
 
     const options: IOperationConfig = useMemo(() => {
         return [
@@ -74,10 +79,11 @@ const Slady: FC<IProps> = () => {
                         }
                         msgModal.createEvent("modal", value)
                     },
+                    hide:()=>userInfo?.type===E_USER_TYPE.SALER
                 }
             ]
         ]
-    }, [])
+    }, [userInfo?.type])
     return (
         <section style={{padding:20}}>
             <h3>库存</h3>

@@ -24,11 +24,22 @@ import {E_USER_TYPE} from "@/store/account/interface";
  */
 const ModuleRouter:FC = () => {
     const userInfo = useAccountInfo()
-    console.log(userInfo?.type)
     if (!userInfo){
         return null
     }
-    if (userInfo?.type===E_USER_TYPE.SALER || userInfo?.type===E_USER_TYPE.LOGISTICS){
+    if (userInfo?.type===E_USER_TYPE.SUPERADMIN){
+        return <Router history={historyService}>
+            <LayoutPlx>
+                <Switch>
+                    <Route path="/staff">
+                        <Staff />
+                    </Route>
+                    <Redirect to="/staff" />
+                </Switch>
+            </LayoutPlx>
+        </Router>
+    }
+    if (userInfo?.type===E_USER_TYPE.SALER){
         return <Router history={historyService}>
             <LayoutPlx>
                 <Switch>
@@ -56,8 +67,56 @@ const ModuleRouter:FC = () => {
                     <Route path="/operate">
                         <OperationList />
                     </Route>
-                    <Route path="/profile">
-                        <Profile />
+                    <Redirect to="/item" />
+                </Switch>
+            </LayoutPlx>
+        </Router>
+    }
+    if (userInfo?.type===E_USER_TYPE.LOGISTICS){
+        return <Router history={historyService}>
+            <LayoutPlx>
+                <Switch>
+                    <Route path="/order">
+                        <Order />
+                    </Route>
+                    <Route path="/feedback">
+                        <Feedback />
+                    </Route>
+                    <Redirect to="/order" />
+                </Switch>
+            </LayoutPlx>
+        </Router>
+    }
+    if (userInfo?.type===E_USER_TYPE.FINANCE){
+        return <Router history={historyService}>
+            <LayoutPlx>
+                <Switch>
+                    <Route path="/feedback">
+                        <Feedback />
+                    </Route>
+                    <Redirect to="/feedback" />
+                </Switch>
+            </LayoutPlx>
+        </Router>
+    }
+    if (userInfo?.type===E_USER_TYPE.PRODUCTMANAGEMENT){
+        return <Router history={historyService}>
+            <LayoutPlx>
+                <Switch>
+                    <Route path="/item/images/:id">
+                        <ImgView />
+                    </Route>
+                    <Route path="/item/detail/:id">
+                        <Detail />
+                    </Route>
+                    <Route path="/item/create">
+                        <CreateItem />
+                    </Route>
+                    <Route path="/item">
+                        <ItemList />
+                    </Route>
+                    <Route path="/rank">
+                        <Rank />
                     </Route>
                     <Redirect to="/item" />
                 </Switch>

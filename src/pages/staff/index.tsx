@@ -66,7 +66,7 @@ const CustomerList:FC = () => {
             event={buttons}
             columns={columns}
             queryData={queryData}
-            rowKey="email"
+            rowKey="id"
         />
         <CreateCustomer onOk={()=>setCreateFlag(false)} visible={createFlag}></CreateCustomer>
         <ModifyCustomer onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyCustomer>

@@ -30,6 +30,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
         const {name,type,password}=newData
+        console.log(newData)
         if (name && type && password){
             setLoading(true)
             const config = userService.CreateUser({},newData)
@@ -65,10 +66,11 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
 
             <Form.Item name="type" label={<span className="login-label">权限</span>}>
                 <Select options={[
-                    { value: 'admin', label: '老板' },
-                    { value: 'saler', label: '销售员工' },
-                    { value: 'operator', label: '后台人员' },
-                    { value: 'kr-logistics', label: '韩国物流' },
+                    { value: 'ADMIN', label: '老板' },
+                    { value: 'SALER', label: '销售员工' },
+                    { value: 'PRODUCTMANAGEMENT', label: '产品管理' },
+                    { value: 'FINANCE', label: '财务' },
+                    { value: 'LOGISTICS', label: '韩国物流' },
                 ]}/>
             </Form.Item>
             <Form.Item name="password" label={<span className="login-label">密码</span>}>

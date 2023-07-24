@@ -1,16 +1,13 @@
 export enum E_USER_TYPE{
-    ADMIN="admin",
-    SALER="saler",
-    OPERATOR="operator",
-    LOGISTICS="kr-logistics",
+    ADMIN="ADMIN",
+    SALER="SALER",
+    FINANCE="FINANCE",
+    LOGISTICS="LOGISTICS",
 
-    SUPERADMIN="superAdmin"
+    SUPERADMIN="SUPERADMIN",
+    PRODUCTMANAGEMENT="PRODUCTMANAGEMENT"
 }
 
-export enum E_All_USER_TYPE{
-    CUSTOMER="customer",
-    AGENT="agent"
-}
 
 export interface IAccountInfo{
     /** 用户id */
@@ -21,6 +18,7 @@ export interface IAccountInfo{
     name:string;
     email:string;
     createDate:string;
+    locale:string;
 }
 
 export interface ISaleInfo{

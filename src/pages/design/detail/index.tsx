@@ -11,10 +11,13 @@ import historyService from "@/store/history";
 import msgModal from "@/store/message/service";
 import ModifyDesign from "@/pages/design/detail/modify";
 import {WAREHOUSE} from "@/common/const";
+import {E_USER_TYPE} from "@/store/account/interface";
+import useAccountInfo from "@/store/account";
 
 const { TabPane } = Tabs;
 
 const Detail: FC = () => {
+    const userInfo = useAccountInfo()
     const [data,setData]=useState<any>()
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const url = useRouteMatch<{id:string }>("/item/detail/:id");
@@ -86,8 +89,11 @@ const Detail: FC = () => {
                         {/*<Col span={14}><div style={{display:"flex"}}>$<Input style={{marginRight:10}}/> </div></Col>*/}
                     </Row>
                 </div>
-                <Button onClick={()=>setEditFlag(true)}>修改</Button>
-                <Button style={{marginLeft:20,color:"red"}} onClick={deleteDesign}>删除商品</Button>
+
+                {userInfo?.type!==E_USER_TYPE.SALER && <>
+                    <Button onClick={()=>setEditFlag(true)}>修改</Button>
+                    <Button style={{marginLeft:20,color:"red"}} onClick={deleteDesign}>删除商品</Button>
+                </>}
             </section>
             <Tabs defaultActiveKey="1">
                 <TabPane tab={WAREHOUSE.SLADY} key="1">

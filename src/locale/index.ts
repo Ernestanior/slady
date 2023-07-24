@@ -26,8 +26,6 @@ const loadLanPkg = (lan: any) => {
     switch (lan) {
         case "zh_CN":
             return import("@/locale/zh_CN");
-        case "zh_TW":
-            return import("@/locale/zh_TW");
         default:
             return import("@/locale/en_US");
     }
