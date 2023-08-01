@@ -4,6 +4,7 @@ import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
 import {orderService} from "@/store/apis/order";
+import {itemService} from "@/store/apis/item";
 
 interface IProps{
     visible:boolean;
@@ -15,6 +16,7 @@ enum orderType{
     ORDER
 }
 const CustomerOrder:FC<IProps> = ({onOk,visible,data}) => {
+    console.log(data)
     const [form] = useForm()
     const [loading,setLoading] = useState<boolean>(false)
 
@@ -27,7 +29,8 @@ const CustomerOrder:FC<IProps> = ({onOk,visible,data}) => {
         const {amount,remark}=newData
         if (amount){
             setLoading(true)
-            const config = orderService.OrderCreate({},{itemId:data.id,amount,type:orderType.REPLENISH,remark})
+            await request(itemService.ItemModifyStock({id:data.id,stock:data.stock-amount},{}))
+            const config = orderService.OrderCreate({},{itemId:data.id,amount,type:orderType.REPLENISH,remark,paymentStatus:-1,status:"0"})
             const res = await request(config)
             setLoading(false)
             if (res.isSuccess){

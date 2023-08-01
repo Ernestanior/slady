@@ -4,13 +4,14 @@ import {Button, notification} from "antd";
 import {orderService} from "@/store/apis/order";
 import {areaType} from "@/pages/order";
 import moment from "moment/moment";
-import {from} from "rxjs";
 import request, {dev_url} from "@/store/request";
 import {IPageResult} from "@/store/apis/log/common.interface";
 import {reqAndReload} from "@/common/utils";
 import {WAREHOUSE} from "@/common/const";
 import Query from "./query";
 import {handleDatetime} from "@/common/utilsx";
+import msgModal from "@/store/message/service";
+import {from} from "rxjs";
 const OrderList: FC = () => {
 
     const [data,setData]=useState<any>()
@@ -18,15 +19,15 @@ const OrderList: FC = () => {
     useEffect(()=>{
         const config = orderService.OrderCount({},{
             areaType:areaType.KOREA,
-            warehouseName:WAREHOUSE.SLADY,
-            status:2,
+            warehouseName:WAREHOUSE.SL,
+            // status:['2','3','5'],
             paymentStatus:0,
             searchPage:{desc:1,page:1,pageSize:999,sort:"create_date"}
         })
         from(request(config)).subscribe((res:any)=>{
             if (res.isSuccess){
                 const data = res.result.filter((item:any)=>item.warehouseName===WAREHOUSE.SLADY)
-                data.length && setTotalPrice(data[0].count)
+                data.length && setTotalPrice(data[1].count)
             }
         })
     },[])
@@ -41,7 +42,7 @@ const OrderList: FC = () => {
         const config = orderService.OrderList({},{
             areaType:areaType.KOREA,
             warehouseName:WAREHOUSE.SL,
-            status:2,
+            // status:['2','3','5'],
             paymentStatus:0,
             ...filters
         })
@@ -54,13 +55,20 @@ const OrderList: FC = () => {
     },[])
 
     const changeStatus = async() =>{
-        if(!data.length){
-            notification.error({message:"当前无未结清的订单"})
-            return
+        const value = {
+            title: "清空",
+            content: `确定清空订单？`,
+            onOk: () => {
+                if(!data.length){
+                    notification.error({message:"当前无未结清的订单"})
+                    return
+                }
+                const ids = data.map((item:any)=>item.id)
+                const config = orderService.OrderModifyStatus({},{orderIds:ids,paymentStatus:1})
+                reqAndReload(config)
+            }
         }
-        const ids = data.map((item:any)=>item.id)
-        const config = orderService.OrderModifyStatus({status:1},ids)
-        reqAndReload(config)
+        msgModal.createEvent("modal", value)
     }
 
     const onPrint = async() =>{

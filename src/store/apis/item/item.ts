@@ -99,6 +99,17 @@ class ItemAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
+    FileDownload = (params: {filePath:string}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/file/download',
+            method: 'get',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
 }
 export default ItemAPI;
 

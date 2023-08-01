@@ -1,12 +1,13 @@
 import React, {FC} from "react";
-import Template from "@/common/template";
+import Template from "@/common/template/indexWithPagination";
 import {accessLogService} from "@/store/apis/log";
+import moment from "moment";
 
 const OperationList:FC = () => {
     return <section>
          <Template
             columns={columns}
-            queryData={(data:any)=>accessLogService.FindAccessLog({},data)}
+            queryData={(data)=>accessLogService.FindAccessLog({},{...data})}
             // queryDataFunction={queryData}
             rowKey="id"
         />
@@ -32,6 +33,7 @@ const columns = [
     {
         dataIndex: "createDate",
         title: "操作时间",
+        render:(value:string)=>moment(value).format("YYYY-MM-DD HH:mm:ss")
     },
 ]
 

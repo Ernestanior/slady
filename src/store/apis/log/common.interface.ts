@@ -9,7 +9,7 @@ export interface IAccessLogDto {
 }
 export interface IAccessLogForm {
     keyWord?:string;
-    searchPage: ISearchPage;
+    searchPage?: ISearchPage;
     uri?:string;
 }
 export interface IBaseRespDto {

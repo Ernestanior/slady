@@ -27,7 +27,7 @@ const Rpelenish:FC<IProps> = ({onOk,visible,data}) => {
         const {amount}=newData
         if (amount){
             setLoading(true)
-            const config = orderService.OrderCreate({},{itemId:data.id,amount,type:orderType.REPLENISH,remark:'店补'})
+            const config = orderService.OrderCreate({},{itemId:data.id,amount,type:orderType.REPLENISH,remark:'店补',paymentStatus:-1,status:"0"})
             const res = await request(config)
             setLoading(false)
             if (res.isSuccess){

@@ -20,17 +20,20 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
     }
 
     const statusList = useMemo(()=>{
-        if (status===orderType.PENDING){
-            return [{ value: orderType.PENDING, label: '待定',disabled:true },{ value: orderType.DONE, label: 'OK' },{ value: orderType.SEND, label: '已发货' }]
+        if (data?.status===orderType.PENDING){
+            return [{ value: orderType.PENDING, label: '待定',disabled:true },{ value: orderType.DONE, label: 'OK' },{ value: orderType.SEND, label: '已发货',disabled: true }]
         }
-        else if (status===orderType.CANCELREQUEST){
+        else if (data?.status===orderType.CANCELREQUEST){
             return [{ value: orderType.CANCELREQUEST, label: '待定(请求取消)',disabled:true }]
         }
-        else if (status===orderType.DONE){
+        else if (data?.status===orderType.DONE){
             return [{ value: orderType.PENDING, label: '待定',disabled:true },{ value: orderType.DONE, label: 'OK',disabled:true },{ value: orderType.SEND, label: '已发货' }]
         }
-        return [{ value: orderType.PENDING, label: '待定' },{ value: orderType.DONE, label: 'OK' },{ value: orderType.SEND, label: '已发货' }]
-    },[status])
+        else if (data?.status===orderType.SEND){
+            return [{ value: orderType.PENDING, label: '待定',disabled:true },{ value: orderType.DONE, label: 'OK',disabled:true },{ value: orderType.SEND, label: '已发货',disabled:true }]
+        }
+        return [{ value: '0', label: '无状态',disabled:true },{ value: orderType.PENDING, label: '待定' },{ value: orderType.DONE, label: 'OK' },{ value: orderType.SEND, label: '已发货',disabled:true }]
+    },[data?.status])
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
         if (newData.status===orderType.PENDING && !newData.pendingDate){
@@ -42,7 +45,7 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
             return
         }
         setLoading(true)
-        const res = await request(orderService.OrderModify({}, {...newData,id:data.id,pendingDate:newData.status==="1"?newData.pendingDate:""}))
+        const res = await request(orderService.OrderModify({}, {...newData,id:data.id,pendingDate:newData.status===orderType.PENDING?newData.pendingDate:"",paymentStatus:(newData.status===orderType.DONE||newData.status===orderType.SEND)?0:-1}))
         setLoading(false)
         if (res.isSuccess){
             reloadMainList();
@@ -83,7 +86,7 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
                 <Input></Input>
             </Form.Item>}
             {status===orderType.DONE && <Form.Item name="quotedPrice" label={<span className="login-label">单价</span>}>
-                <Input />
+                <Input disabled={data?.status===orderType.DONE}/>
             </Form.Item>}
         </Form>}
     </Modal>

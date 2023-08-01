@@ -20,7 +20,7 @@ const OrderList: FC = () => {
         const config = orderService.OrderList({},{
             areaType:areaType.KOREA,
             warehouseName:WAREHOUSE.SLADY,
-            status:2,
+            status:['2','3','5'],
             paymentStatus:1,
             ...filters
         })

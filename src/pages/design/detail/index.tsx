@@ -49,51 +49,67 @@ const Detail: FC = () => {
     }
     return (
         <section>
+            {userInfo?.type!==E_USER_TYPE.SALER && <div style={{marginBottom:20}}>
+                <Button onClick={()=>setEditFlag(true)}>修改</Button>
+                <Button style={{marginLeft:20,color:"red"}} onClick={deleteDesign}>删除商品</Button>
+            </div>}
             <section style={{display:"flex"}}>
-                <img alt="" src={dev_url+data?.previewPhoto} height={200} onClick={goPic}/>
-                <div style={{width:300,marginLeft:20}}>
+                <img style={{cursor:"pointer"}} alt="" src={dev_url+data?.previewPhoto} height={200} onClick={goPic}/>
+                <div style={{flex:1,marginLeft:20}}>
                     <Row style={{marginBottom:10}}>
-                        <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>设计编号</Col>
-                        <Col span={14} style={{fontWeight:550}}>{data?.design}</Col>
+                        <Col span={6} style={{fontWeight:550,color:"#9d692c"}}>设计编号</Col>
+                        <Col span={18} style={{fontWeight:550}}>{data?.design}</Col>
                     </Row>
                     <Row style={{marginBottom:10}}>
-                        <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>类别</Col>
-                        <Col span={14} >{data?.type}</Col>
+                        <Col span={6} style={{fontWeight:550,color:"#9d692c"}}>类别</Col>
+                        <Col span={18} >{data?.type}</Col>
                     </Row>
                     <Row style={{marginBottom:10}}>
-                        <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>总库存数</Col>
-                        <Col span={14}>{data?.stock}件</Col>
+                        <Col span={6} style={{fontWeight:550,color:"#9d692c"}}>总库存数</Col>
+                        <Col span={18}>{data?.stock}件</Col>
                     </Row>
                     <Row style={{marginBottom:10}}>
-                        <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>颜色</Col>
-                        <Col span={14}>{data?.color.join(", ")}</Col>
-                        {/*<Col span={14}><Select style={{width:300}} mode={"multiple"} defaultValue={["白色","棕色","粉色"]}></Select></Col>*/}
+                        <Col span={6} style={{fontWeight:550,color:"#9d692c"}}>颜色</Col>
+                        <Col span={5}>{data?.color.join(", ")}</Col>
+                        {/*<Col span={18}><Select style={{width:300}} mode={"multiple"} defaultValue={["白色","棕色","粉色"]}></Select></Col>*/}
                     </Row>
                     <Row style={{marginBottom:10}}>
-                        <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>尺寸</Col>
-                        <Col span={14}>{data?.size.join(", ")}</Col>
-                        {/*<Col span={14}><Select style={{width:300}} mode={"multiple"} defaultValue={["S","M","L"]}></Select></Col>*/}
+                        <Col span={6} style={{fontWeight:550,color:"#9d692c"}}>尺寸</Col>
+                        <Col span={18}>{data?.size.join(", ")}</Col>
+                        {/*<Col span={18}><Select style={{width:300}} mode={"multiple"} defaultValue={["S","M","L"]}></Select></Col>*/}
                     </Row>
                     <Row style={{marginBottom:10}}>
-                        <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>热度</Col>
-                        <Col span={14}>{data?.hot}</Col>
+                        <Col span={6} style={{fontWeight:550,color:"#9d692c"}}>热度</Col>
+                        <Col span={18}>{data?.hot || 0}</Col>
                     </Row>
                     <Row style={{marginBottom:10}}>
-                        <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>进货价</Col>
-                        <Col span={14}>${data?.purchasePrice}</Col>
-                        {/*<Col span={14}><div style={{display:"flex"}}>$<Input style={{marginRight:10}}/></div></Col>*/}
+                        <Col span={6} style={{fontWeight:550,color:"#9d692c"}}>进货价</Col>
+                        <Col span={18}>{data?.purchasePrice}</Col>
+                        {/*<Col span={18}><div style={{display:"flex"}}>$<Input style={{marginRight:10}}/></div></Col>*/}
                     </Row>
                     <Row style={{marginBottom:10}}>
-                        <Col span={10} style={{fontWeight:550,color:"#9d692c"}}>销售价</Col>
-                        <Col span={14}>${data?.salePrice}</Col>
-                        {/*<Col span={14}><div style={{display:"flex"}}>$<Input style={{marginRight:10}}/> </div></Col>*/}
+                        <Col span={6} style={{fontWeight:550,color:"#9d692c"}}>销售价</Col>
+                        <Col span={18}>{data?.salePrice}</Col>
+                        {/*<Col span={19}><div style={{display:"flex"}}>$<Input style={{marginRight:10}}/> </div></Col>*/}
+                    </Row>
+                </div>
+                <div style={{flex:1,marginLeft:20}}>
+                    <Row style={{marginBottom:10}}>
+                        <Col span={5} style={{fontWeight:550,color:"#9d692c"}}>面料</Col>
+                        <Col span={19}>
+                            <div>{data?.fabric?.split('\n').map((item:string)=><div>{item}</div>)}</div>
+                        </Col>
+
+                        {/*<Col span={19}><div style={{display:"flex"}}>$<Input style={{marginRight:10}}/> </div></Col>*/}
+                    </Row>
+                    <Row style={{marginBottom:10}}>
+                        <Col span={5} style={{fontWeight:550,color:"#9d692c"}}>备注</Col>
+                        <Col span={19}>{data?.remark}</Col>
+                        {/*<Col span={19}><div style={{display:"flex"}}>$<Input style={{marginRight:10}}/> </div></Col>*/}
                     </Row>
                 </div>
 
-                {userInfo?.type!==E_USER_TYPE.SALER && <>
-                    <Button onClick={()=>setEditFlag(true)}>修改</Button>
-                    <Button style={{marginLeft:20,color:"red"}} onClick={deleteDesign}>删除商品</Button>
-                </>}
+
             </section>
             <Tabs defaultActiveKey="1">
                 <TabPane tab={WAREHOUSE.SLADY} key="1">

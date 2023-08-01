@@ -1,5 +1,5 @@
 import React, {FC, useCallback} from "react";
-import Template from "@/common/template";
+import Template from "@/common/template/indexWithPagination";
 import {accessLogService} from "@/store/apis/log";
 import request, {dev_url} from "@/store/request";
 import {IPageResult} from "@/store/apis/log/common.interface";

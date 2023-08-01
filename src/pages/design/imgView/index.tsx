@@ -63,6 +63,11 @@ const ImgView: FC = () => {
         setRestList(imgList)
     }
 
+    const onDownload = async()=>{
+        const config= itemService.FileDownload({filePath:folderPath},{})
+        const res = await request(config)
+        window.open(dev_url+res.result)
+    }
     return (
         <section>
             <div onClick={()=>historyService.goBack()} style={{color:"#ee8d20",fontWeight:600}}><LeftOutlined />返回</div>
@@ -85,7 +90,8 @@ const ImgView: FC = () => {
                                preview={{src: dev_url+res}}/>
                     </div>)}
                 </section>
-                <Button style={{marginTop:20}} onClick={()=>setModifyMode(true)}>修改</Button>
+                <Button style={{marginTop:20,marginRight:20}} onClick={()=>setModifyMode(true)}>修改</Button>
+                <Button style={{marginTop:20}} onClick={onDownload}>下载全部图片</Button>
             </>}
         </section>
     );

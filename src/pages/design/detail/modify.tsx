@@ -57,6 +57,9 @@ const ModifyDesign:FC<IProps> = ({onOk,visible,data}) => {
             <FormItem name="salePrice" label="售价">
                 <Input />
             </FormItem>
+            <FormItem name="remark" label="备注">
+                <Input />
+            </FormItem>
         </Form>
     </Modal>
 }

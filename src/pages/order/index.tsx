@@ -23,6 +23,8 @@ export enum orderType{
     SEND='3',
     CANCELREQUEST='4',
 
+    RECEIVE='5'
+
 }
 const Order: FC = () => {
     const userInfo = useAccountInfo()

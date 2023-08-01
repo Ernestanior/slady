@@ -31,7 +31,7 @@ class OrderAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    OrderModifyStatus= (params: {}, data:[] ) => {
+    OrderModifyStatus= (params: {}, data:{} ) => {
         const config: AxiosRequestConfig = {
             url: '/order/modify-payment-status',
             method: 'put',

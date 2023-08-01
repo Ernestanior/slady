@@ -11,16 +11,17 @@ import {reqAndReload} from "@/common/utils";
 import {WAREHOUSE} from "@/common/const";
 import Query from "./query";
 import {handleDatetime} from "@/common/utilsx";
+import msgModal from "@/store/message/service";
 const OrderList: FC = () => {
 
     const [data,setData]=useState<any>()
     const [totalPrice,setTotalPrice] = useState<any>()
-    const [dateRange,setDateRange] = useState<any>()
+    // const [dateRange,setDateRange] = useState<any>()
     useEffect(()=>{
         const config = orderService.OrderCount({},{
             areaType:areaType.KOREA,
             warehouseName:WAREHOUSE.SLADY,
-            status:2,
+            // status:['2','3','5'],
             paymentStatus:0,
             searchPage:{desc:1,page:1,pageSize:999,sort:"create_date"}
         })
@@ -38,12 +39,12 @@ const OrderList: FC = () => {
             const d: any[] = handleDatetime(data.operateDate);
             filters.startDate = d[0]+" 00:00:00";
             filters.endDate = d[1]+" 23:59:59";
-            setDateRange({startDate:d[0]+" 00:00:00",endDate:d[1]+" 23:59:59"})
+            // setDateRange({startDate:d[0]+" 00:00:00",endDate:d[1]+" 23:59:59"})
         }
         const config = orderService.OrderList({},{
             areaType:areaType.KOREA,
             warehouseName:WAREHOUSE.SLADY,
-            status:2,
+            // status:['2','3','5'],
             paymentStatus:0,
             ...filters
         })
@@ -56,13 +57,20 @@ const OrderList: FC = () => {
     },[])
 
     const changeStatus = async() =>{
-        if(!data.length){
-            notification.error({message:"当前无未结清的订单"})
-            return
+        const value = {
+            title: "清空",
+            content: `确定清空订单？`,
+            onOk: () => {
+                if(!data.length){
+                    notification.error({message:"当前无未结清的订单"})
+                    return
+                }
+                const ids = data.map((item:any)=>item.id)
+                const config = orderService.OrderModifyStatus({},{orderIds:ids,paymentStatus:1})
+                reqAndReload(config)
+            }
         }
-        const ids = data.map((item:any)=>item.id)
-        const config = orderService.OrderModifyStatus({status:1,dateRange},ids)
-        reqAndReload(config)
+        msgModal.createEvent("modal", value)
     }
 
     const onPrint = async() =>{

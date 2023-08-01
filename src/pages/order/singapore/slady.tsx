@@ -60,7 +60,23 @@ const OrderList: FC = () => {
                 }
                 msgModal.createEvent("modal", value)
             }
-        }
+        },
+        {
+            text: "已收到",
+            hide: (data) => data.status !== orderType.SEND,
+            event(data) {
+                const value = {
+                    title: "收到商品",
+                    content: `确定已收到订单商品: ${data.design} ？`,
+                    onOk: async() => {
+                        console.log(data)
+                        const config = orderService.OrderModify({}, {...data,status:"5"});
+                        reqAndReload(config);
+                    }
+                }
+                msgModal.createEvent("modal", value)
+            }
+        },
     ], [])
 
 
@@ -74,6 +90,7 @@ const OrderList: FC = () => {
         const config = orderService.OrderList({},{
             areaType:areaType.SINGAPORE,
             warehouseName:WAREHOUSE.SLADY,
+            status:['0','1','2','3','4'],
             ...filters
         })
         const res = await request<IPageResult<any>>(config);
@@ -152,6 +169,8 @@ const columns: any = [
                     return '已发货'
                 case '4':
                     return '待定(请求取消)'
+                case '5':
+                    return '已收到'
             }
         }
     },

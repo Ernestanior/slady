@@ -102,9 +102,7 @@ const Slady: FC<IProps> = () => {
             <EditStock onOk={()=>setEditStock(false)} visible={editStock} data={selectedItem}></EditStock>
             <Replenish onOk={()=>setReplenish(false)} visible={replenish} data={selectedItem}></Replenish>
             <CustomerOrder onOk={()=>setCusOrder(false)} visible={cusOrder} data={selectedItem}></CustomerOrder>
-
             <CreateItem onOk={()=>setCreateFlag(false)} visible={createFlag} designId={designId}></CreateItem>
-
         </section>
     );
 };

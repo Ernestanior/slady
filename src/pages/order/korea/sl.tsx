@@ -41,7 +41,8 @@ const OrderList: FC = () => {
         const config = orderService.OrderList({},{
             areaType:areaType.KOREA,
             warehouseName:WAREHOUSE.SL,
-            ...filters
+            status:['0','1','2','3','4'],
+            ...filters,
         })
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
@@ -115,6 +116,8 @@ const columns: any = [
                     return '已发货'
                 case '4':
                     return '待定(请求取消)'
+                case '5':
+                    return '已收到'
             }
         }
     },
