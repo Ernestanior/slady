@@ -66,10 +66,10 @@ const CreateItem:FC<IProps> = ({onOk,visible,designId}) => {
         width={600}
     >
         <Form form={form}  initialValues={{status:1,subscription:[1]}}>
-            <FormItem name="warehouseName" label="店铺">
+            <FormItem name="warehouseName" label="Shop">
                 <SelectP data={warehouse} mode="multiple"/>
             </FormItem>
-            <FormItem name="color" label="颜色">
+            <FormItem name="color" label="Color">
                 <Select
                     mode="multiple"
                     dropdownRender={(menu) => (
@@ -92,10 +92,10 @@ const CreateItem:FC<IProps> = ({onOk,visible,designId}) => {
                     options={items.map((item) => ({ label: item, value: item }))}
                 />
             </FormItem>
-            <FormItem name="size" label="尺寸">
+            <FormItem name="size" label="Size">
                 <SelectP data={size} mode="multiple"/>
             </FormItem>
-            <FormItem name="stock" label="库存">
+            <FormItem name="stock" label="Stock">
                 <InputNumber />
             </FormItem>
         </Form>

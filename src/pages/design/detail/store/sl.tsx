@@ -46,7 +46,7 @@ const Slady: FC<IProps> = () => {
         return [
             [
                 {
-                    text: "修改库存",
+                    text: "Modify Stock",
                     event(data) {
                         setSelectedItem(data)
                         setEditStock(true)
@@ -67,10 +67,10 @@ const Slady: FC<IProps> = () => {
                     },
                 },
                 {
-                    text: "删除",
+                    text: "Delete",
                     event(data) {
                         const value = {
-                            title: "删除",
+                            title: "Delete",
                             content: `目前库存为${data.stock}，确定删除: ${data.color}/ ${data.size} ？`,
                             onOk: () => {
                                 const config = itemService.ItemDelete({},[data.id])
@@ -86,7 +86,7 @@ const Slady: FC<IProps> = () => {
     }, [userInfo?.type])
     return (
         <section style={{padding:20}}>
-            <h3>库存</h3>
+            <h3>Stock</h3>
             <Template
                 event={buttons}
                 columns={columns}
@@ -102,7 +102,6 @@ const Slady: FC<IProps> = () => {
             <EditStock onOk={()=>setEditStock(false)} visible={editStock} data={selectedItem}></EditStock>
             <Replenish onOk={()=>setReplenish(false)} visible={replenish} data={selectedItem}></Replenish>
             <CustomerOrder onOk={()=>setCusOrder(false)} visible={cusOrder} data={selectedItem}></CustomerOrder>
-
             <CreateItem onOk={()=>setCreateFlag(false)} visible={createFlag} designId={designId}></CreateItem>
 
         </section>
@@ -114,15 +113,15 @@ export default Slady;
 const columns:any = [
     {
         dataIndex: "color",
-        title: "颜色",
+        title: "Color",
     },
     {
         dataIndex: "size",
-        title: "尺寸",
+        title: "Size",
     },
     {
         dataIndex: "stock",
-        title: "库存数量",
+        title: "Stock",
     },
 ]
 
