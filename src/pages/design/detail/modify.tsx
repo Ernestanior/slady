@@ -1,9 +1,8 @@
 import React, {FC, useEffect, useState} from "react";
 import FormItem from "@/common/Form/formItem";
-import {Form, Input, Modal} from "antd";
+import {Form, Input, Modal, Select} from "antd";
 import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
-import SelectP from "@/common/select";
 import {typeList} from "@/pages/design";
 import {designService} from "@/store/apis/item";
 
@@ -41,7 +40,6 @@ const ModifyDesign:FC<IProps> = ({onOk,visible,data}) => {
         onOk={onFinish}
         okText={'Save'}
         cancelText={'Cancel'}
-        zIndex={7000}
         width={600}
     >
         <Form form={form} className="email-new">
@@ -49,7 +47,7 @@ const ModifyDesign:FC<IProps> = ({onOk,visible,data}) => {
                 <Input />
             </FormItem>
             <FormItem name="type" label="类别">
-                <SelectP data={typeList}/>
+                <Select options={typeList}/>
             </FormItem>
             <FormItem name="purchasePrice" label="进货价">
                 <Input />
