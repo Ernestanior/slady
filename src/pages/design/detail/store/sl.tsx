@@ -77,7 +77,10 @@ const Slady: FC<IProps> = ({onRefresh}:any) => {
                             content: `${t("CURRENT_STOCK")}${data.stock}，${t("CONFIRM_DELETE")}: ${data.color}/ ${data.size} ？`,
                             onOk: () => {
                                 const config = itemService.ItemDelete({},[data.id])
-                                reqAndReload(config, () => notification.success({message: t("DELETE_SUCCESS")}));
+                                reqAndReload(config, () => {
+                                    onRefresh();
+                                    notification.success({message: t("DELETE_SUCCESS")})
+                                });
                             }
                         }
                         msgModal.createEvent("modal", value)
@@ -86,7 +89,7 @@ const Slady: FC<IProps> = ({onRefresh}:any) => {
                 }
             ]
         ]
-    }, [userInfo?.type,t])
+    }, [onRefresh,userInfo?.type,t])
     return (
         <section style={{padding:20}}>
             <h3>Stock</h3>

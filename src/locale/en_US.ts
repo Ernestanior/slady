@@ -96,6 +96,11 @@ const en_US = {
     CONFIRM_RECEIVED_ITEM:"Confirm received item",
     TOP_SALE:"Top Sale",
     BOT_SALE:"Bot Sale",
+    ORIGIN_STOCK:"Origin Stock",
+    NEW_STOCK:"New Stock",
+    EXPORT_ITEM:"Export Item",
+    IMPORT_ITEM:"Import Item",
+    SHOP:"Shop"
 }
 
 export default en_US;

@@ -100,5 +100,6 @@ const zh_CN = {
     NEW_STOCK:"新库存",
     EXPORT_ITEM:"出库商品",
     IMPORT_ITEM:"入库商品",
+    SHOP:"商店"
 }
 export default zh_CN;
