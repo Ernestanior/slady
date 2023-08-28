@@ -4,6 +4,7 @@ import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
 import {userService} from "@/store/apis/account";
+import {useTranslation} from "react-i18next";
 
 interface IProps{
     visible:boolean;
@@ -11,6 +12,7 @@ interface IProps{
     data:any;
 }
 const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
+    const [t]=useTranslation()
     const [form] = useForm()
     // const [imgList,setImgList] = useState<UploadFile[]>([])
     const [loading,setLoading] = useState<boolean>(false)
@@ -30,7 +32,7 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
             }
         }
         else{
-            notification.error({message:"请填写完整"})
+            notification.error({message:t("PLEASE_COMPLETE")})
         }
 
     }
@@ -51,19 +53,20 @@ const ModifyCustomer:FC<IProps> = ({onOk,visible,data}) => {
             <Form.Item name="id" hidden label={<span className="login-label">ID</span>}>
                 <Input />
             </Form.Item>
-            <Form.Item name="name" label={<span className="login-label">账号</span>}>
+            <Form.Item name="name" label={<span className="login-label">{t("ACCOUNT")}</span>}>
                 <Input />
             </Form.Item>
             {/*<Form.Item name="password" label={<span className="login-label">Password</span>}>*/}
             {/*    <Input.Password />*/}
             {/*</Form.Item>*/}
 
-            <Form.Item name="type" label={<span className="login-label">权限</span>}>
+            <Form.Item name="type" label={<span className="login-label">{t("PERMISSION")}</span>}>
                 <Select options={[
-                    { value: 'admin', label: '老板' },
-                    { value: 'saler', label: '销售员工' },
-                    { value: 'operator', label: '后台人员' },
-                    { value: 'kr-logistics', label: '韩国物流' },
+                    { value: 'ADMIN', label: t('BOSS') },
+                    { value: 'SALER', label: t('SALER') },
+                    { value: 'PRODUCTMANAGEMENT', label: t('PRODUCT_MANAGEMENT') },
+                    { value: 'FINANCE', label: t('FINANCIAL') },
+                    { value: 'LOGISTICS', label: t('KOREAN_LOGISTICS') },
                 ]}/>
             </Form.Item>
         </Form>}

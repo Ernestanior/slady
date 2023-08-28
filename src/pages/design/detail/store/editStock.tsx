@@ -4,6 +4,7 @@ import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
 import {itemService} from "@/store/apis/item";
+import {useTranslation} from "react-i18next";
 
 interface IProps{
     visible:boolean;
@@ -11,6 +12,7 @@ interface IProps{
     data:any
 }
 const CreateCustomer:FC<IProps> = ({onOk,visible,data}) => {
+    const [t]=useTranslation()
     const [form] = useForm()
     const [loading,setLoading] = useState<boolean>(false)
     const onCancel=()=>{
@@ -34,23 +36,23 @@ const CreateCustomer:FC<IProps> = ({onOk,visible,data}) => {
             }
         }
         else{
-            notification.error({message:"请填写完整"})
+            notification.error({message:t('PLEASE_COMPLETE')})
         }
 
     }
     return <Modal
         confirmLoading={loading}
-        title={<div style={{color:"#fff",fontWeight:550}}>Create</div>}
+        title={<div style={{color:"#fff",fontWeight:550}}>{t('CREATE')}</div>}
         visible={visible}
         onCancel={ onCancel}
         onOk={onFinish}
-        okText={'Save'}
-        cancelText={'Cancel'}
+        okText={t('SAVE')}
+        cancelText={t('CANCEL')}
         width={600}
     >
 
         <Form form={form} className="email-new" initialValues={{status:1,subscription:[1]}}>
-            <Form.Item name="stock" label={<span className="login-label">库存</span>}>
+            <Form.Item name="stock" label={<span className="login-label">{t('STOCK')}</span>}>
                 <InputNumber />
             </Form.Item>
         </Form>

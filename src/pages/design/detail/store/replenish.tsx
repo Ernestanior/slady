@@ -4,6 +4,7 @@ import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
 import {orderService} from "@/store/apis/order";
+import {useTranslation} from "react-i18next";
 
 interface IProps{
     visible:boolean;
@@ -17,6 +18,7 @@ enum orderType{
 const Rpelenish:FC<IProps> = ({onOk,visible,data}) => {
     const [form] = useForm()
     const [loading,setLoading] = useState<boolean>(false)
+    const [t]=useTranslation()
 
     const onCancel=()=>{
         form.resetFields()
@@ -36,7 +38,7 @@ const Rpelenish:FC<IProps> = ({onOk,visible,data}) => {
             }
         }
         else{
-            notification.error({message:"请填写完整"})
+            notification.error({message:"PLEASE_COMPLETE"})
         }
 
     }
@@ -46,8 +48,8 @@ const Rpelenish:FC<IProps> = ({onOk,visible,data}) => {
         visible={visible}
         onCancel={ onCancel}
         onOk={onFinish}
-        okText={'Save'}
-        cancelText={'Cancel'}
+        okText={t('SAVE')}
+        cancelText={t('CANCEL')}
         width={600}
     >
 

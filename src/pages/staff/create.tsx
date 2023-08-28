@@ -4,12 +4,14 @@ import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
 import {userService} from "@/store/apis/account";
+import {useTranslation} from "react-i18next";
 
 interface IProps{
     visible:boolean;
     onOk:()=>void;
 }
 const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
+    const [t]=useTranslation()
     const [form] = useForm()
     const [loading,setLoading] = useState<boolean>(false)
     // useEffect(()=>{
@@ -30,7 +32,6 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
         const {name,type,password}=newData
-        console.log(newData)
         if (name && type && password){
             setLoading(true)
             const config = userService.CreateUser({},newData)
@@ -42,7 +43,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
             }
         }
         else{
-            notification.error({message:"请填写完整"})
+            notification.error({message:t('PLEASE_COMPLETE')})
         }
 
     }
@@ -52,28 +53,28 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
         visible={visible}
         onCancel={ onCancel}
         onOk={onFinish}
-        okText={'Save'}
-        cancelText={'Cancel'}
+        okText={t('SAVE')}
+        cancelText={t('CANCEL')}
         width={600}
     >
         <Form form={form} className="email-new" initialValues={{status:1,subscription:[1]}}>
-            <Form.Item name="name" label={<span className="login-label">账号</span>}>
+            <Form.Item name="name" label={<span className="login-label">{t('ACCOUNT')}</span>}>
                 <Input />
             </Form.Item>
             {/*<Form.Item name="password" label={<span className="login-label">Password</span>}>*/}
             {/*    <Input.Password />*/}
             {/*</Form.Item>*/}
 
-            <Form.Item name="type" label={<span className="login-label">权限</span>}>
+            <Form.Item name="type" label={<span className="login-label">{t('PERMISSION')}</span>}>
                 <Select options={[
-                    { value: 'ADMIN', label: '老板' },
-                    { value: 'SALER', label: '销售员工' },
-                    { value: 'PRODUCTMANAGEMENT', label: '产品管理' },
-                    { value: 'FINANCE', label: '财务' },
-                    { value: 'LOGISTICS', label: '韩国物流' },
+                    { value: 'ADMIN', label: t('BOSS') },
+                    { value: 'SALER', label: t('SALER') },
+                    { value: 'PRODUCTMANAGEMENT', label: t('PRODUCT_MANAGEMENT') },
+                    { value: 'FINANCE', label: t('FINANCIAL') },
+                    { value: 'LOGISTICS', label: t('KOREAN_LOGISTICS') },
                 ]}/>
             </Form.Item>
-            <Form.Item name="password" label={<span className="login-label">密码</span>}>
+            <Form.Item name="password" label={<span className="login-label">{t('PASSWORD')}</span>}>
                 <Input.Password />
             </Form.Item>
         </Form>

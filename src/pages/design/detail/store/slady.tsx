@@ -14,11 +14,14 @@ import CustomerOrder from "@/pages/design/detail/store/customerOrder";
 import {WAREHOUSE} from "@/common/const";
 import useAccountInfo from "@/store/account";
 import {E_USER_TYPE} from "@/store/account/interface";
+import {useTranslation} from "react-i18next";
 
 interface IProps{
+    onRefresh?:any
 }
-const Slady: FC<IProps> = () => {
+const Slady: FC<IProps> = ({onRefresh}:any) => {
     const userInfo = useAccountInfo()
+    const [t]=useTranslation()
     const [editStock,setEditStock]=useState<boolean>(false)
     const [replenish,setReplenish]=useState<boolean>(false)
     const [cusOrder,setCusOrder]=useState<boolean>(false)
@@ -46,7 +49,7 @@ const Slady: FC<IProps> = () => {
         return [
             [
                 {
-                    text: "Modify Stock",
+                    text: t("MODIFY_STOCK"),
                     event(data) {
                         setSelectedItem(data)
                         setEditStock(true)
@@ -60,21 +63,24 @@ const Slady: FC<IProps> = () => {
                     },
                 },
                 {
-                    text: "客订",
+                    text: t("CUSTOMER_ORDER"),
                     event(data) {
                         setSelectedItem(data)
                         setCusOrder(true)
                     },
                 },
                 {
-                    text: "Delete",
+                    text: t("DELETE"),
                     event(data) {
                         const value = {
                             title: "Delete",
-                            content: `目前库存为${data.stock}，确定删除: ${data.color}/ ${data.size} ？`,
+                            content: `${t("CURRENT_STOCK")}${data.stock}，${t("CONFIRM_DELETE")}: ${data.color}/ ${data.size} ？`,
                             onOk: () => {
                                 const config = itemService.ItemDelete({},[data.id])
-                                reqAndReload(config, () => notification.success({message: "Delete Success"}));
+                                reqAndReload(config, () => {
+                                    onRefresh();
+                                    notification.success({message: t("DELETE_SUCCESS")})
+                                });
                             }
                         }
                         msgModal.createEvent("modal", value)
@@ -83,7 +89,7 @@ const Slady: FC<IProps> = () => {
                 }
             ]
         ]
-    }, [userInfo?.type])
+    }, [onRefresh,userInfo?.type,t])
     return (
         <section style={{padding:20}}>
             <h3>Stock</h3>
@@ -99,10 +105,10 @@ const Slady: FC<IProps> = () => {
                 optList={options}
                 rowKey="email"
             />
-            <EditStock onOk={()=>setEditStock(false)} visible={editStock} data={selectedItem}></EditStock>
+            <EditStock onOk={()=>{onRefresh();setEditStock(false)}} visible={editStock} data={selectedItem}></EditStock>
             <Replenish onOk={()=>setReplenish(false)} visible={replenish} data={selectedItem}></Replenish>
             <CustomerOrder onOk={()=>setCusOrder(false)} visible={cusOrder} data={selectedItem}></CustomerOrder>
-            <CreateItem onOk={()=>setCreateFlag(false)} visible={createFlag} designId={designId}></CreateItem>
+            <CreateItem onOk={()=>{onRefresh();setCreateFlag(false)}} visible={createFlag} designId={designId}></CreateItem>
         </section>
     );
 };

@@ -6,7 +6,6 @@ import {userService} from "@/store/apis/account";
 import {getToken, removeToken, saveToken} from "@/store/request/token";
 import {throttleTime} from "rxjs/operators";
 import {notification} from "antd";
-import {setLanguage} from "@/locale";
 
 export enum E_LOGIN_STATE{
     pending,
@@ -59,7 +58,6 @@ class Account{
         from(request<IAccountInfo>(infoConfig)).subscribe(res => {
             if(res.isSuccess && res.result){
                 accountService.info$.next(res.result)
-                setLanguage(res.result.locale || 'en_US')
             }
         })
     }

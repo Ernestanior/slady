@@ -9,7 +9,9 @@ import FormItem from "@/common/Form/formItem";
 import {Input, notification} from "antd";
 import CreateCustomer from "@/pages/staff/create";
 import ModifyCustomer from "@/pages/staff/modify";
+import {useTranslation} from "react-i18next";
 const CustomerList:FC = () => {
+    const {t}=useTranslation()
     const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [selectData,setSelectData] = useState<any>()
@@ -17,14 +19,14 @@ const CustomerList:FC = () => {
     const buttons: INormalEvent[] = useMemo(() => {
         return [
             {
-                text: "Create",
+                text: t("CREATE"),
                 primary: true,
                 event() {
                     setCreateFlag(true)
                 },
             },
         ];
-    }, []);
+    }, [t]);
 
     const queryData=useCallback((data)=>{
         return userService.FindUser({},data)
@@ -34,18 +36,18 @@ const CustomerList:FC = () => {
         return [
             [
                 {
-                    text: "修改",
+                    text: t("EDIT"),
                     event(data) {
                         setSelectData(data)
                         setEditFlag(true)
                     },
                 },
                 {
-                    text: "删除",
+                    text:t("DELETE"),
                     event(data) {
                         const value = {
-                            title: "删除",
-                            content: `确定删除: ${data.name} ？`,
+                            title: t("DELETE"),
+                            content: `${t("CONFIRM")}${t("DELETE")}: ${data.name} ？`,
                             onOk: () => {
                                 const config = userService.DeleteUser({},[data.id])
                                 reqAndReload(config, () => notification.success({message: "Delete Success"}));
@@ -55,7 +57,7 @@ const CustomerList:FC = () => {
                     },
                 }]
         ]
-    }, [])
+    }, [t])
 
     return <section>
          <Template
@@ -78,10 +80,10 @@ export default CustomerList
 const columns = [
     {
         dataIndex: "name",
-        title: "名字",
+        title: "NAME",
     },
     {
         dataIndex: "type",
-        title: "职位",
+        title: "ROLE",
     },
 ]

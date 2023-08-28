@@ -13,6 +13,7 @@ import historyService from "@/store/history";
 import {WAREHOUSE} from "@/common/const";
 import {typeList} from "@/pages/design";
 import FormList from "antd/es/form/FormList";
+import {useTranslation} from "react-i18next";
 
 // export const typeList = [ 'DR', 'TB', 'SK', 'PT', 'GO', 'JK', 'JS', 'BT', 'SE', 'SI', 'AC', 'SH']
 // const color = ['灰色','橙色','黄色','绿色','蓝色','紫色','白色','粉色','米色','棕色','灰褐色','香槟色','深蓝色','天空色','芥末黄','薄荷绿','蜜桃色','奶油色','炭黑色']
@@ -29,6 +30,7 @@ const CreateItem: FC = () => {
     const [color, setColor] = useState('');
     const [fabric, setFabric] = useState('');
     const inputRef = useRef<InputRef>(null);
+    const [t]=useTranslation()
 
     const addColor = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
         e.preventDefault();
@@ -79,13 +81,13 @@ const CreateItem: FC = () => {
     return (
         <section>
             <Form form={form} className="email-new">
-                <FormItem name="design" label="品名">
+                <FormItem name="design" label={t('ITEM_NAME')}>
                     <Input />
                 </FormItem>
-                <FormItem name="type" label="类别">
+                <FormItem name="type" label={t('TYPE')}>
                     <Select options={typeList}/>
                 </FormItem>
-                <FormItem name="color" label="颜色">
+                <FormItem name="color" label={t('COLOR')}>
                     <Select
                         mode="multiple"
                         dropdownRender={(menu) => (
@@ -100,7 +102,7 @@ const CreateItem: FC = () => {
                                         onChange={(e)=>setColor(e.target.value)}
                                     />
                                     <Button type="text" icon={<PlusOutlined />} onClick={addColor}>
-                                        Add Color
+                                        {t('ADD_COLOR')}
                                     </Button>
                                 </Space>
                             </>
@@ -108,16 +110,16 @@ const CreateItem: FC = () => {
                         options={newColor.map((item) => ({ label: item, value: item }))}
                     />
                 </FormItem>
-                <FormItem name="size" label="尺寸">
+                <FormItem name="size" label={t('SIZE')}>
                     <SelectP data={size} mode="multiple"/>
                 </FormItem>
 
                 <FormList name="fabricList">
                     {(fields,{add,remove})=>(<>
                         <Form.Item>
-                            面料：
+                            {t('FABRIC')}：
                             <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
-                                Add field
+                                {t('ADD_FIELD')}
                             </Button>
                         </Form.Item>
                         {fields.map(({ key, name, ...restField }) => (
@@ -125,7 +127,7 @@ const CreateItem: FC = () => {
                                 <Form.Item
                                     {...restField}
                                     name={[name, 'fabric']}
-                                    rules={[{ required: true, message: 'Missing fabric' }]}
+                                    rules={[{ required: true, message: t('MISSING_FABRIC') }]}
                                 >
                                     <Select
                                         style={{width:300}}
@@ -135,13 +137,13 @@ const CreateItem: FC = () => {
                                                 <Divider style={{ margin: '8px 0' }} />
                                                 <Space style={{ padding: '0 8px 4px' }}>
                                                     <Input
-                                                        placeholder="Please enter item"
+                                                        placeholder={t('PLEASE_ENTER_ITEM')}
                                                         ref={inputRef}
                                                         value={fabric}
                                                         onChange={(e)=>setFabric(e.target.value)}
                                                     />
                                                     <Button type="text" icon={<PlusOutlined />} onClick={addFabric}>
-                                                        Add Fabric
+                                                        {t('ADD_FABRIC')}
                                                     </Button>
                                                 </Space>
                                             </>
@@ -153,7 +155,7 @@ const CreateItem: FC = () => {
                                     {...restField}
                                     name={[name, 'percent']}
                                 >
-                                   <div style={{display:"flex",alignItems:"center"}}><InputNumber placeholder="百分比" min={0}/>%</div>
+                                   <div style={{display:"flex",alignItems:"center"}}><InputNumber placeholder={t('PERCENT')} min={0}/>%</div>
                                 </Form.Item>
                                 <MinusCircleOutlined onClick={() => remove(name)} style={{color:"red"}}/>
                             </Space>
@@ -161,20 +163,20 @@ const CreateItem: FC = () => {
 
                     </>)}
                 </FormList>
-                <FormItem name="purchasePrice" label="进货价">
+                <FormItem name="purchasePrice" label={t('PURCHASE_PRICE')}>
                     <Input />
                 </FormItem>
-                <FormItem name="salePrice" label="售价">
+                <FormItem name="salePrice" label={t('SALE_PRICE')}>
                     <Input />
                 </FormItem>
-                <FormItem name="remark" label="备注">
+                <FormItem name="remark" label={t('REMARK')}>
                     <Input />
                 </FormItem>
                 <ImageUpload changePic={setImgList}></ImageUpload>
             </Form>
             <div>
-                <Button type="primary" style={{marginRight:20}} onClick={onFinish}>确认</Button>
-                <Button onClick={()=>historyService.goBack()}>返回</Button>
+                <Button type="primary" style={{marginRight:20}} onClick={onFinish}>{t('CONFIRM')}</Button>
+                <Button onClick={()=>historyService.goBack()}>{t('RETURN')}</Button>
             </div>
         </section>
     );

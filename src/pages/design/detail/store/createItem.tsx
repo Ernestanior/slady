@@ -9,6 +9,7 @@ import SelectP from "@/common/select";
 import {colorList, size} from "@/pages/design/create";
 import {itemService} from "@/store/apis/item";
 import {WAREHOUSE} from "@/common/const";
+import {useTranslation} from "react-i18next";
 
 interface IProps{
     visible:boolean;
@@ -18,6 +19,7 @@ interface IProps{
 let index=0
 const warehouse = [WAREHOUSE.SLADY,WAREHOUSE.SL]
 const CreateItem:FC<IProps> = ({onOk,visible,designId}) => {
+    const [t]=useTranslation()
     const [form] = useForm()
     const [loading,setLoading] = useState<boolean>(false)
     const inputRef = useRef<InputRef>(null);
@@ -61,15 +63,15 @@ const CreateItem:FC<IProps> = ({onOk,visible,designId}) => {
         visible={visible}
         onCancel={ onCancel}
         onOk={onFinish}
-        okText={'Save'}
-        cancelText={'Cancel'}
+        okText={t('SAVE')}
+        cancelText={t('CANCEL')}
         width={600}
     >
         <Form form={form}  initialValues={{status:1,subscription:[1]}}>
-            <FormItem name="warehouseName" label="Shop">
+            <FormItem name="warehouseName" label={t('SHOP')}>
                 <SelectP data={warehouse} mode="multiple"/>
             </FormItem>
-            <FormItem name="color" label="Color">
+            <FormItem name="color" label={t('COLOR')}>
                 <Select
                     mode="multiple"
                     dropdownRender={(menu) => (
@@ -78,13 +80,13 @@ const CreateItem:FC<IProps> = ({onOk,visible,designId}) => {
                             <Divider style={{ margin: '8px 0' }} />
                             <Space style={{ padding: '0 8px 4px' }}>
                                 <Input
-                                    placeholder="Please enter item"
+                                    placeholder={t('PLEASE_ENTER_ITEM')}
                                     ref={inputRef}
                                     value={color}
                                     onChange={(e)=>setColor(e.target.value)}
                                 />
                                 <Button type="text" icon={<PlusOutlined />} onClick={addColor}>
-                                    Add Color
+                                    {t('ADD_COLOR')}
                                 </Button>
                             </Space>
                         </>
@@ -92,10 +94,10 @@ const CreateItem:FC<IProps> = ({onOk,visible,designId}) => {
                     options={items.map((item) => ({ label: item, value: item }))}
                 />
             </FormItem>
-            <FormItem name="size" label="Size">
+            <FormItem name="size" label={t('SIZE')}>
                 <SelectP data={size} mode="multiple"/>
             </FormItem>
-            <FormItem name="stock" label="Stock">
+            <FormItem name="stock" label={t('STOCK')}>
                 <InputNumber />
             </FormItem>
         </Form>

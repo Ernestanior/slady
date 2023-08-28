@@ -12,8 +12,9 @@ import {WAREHOUSE} from "@/common/const";
 import Query from "./query";
 import {handleDatetime} from "@/common/utilsx";
 import msgModal from "@/store/message/service";
+import {useTranslation} from "react-i18next";
 const OrderList: FC = () => {
-
+    const [t]=useTranslation()
     const [data,setData]=useState<any>()
     const [totalPrice,setTotalPrice] = useState<any>()
     // const [dateRange,setDateRange] = useState<any>()
@@ -58,11 +59,11 @@ const OrderList: FC = () => {
 
     const changeStatus = async() =>{
         const value = {
-            title: "清空",
-            content: `确定清空订单？`,
+            title: t("CLEAR"),
+            content: t("SURE_TO_CLEAR_ALL_ORDER"),
             onOk: () => {
                 if(!data.length){
-                    notification.error({message:"当前无未结清的订单"})
+                    notification.error({message:t("NO_UNPAID_ORDER_SO_FAR")})
                     return
                 }
                 const ids = data.map((item:any)=>item.id)
@@ -75,13 +76,63 @@ const OrderList: FC = () => {
 
     const onPrint = async() =>{
         if(!data.length){
-            notification.error({message:"当前无未结清的订单"})
+            notification.error({message:t("NO_UNPAID_ORDER_SO_FAR")})
             return
         }
         const config = orderService.OrderExport({},{})
         const res = await request(config)
         res.isSuccess && window.open(dev_url+res.result)
     }
+    const columns: any = [
+        {
+            title: t("ORDER_DATE"),
+            dataIndex: "date",
+            render:(value:any)=>moment(value).format("YYYY-MM-DD")
+        },
+        {
+            title: t("PHOTO"),
+            dataIndex: "previewPhoto",
+            render:(value:any)=>{
+                return <img style={{height:150,width:120}} alt="" src={dev_url+value}/>
+            }
+        },
+        {
+            title: t("DESIGN_CODE"),
+            dataIndex: "designCode",
+        },
+        {
+            title: t("CUSTOMER"),
+            dataIndex:"warehouseName",
+        },
+        {
+            title: t("COLOR"),
+            dataIndex: "color",
+        },
+        {
+            title: t("SIZE"),
+            dataIndex: "size",
+        },
+        {
+            title: t("AMOUNT"),
+            dataIndex: "amount",
+        },
+        {
+            title: t("QUOTED_PRICE"),
+            dataIndex: "quotedPrice",
+            render:(value:any)=>`$${value}`
+        },
+        {
+            title: t("TOTAL_PRICE"),
+            dataIndex: "quotedPrice",
+            render:(value:any,item:any)=>`$${value*item.amount}`
+        },
+        {
+            title: t("REMARK"),
+            dataIndex: "note",
+            render:()=>"加急"
+        },
+    ];
+
     return (
         <section>
             <Template
@@ -91,10 +142,10 @@ const OrderList: FC = () => {
                 rowKey="id"
             />
             <div style={{padding:20,display:"flex",justifyContent:"space-between"}}>
-                <span style={{fontWeight:"600"}}>总价: $ {totalPrice}</span>
+                <span style={{fontWeight:"600"}}>{t("TOTAL_PRICE")}: $ {totalPrice}</span>
                 <div>
-                    <Button style={{marginRight:20}} onClick={onPrint}>打印</Button>
-                    <Button onClick={changeStatus}>清空</Button>
+                    <Button style={{marginRight:20}} onClick={onPrint}>{t("PRINT")}</Button>
+                    <Button onClick={changeStatus}>{t("CLEAR")}</Button>
                 </div>
             </div>
         </section>
@@ -103,53 +154,4 @@ const OrderList: FC = () => {
 
 export default OrderList;
 
-const columns: any = [
-    {
-        title: "下单日期",
-        dataIndex: "date",
-        render:(value:any)=>moment(value).format("YYYY-MM-DD")
-    },
-    {
-        title: "照片",
-        dataIndex: "previewPhoto",
-        render:(value:any)=>{
-            return <img style={{height:150,width:120}} alt="" src={dev_url+value}/>
-        }
-    },
-    {
-        title: "设计编号",
-        dataIndex: "designCode",
-    },
-    {
-        title: "客户",
-        dataIndex:"warehouseName",
-    },
-    {
-        title: "颜色",
-        dataIndex: "color",
-    },
-    {
-        title: "尺码",
-        dataIndex: "size",
-    },
-    {
-        title: "数量",
-        dataIndex: "amount",
-    },
-    {
-        title: "单价",
-        dataIndex: "quotedPrice",
-        render:(value:any)=>`$${value}`
-    },
-    {
-        title: "总价",
-        dataIndex: "quotedPrice",
-        render:(value:any,item:any)=>`$${value*item.amount}`
-    },
-    {
-        title: "备注",
-        dataIndex: "note",
-        render:()=>"加急"
-    },
-];
 

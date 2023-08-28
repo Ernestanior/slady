@@ -7,8 +7,47 @@ import {WAREHOUSE} from "@/common/const";
 import {handleDatetime} from "@/common/utilsx";
 import {IPageResult} from "@/store/apis/log/common.interface";
 import Query from "./query";
+import {useTranslation} from "react-i18next";
 const OrderList: FC = () => {
+    const [t]=useTranslation()
 
+    const columns: any = [
+        {
+            title: t("PHOTO"),
+            dataIndex: "previewPhoto",
+            render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
+        },
+        {
+            title: t("DESIGN_CODE"),
+            dataIndex: "designCode",
+        },
+        {
+            title: t("CUSTOMER"),
+            dataIndex:"warehouseName",
+        },
+        {
+            title: t("COLOR"),
+            dataIndex: "color",
+        },
+        {
+            title: t("SIZE"),
+            dataIndex: "size",
+        },
+        {
+            title: t("AMOUNT"),
+            dataIndex: "amount",
+        },
+        {
+            title: t("PRICE"),
+            dataIndex: "quotedPrice",
+            render:(value:any)=>`$${value}`
+        },
+        {
+            title: t("REMARK"),
+            dataIndex: "note",
+            render:()=>"加急"
+        },
+    ];
 
     const query = useCallback(async(data)=>{
         const {operateDate,...filters}=data
@@ -45,41 +84,4 @@ const OrderList: FC = () => {
 
 export default OrderList;
 
-const columns: any = [
-    {
-        title: "照片",
-        dataIndex: "previewPhoto",
-        render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
-    },
-    {
-        title: "设计编号",
-        dataIndex: "designCode",
-    },
-    {
-        title: "客户",
-        dataIndex:"warehouseName",
-    },
-    {
-        title: "颜色",
-        dataIndex: "color",
-    },
-    {
-        title: "尺码",
-        dataIndex: "size",
-    },
-    {
-        title: "数量",
-        dataIndex: "amount",
-    },
-    {
-        title: "价格",
-        dataIndex: "quotedPrice",
-        render:(value:any)=>`$${value}`
-    },
-    {
-        title: "备注",
-        dataIndex: "note",
-        render:()=>"加急"
-    },
-];
 

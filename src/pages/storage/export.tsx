@@ -1,8 +1,27 @@
 import React, {FC} from "react";
 import Template from "@/common/template";
 import {accessLogService} from "@/store/apis/log";
+import {useTranslation} from "react-i18next";
 const Export:FC = () => {
-
+    const [t]=useTranslation()
+    const columns = [
+        {
+            dataIndex: "pic",
+            title: t("EXPORT_ITEM"),
+        },
+        {
+            dataIndex: "designId",
+            title: t("DESIGN_CODE"),
+        },
+        {
+            dataIndex: "operator",
+            title: t("OPERATOR"),
+        },
+        {
+            dataIndex: "time",
+            title: t("TIME"),
+        },
+    ]
 
     return <section>
          <Template
@@ -17,22 +36,5 @@ const Export:FC = () => {
 
 export default Export
 
-const columns = [
-    {
-        dataIndex: "pic",
-        title: "出库商品",
-    },
-    {
-        dataIndex: "designId",
-        title: "设计师号",
-    },
-    {
-        dataIndex: "operator",
-        title: "操作者",
-    },
-    {
-        dataIndex: "time",
-        title: "时间",
-    },
-]
+
 

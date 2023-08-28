@@ -11,17 +11,19 @@ import {WAREHOUSE} from "@/common/const";
 import {IPageResult} from "@/store/apis/log/common.interface";
 import Query from "@/pages/order/singapore/query";
 import {handleDatetime} from "@/common/utilsx";
+import {useTranslation} from "react-i18next";
 
 const OrderList: FC = () => {
+    const [t]=useTranslation()
 
     const options: IOperationConfig = useMemo(() => [
         {
-            text: "取消订单",
+            text: t("CANCEL_ORDER"),
             hide: (data) => data.status,
             event(data) {
                 const value = {
-                    title: "取消订单",
-                    content: `确定取消订单: ${data.design} ？`,
+                    title: t("CANCEL_ORDER"),
+                    content: `${t("CONFIRM")}${t("CANCEL_ORDER")}: ${data.design} ？`,
                     onOk: () => {
                         const config = orderService.OrderDelete({}, [data.id]);
                         reqAndReload(config);
@@ -31,12 +33,12 @@ const OrderList: FC = () => {
             }
         },
         {
-            text: "请求取消订单",
+            text: t("REQUEST_CANCEL_ORDER"),
             hide: (data) => data.status !== orderType.PENDING,
             event(data) {
                 const value = {
-                    title: "请求取消订单",
-                    content: `确定发送取消订单请求: ${data.design} ？`,
+                    title: t("REQUEST_CANCEL_ORDER"),
+                    content: `${t("CONFIRM")}${t("REQUEST_CANCEL_ORDER")}: ${data.design} ？`,
                     onOk: () => {
                         console.log(data)
                         const config = orderService.OrderModify({}, {...data,status:"4"});
@@ -47,12 +49,12 @@ const OrderList: FC = () => {
             }
         },
         {
-            text: "撤回请求",
+            text: t("RECALL_REQUEST"),
             hide: (data) => data.status !== orderType.CANCELREQUEST,
             event(data) {
                 const value = {
-                    title: "撤回请求",
-                    content: `确定撤回取消订单的请求: ${data.design} ？`,
+                    title: t("RECALL_REQUEST"),
+                    content: `${t("CONFIRM_RECALL_CANCEL_ORDER_REQUEST")}: ${data.design} ？`,
                     onOk: () => {
                         const config = orderService.OrderModify({}, {...data,status:"1"});
                         reqAndReload(config);
@@ -61,7 +63,7 @@ const OrderList: FC = () => {
                 msgModal.createEvent("modal", value)
             }
         }
-    ], [])
+    ], [t])
 
 
     const query = useCallback(async(data)=>{
@@ -83,6 +85,77 @@ const OrderList: FC = () => {
         }
         return null
     },[])
+
+    const columns: any = [
+        {
+            title: t('PHOTO'),
+            dataIndex: "previewPhoto",
+            width: 120,
+            render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
+        },
+        {
+            title:  t('CODE'),
+            dataIndex: "design",
+        },
+        {
+            title:  t('PRICE'),
+            dataIndex: "salePrice",
+        },
+
+        {
+            title:  t('COLOR'),
+            dataIndex: "color",
+        },
+        {
+            title:  t('SIZE'),
+            dataIndex: "size",
+        },
+        {
+            title: t('AMOUNT') ,
+            dataIndex: "amount",
+        },
+        {
+            title:  t('TIME'),
+            dataIndex: "date",
+            width:110,
+            render:(data:string)=>moment(data).format('YYYY-MM-DD')
+        },
+        {
+            title:  t('REMARK'),
+            dataIndex: "remark",
+        },
+        {
+            title: t('STATUS'),
+            dataIndex:"status",
+            width:130,
+            render:(value:string)=>{
+                switch (value){
+                    case '0':
+                        return ''
+                    case '1':
+                        return '待定'
+                    case '2':
+                        return 'OK'
+                    case '3':
+                        return '已发货'
+                    case '4':
+                        return '待定(请求取消)'
+                    case '5':
+                        return '已收到'
+                }
+            }
+        },
+        {
+            title: t('PENDING_DATE'),
+            dataIndex:"pendingDate",
+            width:110,
+            render:(value:any)=>{
+                // return value && <div>{moment(value).format('YYYY-MM-DD')}</div>
+                return value && <div>{value}</div>
+            }
+        },
+    ];
+
     return (
         <section>
             <Template
@@ -99,72 +172,3 @@ const OrderList: FC = () => {
 
 export default OrderList;
 
-const columns: any = [
-    {
-        title: "照片",
-        dataIndex: "previewPhoto",
-        width: 120,
-        render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
-    },
-    {
-        title: "编号",
-        dataIndex: "design",
-    },
-    {
-        title: "价格",
-        dataIndex: "salePrice",
-    },
-
-    {
-        title: "颜色",
-        dataIndex: "color",
-    },
-    {
-        title: "尺码",
-        dataIndex: "size",
-    },
-    {
-        title: "数量",
-        dataIndex: "amount",
-    },
-    {
-        title: "时间",
-        dataIndex: "date",
-        width:110,
-        render:(data:string)=>moment(data).format('YYYY-MM-DD')
-    },
-    {
-        title: "备注",
-        dataIndex: "remark",
-    },
-    {
-        title:"状态",
-        dataIndex:"status",
-        width:130,
-        render:(value:string)=>{
-            switch (value){
-                case '0':
-                    return ''
-                case '1':
-                    return '待定'
-                case '2':
-                    return 'OK'
-                case '3':
-                    return '已发货'
-                case '4':
-                    return '待定(请求取消)'
-                case '5':
-                    return '已收到'
-            }
-        }
-    },
-    {
-        title:"待定日期",
-        dataIndex:"pendingDate",
-        width:110,
-        render:(value:any)=>{
-            // return value && <div>{moment(value).format('YYYY-MM-DD')}</div>
-            return value && <div>{value}</div>
-        }
-    },
-];

@@ -4,8 +4,9 @@ import {accessLogService} from "@/store/apis/log";
 import request, {dev_url} from "@/store/request";
 import {IPageResult} from "@/store/apis/log/common.interface";
 import moment from "moment";
+import {useTranslation} from "react-i18next";
 const Import:FC = () => {
-
+    const [t]=useTranslation()
     const query = useCallback(async(data)=>{
         const config = accessLogService.FindAccessLog({},{
             ...data,uri:"/item/modify-stock"
@@ -19,6 +20,47 @@ const Import:FC = () => {
         }
         return null
     },[])
+    const columns = [
+        {
+            dataIndex: "previewPhoto",
+            title: t("ITEM"),
+            render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
+        },
+        {
+            dataIndex: "design",
+            title: t("DESIGN_CODE"),
+        },
+        {
+            dataIndex: "color",
+            title: t("COLOR"),
+        },
+        {
+            dataIndex: "size",
+            title: t("SIZE"),
+        },
+        {
+            dataIndex: "warehouseName",
+            title: t("WAREHOUSE"),
+        },
+        {
+            dataIndex: "stock",
+            title: t("ORIGIN_STOCK"),
+        },
+        {
+            dataIndex: "newStock",
+            title: t("NEW_STOCK"),
+        },
+        {
+            dataIndex: "userName",
+            title: t("OPERATOR"),
+        },
+        {
+            dataIndex: "modifyDate",
+            title: t("OPERATION_TIME"),
+            render:(value:any)=>moment(value).format("YYYY-MM-DD HH:mm:ss")
+        },
+    ]
+
     return <section>
         <Template
             columns={columns}
@@ -30,45 +72,5 @@ const Import:FC = () => {
 
 export default Import
 
-const columns = [
-    {
-        dataIndex: "previewPhoto",
-        title: "商品",
-        render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
-    },
-    {
-        dataIndex: "design",
-        title: "商品编号",
-    },
-    {
-        dataIndex: "color",
-        title: "颜色",
-    },
-    {
-        dataIndex: "size",
-        title: "尺码",
-    },
-    {
-        dataIndex: "warehouseName",
-        title: "仓库",
-    },
-    {
-        dataIndex: "stock",
-        title: "原库存",
-    },
-    {
-        dataIndex: "newStock",
-        title: "新库存",
-    },
-    {
-        dataIndex: "userName",
-        title: "操作者",
-    },
-    {
-        dataIndex: "modifyDate",
-        title: "操作时间",
-        render:(value:any)=>moment(value).format("YYYY-MM-DD HH:mm:ss")
-    },
-]
 
 

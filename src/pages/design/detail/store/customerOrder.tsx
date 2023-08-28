@@ -5,6 +5,7 @@ import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
 import {orderService} from "@/store/apis/order";
 import {itemService} from "@/store/apis/item";
+import {useTranslation} from "react-i18next";
 
 interface IProps{
     visible:boolean;
@@ -16,7 +17,7 @@ enum orderType{
     ORDER
 }
 const CustomerOrder:FC<IProps> = ({onOk,visible,data}) => {
-    console.log(data)
+    const [t]=useTranslation()
     const [form] = useForm()
     const [loading,setLoading] = useState<boolean>(false)
 
@@ -39,7 +40,7 @@ const CustomerOrder:FC<IProps> = ({onOk,visible,data}) => {
             }
         }
         else{
-            notification.error({message:"请填写完整"})
+            notification.error({message:t('PLEASE_COMPLETE')})
         }
 
     }
@@ -49,16 +50,16 @@ const CustomerOrder:FC<IProps> = ({onOk,visible,data}) => {
         visible={visible}
         onCancel={ onCancel}
         onOk={onFinish}
-        okText={'Save'}
-        cancelText={'Cancel'}
+        okText={t('SAVE')}
+        cancelText={t('CANCEL')}
         width={600}
     >
 
         <Form form={form} className="email-new" initialValues={{status:1,subscription:[1]}}>
-            <Form.Item name="amount" label={<span className="login-label">客订数量</span>}>
+            <Form.Item name="amount" label={<span className="login-label">{t('CUSTOMER_ORDER_NUMBER')}</span>}>
                 <InputNumber min={0}/>
             </Form.Item>
-            <Form.Item name="remark" label={<span className="login-label">留言</span>}>
+            <Form.Item name="remark" label={<span className="login-label">{t('REMARK')}</span>}>
                 <Input/>
             </Form.Item>
         </Form>

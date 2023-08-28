@@ -20,24 +20,24 @@ interface IMultipleMenu extends IRoleLimitModule{
 const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
     {
         url: '/staff',
-        text: "员工管理",
+        text: "STAFF_MANAGEMENT",
         icon:"icon-customer",
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SUPERADMIN]
     },
     {
         url: "/item",
-        text: "商品",
+        text: "ITEM",
         icon:"icon-shopping",
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER,E_USER_TYPE.PRODUCTMANAGEMENT]
     },
     {
-        text: "订单物流",
+        text: "ORDER_LOGISTICS",
         icon:"icon-order",
         url: "/order",
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.LOGISTICS,E_USER_TYPE.SALER]
     },
     {
-        text: "韩国反馈",
+        text: "KOREA_FEEDBACK",
         icon:"icon-order",
         url: "/feedback",
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.LOGISTICS,E_USER_TYPE.FINANCE]
@@ -45,20 +45,20 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
     {
         url: "/rank",
         icon:"icon-top-raning",
-        text: "爆/冷款",
+        text: "TOP_BOT",
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.PRODUCTMANAGEMENT]
 
     },
     {
         url: "/storageRecord",
         icon:"icon-writing",
-        text: "库存修改记录",
+        text: "STOCK_RECORD",
         role:[E_USER_TYPE.ADMIN]
     },
     {
         url: "/operate",
         icon:"icon-writing",
-        text: "员工操作历史记录",
+        text: "OPERATION_RECORD",
         role:[E_USER_TYPE.ADMIN]
     },
 ]

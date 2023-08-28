@@ -5,6 +5,7 @@ import {orderType} from "@/pages/order";
 import {orderService} from "@/store/apis/order";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
+import {useTranslation} from "react-i18next";
 interface IProps{
     visible:boolean;
     onOk:()=>void;
@@ -12,6 +13,7 @@ interface IProps{
 }
 const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
     const [form] = useForm()
+    const [t]=useTranslation()
     const [status,setStatus]=useState<string>()
     // const [imgList,setImgList] = useState<UploadFile[]>([])
     const [loading,setLoading] = useState<boolean>(false)
@@ -37,11 +39,11 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
         if (newData.status===orderType.PENDING && !newData.pendingDate){
-            notification.error({message:"修改状态为待定时，必须填写日期"})
+            notification.error({message:t('PENDING_NEED_DATE')})
             return
         }
         if (newData.status===orderType.DONE && !newData.quotedPrice){
-            notification.error({message:"修改状态为OK时，必须填写价格"})
+            notification.error({message:t('OK_NEED_PRICE')})
             return
         }
         setLoading(true)
@@ -69,12 +71,12 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
         visible={visible}
         onCancel={ onCancel}
         onOk={onFinish}
-        okText={'Save'}
-        cancelText={'Cancel'}
+        okText={t('SAVE')}
+        cancelText={t('CANCEL')}
         width={600}
     >
         {data && <Form form={form} className="email-new">
-            <Form.Item name="status" label={<span className="login-label">状态</span>}>
+            <Form.Item name="status" label={<span className="login-label">{t("STATUS")}</span>}>
                 {/*<Input onChange={(e)=>setStatus(e.target.value.trim().toLowerCase())}/>*/}
                 <Select
                     style={{ width: 180 }}
@@ -82,10 +84,10 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
                     options={statusList}
                 />
             </Form.Item>
-            {status===orderType.PENDING && <Form.Item name="pendingDate" label={<span className="login-label">待定日期</span>}>
+            {status===orderType.PENDING && <Form.Item name="pendingDate" label={<span className="login-label">{t("PENDING_DATE")}</span>}>
                 <Input></Input>
             </Form.Item>}
-            {status===orderType.DONE && <Form.Item name="quotedPrice" label={<span className="login-label">单价</span>}>
+            {status===orderType.DONE && <Form.Item name="quotedPrice" label={<span className="login-label">{t("QUOTED_PRICE")}</span>}>
                 <Input disabled={data?.status===orderType.DONE}/>
             </Form.Item>}
         </Form>}

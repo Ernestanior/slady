@@ -11,9 +11,11 @@ import {WAREHOUSE} from "@/common/const";
 import Query from "./query";
 import {handleDatetime} from "@/common/utilsx";
 import {IPageResult} from "@/store/apis/log/common.interface";
+import {useTranslation} from "react-i18next";
 
 
 const OrderList: FC = () => {
+    const [t]=useTranslation()
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [selectData,setSelectData] = useState<any>()
 
@@ -21,7 +23,7 @@ const OrderList: FC = () => {
         return [
             [
                 {
-                    text: "修改状态",
+                    text: t('MODIFY_STATUS'),
                     event(data) {
                         setSelectData(data)
                         setEditFlag(true)
@@ -29,7 +31,7 @@ const OrderList: FC = () => {
                 }
             ]
         ]
-    }, [])
+    }, [t])
 
     const query = useCallback(async(data)=>{
         const {operateDate,...filters}=data
@@ -51,6 +53,74 @@ const OrderList: FC = () => {
         return null
     },[])
 
+    const columns: any = [
+        {
+            title: t('PHOTO'),
+            dataIndex: "previewPhoto",
+            render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
+        },
+        {
+            title: t('DESIGN_CODE'),
+            dataIndex: "designCode",
+        },
+        {
+            title: t('CUSTOMER'),
+            dataIndex:"warehouseName",
+        },
+        {
+            title: t('COLOR'),
+            dataIndex: "color",
+        },
+        {
+            title: t('SIZE'),
+            dataIndex: "size",
+        },
+        {
+            title: t('AMOUNT'),
+            dataIndex: "amount",
+        },
+        {
+            title:t('REMARK') ,
+            dataIndex: "remark",
+        },
+        {
+            title:t('STATUS'),
+            dataIndex:"status",
+            render:(value:string)=>{
+                switch (value){
+                    case '0':
+                        return ''
+                    case '1':
+                        return '待定'
+                    case '2':
+                        return 'OK'
+                    case '3':
+                        return '已发货'
+                    case '4':
+                        return '待定(请求取消)'
+                    case '5':
+                        return '已收到'
+                }
+            }
+        },
+        {
+            title:t('PENDING_DATE'),
+            dataIndex:"pendingDate",
+            width:110,
+            render:(value:any,item:any)=>{
+                return value && <>
+                    <div>{value}</div>
+                    {
+                        item.status==="4" &&
+                        <Popconfirm title={t('CONFIRM_CANCEL')} onConfirm={()=>cancelOrder(item)} okText={t('CONFIRM')} cancelText={t('CANCEL')}>
+                            <span style={{color:"red",cursor:"pointer"}}>{t('CANCEL_ORDER')}</span>
+                        </Popconfirm>
+                    }
+                </>
+            }
+        },
+    ];
+
     return (
         <section>
             <Template
@@ -71,71 +141,3 @@ const cancelOrder= async (item:any)=>{
 }
 export default OrderList;
 
-const columns: any = [
-    {
-        title: "照片",
-        dataIndex: "previewPhoto",
-        render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
-    },
-    {
-        title: "设计编号",
-        dataIndex: "designCode",
-    },
-    {
-        title: "客户",
-        dataIndex:"warehouseName",
-    },
-    {
-        title: "颜色",
-        dataIndex: "color",
-    },
-    {
-        title: "尺码",
-        dataIndex: "size",
-    },
-    {
-        title: "数量",
-        dataIndex: "amount",
-    },
-    {
-        title: "备注",
-        dataIndex: "remark",
-    },
-    {
-        title:"状态",
-        dataIndex:"status",
-        render:(value:string)=>{
-            switch (value){
-                case '0':
-                    return ''
-                case '1':
-                    return '待定'
-                case '2':
-                    return 'OK'
-                case '3':
-                    return '已发货'
-                case '4':
-                    return '待定(请求取消)'
-                case '5':
-                    return '已收到'
-            }
-        }
-    },
-    {
-        title:"待定日期",
-        dataIndex:"pendingDate",
-        width:110,
-        render:(value:any,item:any)=>{
-            return value && <>
-                {/*<div>{moment(value).format('YYYY-MM-DD')}</div>*/}
-                <div>{value}</div>
-                {
-                    item.status==="4" &&
-                    <Popconfirm title="确定取消?" onConfirm={()=>cancelOrder(item)} okText={"确定"} cancelText={"取消"}>
-                        <span style={{color:"red",cursor:"pointer"}}>取消订单</span>
-                    </Popconfirm>
-                }
-            </>
-        }
-    },
-];

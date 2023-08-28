@@ -1,34 +1,32 @@
 import {FC} from "react";
 import {Col, Divider, Row} from "antd";
 import useAccountInfo from "@/store/account";
-import {FormattedMessage} from "react-intl";
-import useIntlDep from "@/common/intl/useIntlDep";
-// import useAccountInfo from "@/store/account";
+import {useTranslation} from "react-i18next";
 
 const UserInfo:FC = () => {
+    const {t}=useTranslation()
     const userInfo = useAccountInfo();
-    const loadText = useIntlDep()
     return <section style={{ width: 450, padding: 15 }}>
         <h3 style={{fontWeight:650}}>
-            个人资料
+            {t('PROFILE')}
         </h3>
         <br/>
         <Row>
             <Col span={6}>
-                账号
+                {t('ACCOUNT')} :
             </Col>
             <Col span={18}>
-                {loadText('ADMIN')}
+                {t('ADMIN')}
             </Col>
         </Row>
         <br/>
 
         <Row>
             <Col span={6}>
-                权限
+                {t('PERMISSION')} :
             </Col>
             <Col span={18}>
-                <FormattedMessage id={userInfo?.type}/>
+                {t(userInfo?.type)}
             </Col>
         </Row>
         <Divider />

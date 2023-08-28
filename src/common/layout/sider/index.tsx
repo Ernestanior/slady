@@ -4,6 +4,7 @@ import {Link, useLocation} from "react-router-dom"
 import menuList from "@/common/layout/sider/config";
 import useAccountInfo from "@/store/account";
 import IconFont from "@/common/icon";
+import {useTranslation} from "react-i18next";
 
 const AntSide = Layout.Sider
 
@@ -11,6 +12,7 @@ const { SubMenu } = Menu;
 
 
 const Side:FC = () => {
+    const {t} = useTranslation();
     const info = useAccountInfo();
     const _menuList = useMemo(() => {
         return menuList.filter(menu => {
@@ -50,12 +52,12 @@ const Side:FC = () => {
             {
                 _menuList.map(menu => {
                     if(menu.childs){
-                        return <SubMenu key={menu.text} title={menu.text} style={{margin:"15px 0"}} icon={<IconFont type={menu.icon} style={{fontSize:24}}/>}>
+                        return <SubMenu key={menu.text} title={t(menu.text)} style={{margin:"15px 0"}} icon={<IconFont type={menu.icon} style={{fontSize:24}}/>}>
                             {
                                 menu.childs.map(subMenu => {
                                     return <Menu.Item key={subMenu.url} >
                                         <Link to={subMenu.url}>
-                                            {subMenu.text}
+                                            {t(subMenu.text)}
                                         </Link>
                                     </Menu.Item>
                                 })
@@ -65,13 +67,13 @@ const Side:FC = () => {
                     if (menu.icon){
                         return <Menu.Item key={menu.url} style={{margin:"15px 0"}} icon={<IconFont type={menu.icon} style={{fontSize:24}}/>}>
                             <Link to={menu.url}>
-                                {menu.text}
+                                {t(menu.text)}
                             </Link>
                         </Menu.Item>
                     }
                     return <Menu.Item key={menu.url} style={{margin:"15px 0"}}>
                         <Link to={menu.url}>
-                            {menu.text}
+                            {t(menu.text)}
                         </Link>
                     </Menu.Item>
                 })

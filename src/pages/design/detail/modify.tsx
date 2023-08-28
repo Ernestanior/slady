@@ -5,6 +5,7 @@ import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {typeList} from "@/pages/design";
 import {designService} from "@/store/apis/item";
+import {useTranslation} from "react-i18next";
 
 interface IProps{
     visible:boolean;
@@ -12,6 +13,7 @@ interface IProps{
     data:any;
 }
 const ModifyDesign:FC<IProps> = ({onOk,visible,data}) => {
+    const [t]=useTranslation()
     const [form] = useForm()
     const [loading,setLoading] = useState<boolean>(false)
     const onCancel=()=>{
@@ -34,7 +36,7 @@ const ModifyDesign:FC<IProps> = ({onOk,visible,data}) => {
     },[form,data])
     return <Modal
         confirmLoading={loading}
-        title={<div style={{color:"#fff",fontWeight:550}}>Modify</div>}
+        title={<div style={{color:"#fff",fontWeight:550}}>{t('EDIT')}</div>}
         visible={visible}
         onCancel={onCancel}
         onOk={onFinish}
@@ -43,19 +45,19 @@ const ModifyDesign:FC<IProps> = ({onOk,visible,data}) => {
         width={600}
     >
         <Form form={form} className="email-new">
-            <FormItem name="design" label="品名">
+            <FormItem name="design" label={t('ITEM_NAME')}>
                 <Input />
             </FormItem>
-            <FormItem name="type" label="类别">
+            <FormItem name="type" label={t('TYPE')}>
                 <Select options={typeList}/>
             </FormItem>
-            <FormItem name="purchasePrice" label="进货价">
+            <FormItem name="purchasePrice" label={t('PURCHASE_PRICE')}>
                 <Input />
             </FormItem>
-            <FormItem name="salePrice" label="售价">
+            <FormItem name="salePrice" label={t('SALE_PRICE')}>
                 <Input />
             </FormItem>
-            <FormItem name="remark" label="备注">
+            <FormItem name="remark" label={t('REMARK')}>
                 <Input />
             </FormItem>
         </Form>

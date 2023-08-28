@@ -6,7 +6,9 @@ import {designService} from "@/store/apis/item";
 import {from} from "rxjs";
 import request, {dev_url} from "@/store/request";
 import historyService from "@/store/history";
+import {useTranslation} from "react-i18next";
 const TopSale: FC = () => {
+    const [t]=useTranslation()
     const [type,setType] = useState<string>('')
     const [displayData,setDisplayData]=useState<any>([])
 
@@ -42,10 +44,10 @@ const TopSale: FC = () => {
                     <div style={{width:"100%",display:"flex",padding:15,justifyContent:"space-between",alignItems:"center"}}>
                             <div>
                                 <h3>{item.designId}</h3>
-                                <div style={{marginBottom:5}}>编号：{item.design}</div>
-                                热度：<span style={{color:"#fa9829"}}>{item.hot || 0}</span>
+                                <div style={{marginBottom:5}}> {t('CODE')}：{item.design}</div>
+                                {t('HOT')}：<span style={{color:"#fa9829"}}>{item.hot || 0}</span>
                             </div>
-                                <div style={{display:"flex",alignItems:"center",color:"#b67c39",fontSize:15,fontWeight:600}} onClick={()=>goDetail(item.id)}>详情<RightOutlined /></div>
+                                <div style={{display:"flex",alignItems:"center",color:"#b67c39",fontSize:15,fontWeight:600}} onClick={()=>goDetail(item.id)}> {t('DETAIL')}<RightOutlined /></div>
                         </div>
                     </div>
                 )}

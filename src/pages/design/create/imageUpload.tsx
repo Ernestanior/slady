@@ -3,6 +3,7 @@ import { Modal, Upload, UploadProps} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
+import {useTranslation} from "react-i18next";
 
 interface IProps{
     changePic:(e:any)=>void
@@ -15,6 +16,7 @@ const getBase64 = (file: RcFile): Promise<string> =>
         reader.onerror = (error) => reject(error);
     });
 const CreateItem: FC<IProps> = ({changePic}) => {
+    const [t]=useTranslation()
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
@@ -41,7 +43,7 @@ const CreateItem: FC<IProps> = ({changePic}) => {
     const uploadButton = (
         <div>
             <PlusOutlined />
-            <div style={{ marginTop: 8 }}>Upload</div>
+            <div style={{ marginTop: 8 }}>{t('UPLOAD')}</div>
         </div>
     );
 
