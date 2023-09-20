@@ -21,6 +21,7 @@ const Detail: FC = () => {
     const [t]=useTranslation()
     const userInfo = useAccountInfo()
     const [data,setData]=useState<any>()
+
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const url = useRouteMatch<{id:string }>("/item/detail/:id");
 
@@ -100,6 +101,11 @@ const Detail: FC = () => {
                     </Row>
                 </div>
                 <div style={{flex:1,marginLeft:20}}>
+                    <Row style={{marginBottom:10}}>
+                        <Col span={8} style={{fontWeight:550,color:"#9d692c"}}>{t('CREATE_DATE')}</Col>
+                        <Col span={16}>{data?.createDate}</Col>
+                        {/*<Col span={19}><div style={{display:"flex"}}>$<Input style={{marginRight:10}}/> </div></Col>*/}
+                    </Row>
                     <Row style={{marginBottom:10}}>
                         <Col span={8} style={{fontWeight:550,color:"#9d692c"}}>{t('FABRIC')}</Col>
                         <Col span={16}>

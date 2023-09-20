@@ -81,6 +81,7 @@ const zh_CN = {
     BEHAVIOR:"行为",
     OPERATION_TIME:"操作时间",
     CREATE_ACCOUNT:'创建账号',
+    CREATE_DATE:'创建时间',
     PENDING_NEED_DATE:"修改状态为待定时，必须填写日期",
     OK_NEED_PRICE:"修改状态为OK时，必须填写价格",
     PENDING_DATE:"待定日期",

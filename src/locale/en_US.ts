@@ -81,6 +81,7 @@ const en_US = {
     BEHAVIOR:"Behavior",
     OPERATION_TIME:"Operation Time",
     CREATE_ACCOUNT:'Create Account',
+    CREATE_DATE:'Create Date',
     PENDING_NEED_DATE:"When status is pending，Date is necessary to fill",
     OK_NEED_PRICE:"When status is OK，Price is necessary to fill",
     PENDING_DATE:"Penging Date",
