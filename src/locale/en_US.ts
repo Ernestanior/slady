@@ -47,6 +47,7 @@ const en_US = {
     CONFIRM:"Confirm",
     RETURN:"Return",
     EDIT_ITEM:"Modify Item",
+    DELETE_ITEM:"Delete Item",
     DESIGN_CODE:'Design Code',
     TOTAL_STOCK:'Total Stock',
     HOT:"Hot",

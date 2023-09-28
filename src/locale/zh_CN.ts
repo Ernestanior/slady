@@ -47,6 +47,7 @@ const zh_CN = {
     CONFIRM:"确认",
     RETURN:"返回",
     EDIT_ITEM:"修改商品",
+    DELETE_ITEM:"删除商品",
     DESIGN_CODE:'设计编号',
     TOTAL_STOCK:'总库存',
     HOT:"热度",

@@ -98,13 +98,13 @@ async function request<T>(config: AxiosRequestConfig){
             if(config.method && config.method.toUpperCase() === "PUT"){
                 // 创建操作
                 if(config.url && config.url.toLowerCase().indexOf("create") > -1){
-                    notification.success({
-                        message: "Success"
-                    })
+                    // notification.success({
+                    //     message: "Success"
+                    // })
                 }else{
-                    notification.success({
-                        message: "Success"
-                    })
+                    // notification.success({
+                    //     message: "Success"
+                    // })
                 }
             }
         }

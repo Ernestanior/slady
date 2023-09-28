@@ -21,7 +21,6 @@ const Detail: FC = () => {
     const [t]=useTranslation()
     const userInfo = useAccountInfo()
     const [data,setData]=useState<any>()
-
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const url = useRouteMatch<{id:string }>("/item/detail/:id");
 
@@ -58,7 +57,7 @@ const Detail: FC = () => {
         <section>
             {userInfo?.type!==E_USER_TYPE.SALER && <div style={{marginBottom:20}}>
                 <Button onClick={()=>setEditFlag(true)}>{t('EDIT')}</Button>
-                <Button style={{marginLeft:20,color:"red"}} onClick={deleteDesign}>{t('EDIT_ITEM')}</Button>
+                <Button style={{marginLeft:20,color:"red"}} onClick={deleteDesign}>{t('DELETE_ITEM')}</Button>
             </div>}
             <section style={{display:"flex"}}>
                 <img style={{cursor:"pointer"}} alt="" src={dev_url+data?.previewPhoto} height={200} onClick={goPic}/>
@@ -89,14 +88,14 @@ const Detail: FC = () => {
                         <Col span={8} style={{fontWeight:550,color:"#9d692c"}}>{t('HOT')}</Col>
                         <Col span={16}>{data?.hot || 0}</Col>
                     </Row>
-                    <Row style={{marginBottom:10}}>
-                        <Col span={9} style={{fontWeight:550,color:"#9d692c"}}>{t('PURCHASE_PRICE')}</Col>
-                        <Col span={15}>{data?.purchasePrice}</Col>
+                    {(userInfo?.type ===E_USER_TYPE.ADMIN || userInfo?.type ===E_USER_TYPE.PRODUCTMANAGEMENT)&& <Row style={{marginBottom:10}}>
+                        <Col span={8} style={{fontWeight:550,color:"#9d692c"}}>{t('PURCHASE_PRICE')}</Col>
+                        <Col span={16}>{data?.purchasePrice}</Col>
                         {/*<Col span={16}><div style={{display:"flex"}}>$<Input style={{marginRight:10}}/></div></Col>*/}
-                    </Row>
+                    </Row>}
                     <Row style={{marginBottom:10}}>
-                        <Col span={9} style={{fontWeight:550,color:"#9d692c"}}>{t('SALE_PRICE')}</Col>
-                        <Col span={15}>{data?.salePrice}</Col>
+                        <Col span={8} style={{fontWeight:550,color:"#9d692c"}}>{t('SALE_PRICE')}</Col>
+                        <Col span={16}>{data?.salePrice}</Col>
                         {/*<Col span={19}><div style={{display:"flex"}}>$<Input style={{marginRight:10}}/> </div></Col>*/}
                     </Row>
                 </div>
@@ -116,7 +115,7 @@ const Detail: FC = () => {
                     </Row>
                     <Row style={{marginBottom:10}}>
                         <Col span={8} style={{fontWeight:550,color:"#9d692c"}}>{t('REMARK')}</Col>
-                        <Col span={19}>{data?.remark}</Col>
+                        <Col span={16}>{data?.remark}</Col>
                         {/*<Col span={19}><div style={{display:"flex"}}>$<Input style={{marginRight:10}}/> </div></Col>*/}
                     </Row>
                 </div>
