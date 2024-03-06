@@ -40,8 +40,8 @@ const ModifyDesign:FC<IProps> = ({onOk,visible,data}) => {
         visible={visible}
         onCancel={onCancel}
         onOk={onFinish}
-        okText={'Save'}
-        cancelText={'Cancel'}
+        okText={t('SAVE')}
+        cancelText={t('CANCEL')}
         width={600}
     >
         <Form form={form} className="email-new">

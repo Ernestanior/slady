@@ -3,11 +3,13 @@ import {Form, Modal} from "antd";
 import useMessage from "@/store/message";
 import {useForm} from "antd/es/form/Form";
 import {reqAndReload} from "@/common/utils";
+import {useTranslation} from "react-i18next";
 
 const ModalF:FC = () => {
     const msg = useMessage()
     const [form] = useForm()
     const [value,setValue] = useState<any>()
+    const {t}=useTranslation()
     useEffect(()=>{
         if(msg && msg.type==="modalF"){
             setValue(msg.value)
@@ -35,8 +37,8 @@ const ModalF:FC = () => {
             visible={visible}
             onCancel={value.onCancel || defaultCancel}
             onOk={onOk}
-            okText={value.okText || 'Save'}
-            cancelText={value.cancelText || 'Cancel'}
+            okText={value.okText || t('SAVE')}
+            cancelText={value.cancelText || t('CANCEL')}
             zIndex={7000}
             width={value.width || 600}
         >

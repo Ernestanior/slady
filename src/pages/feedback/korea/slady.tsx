@@ -79,9 +79,22 @@ const OrderList: FC = () => {
             notification.error({message:t("NO_UNPAID_ORDER_SO_FAR")})
             return
         }
-        const config = orderService.OrderExport({},{})
-        const res = await request(config)
-        res.isSuccess && window.open(dev_url+res.result)
+        const config1 = orderService.OrderExport(
+            {areaType:1,
+                warehouseName:"Slady一店",
+                searchPage:{desc:1,page:1,pageSize:999},
+                paymentStatus: 0
+            })
+        const res1 = await request(config1)
+        res1.isSuccess && window.open(dev_url+res1.result)
+
+        const config2 = orderService.OrderExport({areaType:2,
+            warehouseName:"Slady一店",
+            searchPage:{desc:1,page:1,pageSize:999},
+            paymentStatus: 0
+        })
+        const res2 = await request(config2)
+        res2.isSuccess && window.open(dev_url+res2.result)
     }
     const columns: any = [
         {

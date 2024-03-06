@@ -28,7 +28,7 @@ const OrderList: FC = () => {
         from(request(config)).subscribe((res:any)=>{
             if (res.isSuccess){
                 const data = res.result.filter((item:any)=>item.warehouseName===WAREHOUSE.SLADY)
-                data.length && setTotalPrice(data[1].count)
+                data.length && setTotalPrice(data[0].count)
             }
         })
     },[])
@@ -76,9 +76,22 @@ const OrderList: FC = () => {
             notification.error({message:t("NO_UNPAID_ORDER_SO_FAR")})
             return
         }
-        const config = orderService.OrderExport({},{})
-        const res = await request(config)
-        res.isSuccess && window.open(dev_url+res.result)
+        const config1 = orderService.OrderExport(
+            {areaType:1,
+                warehouseName:"SL二店",
+                searchPage:{desc:1,page:1,pageSize:999},
+                paymentStatus: 0
+            })
+        const res1 = await request(config1)
+        res1.isSuccess && window.open(dev_url+res1.result)
+
+        const config2 = orderService.OrderExport({areaType:2,
+            warehouseName:"SL二店",
+            searchPage:{desc:1,page:1,pageSize:999},
+            paymentStatus: 0
+        })
+        const res2 = await request(config2)
+        res2.isSuccess && window.open(dev_url+res2.result)
     }
     const columns: any = [
         {

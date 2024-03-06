@@ -9,6 +9,7 @@ import {ItemType} from "antd/lib/menu/hooks/useItems";
 import isMobile from "@/app/isMobile";
 import './index.less'
 import {EllipsisOutlined} from "@ant-design/icons";
+import {useTranslation} from "react-i18next";
 /**
  * 构建操作列config,
  * @param optList 选项
@@ -38,7 +39,7 @@ export const createOptList = (
           },
         };
       },
-      title: (optEl || "Operation") as any,
+      title: (optEl || "操作Operation") as any,
       render: (_, record) => {
         if (renderFn) {
           return renderFn(record) ? (

@@ -1,10 +1,12 @@
 import React, {FC, useEffect, useState} from "react"
 import {Modal} from "antd";
 import useMessage from "@/store/message";
+import {useTranslation} from "react-i18next";
 
 const ModalX:FC = () => {
     const msg = useMessage()
     const [value,setValue] = useState<any>()
+    const {t}=useTranslation()
     useEffect(()=>{
         if(msg && msg.type==="modal"){
             setValue(msg.value)
@@ -25,8 +27,8 @@ const ModalX:FC = () => {
             visible={visible}
             onCancel={value.onCancel || defaultCancel}
             onOk={onOk}
-            okText={value.okText || 'Save'}
-            cancelText={value.cancelText || 'Cancel'}
+            okText={value.okText || t('SAVE')}
+            cancelText={value.cancelText || t('CANCEL')}
             zIndex={7000}
             width={value.width || 600}
         >

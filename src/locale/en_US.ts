@@ -7,11 +7,15 @@ const en_US = {
     NAME:"Name",
     STAFF_MANAGEMENT:"Staff Management",
     ITEM:"Item",
+    TIME:"Time",
+    WAREHOUSE:"Warehouse",
+    CUSTOMER:"Customer",
     ORDER_LOGISTICS:"Order Logistics",
     KOREA_FEEDBACK:"Korean Feedback",
     TOP_BOT:"Top/Bot sale",
     STOCK_RECORD:"Stock Record",
     OPERATION_RECORD:"Operation Record",
+    CANCEL:'Cancel',
     ADD:"Add",
     CREATE:"Create",
     SEARCH:"Search",
@@ -102,7 +106,10 @@ const en_US = {
     NEW_STOCK:"New Stock",
     EXPORT_ITEM:"Export Item",
     IMPORT_ITEM:"Import Item",
-    SHOP:"Shop"
+    SHOP:"Shop",
+    SUPPLEMENT:"Supplement",
+    OPERATION:"Operation",
+    PROFILE:"Profile"
 }
 
 export default en_US;

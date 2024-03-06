@@ -6,9 +6,9 @@ import {useTranslation} from "react-i18next";
 
 const OperationList:FC = () => {
     const [t]=useTranslation()
-    const operateMap:any = {
-        "/user/create":t('CREATE_ACCOUNT')
-    }
+    // const operateMap:any = {
+    //     "/user/create":t('CREATE_ACCOUNT')
+    // }
     const columns = [
         {
             dataIndex: "userName",
@@ -17,12 +17,16 @@ const OperationList:FC = () => {
         {
             dataIndex: "uri",
             title: t('INTERFACE'),
+            render:(res:any)=>{
+                console.log(res)
+                return res
+            }
         },
-        {
-            dataIndex: "uri",
-            title:  t('BEHAVIOR'),
-            render:(value:any)=>operateMap[value]
-        },
+        // {
+        //     dataIndex: "uri",
+        //     title:  t('BEHAVIOR'),
+        //     render:(value:any)=>operateMap[value]
+        // },
         {
             dataIndex: "createDate",
             title:  t('OPERATION_TIME'),

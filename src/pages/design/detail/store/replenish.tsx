@@ -44,7 +44,7 @@ const Rpelenish:FC<IProps> = ({onOk,visible,data}) => {
     }
     return <Modal
         confirmLoading={loading}
-        title={<div style={{color:"#fff",fontWeight:550}}>店补</div>}
+        title={<div style={{color:"#fff",fontWeight:550}}>{t("SUPPLEMENT")}</div>}
         visible={visible}
         onCancel={ onCancel}
         onOk={onFinish}

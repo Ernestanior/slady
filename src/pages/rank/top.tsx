@@ -36,7 +36,7 @@ const TopSale: FC = () => {
         <section>
             <section style={{marginBottom:10}}>
                 {typeList.map((item)=><>
-                    <Button type={type===item.id?'primary':'default'} style={{borderRadius:20,marginRight:5}} onClick={()=>setType(item.value)}>{item.label}</Button>
+                    <Button type={type===item.id?'primary':'default'} style={{borderRadius:20,marginRight:5,marginBottom:5}} onClick={()=>setType(item.value)}>{item.label}</Button>
                 </>)}
             </section>
             <div>

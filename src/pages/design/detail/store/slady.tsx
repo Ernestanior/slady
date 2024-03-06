@@ -35,7 +35,7 @@ const Slady: FC<IProps> = ({onRefresh}:any) => {
         return userInfo?.type===E_USER_TYPE.SALER ? []:
          [
             {
-                text: "Create",
+                text: t("CREATE"),
                 primary: true,
                 event() {
                     setCreateFlag(true)
@@ -44,6 +44,21 @@ const Slady: FC<IProps> = ({onRefresh}:any) => {
             },
         ];
     }, [userInfo?.type]);
+
+    const columns:any = [
+        {
+            dataIndex: "color",
+            title: t("COLOR"),
+        },
+        {
+            dataIndex: "size",
+            title: t("SIZE"),
+        },
+        {
+            dataIndex: "stock",
+            title: t("STOCK"),
+        },
+    ]
 
     const options: IOperationConfig = useMemo(() => {
         return [
@@ -56,7 +71,7 @@ const Slady: FC<IProps> = ({onRefresh}:any) => {
                     },
                 },
                 {
-                    text: "店补",
+                    text: t("SUPPLEMENT"),
                     event(data) {
                         setSelectedItem(data)
                         setReplenish(true)
@@ -92,7 +107,7 @@ const Slady: FC<IProps> = ({onRefresh}:any) => {
     }, [onRefresh,userInfo?.type,t])
     return (
         <section style={{padding:20}}>
-            <h3>Stock</h3>
+            <h3>{t("STOCK")}</h3>
             <Template
                 event={buttons}
                 columns={columns}
@@ -115,20 +130,6 @@ const Slady: FC<IProps> = ({onRefresh}:any) => {
 
 export default Slady;
 
-const columns:any = [
-    {
-        dataIndex: "color",
-        title: "Color",
-    },
-    {
-        dataIndex: "size",
-        title: "Size",
-    },
-    {
-        dataIndex: "stock",
-        title: "Stock",
-    },
-]
 
 
 

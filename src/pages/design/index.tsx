@@ -5,12 +5,12 @@ import Search from "antd/es/input/Search";
 import historyService from "@/store/history";
 import request, {dev_url} from "@/store/request";
 import {designService} from "@/store/apis/item";
-import {from} from "rxjs";
+import {debounce, from} from "rxjs";
 import useAccountInfo from "@/store/account";
 import {E_USER_TYPE} from "@/store/account/interface";
 import {useTranslation} from "react-i18next";
 export const typeList:any[] = [{value:'',label:'ALL'}, {value:'DR',label:'DR连衣裙'},
-    {value:'TB',label:'TB上衣'},{value:'SK',label:'SK半裙'},{value:'PT',label:'PT裤子'},{value:'GO',label:'GO晚礼服'},
+    {value:'TB',label:'TB上衣'},{value:'SK',label:'SK半裙'},{value:'ST',label:'ST短裤'},{value:'PT',label:'PT裤子'},{value:'GO',label:'GO晚礼服'},
     {value:'JK',label:'JK外套'},{value:'JS',label:'JS连体裤'},{value:'BT',label:'BT皮带'},{value:'SH',label:'SH鞋子'},{value:'SE',label:'SE套装'},
     {value:'SI',label:'SI真丝'},{value:'AC',label:'AC'}]
 
@@ -20,56 +20,118 @@ const DesignList: FC = () => {
     const [displayData,setDisplayData]=useState<any>([])
     const [type,setType] = useState<string>('')
     const [design,setDesign] = useState<string>('')
-
+    const [page,setPage]=useState<number>(1)
+    const [stopper,setStopper]=useState<boolean>(false)
     const goDetail=(id:string)=>{
         historyService.push(`/item/detail/${id}`)
     }
 
+    // useEffect(()=>{
+    //     const config = designService.DesignList({}, {
+    //         type,
+    //         design,
+    //         "searchPage": {
+    //             "desc": 1,
+    //             "page": 1,
+    //             "pageSize": 999,
+    //             "sort": "id"
+    //         }
+    //     })
+    //     from(request(config)).subscribe((res:any)=>{
+    //         setDisplayData(res.result)
+    //     })
+    //
+    // },[type,design])
+
     useEffect(()=>{
-        const config = designService.DesignList({}, {
+        const config = designService.DesignPage({}, {
+            type,
+            design,
+            "searchPage": {
+                "desc": 1,
+                "page": page,
+                "pageSize": 20,
+                "sort": "id"
+            }
+        })
+        from(request(config)).subscribe((res:any)=>{
+            if (res){
+                if (res.result.totalElements>=20 && page<res.result.totalPages){
+                    setStopper(false)
+                }
+                if (page===1){
+                    setDisplayData(res.result.content)
+                }else{
+                    setDisplayData([...displayData,...res.result.content])
+                }
+            }
+        })
+    },[design,page])
+
+    useEffect(()=>{
+        setStopper(false)
+        if (page>1){
+            setPage(1)
+        }
+        else{
+            const config = designService.DesignPage({}, {
+                type,
+                design,
+                "searchPage": {
+                    "desc": 1,
+                    "page": 1,
+                    "pageSize": 20,
+                    "sort": "id"
+                }
+            })
+            from(request(config)).subscribe((res:any)=>{
+                if (res){
+                    if (res.result.totalElements<20){
+                        setStopper(true)
+                    }
+                    setDisplayData(res.result.content)
+                }
+            })
+        }
+    },[type])
+    const loadData = ()=>{
+        const config = designService.DesignPage({}, {
             type,
             design,
             "searchPage": {
                 "desc": 1,
                 "page": 1,
-                "pageSize": 999,
+                "pageSize": 20,
                 "sort": "id"
             }
         })
         from(request(config)).subscribe((res:any)=>{
-            setDisplayData(res.result)
-        })
-
-    },[type,design])
-
-    const loadData = ()=>{
-        const config = designService.DesignList({}, {
-            type,
-            design,
-            "searchPage": {
-                "desc": 0,
-                "page": 1,
-                "pageSize": 999,
-                "sort": ""
-            }
-        })
-        from(request(config)).subscribe((res:any)=>{
-            setDisplayData(res.result)
+            setDisplayData(res.result.content)
         })
     }
+
+    const handleScroll = (e:any) => {
+        if (e.target.scrollTop+e.target.offsetHeight>e.target.scrollHeight-100){
+            if (!stopper){
+                setStopper(true)
+                setPage(page+1)
+            }
+        }
+    };
+
     return (
         <section>
             <section style={{marginBottom:10}}>
                 {typeList.map((item)=><>
-                    <Button type={type===item.id?'primary':'default'} style={{borderRadius:20,marginRight:5}} onClick={()=>setType(item.value)}>{item.label}</Button>
+                    <Button type={type===item.id?'primary':'default'} style={{borderRadius:20,marginRight:5,marginBottom:5}} onClick={()=>setType(item.value)}>{item.label}</Button>
                 </>)}
             </section>
             <section>
                 <Search onChange={(e)=>setDesign(e.target.value)} style={{width:300,marginBottom:30,marginRight:30}} enterButton onSearch={loadData}/>
                 {userInfo?.type!==E_USER_TYPE.SALER && <Button type={"primary"} onClick={()=>historyService.push('/item/create')}>{t('CREATE')}</Button>}
             </section>
-            <div style={{display:"flex",flexWrap:"wrap"}}>
-                {displayData? displayData.map((item:any,index:number)=><div key={index} style={{backgroundColor:"#fff",width:500,display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd",overflow:"hidden"}}>
+            <div style={{display:"flex",flexWrap:"wrap",height:700,overflowY:"scroll"}} onScroll={handleScroll}>
+                {displayData? displayData.map((item:any,index:number)=><div key={index} style={{backgroundColor:"#fff",width:500,height:150,display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd",overflow:"hidden"}}>
                         <img alt="" style={{height:150}} src={dev_url+item.previewPhoto}/>
                         <div style={{width:"100%",display:"flex",padding:15,justifyContent:"space-between"}}>
                             <div>

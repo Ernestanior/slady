@@ -75,11 +75,13 @@ class OrderAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
-    OrderExport = (params: {}, data: {}) => {
+    /** params参数
+     *  areaType= 1(国内) 2(韩国)
+     * */
+    OrderExport = (data: {}) => {
         const config: AxiosRequestConfig = {
             url: '/order/export',
             method: 'post',
-            params,
             data
         };
         config.headers = {};

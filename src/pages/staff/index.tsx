@@ -32,6 +32,17 @@ const CustomerList:FC = () => {
         return userService.FindUser({},data)
     },[])
 
+    const columns = [
+        {
+            dataIndex: "name",
+            title: t("NAME"),
+        },
+        {
+            dataIndex: "type",
+            title: t("ROLE"),
+        },
+    ]
+
     const options: IOperationConfig = useMemo(() => {
         return [
             [
@@ -77,13 +88,5 @@ const CustomerList:FC = () => {
 
 export default CustomerList
 
-const columns = [
-    {
-        dataIndex: "name",
-        title: "NAME",
-    },
-    {
-        dataIndex: "type",
-        title: "ROLE",
-    },
-]
+
+

@@ -49,7 +49,7 @@ const CreateCustomer:FC<IProps> = ({onOk,visible}) => {
     }
     return <Modal
         confirmLoading={loading}
-        title={<div style={{color:"#fff",fontWeight:550}}>Create</div>}
+        title={<div style={{color:"#fff",fontWeight:550}}>{t("CREATE")}</div>}
         visible={visible}
         onCancel={ onCancel}
         onOk={onFinish}

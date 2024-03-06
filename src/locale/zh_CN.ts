@@ -27,9 +27,11 @@ const zh_CN = {
     FINANCIAL:"财务",
     KOREAN_LOGISTICS:"韩国物流",
     ROLE:"职位",
+    TIME:"时间",
     DETAIL:"详情",
     PRICE:"价格",
     STOCK:"库存",
+    CUSTOMER:"客户名",
     ITEM_NAME:"品名",
     TYPE:"类别",
     COLOR:"色号",
@@ -43,6 +45,7 @@ const zh_CN = {
     PERCENT:"百分比",
     PURCHASE_PRICE:"进货价",
     SALE_PRICE:"销售价",
+    CANCEL:'取消',
     REMARK:"备注",
     CONFIRM:"确认",
     RETURN:"返回",
@@ -51,6 +54,7 @@ const zh_CN = {
     DESIGN_CODE:'设计编号',
     TOTAL_STOCK:'总库存',
     HOT:"热度",
+    WAREHOUSE:"仓库",
     PLEASE_COMPLETE:"请填写完整",
     SAVE:"保存",
     LEAVE_MESSAGE:'留言',
@@ -102,6 +106,10 @@ const zh_CN = {
     NEW_STOCK:"新库存",
     EXPORT_ITEM:"出库商品",
     IMPORT_ITEM:"入库商品",
-    SHOP:"商店"
+    SHOP:"商店",
+    SUPPLEMENT:"店补",
+    OPERATION:"操作",
+    PROFILE:"个人信息",
+
 }
 export default zh_CN;

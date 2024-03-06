@@ -38,6 +38,10 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
     },[data?.status])
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
+        if (newData.status===orderType.CANCELREQUEST ){
+            onOk()
+            return
+        }
         if (newData.status===orderType.PENDING && !newData.pendingDate){
             notification.error({message:t('PENDING_NEED_DATE')})
             return

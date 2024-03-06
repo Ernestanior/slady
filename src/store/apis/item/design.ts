@@ -21,6 +21,17 @@ class DesignAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
+    DesignPage = (params: {}, data: IDesignList) => {
+        const config: AxiosRequestConfig = {
+            url: '/design/page',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
     DesignDetail = (params: {}, data: {}) => {
         const config: AxiosRequestConfig = {
             url: '/design/detail',
