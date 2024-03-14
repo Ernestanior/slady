@@ -1,19 +1,23 @@
-import React, {FC, useEffect, useMemo, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {Button, Image, notification, Spin, Badge} from "antd";
 import historyService from "@/store/history";
 import {itemService} from "@/store/apis/item";
-import {useLocation, useRouteMatch} from "react-router-dom";
 import {from} from "rxjs";
 import request, {dev_url} from "@/store/request";
 import {LeftOutlined} from "@ant-design/icons";
 import ImageUpload from "@/pages/design/create/imageUpload";
 import {RcFile} from "antd/lib/upload";
 
-const ImgView: FC = () => {
-    const path:any = useLocation()
-    const folderPath = path.search.split("=")[1]
-    const url = useRouteMatch<{id:string }>("/item/images/:id");
-    const id:any = useMemo(()=>url?.params.id,[url])
+interface IProps{
+    onReturn:()=>void;
+    id:number;
+    folderPath:string;
+}
+const ImgView: FC<IProps> = ({onReturn,id,folderPath}) => {
+    // const path:any = useLocation()
+    // const folderPath = path.search.split("=")[1]
+    // const url = useRouteMatch<{id:string }>("/item/images/:id");
+    // const id:any = useMemo(()=>url?.params.id,[url])
 
     const [imgList,setImgList] = useState<any>([])
     const [deleteList,setDeleteList] = useState<any>([])
@@ -41,7 +45,7 @@ const ImgView: FC = () => {
         deleteList.forEach((url:any) => {
             formData.append('deleteFiles', url);
         });
-        formData.append('designId', id);
+        formData.append('designId', id+'');
 
         // setLoading(true)
         const config = itemService.FileModify({},formData)
@@ -70,7 +74,7 @@ const ImgView: FC = () => {
     }
     return (
         <section>
-            <div onClick={()=>historyService.goBack()} style={{color:"#ee8d20",fontWeight:600}}><LeftOutlined />返回</div>
+            <div onClick={onReturn} style={{color:"#ee8d20",fontWeight:600,cursor:"pointer"}}><LeftOutlined />返回</div>
             {modifyMode?<>
                 <section style={{display:"flex",flexWrap:"wrap",marginTop:20,marginBottom:50}}>
                     {restList.map((res:any,index:number)=><div style={{width:200,marginRight:20,cursor:"pointer"}}>

@@ -9,7 +9,6 @@ import {ItemType} from "antd/lib/menu/hooks/useItems";
 import isMobile from "@/app/isMobile";
 import './index.less'
 import {EllipsisOutlined} from "@ant-design/icons";
-import {useTranslation} from "react-i18next";
 /**
  * 构建操作列config,
  * @param optList 选项

@@ -54,7 +54,7 @@ const Rpelenish:FC<IProps> = ({onOk,visible,data}) => {
     >
 
         <Form form={form} className="email-new" initialValues={{status:1,subscription:[1]}}>
-            <Form.Item name="amount" label={<span className="login-label">店补数量</span>}>
+            <Form.Item name="amount" label={<span className="login-label">{t('SUPPLEMENT')} {t('AMOUNT')}</span>}>
                 <InputNumber min={0}/>
             </Form.Item>
         </Form>

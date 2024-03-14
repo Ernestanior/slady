@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from "react";
-import {Form, InputNumber, Modal, notification} from "antd";
+import {Form, InputNumber, Modal} from "antd";
 import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
@@ -25,20 +25,14 @@ const CreateCustomer:FC<IProps> = ({onOk,visible,data}) => {
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
         const {stock}=newData
-        if (stock){
-            setLoading(true)
-            const config = itemService.ItemModifyStock({id:data.id,stock},{})
-            const res = await request(config)
-            setLoading(false)
-            if (res.isSuccess){
-                reloadMainList();
-                onOk()
-            }
+        setLoading(true)
+        const config = itemService.ItemModifyStock({id:data.id,stock:stock?stock:0},{})
+        const res = await request(config)
+        setLoading(false)
+        if (res.isSuccess){
+            reloadMainList();
+            onOk()
         }
-        else{
-            notification.error({message:t('PLEASE_COMPLETE')})
-        }
-
     }
     return <Modal
         confirmLoading={loading}

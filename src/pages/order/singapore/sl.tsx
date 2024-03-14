@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useMemo} from "react";
+import React, {FC, useCallback, useMemo, useState} from "react";
 import Template from "@/common/template";
 import {IOperationConfig} from "@/common/template/interface";
 import {orderService} from "@/store/apis/order";
@@ -12,9 +12,11 @@ import {IPageResult} from "@/store/apis/log/common.interface";
 import Query from "@/pages/order/singapore/query";
 import {handleDatetime} from "@/common/utilsx";
 import {useTranslation} from "react-i18next";
+import {Button} from "antd";
 
 const OrderList: FC = () => {
     const [t]=useTranslation()
+    const [queryParams,setQueryParams]=useState<any>({})
 
     const options: IOperationConfig = useMemo(() => [
         {
@@ -62,7 +64,22 @@ const OrderList: FC = () => {
                 }
                 msgModal.createEvent("modal", value)
             }
-        }
+        },
+        {
+            text: t("HAVE_RECEIVED"),
+            hide: (data) => data.status !== orderType.SEND,
+            event(data) {
+                const value = {
+                    title: t("RECEIVED_ITEM"),
+                    content: `${t("CONFIRM_RECEIVED_ITEM")}: ${data.design} ？`,
+                    onOk: async() => {
+                        const config = orderService.OrderModify({}, {...data,status:"5"});
+                        reqAndReload(config);
+                    }
+                }
+                msgModal.createEvent("modal", value)
+            }
+        },
     ], [t])
 
 
@@ -73,18 +90,26 @@ const OrderList: FC = () => {
             filters.startDate = d[0]+" 00:00:00";
             filters.endDate = d[1]+" 23:59:59";
         }
-        const config = orderService.OrderList({},{
+        const queryParams = {
             areaType:areaType.SINGAPORE,
             warehouseName:WAREHOUSE.SL,
-            status:['0','1','2','3','4'],
-            ...filters
-        })
+            ...filters,
+            status:filters.status?[filters.status]:['0','1','2','3','4'],
+        }
+        setQueryParams(queryParams)
+        const config = orderService.OrderList({},queryParams)
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
             return res.result
         }
         return null
     },[])
+
+    const onPrint = async() =>{
+        const config = orderService.OrderExport(queryParams)
+        const res = await request(config)
+        res.isSuccess && window.open(dev_url+res.result)
+    }
 
     const columns: any = [
         {
@@ -165,6 +190,9 @@ const OrderList: FC = () => {
                 rowKey="id"
                 optList={options}
             />
+            <div style={{padding:20}}>
+                <Button style={{marginRight:20}} onClick={onPrint}>{t("PRINT")}</Button>
+            </div>
         </section>
     );
 };

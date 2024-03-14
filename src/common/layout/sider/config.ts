@@ -37,6 +37,12 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.LOGISTICS,E_USER_TYPE.SALER]
     },
     {
+        text: "ORDER_HISTORY",
+        icon:"icon-order",
+        url: "/historyOrder",
+        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.LOGISTICS,E_USER_TYPE.SALER]
+    },
+    {
         text: "KOREA_FEEDBACK",
         icon:"icon-order",
         url: "/feedback",
@@ -46,7 +52,7 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
         url: "/rank",
         icon:"icon-top-raning",
         text: "TOP_BOT",
-        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.PRODUCTMANAGEMENT]
+        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.PRODUCTMANAGEMENT,E_USER_TYPE.SALER]
 
     },
     {

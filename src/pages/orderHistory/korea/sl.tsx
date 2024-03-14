@@ -43,8 +43,8 @@ const OrderList: FC = () => {
         const config = orderService.OrderList({},{
             areaType:areaType.KOREA,
             warehouseName:WAREHOUSE.SL,
+            status:['5'],
             ...filters,
-            status:filters.status?[filters.status]:['0','1','2','3','4'],
         })
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){

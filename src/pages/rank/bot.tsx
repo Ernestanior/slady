@@ -13,17 +13,17 @@ const TopSale: FC = () => {
     const [displayData,setDisplayData]=useState<any>([])
 
     useEffect(()=>{
-        const config = designService.DesignList({}, {
+        const config = designService.DesignPage({}, {
             type,
             "searchPage": {
                 "desc": 0,
                 "page": 1,
-                "pageSize": 999,
+                "pageSize": 50,
                 "sort": "hot"
             }
         })
         from(request(config)).subscribe((res:any)=>{
-            setDisplayData(res.result)
+            setDisplayData(res.result.content)
         })
     },[type])
 

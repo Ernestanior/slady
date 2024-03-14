@@ -2,7 +2,6 @@ import React, {FC, useMemo, useState} from "react";
 import Template from "@/common/template";
 import {IOperationConfig} from "@/common/template/interface";
 import {itemService} from "@/store/apis/item";
-import {useRouteMatch} from "react-router-dom";
 import EditStock from "@/pages/design/detail/store/editStock";
 import Replenish from "@/pages/design/detail/store/replenish";
 import {INormalEvent} from "@/common/interface";
@@ -16,9 +15,10 @@ import {E_USER_TYPE} from "@/store/account/interface";
 import {useTranslation} from "react-i18next";
 
 interface IProps{
+    designId:number;
     onRefresh?:any
 }
-const Slady: FC<IProps> = ({onRefresh}:any) => {
+const Slady: FC<IProps> = ({onRefresh,designId}) => {
     const userInfo = useAccountInfo()
     const [t]=useTranslation()
     // const [createFlag,setCreateFlag]=useState<boolean>(false)
@@ -28,8 +28,8 @@ const Slady: FC<IProps> = ({onRefresh}:any) => {
     const [selectedItem,setSelectedItem] = useState<any>()
     const [createFlag,setCreateFlag]=useState<boolean>(false)
 
-    const url = useRouteMatch<{id:string }>("/item/detail/:id");
-    const designId = useMemo(()=>url?.params.id,[url])
+    // const url = useRouteMatch<{id:string }>("/item/detail/:id");
+    // const designId = useMemo(()=>url?.params.id,[url])
 
     const buttons: INormalEvent[] = useMemo(() => {
         return userInfo?.type===E_USER_TYPE.SALER ? []:
@@ -43,7 +43,7 @@ const Slady: FC<IProps> = ({onRefresh}:any) => {
 
                 },
             ];
-    }, [userInfo?.type]);
+    }, [t,userInfo?.type]);
 
     const columns:any = [
         {
@@ -71,7 +71,7 @@ const Slady: FC<IProps> = ({onRefresh}:any) => {
                     },
                 },
                 {
-                    text: t("SUPPLEMENT"),
+                    text: t("ORDER_FROM_SUPPLIER"),
                     event(data) {
                         setSelectedItem(data)
                         setReplenish(true)
@@ -106,20 +106,23 @@ const Slady: FC<IProps> = ({onRefresh}:any) => {
         ]
     }, [onRefresh,userInfo?.type,t])
     return (
-        <section style={{padding:20}}>
-            <h3>{t("STOCK")}</h3>
-            <Template
-                event={buttons}
-                columns={columns}
-                queryData={(data)=>itemService.ItemList({},{
-                    designId,
-                    warehouseName:"SL二店",
-                    ...data
-                })}
-                // queryDataFunction={queryData}
-                optList={options}
-                rowKey="email"
-            />
+        <section style={{width:450,marginLeft:20}}>
+            <h3>SL二店</h3>
+            <div>
+                <Template
+                    event={buttons}
+                    columns={columns}
+                    queryData={(data)=>itemService.ItemList({},{
+                        designId,
+                        warehouseName:"SL二店",
+                        ...data
+                    })}
+                    // queryDataFunction={queryData}
+                    optList={options}
+                    rowKey="email"
+                />
+            </div>
+
             <EditStock onOk={()=>{onRefresh();setEditStock(false)}} visible={editStock} data={selectedItem}></EditStock>
             <Replenish onOk={()=>setReplenish(false)} visible={replenish} data={selectedItem}></Replenish>
             <CustomerOrder onOk={()=>setCusOrder(false)} visible={cusOrder} data={selectedItem}></CustomerOrder>

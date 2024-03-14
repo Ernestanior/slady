@@ -1,6 +1,5 @@
-import React, {FC, useCallback, useEffect, useMemo, useState} from "react";
-import {Button, Col, Row, Tabs} from "antd";
-import {useRouteMatch} from "react-router-dom";
+import React, {FC, useCallback, useEffect, useState} from "react";
+import {Button, Col, Row} from "antd";
 import {designService} from "@/store/apis/item";
 import {from} from "rxjs";
 import request, {dev_url} from "@/store/request";
@@ -10,21 +9,28 @@ import {reqAndReload} from "@/common/utils";
 import historyService from "@/store/history";
 import msgModal from "@/store/message/service";
 import ModifyDesign from "@/pages/design/detail/modify";
-import {WAREHOUSE} from "@/common/const";
 import {E_USER_TYPE} from "@/store/account/interface";
 import useAccountInfo from "@/store/account";
 import {useTranslation} from "react-i18next";
+import {LeftOutlined} from "@ant-design/icons";
+import ImgView from "@/pages/design/imgView";
 
-const { TabPane } = Tabs;
-
-const Detail: FC = () => {
+interface IProps{
+    id:number;
+    onReturn:()=>void;
+    toImgView:()=>void;
+}
+const Detail: FC<IProps> = ({id,onReturn}) => {
     const [t]=useTranslation()
     const userInfo = useAccountInfo()
     const [data,setData]=useState<any>()
     const [editFlag,setEditFlag]=useState<boolean>(false)
-    const url = useRouteMatch<{id:string }>("/item/detail/:id");
+    // const url = useRouteMatch<{id:string }>("/item/detail/:id");
 
-    const id = useMemo(()=>url?.params.id,[url])
+    const [currentPage,setCurrentPage]=useState<string>('detail')
+
+
+    // const id = useMemo(()=>url?.params.id,[url])
 
     const getDetail=useCallback(()=>{
         const config = designService.DesignDetail({id},{})
@@ -43,24 +49,29 @@ const Detail: FC = () => {
             content: `确定删除商品: ${data.design} ？`,
             onOk: () => {
                 if (id){
-                    const config = designService.DesignDelete({},[parseInt(id)])
+                    const config = designService.DesignDelete({},[id])
                     reqAndReload(config,()=>historyService.goBack())
                 }
             }
         }
         msgModal.createEvent("modal", value)
     }
-    const goPic=async()=>{
-        data?.photos && historyService.push({pathname:`/item/images/${id}`,search:`forderPath=${data.photos}`})
+    // const goPic=async()=>{
+    //     toImgView()
+    //     // data?.photos && historyService.push({pathname:`/item/images/${id}`,search:`forderPath=${data.photos}`})
+    // }
+    if(currentPage==="imgView"){
+        return <ImgView onReturn={()=>setCurrentPage('detail')} id={id} folderPath={data.photos}/>
     }
     return (
         <section>
+            <div style={{marginBottom:10,cursor:"pointer",color:"#ee8d20",}} onClick={onReturn}><LeftOutlined />返回</div>
             {userInfo?.type!==E_USER_TYPE.SALER && <div style={{marginBottom:20}}>
                 <Button onClick={()=>setEditFlag(true)}>{t('EDIT')}</Button>
                 <Button style={{marginLeft:20,color:"red"}} onClick={deleteDesign}>{t('DELETE_ITEM')}</Button>
             </div>}
             <section style={{display:"flex"}}>
-                <img style={{cursor:"pointer"}} alt="" src={dev_url+data?.previewPhoto} height={200} onClick={goPic}/>
+                <img style={{cursor:"pointer"}} alt="" src={dev_url+data?.previewPhoto} height={200} onClick={()=>setCurrentPage('imgView')}/>
                 <div style={{flex:1,marginLeft:20}}>
                     <Row style={{marginBottom:10}}>
                         <Col span={8} style={{fontWeight:550,color:"#9d692c"}}>{t('DESIGN_CODE')}</Col>
@@ -120,14 +131,19 @@ const Detail: FC = () => {
                     </Row>
                 </div>
             </section>
-            <Tabs defaultActiveKey="1">
-                <TabPane tab={WAREHOUSE.SLADY} key="1">
-                    <Slady onRefresh={getDetail}></Slady>
-                </TabPane>
-                <TabPane tab={WAREHOUSE.SL} key="2">
-                    <Sl onRefresh={getDetail}></Sl>
-                </TabPane>
-            </Tabs>
+            {/*<Tabs defaultActiveKey="1">*/}
+            {/*    <TabPane tab={WAREHOUSE.SLADY} key="1">*/}
+            {/*        <Slady onRefresh={getDetail}></Slady>*/}
+            {/*    </TabPane>*/}
+            {/*    <TabPane tab={WAREHOUSE.SL} key="2">*/}
+            {/*        <Sl onRefresh={getDetail}></Sl>*/}
+            {/*    </TabPane>*/}
+            {/*</Tabs>*/}
+            <div style={{display:"flex",justifyContent:"space-around",paddingTop:20}}>
+                <Slady onRefresh={getDetail} designId={id}></Slady>
+                <Sl onRefresh={getDetail} designId={id}></Sl>
+            </div>
+
             <ModifyDesign onOk={()=>setEditFlag(false)} visible={editFlag} data={data}></ModifyDesign>
 
         </section>

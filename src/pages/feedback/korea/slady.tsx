@@ -17,6 +17,7 @@ const OrderList: FC = () => {
     const [t]=useTranslation()
     const [data,setData]=useState<any>()
     const [totalPrice,setTotalPrice] = useState<any>()
+    const [queryParams,setQueryParams]=useState<any>({})
     // const [dateRange,setDateRange] = useState<any>()
     useEffect(()=>{
         const config = orderService.OrderCount({},{
@@ -42,13 +43,15 @@ const OrderList: FC = () => {
             filters.endDate = d[1]+" 23:59:59";
             // setDateRange({startDate:d[0]+" 00:00:00",endDate:d[1]+" 23:59:59"})
         }
-        const config = orderService.OrderList({},{
+        const queryParams = {
             areaType:areaType.KOREA,
             warehouseName:WAREHOUSE.SLADY,
             // status:['2','3','5'],
             paymentStatus:0,
             ...filters
-        })
+        }
+        setQueryParams(queryParams)
+        const config = orderService.OrderList({},queryParams)
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
             setData(res.result)
@@ -79,20 +82,16 @@ const OrderList: FC = () => {
             notification.error({message:t("NO_UNPAID_ORDER_SO_FAR")})
             return
         }
-        const config1 = orderService.OrderExport(
-            {areaType:1,
-                warehouseName:"Slady一店",
-                searchPage:{desc:1,page:1,pageSize:999},
-                paymentStatus: 0
-            })
-        const res1 = await request(config1)
-        res1.isSuccess && window.open(dev_url+res1.result)
+        // const config1 = orderService.OrderExport(
+        //     {areaType:1,
+        //         warehouseName:"Slady一店",
+        //         searchPage:{desc:1,page:1,pageSize:999},
+        //         paymentStatus: 0
+        //     })
+        // const res1 = await request(config1)
+        // res1.isSuccess && window.open(dev_url+res1.result)
 
-        const config2 = orderService.OrderExport({areaType:2,
-            warehouseName:"Slady一店",
-            searchPage:{desc:1,page:1,pageSize:999},
-            paymentStatus: 0
-        })
+        const config2 = orderService.OrderExport(queryParams)
         const res2 = await request(config2)
         res2.isSuccess && window.open(dev_url+res2.result)
     }

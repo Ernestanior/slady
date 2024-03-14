@@ -8,13 +8,15 @@ import {useTranslation} from "react-i18next";
 const Import:FC = () => {
     const [t]=useTranslation()
     const query = useCallback(async(data)=>{
+        console.log('aad',data)
         const config = accessLogService.FindAccessLog({},{
             ...data,uri:"/item/modify-stock"
         })
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
+            console.log(res.result)
             const content=res?.result?.content.map((item)=> {
-                return ({...JSON.parse(item.body),...item})
+                return item.body?({...JSON.parse(item.body),...item}):item
             })
             return ({...res.result,content}) as any
         }

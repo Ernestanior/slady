@@ -7,13 +7,12 @@ import Staff from "@/pages/staff";
 
 import Profile from '@/pages/profile/index'
 import OperationList from "@/pages/operation";
-import Detail from "@/pages/design/detail";
 import Order from "@/pages/order";
+import OrderHistory from "@/pages/orderHistory";
 import Feedback from "@/pages/feedback";
 import Rank from "@/pages/rank";
 import StorageRecord from "@/pages/storage";
 import CreateItem from "@/pages/design/create";
-import ImgView from "@/pages/design/imgView";
 import useAccountInfo from "@/store/account";
 import {E_USER_TYPE} from "@/store/account/interface";
 
@@ -43,12 +42,12 @@ const ModuleRouter:FC = () => {
         return <Router history={historyService}>
             <LayoutPlx>
                 <Switch>
-                    <Route path="/item/images/:id">
-                        <ImgView />
-                    </Route>
-                    <Route path="/item/detail/:id">
-                        <Detail />
-                    </Route>
+                    {/*<Route path="/item/images/:id">*/}
+                    {/*    <ImgView />*/}
+                    {/*</Route>*/}
+                    {/*<Route path="/item/detail/:id">*/}
+                    {/*    <Detail />*/}
+                    {/*</Route>*/}
                     <Route path="/item/create">
                         <CreateItem />
                     </Route>
@@ -57,6 +56,9 @@ const ModuleRouter:FC = () => {
                     </Route>
                     <Route path="/order">
                         <Order />
+                    </Route>
+                    <Route path="/historyOrder">
+                        <OrderHistory />
                     </Route>
                     <Route path="/rank">
                         <Rank />
@@ -103,12 +105,12 @@ const ModuleRouter:FC = () => {
         return <Router history={historyService}>
             <LayoutPlx>
                 <Switch>
-                    <Route path="/item/images/:id">
-                        <ImgView />
-                    </Route>
-                    <Route path="/item/detail/:id">
-                        <Detail />
-                    </Route>
+                    {/*<Route path="/item/images/:id">*/}
+                    {/*    <ImgView />*/}
+                    {/*</Route>*/}
+                    {/*<Route path="/item/detail/:id">*/}
+                    {/*    <Detail />*/}
+                    {/*</Route>*/}
                     <Route path="/item/create">
                         <CreateItem />
                     </Route>
@@ -126,12 +128,12 @@ const ModuleRouter:FC = () => {
     return <Router history={historyService}>
         <LayoutPlx>
             <Switch>
-                <Route path="/item/images/:id">
-                    <ImgView />
-                </Route>
-                <Route path="/item/detail/:id">
-                    <Detail />
-                </Route>
+                {/*<Route path="/item/images/:id">*/}
+                {/*    <ImgView />*/}
+                {/*</Route>*/}
+                {/*<Route path="/item/detail/:id">*/}
+                {/*    <Detail />*/}
+                {/*</Route>*/}
                 <Route path="/item/create">
                     <CreateItem />
                 </Route>
@@ -141,6 +143,9 @@ const ModuleRouter:FC = () => {
 
                 <Route path="/order">
                     <Order />
+                </Route>
+                <Route path="/historyOrder">
+                    <OrderHistory />
                 </Route>
                 <Route path="/staff">
                     <Staff />

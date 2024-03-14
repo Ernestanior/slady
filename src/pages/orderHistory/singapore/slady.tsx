@@ -1,37 +1,19 @@
-import React, {FC, useCallback, useMemo, useState} from "react";
+import React, {FC, useCallback, useState} from "react";
 import Template from "@/common/template";
-import {Popconfirm} from "antd";
-import {IOperationConfig} from "@/common/template/interface";
 import {orderService} from "@/store/apis/order";
 import {areaType} from "@/pages/order";
-import ModifyStatus from "./modify";
+import moment from "moment";
 import request, {dev_url} from "@/store/request";
-import {reqAndReload} from "@/common/utils";
 import {WAREHOUSE} from "@/common/const";
-import Query from "./query";
-import {handleDatetime} from "@/common/utilsx";
 import {IPageResult} from "@/store/apis/log/common.interface";
+import Query from "@/pages/order/singapore/query";
+import {handleDatetime} from "@/common/utilsx";
 import {useTranslation} from "react-i18next";
-
+import {Button} from "antd";
 
 const OrderList: FC = () => {
     const [t]=useTranslation()
-    const [editFlag,setEditFlag]=useState<boolean>(false)
-    const [selectData,setSelectData] = useState<any>()
-
-    const options: IOperationConfig = useMemo(() => {
-        return [
-            [
-                {
-                    text: t('MODIFY_STATUS'),
-                    event(data) {
-                        setSelectData(data)
-                        setEditFlag(true)
-                    },
-                }
-            ]
-        ]
-    }, [t])
+    const [queryParams,setQueryParams]=useState<any>({})
 
     const query = useCallback(async(data)=>{
         const {operateDate,...filters}=data
@@ -40,12 +22,14 @@ const OrderList: FC = () => {
             filters.startDate = d[0]+" 00:00:00";
             filters.endDate = d[1]+" 23:59:59";
         }
-        const config = orderService.OrderList({},{
-            areaType:areaType.KOREA,
-            warehouseName:WAREHOUSE.SL,
-            ...filters,
-            status:filters.status?[filters.status]:['0','1','2','3','4'],
-        })
+        const queryParams = {
+            areaType:areaType.SINGAPORE,
+            warehouseName:WAREHOUSE.SLADY,
+            status:['5'],
+            ...filters
+        }
+        setQueryParams(queryParams)
+        const config = orderService.OrderList({},queryParams)
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
             return res.result
@@ -53,40 +37,54 @@ const OrderList: FC = () => {
         return null
     },[])
 
+    const onPrint = async() =>{
+        const config = orderService.OrderExport(queryParams)
+        const res = await request(config)
+        res.isSuccess && window.open(dev_url+res.result)
+    }
+
     const columns: any = [
         {
             title: t('PHOTO'),
             dataIndex: "previewPhoto",
+            width: 120,
             render:(item:any)=><img style={{height:150,width:120}} alt="" src={dev_url+item}/>
         },
         {
-            title: t('DESIGN_CODE'),
-            dataIndex: "designCode",
+            title:  t('CODE'),
+            dataIndex: "design",
         },
         {
-            title: t('CUSTOMER'),
-            dataIndex:"warehouseName",
+            title:  t('PRICE'),
+            dataIndex: "salePrice",
         },
+
         {
-            title: t('COLOR'),
+            title:  t('COLOR'),
             dataIndex: "color",
         },
         {
-            title: t('SIZE'),
+            title:  t('SIZE'),
             dataIndex: "size",
         },
         {
-            title: t('AMOUNT'),
+            title: t('AMOUNT') ,
             dataIndex: "amount",
         },
         {
-            title:t('REMARK') ,
-            dataIndex: "remark",
-            render:()=>'加急'
+            title:  t('TIME'),
+            dataIndex: "date",
+            width:110,
+            render:(data:string)=>moment(data).format('YYYY-MM-DD')
         },
         {
-            title:t('STATUS'),
+            title:  t('REMARK'),
+            dataIndex: "remark",
+        },
+        {
+            title: t('STATUS'),
             dataIndex:"status",
+            width:130,
             render:(value:string)=>{
                 switch (value){
                     case '0':
@@ -105,22 +103,16 @@ const OrderList: FC = () => {
             }
         },
         {
-            title:t('PENDING_DATE'),
+            title: t('PENDING_DATE'),
             dataIndex:"pendingDate",
             width:110,
-            render:(value:any,item:any)=>{
-                return value && <>
-                    <div>{value}</div>
-                    {
-                        item.status==="4" &&
-                        <Popconfirm title={t('CONFIRM_CANCEL')} onConfirm={()=>cancelOrder(item)} okText={t('CONFIRM')} cancelText={t('CANCEL')}>
-                            <span style={{color:"red",cursor:"pointer"}}>{t('CANCEL_ORDER')}</span>
-                        </Popconfirm>
-                    }
-                </>
+            render:(value:any)=>{
+                // return value && <div>{moment(value).format('YYYY-MM-DD')}</div>
+                return value && <div>{value}</div>
             }
         },
     ];
+
 
     return (
         <section>
@@ -129,16 +121,14 @@ const OrderList: FC = () => {
                 columns={columns}
                 queryDataFunction={query}
                 rowKey="id"
-                optList={options}
             />
-            <ModifyStatus onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyStatus>
+            <div style={{padding:20}}>
+                <Button style={{marginRight:20}} onClick={onPrint}>{t("PRINT")}</Button>
+            </div>
         </section>
     );
 };
 
-const cancelOrder= async (item:any)=>{
-    const config = orderService.OrderDelete({},[item.id])
-    reqAndReload(config);
-}
+
 export default OrderList;
 

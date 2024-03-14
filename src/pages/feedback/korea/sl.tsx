@@ -16,7 +16,9 @@ import {useTranslation} from "react-i18next";
 const OrderList: FC = () => {
     const [t]=useTranslation()
     const [data,setData]=useState<any>()
+    const [queryParams,setQueryParams]=useState<any>({})
     const [totalPrice,setTotalPrice] = useState<any>()
+
     useEffect(()=>{
         const config = orderService.OrderCount({},{
             areaType:areaType.KOREA,
@@ -34,19 +36,22 @@ const OrderList: FC = () => {
     },[])
 
     const query = useCallback(async(data)=>{
+
         const {operateDate,...filters}=data
         if (operateDate) {
             const d: any[] = handleDatetime(data.operateDate);
             filters.startDate = d[0]+" 00:00:00";
             filters.endDate = d[1]+" 23:59:59";
         }
-        const config = orderService.OrderList({},{
+        const queryParams = {
             areaType:areaType.KOREA,
             warehouseName:WAREHOUSE.SL,
             // status:['2','3','5'],
             paymentStatus:0,
             ...filters
-        })
+        }
+        setQueryParams(queryParams)
+        const config = orderService.OrderList({},queryParams)
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
             setData(res.result)
@@ -76,20 +81,16 @@ const OrderList: FC = () => {
             notification.error({message:t("NO_UNPAID_ORDER_SO_FAR")})
             return
         }
-        const config1 = orderService.OrderExport(
-            {areaType:1,
-                warehouseName:"SL二店",
-                searchPage:{desc:1,page:1,pageSize:999},
-                paymentStatus: 0
-            })
-        const res1 = await request(config1)
-        res1.isSuccess && window.open(dev_url+res1.result)
+        // const config1 = orderService.OrderExport(
+        //     {areaType:1,
+        //         warehouseName:"SL二店",
+        //         searchPage:{desc:1,page:1,pageSize:999},
+        //         paymentStatus: 0
+        //     })
+        // const res1 = await request(config1)
+        // res1.isSuccess && window.open(dev_url+res1.result)
 
-        const config2 = orderService.OrderExport({areaType:2,
-            warehouseName:"SL二店",
-            searchPage:{desc:1,page:1,pageSize:999},
-            paymentStatus: 0
-        })
+        const config2 = orderService.OrderExport(queryParams)
         const res2 = await request(config2)
         res2.isSuccess && window.open(dev_url+res2.result)
     }
