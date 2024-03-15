@@ -118,6 +118,7 @@ const OrderList: FC = () => {
         {
             title: t("COLOR"),
             dataIndex: "color",
+            render:(res:string)=>t(res)
         },
         {
             title: t("SIZE"),

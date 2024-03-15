@@ -113,5 +113,25 @@ const zh_CN = {
     OPERATION:"操作",
     PROFILE:"个人信息",
 
+    //Color
+    White:"白色",
+    Black:"黑色",
+    Charcoal:"深灰色",
+    Grey:"灰色",
+    Beige:"米黄色",
+    Cream:"奶油色",
+    Yellow:"黄色",
+    Orange:"橙色",
+    Peach:"桃色",
+    Purple:"紫色",
+    Brown:"褐色",
+    Green:"绿色",
+    Mint:"薄荷色",
+    Navy:"深蓝色",
+    Blue:"蓝色",
+    Pink:"粉色",
+    Mustard:"芥末黄",
+    Sky:"天空蓝",
+    Red:"红色",
 }
 export default zh_CN;

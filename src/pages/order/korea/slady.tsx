@@ -1,6 +1,6 @@
 import React, {FC, useCallback, useMemo, useState} from "react";
 import Template from "@/common/template";
-import {Popconfirm} from "antd";
+import {Button, Popconfirm} from "antd";
 import {IOperationConfig} from "@/common/template/interface";
 import {orderService} from "@/store/apis/order";
 import {areaType} from "@/pages/order";
@@ -18,6 +18,7 @@ const OrderList: FC = () => {
     const [t]=useTranslation()
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [selectData,setSelectData] = useState<any>()
+    const [queryParams,setQueryParams]=useState<any>({})
 
     const options: IOperationConfig = useMemo(() => {
         return [
@@ -40,18 +41,26 @@ const OrderList: FC = () => {
             filters.startDate = d[0]+" 00:00:00";
             filters.endDate = d[1]+" 23:59:59";
         }
-        const config = orderService.OrderList({},{
+        const queryParams = {
             areaType:areaType.KOREA,
             warehouseName:WAREHOUSE.SLADY,
             ...filters,
             status:filters.status?[filters.status]:['0','1','2','3','4'],
-        })
+        }
+        setQueryParams(queryParams)
+        const config = orderService.OrderList({},queryParams)
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
             return res.result
         }
         return null
     },[])
+
+    const onPrint = async() =>{
+        const config = orderService.OrderExport(queryParams)
+        const res = await request(config)
+        res.isSuccess && window.open(dev_url+res.result)
+    }
 
     const columns: any = [
         {
@@ -70,6 +79,7 @@ const OrderList: FC = () => {
         {
             title: t('COLOR'),
             dataIndex: "color",
+            render:(res:string)=>t(res)
         },
         {
             title: t('SIZE'),
@@ -132,6 +142,9 @@ const OrderList: FC = () => {
                 optList={options}
             />
             <ModifyStatus onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyStatus>
+            <div style={{padding:20}}>
+                <Button style={{marginRight:20}} onClick={onPrint}>{t("PRINT")}</Button>
+            </div>
         </section>
     );
 };

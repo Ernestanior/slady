@@ -49,6 +49,7 @@ const Slady: FC<IProps> = ({onRefresh,designId}) => {
         {
             dataIndex: "color",
             title: t("COLOR"),
+            render:(res:string)=>t(res)
         },
         {
             dataIndex: "size",

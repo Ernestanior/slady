@@ -111,7 +111,29 @@ const en_US = {
     SHOP:"Shop",
     SUPPLEMENT:"Supplement",
     OPERATION:"Operation",
-    PROFILE:"Profile"
+    PROFILE:"Profile",
+
+
+    //Color
+    White:"white",
+    Black:"black",
+    Charcoal:"charcoal",
+    Grey:"grey",
+    Beige:"beige",
+    Cream:"cream",
+    Yellow:"yellow",
+    Orange:"orange",
+    Peach:"peach",
+    Purple:"purple",
+    Brown:"brown",
+    Green:"green",
+    Mint:"mint",
+    Navy:"navy",
+    Blue:"blue",
+    Pink:"pink",
+    Mustard:"mustard",
+    Sky:"sky",
+    Red:"red",
 }
 
 export default en_US;
