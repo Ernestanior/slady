@@ -51,8 +51,11 @@ const zh_CN = {
     REMARK:"备注",
     CONFIRM:"确认",
     RETURN:"返回",
+    COVER:"封面",
+    DOWNLOAD:"下载",
     EDIT_ITEM:"修改商品",
     DELETE_ITEM:"删除商品",
+    IMAGE_VIEW:"查看图片",
     DESIGN_CODE:'设计编号',
     TOTAL_STOCK:'总库存',
     HOT:"热度",
@@ -112,6 +115,7 @@ const zh_CN = {
     SUPPLEMENT:"店补",
     OPERATION:"操作",
     PROFILE:"个人信息",
+    EDIT_IMAGE:"修改图片",
 
     //Color
     White:"白色",
@@ -133,5 +137,7 @@ const zh_CN = {
     Mustard:"芥末黄",
     Sky:"天空蓝",
     Red:"红色",
+    Silver:"银色",
+    Gold:"金色"
 }
 export default zh_CN;

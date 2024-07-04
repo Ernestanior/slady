@@ -14,7 +14,6 @@ const Import:FC = () => {
         })
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
-            console.log(res.result)
             const content=res?.result?.content.map((item)=> {
                 return item.body?({...JSON.parse(item.body),...item}):item
             })

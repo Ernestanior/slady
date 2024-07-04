@@ -49,10 +49,7 @@ const Slady: FC<IProps> = ({onRefresh,designId}) => {
         {
             dataIndex: "color",
             title: t("COLOR"),
-            render:(res:string)=>{
-                console.log('red',res)
-                return t(res)
-            }
+            render:(res:string)=> t(res)
         },
         {
             dataIndex: "size",
@@ -73,6 +70,7 @@ const Slady: FC<IProps> = ({onRefresh,designId}) => {
                         setSelectedItem(data)
                         setEditStock(true)
                     },
+                    hide:()=>userInfo?.type===E_USER_TYPE.SALER
                 },
                 {
                     text: t("ORDER_FROM_SUPPLIER"),

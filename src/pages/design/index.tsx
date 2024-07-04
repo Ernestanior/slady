@@ -13,7 +13,7 @@ import Detail from "@/pages/design/detail";
 export const typeList:any[] = [{value:'',label:'ALL'}, {value:'DR',label:'DR连衣裙'},
     {value:'TB',label:'TB上衣'},{value:'SK',label:'SK半裙'},{value:'ST',label:'ST短裤'},{value:'PT',label:'PT裤子'},{value:'GO',label:'GO晚礼服'},
     {value:'JK',label:'JK外套'},{value:'JS',label:'JS连体裤'},{value:'BT',label:'BT皮带'},{value:'SH',label:'SH鞋子'},{value:'SE',label:'SE套装'},
-    {value:'SI',label:'SI真丝'},{value:'AC',label:'AC饰品'}]
+    {value:'SI',label:'SI真丝'},{value:'AC',label:'AC饰品'},{value:'BG',label:'BG包包'},{value:'SO',label:"SO特价"},{value:'XL',label:"XL加价大码"},]
 
 const DesignList: FC = () => {
     const [t]=useTranslation()
@@ -23,9 +23,11 @@ const DesignList: FC = () => {
     const [design,setDesign] = useState<string>('')
     const [page,setPage]=useState<number>(1)
     const [stopper,setStopper]=useState<boolean>(false)
-
+    const [reload,setReload]=useState<boolean>(false)
+    console.log('typeList',typeList)
     const [selectedId,setSelectedId]=useState<number>(0)
     const [currentPage,setCurrentPage]=useState<string>('list')
+
     // const goDetail=(id:string)=>{
     //     historyService.push(`/item/detail/${id}`)
     // }
@@ -47,7 +49,7 @@ const DesignList: FC = () => {
     //
     // },[type,design])
 
-    useEffect(()=>{
+    const queryData=(design:string,page:number)=>{
         const config = designService.DesignPage({}, {
             type,
             design,
@@ -70,6 +72,10 @@ const DesignList: FC = () => {
                 }
             }
         })
+    }
+
+    useEffect(()=>{
+        queryData(design,page)
     },[design,page])
 
     useEffect(()=>{
@@ -97,7 +103,7 @@ const DesignList: FC = () => {
                 }
             })
         }
-    },[type])
+    },[type,reload,])
     const loadData = ()=>{
         const config = designService.DesignPage({}, {
             type,
@@ -124,12 +130,12 @@ const DesignList: FC = () => {
     };
 
         return (currentPage==='detail'?
-            <Detail id={selectedId} onReturn={()=>setCurrentPage('list')} toImgView={()=>setCurrentPage('imgView')}/>
+            <Detail id={selectedId} onReturn={()=>{setCurrentPage('list');setReload(!reload)}} toImgView={()=>setCurrentPage('imgView')}/>
             :
             <section>
                         <section style={{marginBottom:10}}>
                             {typeList.map((item)=><>
-                                <Button type={type===item.id?'primary':'default'} style={{borderRadius:20,marginRight:5,marginBottom:5}} onClick={()=>setType(item.value)}>{item.label}</Button>
+                                <Button type={type===item.value?'primary':'default'} style={{borderRadius:20,marginRight:5,marginBottom:5}} onClick={()=>setType(item.value)}>{item.label}</Button>
                             </>)}
                         </section>
                         <section>
@@ -142,7 +148,7 @@ const DesignList: FC = () => {
                                     <div style={{width:"100%",display:"flex",padding:15,justifyContent:"space-between"}}>
                                         <div>
                                             <h3>{item.design}</h3>
-                                            <div style={{marginBottom:5}}>{t('STOCK')}：{item.totalStock || 0}</div>
+                                            <div style={{marginBottom:5}}>{t('STOCK')}：{item.stock || 0}</div>
                                             {t('PRICE')}：<span style={{color:"#fa9829"}}>{item.salePrice || 0}</span>
                                         </div>
                                         <div style={{cursor:"pointer",display:"flex",alignItems:"center",color:"#b67c39",fontSize:15,fontWeight:600}} onClick={()=>{setSelectedId(item.id);setCurrentPage('detail')}}>{t('DETAIL')}<RightOutlined /></div>

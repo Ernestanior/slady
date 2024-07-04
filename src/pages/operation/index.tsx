@@ -37,7 +37,10 @@ const OperationList:FC = () => {
     return <section>
          <Template
             columns={columns}
-            queryData={(data)=>accessLogService.FindAccessLog({},{...data})}
+            queryData={(data)=>{
+                console.log(data,'sdas')
+                return accessLogService.FindAccessLog({},{...data})
+            }}
             // queryDataFunction={queryData}
             rowKey="id"
         />

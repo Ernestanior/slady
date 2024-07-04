@@ -17,7 +17,7 @@ import {useTranslation} from "react-i18next";
 
 // export const typeList = [ 'DR', 'TB', 'SK', 'PT', 'GO', 'JK', 'JS', 'BT', 'SE', 'SI', 'AC', 'SH']
 // const color = ['灰色','橙色','黄色','绿色','蓝色','紫色','白色','粉色','米色','棕色','灰褐色','香槟色','深蓝色','天空色','芥末黄','薄荷绿','蜜桃色','奶油色','炭黑色']
-export const colorList = ['Grey','Red','Orange','Yellow','Green','Blue','Black','Stripes','Grid','Purple','White','Pink','Beige','Brown','Champagne','Navy','Sky','Mustard','Mint','Peach','Cream','Charcoal']
+export const colorList = ['Grey','Red','Orange','Yellow','Green','Blue','Black','Stripes','Grid','Purple','White','Pink','Beige','Brown','Champagne','Navy','Sky','Mustard','Mint','Peach','Cream','Charcoal','Silver','Gold']
 export const fabricList = ['Silk' ,'Polyester' ,'Lace'  , 'Chiffon', 'Cotton', 'Linen' , 'Tweed fabric' , 'Stretch fabrics', 'leather' , 'PVC']
 // const size = [{label:'XS',value:'XS'},{label:'S',value:'S'},{label:'M',value:'M'},{label:'L',value:'L'},{label:'XL',value:'XL'}]
 export const size = ['XXS','XS','S','M','L','XL','XXL','3XL','4XL','One Size']
@@ -25,6 +25,7 @@ let index=0
 const CreateItem: FC = () => {
     const [form] = useForm()
     const [imgList,setImgList] = useState<UploadFile[]>([])
+    const [imgCover,setImgCover] = useState<UploadFile[]>([])
     const [newColor, setNewColor] = useState(colorList);
     const [newFabric, setNewFabric] = useState(fabricList);
     const [color, setColor] = useState('');
@@ -56,21 +57,28 @@ const CreateItem: FC = () => {
         const itemForm:any = form.getFieldsValue()
 
         const fabric = itemForm.fabricList?.reduce((total:any,current:any)=>total+current.fabric+' '+(current.percent?': '+current.percent+"%\n":'\n'),'')
-        const formData = new FormData()
+        const imgFormData = new FormData()
+        const coverFormData = new FormData()
         const {design,type,color,size}=itemForm
-        if (!design || !type || !color || !size){
+        if (!design || !type || !color || !size || !imgList.length || !imgCover.length){
             notification.error({message:'请填写完整'})
             return
         }
         imgList.forEach(img => {
-            formData.append('files', img.originFileObj as RcFile);
+            imgFormData.append('files', img.originFileObj as RcFile);
         });
-        const upload_result = await request(itemService.FileUpload({}, formData as any));
+        imgCover.forEach(img => {
+            coverFormData.append('files', img.originFileObj as RcFile);
+        });
+        const upload_img_result = await request(itemService.FileUpload({}, imgFormData as any));
+        const upload_cover_result = await request(itemService.FileUpload({}, coverFormData as any));
 
-            let photos:string[]=[]
-            if(upload_result.isSuccess){
-                photos = upload_result.result as string[]
-                const design_result:any = await request(designService.DesignCreate({}, {...itemForm,fabric,photos}));
+        let photos:string[]=[]
+        let covers:string[]=[]
+            if(upload_img_result.isSuccess && upload_cover_result.isSuccess){
+                photos = upload_img_result.result as string[]
+                covers = upload_cover_result.result as string[]
+                const design_result:any = await request(designService.DesignCreate({}, {...itemForm,fabric,photos,previewPhoto:covers}));
                 if (design_result.isSuccess){
                     const item_result = await request(itemService.ItemCreate({}, {...itemForm,designId:design_result.result.id,warehouseName:[WAREHOUSE.SLADY,WAREHOUSE.SL]}));
                     notification.success({message:"Upload Success"})
@@ -173,7 +181,14 @@ const CreateItem: FC = () => {
                 <FormItem name="remark" label={t('REMARK')}>
                     <Input />
                 </FormItem>
-                <ImageUpload changePic={setImgList}></ImageUpload>
+                <div style={{display:"flex"}}>
+                    {t('COVER')}：
+                    <ImageUpload changePic={setImgCover} maxCount={1}></ImageUpload>
+                </div>
+                <div style={{display:"flex"}}>
+                    {t('IMAGE')}：
+                    <ImageUpload changePic={setImgList}></ImageUpload>
+                </div>
             </Form>
             <div>
                 <Button type="primary" style={{marginRight:20}} onClick={onFinish}>{t('CONFIRM')}</Button>

@@ -50,10 +50,13 @@ const en_US = {
     PURCHASE_PRICE:"Purchase Price",
     SALE_PRICE:"Sale Price",
     REMARK:"Remark",
+    COVER:"Cover",
+    DOWNLOAD:"Download",
     CONFIRM:"Confirm",
     RETURN:"Return",
     EDIT_ITEM:"Modify Item",
     DELETE_ITEM:"Delete Item",
+    IMAGE_VIEW:"Image View",
     DESIGN_CODE:'Design Code',
     TOTAL_STOCK:'Total Stock',
     HOT:"Hot",
@@ -112,6 +115,7 @@ const en_US = {
     SUPPLEMENT:"Supplement",
     OPERATION:"Operation",
     PROFILE:"Profile",
+    EDIT_IMAGE:"Edit Image",
 
 
     //Color
@@ -134,6 +138,9 @@ const en_US = {
     Mustard:"mustard",
     Sky:"sky",
     Red:"red",
+    Silver:"silver",
+    Gold:"gold",
+
 }
 
 export default en_US;

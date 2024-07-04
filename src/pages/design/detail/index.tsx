@@ -6,7 +6,6 @@ import request, {dev_url} from "@/store/request";
 import Slady from "@/pages/design/detail/store/slady";
 import Sl from "@/pages/design/detail/store/sl";
 import {reqAndReload} from "@/common/utils";
-import historyService from "@/store/history";
 import msgModal from "@/store/message/service";
 import ModifyDesign from "@/pages/design/detail/modify";
 import {E_USER_TYPE} from "@/store/account/interface";
@@ -50,7 +49,11 @@ const Detail: FC<IProps> = ({id,onReturn}) => {
             onOk: () => {
                 if (id){
                     const config = designService.DesignDelete({},[id])
-                    reqAndReload(config,()=>historyService.goBack())
+                    reqAndReload(config,()=>{
+                        // historyService.goBack()
+                        onReturn()
+
+                    })
                 }
             }
         }
@@ -61,13 +64,14 @@ const Detail: FC<IProps> = ({id,onReturn}) => {
     //     // data?.photos && historyService.push({pathname:`/item/images/${id}`,search:`forderPath=${data.photos}`})
     // }
     if(currentPage==="imgView"){
-        return <ImgView onReturn={()=>setCurrentPage('detail')} id={id} folderPath={data.photos}/>
+        return <ImgView onReturn={()=>{getDetail();setCurrentPage('detail')}} id={id} folderPath={data.photos} coverPath={data?.previewPhoto}/>
     }
     return (
         <section>
-            <div style={{marginBottom:10,cursor:"pointer",color:"#ee8d20",}} onClick={onReturn}><LeftOutlined />返回</div>
+            <div style={{marginBottom:10,cursor:"pointer",color:"#ee8d20",}} onClick={onReturn}><LeftOutlined />{t('RETURN')}</div>
             {userInfo?.type!==E_USER_TYPE.SALER && <div style={{marginBottom:20}}>
-                <Button onClick={()=>setEditFlag(true)}>{t('EDIT')}</Button>
+                <Button onClick={()=>setCurrentPage('imgView')}>{t('IMAGE_VIEW')}</Button>
+                <Button style={{marginLeft:20}} onClick={()=>setEditFlag(true)}>{t('EDIT')}</Button>
                 <Button style={{marginLeft:20,color:"red"}} onClick={deleteDesign}>{t('DELETE_ITEM')}</Button>
             </div>}
             <section style={{display:"flex"}}>

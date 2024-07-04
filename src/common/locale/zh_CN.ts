@@ -169,7 +169,7 @@ const zh_CN = {
   PLUS_DISCRIPTION:'当前套餐享有以下权利',
   AVAIL_TOKEN:'可使用渲染次数',
   EXPIRE_DATE:'到期时间',
-  CANCEL_RENDER:'渲染进行中, 如果您选择取消, 当前渲染的次数不会返还, 会依然扣除。您确定要继续执行取消操作吗？'
-
+  CANCEL_RENDER:'渲染进行中, 如果您选择取消, 当前渲染的次数不会返还, 会依然扣除。您确定要继续执行取消操作吗？',
+  EDIT_IMAGE:"修改图片"
 };
 export default zh_CN;

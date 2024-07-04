@@ -6,7 +6,9 @@ import {RcFile} from "antd/lib/upload";
 import {useTranslation} from "react-i18next";
 
 interface IProps{
-    changePic:(e:any)=>void
+    changePic:(e:any)=>void,
+    maxCount?:number,
+    originalList?:any[]
 }
 const getBase64 = (file: RcFile): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -15,7 +17,7 @@ const getBase64 = (file: RcFile): Promise<string> =>
         reader.onload = () => resolve(reader.result as string);
         reader.onerror = (error) => reject(error);
     });
-const CreateItem: FC<IProps> = ({changePic}) => {
+const ImageUpload: FC<IProps> = ({changePic,originalList=[],maxCount=0}) => {
     const [t]=useTranslation()
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
@@ -52,10 +54,10 @@ const CreateItem: FC<IProps> = ({changePic}) => {
             <Upload
                 listType="picture-card"
                 // action="gg"
-                fileList={fileList}
+                fileList={originalList.length?originalList:fileList}
                 onPreview={handlePreview}
                 onChange={handleChange}
-                maxCount={8}
+                maxCount={maxCount || 8}
                 multiple
                 beforeUpload={()=>false}
             >
@@ -68,5 +70,5 @@ const CreateItem: FC<IProps> = ({changePic}) => {
     );
 };
 
-export default CreateItem;
+export default ImageUpload;
 

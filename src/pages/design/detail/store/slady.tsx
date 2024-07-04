@@ -70,6 +70,7 @@ const Slady: FC<IProps> = ({onRefresh,designId}) => {
                         setSelectedItem(data)
                         setEditStock(true)
                     },
+                    hide:()=>userInfo?.type===E_USER_TYPE.SALER
                 },
                 {
                     text: t("ORDER_FROM_SUPPLIER"),
