@@ -7,10 +7,12 @@ import ConfirmInfo from "@/common/confirm";
 import UserPopover from "@/pages/userInfo/popover";
 import IconFont from "@/common/icon";
 import useStore from "@/store/store";
+import {useTranslation} from "react-i18next";
 
 const HeaderPlx:FC = () => {
     const {language,setLanguage}=useStore()
-    console.log(language)
+    const [t]=useTranslation()
+
     return <nav className='comp-header'>
         <Row align="middle">
             <Col flex={1}>
@@ -29,7 +31,7 @@ const HeaderPlx:FC = () => {
                     {/*    type="icon-customer-bussinessman"*/}
                     {/*/>*/}
                     <UserPopover />
-                    <ConfirmInfo info="Confirm logout?" submit={() => { accountService.autoLogout() }}>
+                    <ConfirmInfo info={t('CONFIRM_LOGOUT')} submit={() => { accountService.autoLogout() }}>
                         <IconFont type="icon-shut-down" style={{fontSize:24}}/>
                     </ConfirmInfo>
                 </Space>

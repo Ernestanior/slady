@@ -177,7 +177,8 @@ const en_US = {
   PLUS_DISCRIPTION:'Congratulations on obtaining the following rights',
   AVAIL_TOKEN:'Available Rendering Token',
   CANCEL_RENDER:'Rendering in progress. If you choose to cancel, the current rendering count will not be refunded and will still be deducted. Do you still want to cancel?',
-  EDIT_IMAGE:"Edit Image"
+  EDIT_IMAGE:"Edit Image",
+  CONFIRM_LOGOUT:'Confirm logout?',
 
 };
 export default en_US;

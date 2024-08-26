@@ -80,7 +80,7 @@ const CreateItem: FC = () => {
                 covers = upload_cover_result.result as string[]
                 const design_result:any = await request(designService.DesignCreate({}, {...itemForm,fabric,photos,previewPhoto:covers}));
                 if (design_result.isSuccess){
-                    const item_result = await request(itemService.ItemCreate({}, {...itemForm,designId:design_result.result.id,warehouseName:[WAREHOUSE.SLADY,WAREHOUSE.SL]}));
+                    const item_result = await request(itemService.ItemCreate({}, {...itemForm,designId:design_result.result.id,warehouseName:[WAREHOUSE.SLADY,WAREHOUSE.SL,WAREHOUSE.LIVE]}));
                     notification.success({message:"Upload Success"})
                     if(item_result.isSuccess)
                         historyService.replace('/item')

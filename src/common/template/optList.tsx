@@ -6,7 +6,6 @@ import { XOR } from "ts-xor";
 import { IOperation, IColumnsTypeP, IOperationConfig } from "./interface";
 // import {DownOutlined} from "@ant-design/icons";
 import {ItemType} from "antd/lib/menu/hooks/useItems";
-import isMobile from "@/app/isMobile";
 import './index.less'
 import {EllipsisOutlined} from "@ant-design/icons";
 /**
@@ -28,7 +27,7 @@ export const createOptList = (
         : "dropDown";
     const config: IColumnsTypeP = {
       key: "tb_action",
-      width: isMobile?100:120,
+      width: 100,
       fixed: "right",
       onCell() {
         return {

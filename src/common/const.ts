@@ -12,6 +12,8 @@ export const E_L_CUSTOMER_TYPE = [
 export enum WAREHOUSE{
     SLADY='Slady一店',
     SL='SL二店',
+
+    LIVE='Live直播间'
 }
 
 

@@ -13,6 +13,7 @@ import useAccountInfo from "@/store/account";
 import {useTranslation} from "react-i18next";
 import {LeftOutlined} from "@ant-design/icons";
 import ImgView from "@/pages/design/imgView";
+import Live from "@/pages/design/detail/store/live";
 
 interface IProps{
     id:number;
@@ -143,9 +144,12 @@ const Detail: FC<IProps> = ({id,onReturn}) => {
             {/*        <Sl onRefresh={getDetail}></Sl>*/}
             {/*    </TabPane>*/}
             {/*</Tabs>*/}
-            <div style={{display:"flex",justifyContent:"space-around",paddingTop:20}}>
+            <div style={{display:"flex",justifyContent:"space-between",padding:20}}>
                 <Slady onRefresh={getDetail} designId={id}></Slady>
                 <Sl onRefresh={getDetail} designId={id}></Sl>
+            </div>
+            <div style={{display:"flex",justifyContent:"flex-start"}}>
+                <Live onRefresh={getDetail} designId={id}></Live>
             </div>
 
             <ModifyDesign onOk={()=>setEditFlag(false)} visible={editFlag} data={data}></ModifyDesign>

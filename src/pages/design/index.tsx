@@ -14,7 +14,7 @@ import Detail from "@/pages/design/detail";
 export const typeList:any[] = [{value:'',label:'ALL'}, {value:'DR',label:'DR连衣裙'},
     {value:'TB',label:'TB上衣'},{value:'SK',label:'SK半裙'},{value:'ST',label:'ST短裤'},{value:'PT',label:'PT裤子'},{value:'GO',label:'GO晚礼服'},
     {value:'JK',label:'JK外套'},{value:'JS',label:'JS连体裤'},{value:'BT',label:'BT皮带'},{value:'SH',label:'SH鞋子'},{value:'SE',label:'SE套装'},
-    {value:'SI',label:'SI真丝'},{value:'AC',label:'AC饰品'},{value:'BG',label:'BG包包'},{value:'SO',label:"SO特价"},{value:'XL',label:"XL加价大码"},]
+    {value:'SI',label:'SI真丝'},{value:'AC',label:'AC饰品'},{value:'BG',label:'BG包包'},{value:'CDJ',label:'CDJ穿戴甲'},{value:'SO',label:"SO特价"},{value:'XL',label:"XL加价大码"},]
 
 const DesignList: FC = () => {
     const [t]=useTranslation()
@@ -50,8 +50,6 @@ const DesignList: FC = () => {
     // },[type,design])
 
     const queryData=(page:number)=>{
-
-
         const config = designService.DesignPage({}, {
             type,
             design,
