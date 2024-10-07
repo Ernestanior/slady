@@ -17,7 +17,7 @@ interface IProps{
     designId:any;
 }
 let index=0
-const warehouse = [WAREHOUSE.SLADY,WAREHOUSE.SL]
+const warehouse = [WAREHOUSE.SLADY,WAREHOUSE.SL,WAREHOUSE.LIVE]
 const CreateItem:FC<IProps> = ({onOk,visible,designId}) => {
     const [t]=useTranslation()
     const [form] = useForm()

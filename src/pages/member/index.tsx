@@ -4,7 +4,7 @@ import {accessLogService} from "@/store/apis/log";
 import moment from "moment";
 import {useTranslation} from "react-i18next";
 
-const OperationList:FC = () => {
+const MemberList:FC = () => {
     const [t]=useTranslation()
     // const operateMap:any = {
     //     "/user/create":t('CREATE_ACCOUNT')
@@ -43,7 +43,7 @@ const OperationList:FC = () => {
     </section>
 }
 
-export default OperationList
+export default MemberList
 
 
 

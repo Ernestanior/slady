@@ -116,6 +116,8 @@ const zh_CN = {
     OPERATION:"操作",
     PROFILE:"个人信息",
     EDIT_IMAGE:"修改图片",
+    MEMBER:"会员",
+
 
     //Color
     White:"白色",

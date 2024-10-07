@@ -67,6 +67,12 @@ const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
         text: "OPERATION_RECORD",
         role:[E_USER_TYPE.ADMIN]
     },
+    {
+        url: "/member",
+        icon:"icon-customer",
+        text: "MEMBER",
+        role:[E_USER_TYPE.ADMIN]
+    },
 ]
 
 export default menuList;

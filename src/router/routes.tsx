@@ -14,6 +14,7 @@ import Rank from "@/pages/rank";
 import StorageRecord from "@/pages/storage";
 import CreateItem from "@/pages/design/create";
 import useAccountInfo from "@/store/account";
+import MemberList from "@/pages/member";
 import {E_USER_TYPE} from "@/store/account/interface";
 
 /**
@@ -67,7 +68,7 @@ const ModuleRouter:FC = () => {
                         <StorageRecord />
                     </Route>
                     <Route path="/operate">
-                        <OperationList />
+                        <MemberList />
                     </Route>
                     <Redirect to="/item" />
                 </Switch>
@@ -161,6 +162,9 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/operate">
                     <OperationList />
+                </Route>
+                <Route path="/member">
+                    <MemberList />
                 </Route>
                 <Route path="/profile">
                     <Profile />

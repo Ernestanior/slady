@@ -116,6 +116,7 @@ const en_US = {
     OPERATION:"Operation",
     PROFILE:"Profile",
     EDIT_IMAGE:"Edit Image",
+    MEMBER:"Member",
 
 
     //Color

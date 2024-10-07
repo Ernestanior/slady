@@ -247,7 +247,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
                 desc: st.order === "ascend" ? 0 : 1,
                 page: searchPageOld.page,
                 pageSize: searchPageOld.pageSize,
-                sort: !!st.order ? st.field || "" : "",
+                sort: !!st.order ? st.field || "" : "create_date",
             };
             submit("searchPage", searchPage);
         },
