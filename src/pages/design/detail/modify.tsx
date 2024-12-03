@@ -23,7 +23,7 @@ const ModifyDesign:FC<IProps> = ({onOk,visible,data}) => {
     const onFinish =async ()=>{
         const formData = form.getFieldsValue()
         console.log({...formData,id:data.id})
-        const config = designService.DesignModify({}, {...formData,id:data.id})
+        const config = designService.DesignModify({}, {...formData,type:formData.type.join(','),id:data.id})
         setLoading(true)
         const res = await request(config)
         setLoading(false)
@@ -32,7 +32,7 @@ const ModifyDesign:FC<IProps> = ({onOk,visible,data}) => {
         }
     }
     useEffect(()=>{
-        data && form.setFieldsValue(data)
+        data && form.setFieldsValue({...data,type:data.type.split(',')})
     },[form,data])
     return <Modal
         confirmLoading={loading}
@@ -49,7 +49,7 @@ const ModifyDesign:FC<IProps> = ({onOk,visible,data}) => {
                 <Input />
             </FormItem>
             <FormItem name="type" label={t('TYPE')}>
-                <Select options={typeList}/>
+                <Select options={typeList} mode="multiple"/>
             </FormItem>
             <FormItem name="purchasePrice" label={t('PURCHASE_PRICE')}>
                 <Input />

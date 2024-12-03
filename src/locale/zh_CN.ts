@@ -5,6 +5,11 @@ const zh_CN = {
     LOGISTICS:"韩国物流",
     FINANCE:"财务",
     PRODUCTMANAGEMENT:"产品管理",
+    PHONE: '电话',
+    DATE:'日期',
+    VOUCHER_NUMBER:'会员编号',
+    MEMBER_PACKAGE_TOTAL_AMOUNT:'会员配套总额',
+    PURCHASE_RECORD:"购买记录",
     NAME:"名字",
     STAFF_MANAGEMENT:"员工管理",
     ITEM:"商品",
@@ -97,6 +102,8 @@ const zh_CN = {
     PENDING_DATE:"待定日期",
     PENDING:"待定",
     CANCEL_ORDER:"取消订单",
+    MODIFY_ORDER:"修改订单",
+    DELETE_ORDER:"删除订单",
     CONFIRM_CANCEL:"确定取消",
     MODIFY_STATUS:"修改状态",
     REQUEST_CANCEL_ORDER:"请求取消订单",
@@ -117,7 +124,10 @@ const zh_CN = {
     PROFILE:"个人信息",
     EDIT_IMAGE:"修改图片",
     MEMBER:"会员",
-
+    ITEM_PRICE:'产品价格',
+    TOTAL_AMOUNT:'价格总额',
+    MEMBER_REMAINING_AMOUNT:'会员配套剩余数额',
+    TOP_UP:"充值",
 
     //Color
     White:"白色",

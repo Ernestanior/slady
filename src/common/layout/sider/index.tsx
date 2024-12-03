@@ -33,7 +33,7 @@ const Side:FC = () => {
         const keys: string[] =[]
         _menuList.forEach(menu => {
             if(menu.childs){
-                menu.childs.forEach(subMenu => {
+                menu.childs.forEach((subMenu:any) => {
                     if(url.indexOf(subMenu.url) === 0){
                         keys.push(subMenu.url)
                     }
@@ -54,7 +54,7 @@ const Side:FC = () => {
                     if(menu.childs){
                         return <SubMenu key={menu.text} title={t(menu.text)} style={{margin:"15px 0"}} icon={<IconFont type={menu.icon} style={{fontSize:24}}/>}>
                             {
-                                menu.childs.map(subMenu => {
+                                menu.childs.map((subMenu:any) => {
                                     return <Menu.Item key={subMenu.url} >
                                         <Link to={subMenu.url}>
                                             {t(subMenu.text)}

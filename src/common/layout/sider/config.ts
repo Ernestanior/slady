@@ -17,7 +17,7 @@ interface IMultipleMenu extends IRoleLimitModule{
 
 
 
-const menuList: Array<XOR<IMenu, IMultipleMenu>> = [
+const menuList: any[] = [
     {
         url: '/staff',
         text: "STAFF_MANAGEMENT",

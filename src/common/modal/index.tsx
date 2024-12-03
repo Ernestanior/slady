@@ -27,7 +27,7 @@ const ModalX:FC = () => {
             visible={visible}
             onCancel={value.onCancel || defaultCancel}
             onOk={onOk}
-            okText={value.okText || t('SAVE')}
+            okText={value.okText || t('CONFIRM')}
             cancelText={value.cancelText || t('CANCEL')}
             zIndex={7000}
             width={value.width || 600}

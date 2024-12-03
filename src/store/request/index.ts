@@ -6,9 +6,8 @@ import accountService from "@/store/account/service";
 
 const requestPlx = new RequestPlx();
 
-// const dev_url = 'https://stg-media-web.k4t8q.com';
+// export const dev_url = 'http://10.10.20.51:10000';
 export const dev_url = 'http://119.28.104.20';
-// export const dev_url = 'http://10.10.20.11:10000';
 
 // add dev server url
 requestPlx.middleware_before.use(async (config, next) => {

@@ -15,44 +15,44 @@ interface IProps{
     onClose:()=>void;
 }
 const Side:FC<IProps> = ({onClose}) => {
-    const info = useAccountInfo();
-    const _menuList = useMemo(() => {
-        return menuList.filter(menu => {
-            if(menu.role){
-                if(!info){
-                    return false
-                }
-                return menu.role.includes(info.type)
-            }
-            return true
-        })
-    }, [info])
+    // const info = useAccountInfo();
+    // const _menuList = useMemo(() => {
+    //     return menuList.filter(menu => {
+    //         if(menu.role){
+    //             if(!info){
+    //                 return false
+    //             }
+    //             return menu.role.includes(info.type)
+    //         }
+    //         return true
+    //     })
+    // }, [info])
 
-    const location = useLocation();
-    const url = location.pathname;
+    // const location = useLocation();
+    // const url = location.pathname;
 
-    const selectKeys = useMemo(() => {
-        const keys: string[] =[]
-        _menuList.forEach(menu => {
-            if(menu.childs){
-                menu.childs.forEach(subMenu => {
-                    if(url.indexOf(subMenu.url) === 0){
-                        keys.push(subMenu.url)
-                    }
-                })
-                return;
-            }
-            if(url.indexOf(menu.url) === 0){
-                keys.push(menu.url)
-            }
-        })
-        return keys
-    }, [url, _menuList])
+    // const selectKeys = useMemo(() => {
+    //     const keys: string[] =[]
+    //     _menuList.forEach(menu => {
+    //         if(menu.childs){
+    //             menu.childs.forEach(subMenu => {
+    //                 if(url.indexOf(subMenu.url) === 0){
+    //                     keys.push(subMenu.url)
+    //                 }
+    //             })
+    //             return;
+    //         }
+    //         if(url.indexOf(menu.url) === 0){
+    //             keys.push(menu.url)
+    //         }
+    //     })
+    //     return keys
+    // }, [url, _menuList])
 
     return <div className="mobile-nav">
         <section className="mobile-nav-body">
             <img className="logo" src={Logo} alt="logo" />
-            <Menu selectedKeys={selectKeys} className="mobile-menu-list" mode="inline">
+            {/* <Menu selectedKeys={selectKeys} className="mobile-menu-list" mode="inline">
                 {
                     _menuList.map(menu => {
                         if(menu.childs){
@@ -75,7 +75,7 @@ const Side:FC<IProps> = ({onClose}) => {
                         </Menu.Item>
                     })
                 }
-            </Menu>
+            </Menu> */}
         </section>
         <section className="logout" onClick={()=>accountService.autoLogout()}>
             <IconFont type="iconicon" style={{color:"#223046",fontSize:36}}/>退出

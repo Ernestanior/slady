@@ -13,18 +13,31 @@ import Query from "@/pages/order/singapore/query";
 import {handleDatetime} from "@/common/utilsx";
 import {useTranslation} from "react-i18next";
 import {Button} from "antd";
+import useAccountInfo from "@/store/account";
+import ModifyStatus from "./modify";
 
 const OrderList: FC = () => {
     const [t]=useTranslation()
     const [queryParams,setQueryParams]=useState<any>({})
-
+    const info:any = useAccountInfo();
+    const [selectData,setSelectData] = useState<any>()
+    const [editFlag,setEditFlag]=useState<boolean>(false)
+    
     const options: IOperationConfig = useMemo(() => [
             {
-                text: t("CANCEL_ORDER"),
-                hide: (data) => data.status,
+                text: t('MODIFY_ORDER'),
+                hide: ()=>info.type!=='ADMIN',
+                event(data) {
+                    setSelectData(data)
+                    setEditFlag(true)
+                },
+            },
+            {
+                text: t("DELETE_ORDER"),
+                hide: ()=>info.type!=='ADMIN',
                 event(data) {
                     const value = {
-                        title: t("CANCEL_ORDER"),
+                        title: t("DELETE_ORDER"),
                         content: `${t("CONFIRM")}${t("CANCEL_ORDER")}: ${data.design} ？`,
                         onOk: () => {
                             const config = orderService.OrderDelete({}, [data.id]);
@@ -191,6 +204,7 @@ const OrderList: FC = () => {
                 rowKey="id"
                 optList={options}
             />
+            <ModifyStatus onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyStatus>
             <div style={{padding:20}}>
                 <Button style={{marginRight:20}} onClick={onPrint}>{t("PRINT")}</Button>
             </div>

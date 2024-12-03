@@ -1,0 +1,93 @@
+{
+  "id": "4129289",
+  "name": "slady",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6162487",
+      "name": "奖杯5-1",
+      "font_class": "jiangbei-",
+      "unicode": "e6b3",
+      "unicode_decimal": 59059
+    },
+    {
+      "icon_id": "6162490",
+      "name": "奖杯5-2",
+      "font_class": "jiangbei-1",
+      "unicode": "e6b4",
+      "unicode_decimal": 59060
+    },
+    {
+      "icon_id": "6162493",
+      "name": "奖杯5-3",
+      "font_class": "jiangbei-2",
+      "unicode": "e6b5",
+      "unicode_decimal": 59061
+    },
+    {
+      "icon_id": "34452808",
+      "name": "customer-bussinessman",
+      "font_class": "customer-bussinessman",
+      "unicode": "e827",
+      "unicode_decimal": 59431
+    },
+    {
+      "icon_id": "34453277",
+      "name": "shut-down",
+      "font_class": "shut-down",
+      "unicode": "e86a",
+      "unicode_decimal": 59498
+    },
+    {
+      "icon_id": "34452831",
+      "name": "customer",
+      "font_class": "customer",
+      "unicode": "e829",
+      "unicode_decimal": 59433
+    },
+    {
+      "icon_id": "34452925",
+      "name": "order",
+      "font_class": "order",
+      "unicode": "e833",
+      "unicode_decimal": 59443
+    },
+    {
+      "icon_id": "34452964",
+      "name": "bad",
+      "font_class": "bad",
+      "unicode": "e838",
+      "unicode_decimal": 59448
+    },
+    {
+      "icon_id": "34452966",
+      "name": "cry",
+      "font_class": "cry",
+      "unicode": "e839",
+      "unicode_decimal": 59449
+    },
+    {
+      "icon_id": "34453273",
+      "name": "shopping",
+      "font_class": "shopping",
+      "unicode": "e869",
+      "unicode_decimal": 59497
+    },
+    {
+      "icon_id": "34453301",
+      "name": "top-raning",
+      "font_class": "top-raning",
+      "unicode": "e86f",
+      "unicode_decimal": 59503
+    },
+    {
+      "icon_id": "34453317",
+      "name": "writing",
+      "font_class": "writing",
+      "unicode": "e875",
+      "unicode_decimal": 59509
+    }
+  ]
+}

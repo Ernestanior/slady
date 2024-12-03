@@ -5,7 +5,7 @@ import {useTranslation} from "react-i18next";
 
 const UserInfo:FC = () => {
     const {t}=useTranslation()
-    const userInfo = useAccountInfo();
+    const userInfo:any = useAccountInfo();
     return <section style={{ width: 450, padding: 15 }}>
         <h3 style={{fontWeight:650}}>
             {t('PROFILE')}
@@ -30,18 +30,6 @@ const UserInfo:FC = () => {
             </Col>
         </Row>
         <Divider />
-
-        {/*<Row gutter={[15, 15]}>*/}
-        {/*    <Col span={8}>*/}
-        {/*        <ModifyPassword />*/}
-        {/*    </Col>*/}
-        {/*    <Col span={8}>*/}
-        {/*        <Safety />*/}
-        {/*    </Col>*/}
-        {/*    <Col span={8}>*/}
-        {/*        <FA2 />*/}
-        {/*    </Col>*/}
-        {/*</Row>*/}
     </section>
 }
 

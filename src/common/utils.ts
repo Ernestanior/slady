@@ -23,10 +23,10 @@ export const upperCasePlx = (value: string | number) =>
  * @param properties
  */
 export const compareA_B: <T>(
-    a: T,
-    b: T,
+    a: any,
+    b: any,
     properties?: Array<keyof T>
-) => boolean = <T>(a: T, b: T, properties?: Array<keyof T>) => {
+) => boolean = <T>(a: any, b: any, properties?: Array<keyof T>) => {
     if (a === b) {
         return true;
     }

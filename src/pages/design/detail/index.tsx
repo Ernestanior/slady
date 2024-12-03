@@ -152,7 +152,7 @@ const Detail: FC<IProps> = ({id,onReturn}) => {
                 <Live onRefresh={getDetail} designId={id}></Live>
             </div>
 
-            <ModifyDesign onOk={()=>setEditFlag(false)} visible={editFlag} data={data}></ModifyDesign>
+            <ModifyDesign onOk={()=>{setEditFlag(false);getDetail()}} visible={editFlag} data={data}></ModifyDesign>
 
         </section>
     );

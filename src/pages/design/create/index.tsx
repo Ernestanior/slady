@@ -14,6 +14,7 @@ import {WAREHOUSE} from "@/common/const";
 import {typeList} from "@/pages/design";
 import FormList from "antd/es/form/FormList";
 import {useTranslation} from "react-i18next";
+import { log } from "console";
 
 // export const typeList = [ 'DR', 'TB', 'SK', 'PT', 'GO', 'JK', 'JS', 'BT', 'SE', 'SI', 'AC', 'SH']
 // const color = ['灰色','橙色','黄色','绿色','蓝色','紫色','白色','粉色','米色','棕色','灰褐色','香槟色','深蓝色','天空色','芥末黄','薄荷绿','蜜桃色','奶油色','炭黑色']
@@ -60,10 +61,11 @@ const CreateItem: FC = () => {
         const imgFormData = new FormData()
         const coverFormData = new FormData()
         const {design,type,color,size}=itemForm
-        if (!design || !type || !color || !size || !imgList.length || !imgCover.length){
+        if (!design || !type.length || !color.length|| !size.length || !imgList.length || !imgCover.length){
             notification.error({message:'请填写完整'})
             return
         }
+        
         imgList.forEach(img => {
             imgFormData.append('files', img.originFileObj as RcFile);
         });
@@ -78,7 +80,7 @@ const CreateItem: FC = () => {
             if(upload_img_result.isSuccess && upload_cover_result.isSuccess){
                 photos = upload_img_result.result as string[]
                 covers = upload_cover_result.result as string[]
-                const design_result:any = await request(designService.DesignCreate({}, {...itemForm,fabric,photos,previewPhoto:covers}));
+                const design_result:any = await request(designService.DesignCreate({}, {...itemForm,type:type.join(','),fabric,photos,previewPhoto:covers}));
                 if (design_result.isSuccess){
                     const item_result = await request(itemService.ItemCreate({}, {...itemForm,designId:design_result.result.id,warehouseName:[WAREHOUSE.SLADY,WAREHOUSE.SL,WAREHOUSE.LIVE]}));
                     notification.success({message:"Upload Success"})
@@ -94,7 +96,7 @@ const CreateItem: FC = () => {
                     <Input />
                 </FormItem>
                 <FormItem name="type" label={t('TYPE')}>
-                    <Select options={typeList}/>
+                    <Select options={typeList} mode="multiple"/>
                 </FormItem>
                 <FormItem name="color" label={t('COLOR')}>
                     <Select
