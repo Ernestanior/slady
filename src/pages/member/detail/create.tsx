@@ -13,10 +13,10 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 interface IProps{
     visible:boolean;
     onOk:()=>void;
-    memberId:number;
+    data:any;
 }
 let index=0
-const CreateMemberRecord:FC<IProps> = ({onOk,visible,memberId}) => {
+const CreateMemberRecord:FC<IProps> = ({onOk,visible,data}) => {
     const [t]=useTranslation()
     const [form] = useForm()
     const [loading,setLoading] = useState<boolean>(false)
@@ -27,21 +27,40 @@ const CreateMemberRecord:FC<IProps> = ({onOk,visible,memberId}) => {
     }
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
-        const {designs,purchaseDate,remark,sum}=newData
+        const {designs,purchaseDate,remark}=newData
+
         
-        if (designs.length && purchaseDate && sum && remark){
-            setLoading(true)
-            const config = memberRecordService.MemberRecordCreate({},{...newData,memberId,purchaseDate:purchaseDate.format('YYYY-MM-DD')})
-            const res = await request(config)
-            setLoading(false)
-            if (res.isSuccess){
-                reloadMainList();
-                onOk()
+        if (designs.length){
+            let amount=0
+            designs.forEach((item:any) => {
+                if (item) {
+                    amount+=parseFloat(item.price)
+                }else{
+                    notification.error({message:t('PLEASE_COMPLETE')})
+                    return
+                }
+            });
+            if (amount>data.balance) {
+                notification.error({message:t('INSUFFICIENT_BALANCE')})
+                return
             }
-        }
-        else{
+            if (designs.length && purchaseDate && remark){
+                setLoading(true)
+                const config = memberRecordService.MemberRecordCreate({},{...newData,memberId:data.id,sum:amount.toFixed(2),purchaseDate:purchaseDate.format('YYYY-MM-DD')})
+                const res = await request(config)
+                setLoading(false)
+                if (res.isSuccess){
+                    reloadMainList();
+                    onOk()
+                }
+            }else{
+                notification.error({message:t('PLEASE_COMPLETE')})
+            }
+
+        } else{
             notification.error({message:t('PLEASE_COMPLETE')})
         }
+
     }
     return <Modal
         confirmLoading={loading}
@@ -77,7 +96,7 @@ const CreateMemberRecord:FC<IProps> = ({onOk,visible,memberId}) => {
                                     {...restField}
                                     name={[name, 'price']}
                                 >
-                                   <div style={{display:"flex",alignItems:"center"}}><Input placeholder={'Item Price产品价格'} min={0}/></div>
+                                   <div style={{display:"flex",alignItems:"center"}}><InputNumber placeholder={'Item Price产品价格'} min={0}/></div>
                                 </Form.Item>
                                 <MinusCircleOutlined onClick={() => remove(name)} style={{color:"red"}}/>
                             </Space>
@@ -85,10 +104,13 @@ const CreateMemberRecord:FC<IProps> = ({onOk,visible,memberId}) => {
 
                     </>)}
                 </FormList>
-            <Form.Item name="sum" label={<span className="login-label">{t('AMOUNT')}</span>}>
-                <InputNumber/>
+            <Form.Item name="saler" label={<span className="login-label">{t('SALER')}</span>}>
+                <Input />
             </Form.Item>
-            <Form.Item name="remark" label={<span className="login-label">{t('REMARK')}</span>}>
+            {/* <Form.Item name="sum" label={<span className="login-label">{t('AMOUNT')}</span>}>
+                <InputNumber/>
+            </Form.Item> */}
+            <Form.Item name="remark" label={<span className="login-label">{t('PAYMENT_DETAIL')}</span>}>
                 <Input/>
             </Form.Item>
         </Form>

@@ -27,12 +27,14 @@ const TopUpRecord:FC<IProps> = ({onOk,visible,data}) => {
     }
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
-        const {amount}=newData
+        const {amount,saler,remark}=newData
         
-        if (amount){
+        if (amount && saler && remark){
             setLoading(true)
-            const config = memberService.MemberModify({},{id:data.id,membershipPackageTotal:data.membershipPackageTotal+parseInt(amount),balance:data.balance+parseInt(amount)})
+            const config = memberService.MemberTopUp({},{id:data.id,saler,balance:parseInt(amount),remark})
+            
             const res = await request(config)
+
             setLoading(false)
             if (res.isSuccess){
                 reloadMainList();
@@ -57,7 +59,12 @@ const TopUpRecord:FC<IProps> = ({onOk,visible,data}) => {
             <Form.Item name="amount" label={<span className="login-label">{t('AMOUNT')}</span>}>
                 <InputNumber/>
             </Form.Item>
-
+            <Form.Item name="saler" label={<span className="login-label">{t('SALER')}</span>}>
+                <Input />
+            </Form.Item>
+            <Form.Item name="remark" label={<span className="login-label">{t('PAYMENT_DETAIL')}</span>}>
+                <Input />
+            </Form.Item>
         </Form>
     </Modal>
 }

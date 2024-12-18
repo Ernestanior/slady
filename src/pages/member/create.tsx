@@ -23,11 +23,11 @@ const CreateMember:FC<IProps> = ({onOk,visible}) => {
     }
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
-        const {name,phone,registrationDate,voucherNumber,balance,remark}=newData
+        const {name,phone,registrationDate,voucherNumber,remark}=newData
         
-        if (name && phone && registrationDate && voucherNumber && balance && remark){
+        if (name && phone && registrationDate && voucherNumber && remark){
             setLoading(true)
-            const config = memberService.MemberCreate({},{...newData,registrationDate:registrationDate.format('YYYY-MM-DD')})
+            const config = memberService.MemberCreate({},{...newData,registrationDate:registrationDate.format('YYYY-MM-DD'),balance:0,membershipPackageTotal:0})
             const res = await request(config)
             setLoading(false)
             if (res.isSuccess){
@@ -63,12 +63,15 @@ const CreateMember:FC<IProps> = ({onOk,visible}) => {
             <Form.Item name="voucherNumber" label={<span className="login-label">{t('VOUCHER_NUMBER')}</span>}>
                 <Input />
             </Form.Item>
-            <Form.Item name="balance" label={<span className="login-label">{t('MEMBER_REMAINING_AMOUNT')}</span>}>
+            <Form.Item name="saler" label={<span className="login-label">{t('SALER')}</span>}>
+                <Input />
+            </Form.Item>
+            {/* <Form.Item name="balance" label={<span className="login-label">{t('MEMBER_REMAINING_AMOUNT')}</span>}>
                 <InputNumber />
             </Form.Item>
             <Form.Item name="membershipPackageTotal" label={<span className="login-label">{t('MEMBER_PACKAGE_TOTAL_AMOUNT')}</span>}>
                 <InputNumber />
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item name="remark" label={<span className="login-label">{t('REMARK')}</span>}>
                 <Input />
             </Form.Item>

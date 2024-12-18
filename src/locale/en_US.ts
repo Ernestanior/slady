@@ -1,6 +1,6 @@
 const en_US = {
     ADMIN:"Admin",
-    SALER:"Sale",
+    SALER:"Saler",
     LOGISTICS:"Logistics",
     FINANCE:"Finance",
     PRODUCTMANAGEMENT:"Product Management",
@@ -128,6 +128,8 @@ const en_US = {
     TOTAL_AMOUNT:'Amount',
     MEMBER_REMAINING_AMOUNT:'Member Remianing Amount',
     TOP_UP:"Top Up",
+    PAYMENT_DETAIL:"Payment Detail",
+    INSUFFICIENT_BALANCE:'Insufficient balance, the amount spent on goods cannot exceed the available balance',
 
     //Color
     White:"white",

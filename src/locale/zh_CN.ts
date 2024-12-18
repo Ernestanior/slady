@@ -128,6 +128,8 @@ const zh_CN = {
     TOTAL_AMOUNT:'价格总额',
     MEMBER_REMAINING_AMOUNT:'会员配套剩余数额',
     TOP_UP:"充值",
+    PAYMENT_DETAIL:"付款信息",
+    INSUFFICIENT_BALANCE:"余额不足，商品消费额度不能超过余额",
 
     //Color
     White:"白色",

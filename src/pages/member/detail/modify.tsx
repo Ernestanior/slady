@@ -94,6 +94,9 @@ const ModifyMemberRecord:FC<IProps> = ({onOk,visible,data}) => {
 
                     </>)}
                 </FormList>
+            <Form.Item name="saler" label={<span className="login-label">{t('SALER')}</span>}>
+                <Input />
+            </Form.Item>
             <Form.Item name="sum" label={<span className="login-label">{t('AMOUNT')}</span>}>
                 <InputNumber/>
             </Form.Item>

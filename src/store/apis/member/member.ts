@@ -54,6 +54,16 @@ class MemberAPI {
         return config;
     }
 
-
+    MemberTopUp = (params: {}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/member/top-up',
+            method: 'put',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
 }
 export default MemberAPI;

@@ -52,6 +52,10 @@ const MemberDetail:FC<IProps>  = ({data,onReturn}) => {
             }
         },
         {
+            dataIndex: "saler",
+            title: t('SALER'),
+        },
+        {
             dataIndex: "sum",
             title: t('TOTAL_AMOUNT'),
         },
@@ -61,7 +65,7 @@ const MemberDetail:FC<IProps>  = ({data,onReturn}) => {
         },
         {
             dataIndex: "remark",
-            title: t('REMARK'),
+            title: t('PAYMENT_DETAIL'),
         },
     ]
     
@@ -101,6 +105,7 @@ const MemberDetail:FC<IProps>  = ({data,onReturn}) => {
             <Row><span className="member-detail-label">Date 日期： </span><span className="member-detail-value">{data.registrationDate}</span></Row>
             <Row><span className="member-detail-label">Voucher Number 编号：</span><span className="member-detail-value">{data.voucherNumber}</span></Row>
             <Row><span className="member-detail-label">Member Package Total Amount 会员配套总额：</span><span className="member-detail-value">{data.membershipPackageTotal}</span></Row>
+            {/* <Row><span className="member-detail-label">Member Remaining Amount 会员余额：</span><span className="member-detail-value">{data.balance}</span></Row> */}
             <Row><span className="member-detail-label">Remark 备注：</span><span className="member-detail-value">{data.remark}</span></Row>
         </div>
         <Template
@@ -110,8 +115,8 @@ const MemberDetail:FC<IProps>  = ({data,onReturn}) => {
             queryData={query=> memberRecordService.MemberRecordList({},{memberId:data.id,...query})}
             rowKey="id"
         />
-        <CreateMemberRecord onOk={()=>setCreateFlag(false)} visible={createFlag} memberId={data.id}></CreateMemberRecord>
-        <ModifyMemberRecord onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyMemberRecord>
+        <CreateMemberRecord onOk={()=>setCreateFlag(false)} visible={createFlag} data={data}></CreateMemberRecord>
+        <ModifyMemberRecord onOk={()=>{setEditFlag(false);}} visible={editFlag} data={selectData}></ModifyMemberRecord>
 
     </section>
 }

@@ -25,8 +25,8 @@ const ModifyMember:FC<IProps> = ({onOk,visible,data}) => {
     }
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
-        const {name,phone,registrationDate,voucherNumber,balance,remark}=newData
-        if (name && phone && registrationDate && voucherNumber && balance && remark){
+        const {name,phone,registrationDate,voucherNumber,remark}=newData
+        if (name && phone && registrationDate && voucherNumber && remark){
             setLoading(true)
             console.log({id:data.id,...newData,registrationDate:registrationDate.format('YYYY-MM-DD')},'newData');
 
@@ -69,12 +69,15 @@ const ModifyMember:FC<IProps> = ({onOk,visible,data}) => {
             <Form.Item name="voucherNumber" label={<span className="login-label">{t('VOUCHER_NUMBER')}</span>}>
                 <InputNumber />
             </Form.Item>
-            <Form.Item name="balance" label={<span className="login-label">{t('MEMBER_REMAINING_AMOUNT')}</span>}>
+            <Form.Item name="saler" label={<span className="login-label">{t('SALER')}</span>}>
+                <Input />
+            </Form.Item>
+            {/* <Form.Item name="balance" label={<span className="login-label">{t('MEMBER_REMAINING_AMOUNT')}</span>}>
                 <InputNumber />
             </Form.Item>
             <Form.Item name="membershipPackageTotal" label={<span className="login-label">{t('MEMBER_PACKAGE_TOTAL_AMOUNT')}</span>}>
                 <InputNumber />
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item name="remark" label={<span className="login-label">{t('REMARK')}</span>}>
                 <Input />
             </Form.Item>
