@@ -8,10 +8,13 @@ import { notification, Row } from "antd";
 import msgModal from "@/store/message/service";
 import { INormalEvent } from "@/common/interface";
 import CreateMemberRecord from "./create";
-import ModifyMemberRecord from "./modify";
+// import ModifyMemberRecord from "./modify";
 import { LeftOutlined } from "@ant-design/icons";
 
 import './index.less'
+import useAccountInfo from "@/store/account";
+import { E_USER_TYPE } from "@/store/account/interface";
+import RefundMemberRecord from "./refund";
 interface IProps{
     data:any;
     onReturn:()=>void;
@@ -21,8 +24,10 @@ const MemberDetail:FC<IProps>  = ({data,onReturn}) => {
       
     const {t}=useTranslation()
     const [createFlag,setCreateFlag]=useState<boolean>(false)
-    const [editFlag,setEditFlag]=useState<boolean>(false)
-    const [selectData,setSelectData] = useState<any>()
+    const [returnFlag,setReturnFlag]=useState<boolean>(false)
+    // const [editFlag,setEditFlag]=useState<boolean>(false)
+    // const [selectData,setSelectData] = useState<any>()
+    const userInfo = useAccountInfo()
 
     const buttons: INormalEvent[] = useMemo(() => {
         return [
@@ -31,6 +36,13 @@ const MemberDetail:FC<IProps>  = ({data,onReturn}) => {
                 primary: true,
                 event() {
                     setCreateFlag(true)
+                },
+            },
+            {
+                text: t("REFUND"),
+                primary: true,
+                event() {
+                    setReturnFlag(true)
                 },
             },
         ];
@@ -65,7 +77,7 @@ const MemberDetail:FC<IProps>  = ({data,onReturn}) => {
         },
         {
             dataIndex: "remark",
-            title: t('PAYMENT_DETAIL'),
+            title: `${t('PAYMENT_DETAIL')}/${t('REFUND_REASON')}`,
         },
     ]
     
@@ -110,13 +122,14 @@ const MemberDetail:FC<IProps>  = ({data,onReturn}) => {
         </div>
         <Template
             columns={columns}
-            optList={options}
+            optList={userInfo?.type===E_USER_TYPE.SALER?[]:options}
             event={buttons}
             queryData={query=> memberRecordService.MemberRecordList({},{memberId:data.id,...query})}
             rowKey="id"
         />
         <CreateMemberRecord onOk={()=>setCreateFlag(false)} visible={createFlag} data={data}></CreateMemberRecord>
-        <ModifyMemberRecord onOk={()=>{setEditFlag(false);}} visible={editFlag} data={selectData}></ModifyMemberRecord>
+        <RefundMemberRecord onOk={()=>setReturnFlag(false)} visible={returnFlag} data={data}></RefundMemberRecord>
+        {/* <ModifyMemberRecord onOk={()=>{setEditFlag(false);}} visible={editFlag} data={selectData}></ModifyMemberRecord> */}
 
     </section>
 }

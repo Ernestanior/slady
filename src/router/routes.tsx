@@ -70,6 +70,9 @@ const ModuleRouter:FC = () => {
                     <Route path="/operate">
                         <MemberList />
                     </Route>
+                    <Route path="/member">
+                        <MemberList />
+                    </Route>
                     <Redirect to="/item" />
                 </Switch>
             </LayoutPlx>

@@ -130,6 +130,8 @@ const en_US = {
     TOP_UP:"Top Up",
     PAYMENT_DETAIL:"Payment Detail",
     INSUFFICIENT_BALANCE:'Insufficient balance, the amount spent on goods cannot exceed the available balance',
+    REFUND:"Refund",
+    REFUND_REASON:"Refund Reason",
 
     //Color
     White:"white",

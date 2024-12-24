@@ -71,7 +71,7 @@ const menuList: any[] = [
         url: "/member",
         icon:"icon-customer",
         text: "MEMBER",
-        role:[E_USER_TYPE.ADMIN]
+        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
     },
 ]
 

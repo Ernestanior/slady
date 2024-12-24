@@ -13,6 +13,8 @@ import ModifyMember from "./modify";
 import MemberDetail from "./detail";
 import TopUpRecord from "./topup";
 import Query from "./query";
+import useAccountInfo from "@/store/account";
+import { E_USER_TYPE } from "@/store/account/interface";
 
 const OrderList: FC = () => {
     const [t]=useTranslation()
@@ -22,6 +24,7 @@ const OrderList: FC = () => {
     const [page,setPage]=useState<string>('list')
     const [reload,setReload]=useState<boolean>(false)
     const [topUpFlag,setTopUpFlag]=useState<boolean>(false)
+    const userInfo = useAccountInfo()
 
     const buttons: INormalEvent[] = useMemo(() => {
         return [
@@ -72,8 +75,6 @@ const OrderList: FC = () => {
                 {
                     text: t("EDIT"),
                     event(data) {
-                        console.log('ooo',data);
-                        
                         setSelectData(data)
                         setEditFlag(true)
                     },
@@ -86,6 +87,7 @@ const OrderList: FC = () => {
                     },
                 },
                 {
+                    hide: () => userInfo?.type ===E_USER_TYPE.SALER,
                     text:t("DELETE"),
                     event(data) {
                         const value = {

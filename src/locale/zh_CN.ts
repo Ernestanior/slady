@@ -130,6 +130,9 @@ const zh_CN = {
     TOP_UP:"充值",
     PAYMENT_DETAIL:"付款信息",
     INSUFFICIENT_BALANCE:"余额不足，商品消费额度不能超过余额",
+    REFUND:"退款",
+    REFUND_REASON:"退款原因",
+
 
     //Color
     White:"白色",
