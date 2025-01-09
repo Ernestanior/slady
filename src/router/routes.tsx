@@ -16,6 +16,7 @@ import CreateItem from "@/pages/design/create";
 import useAccountInfo from "@/store/account";
 import MemberList from "@/pages/member";
 import {E_USER_TYPE} from "@/store/account/interface";
+import MemberTopup from "@/pages/memberTopup";
 
 /**
  * 项目路由组件
@@ -72,6 +73,9 @@ const ModuleRouter:FC = () => {
                     </Route>
                     <Route path="/member">
                         <MemberList />
+                    </Route>
+                    <Route path="/memberTopup">
+                        <MemberTopup />
                     </Route>
                     <Redirect to="/item" />
                 </Switch>
@@ -165,6 +169,9 @@ const ModuleRouter:FC = () => {
                 </Route>
                 <Route path="/operate">
                     <OperationList />
+                </Route>
+                <Route path="/topupDetail">
+                    <MemberTopup />
                 </Route>
                 <Route path="/member">
                     <MemberList />

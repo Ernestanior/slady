@@ -73,6 +73,12 @@ const menuList: any[] = [
         text: "MEMBER",
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
     },
+    {
+        url: "/topupDetail",
+        icon:"icon-customer",
+        text: "MEMBER_TOP_UP",
+        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
+    },
 ]
 
 export default menuList;

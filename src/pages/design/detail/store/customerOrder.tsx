@@ -30,7 +30,6 @@ const CustomerOrder:FC<IProps> = ({onOk,visible,data}) => {
         const {amount,remark}=newData
         if (amount){
             setLoading(true)
-            await request(itemService.ItemModifyStock({id:data.id,stock:data.stock-amount},{}))
             const config = orderService.OrderCreate({},{itemId:data.id,amount,type:orderType.REPLENISH,remark,paymentStatus:-1,status:"0"})
             const res = await request(config)
             setLoading(false)

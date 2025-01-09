@@ -16,11 +16,12 @@ import Query from "./query";
 import useAccountInfo from "@/store/account";
 import { E_USER_TYPE } from "@/store/account/interface";
 
-const OrderList: FC = () => {
+const MemberList: FC = () => {
     const [t]=useTranslation()
     const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [selectData,setSelectData] = useState<any>()
+    const [selectId,setSelectId] = useState<number>(0)
     const [page,setPage]=useState<string>('list')
     const [reload,setReload]=useState<boolean>(false)
     const [topUpFlag,setTopUpFlag]=useState<boolean>(false)
@@ -67,8 +68,8 @@ const OrderList: FC = () => {
             [
                 {
                     text: t("PURCHASE_RECORD"),
-                    event: async (data)=> {
-                        await setSelectData(data)
+                    event: async (data)=> {                        
+                        await setSelectId(data.id)
                         setPage('detail')
                     },
                 },
@@ -104,15 +105,14 @@ const OrderList: FC = () => {
         ]
     }, [t])
     return (page==='detail'?
-        <MemberDetail data={selectData} onReturn={()=>{setPage('list');setReload(!reload)}}/>:
+        <MemberDetail id={selectId} onReturn={()=>{setPage('list');setReload(!reload)}}/>:
         <section>
-
             <Template
                 filter={<Query/>}
                 columns={columns}
                 optList={options}
                 event={buttons}
-                queryData={data=> memberService.MemberList({},{...data})}
+                queryData={()=> memberService.MemberList({},{searchPage:{desc: 1, page: 1, pageSize: 999, sort: 'voucherNumber'}})}
                 rowKey="id"/>
                 <CreateMember onOk={()=>setCreateFlag(false)} visible={createFlag}></CreateMember>
                 <ModifyMember onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyMember>
@@ -123,5 +123,5 @@ const OrderList: FC = () => {
 };
 
 
-export default OrderList;
+export default MemberList;
 

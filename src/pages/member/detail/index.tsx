@@ -1,7 +1,7 @@
-import  {FC, useMemo, useState} from "react";
+import  {FC, useCallback, useEffect, useMemo, useState} from "react";
 import Template from "@/common/template";
 import {useTranslation} from "react-i18next";
-import { memberRecordService } from "@/store/apis/member";
+import { memberRecordService, memberService } from "@/store/apis/member";
 import { IOperationConfig } from "@/common/template/interface";
 import { reqAndReload } from "@/common/utils";
 import { notification, Row } from "antd";
@@ -15,19 +15,31 @@ import './index.less'
 import useAccountInfo from "@/store/account";
 import { E_USER_TYPE } from "@/store/account/interface";
 import RefundMemberRecord from "./refund";
+import request from "@/store/request";
+import { from } from "rxjs";
 interface IProps{
-    data:any;
+    id:number;
     onReturn:()=>void;
 }
 
-const MemberDetail:FC<IProps>  = ({data,onReturn}) => {  
+const MemberDetail:FC<IProps>  = ({id,onReturn}) => {  
       
     const {t}=useTranslation()
+    const [data,setData]=useState<any>()
     const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [returnFlag,setReturnFlag]=useState<boolean>(false)
     // const [editFlag,setEditFlag]=useState<boolean>(false)
     // const [selectData,setSelectData] = useState<any>()
     const userInfo = useAccountInfo()
+
+    useEffect(()=>{        
+        reloadDetail(id)
+    },[id])
+
+    const reloadDetail = useCallback(async(id:number)=>{
+        const res = await request(memberService.MemberDetail({id},{}))
+        setData(res.result);            
+    },[id])
 
     const buttons: INormalEvent[] = useMemo(() => {
         return [
@@ -99,7 +111,10 @@ const MemberDetail:FC<IProps>  = ({data,onReturn}) => {
                             content: `${t("CONFIRM")}${t("DELETE")}: ${data.name} ？`,
                             onOk: () => {
                                 const config = memberRecordService.MemberRecordDelete({},[data.id])
-                                reqAndReload(config, () => notification.success({message: "Delete Success"}));
+                                reqAndReload(config, () => {
+                                    reloadDetail(id)
+                                    notification.success({message: "Delete Success"})
+                                });
                             }
                         }
                         msgModal.createEvent("modal", value)
@@ -112,19 +127,19 @@ const MemberDetail:FC<IProps>  = ({data,onReturn}) => {
             <div style={{marginBottom:10,cursor:"pointer",color:"#ee8d20",}} onClick={onReturn}><LeftOutlined />{t('RETURN')}</div>
          
         <div>
-            <Row><span className="member-detail-label">Name 贵名：</span><span className="member-detail-value">{data.name}</span></Row>
-            <Row><span className="member-detail-label">Phone 手机号码：</span><span className="member-detail-value">{data.phone}</span></Row>
-            <Row><span className="member-detail-label">Date 日期： </span><span className="member-detail-value">{data.registrationDate}</span></Row>
-            <Row><span className="member-detail-label">Voucher Number 编号：</span><span className="member-detail-value">{data.voucherNumber}</span></Row>
-            <Row><span className="member-detail-label">Member Package Total Amount 会员配套总额：</span><span className="member-detail-value">{data.membershipPackageTotal}</span></Row>
-            {/* <Row><span className="member-detail-label">Member Remaining Amount 会员余额：</span><span className="member-detail-value">{data.balance}</span></Row> */}
-            <Row><span className="member-detail-label">Remark 备注：</span><span className="member-detail-value">{data.remark}</span></Row>
+            <Row><span className="member-detail-label">Name 贵名：</span><span className="member-detail-value">{data?.name}</span></Row>
+            <Row><span className="member-detail-label">Phone 手机号码：</span><span className="member-detail-value">{data?.phone}</span></Row>
+            <Row><span className="member-detail-label">Date 日期： </span><span className="member-detail-value">{data?.registrationDate}</span></Row>
+            <Row><span className="member-detail-label">Voucher Number 编号：</span><span className="member-detail-value">{data?.voucherNumber}</span></Row>
+            <Row><span className="member-detail-label">Member Package Total Amount 会员配套总额：</span><span className="member-detail-value">{data?.membershipPackageTotal}</span></Row>
+            {/* <Row><span className="member-detail-label">Member Remaining Amount 会员余额：</span><span className="member-detail-value">{data?.balance}</span></Row> */}
+            <Row><span className="member-detail-label">Remark 备注：</span><span className="member-detail-value">{data?.remark}</span></Row>
         </div>
         <Template
             columns={columns}
             optList={userInfo?.type===E_USER_TYPE.SALER?[]:options}
             event={buttons}
-            queryData={query=> memberRecordService.MemberRecordList({},{memberId:data.id,...query})}
+            queryData={query=> memberRecordService.MemberRecordList({},{memberId:id,...query})}
             rowKey="id"
         />
         <CreateMemberRecord onOk={()=>setCreateFlag(false)} visible={createFlag} data={data}></CreateMemberRecord>

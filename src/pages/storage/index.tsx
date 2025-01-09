@@ -5,19 +5,31 @@ import request, {dev_url} from "@/store/request";
 import {IPageResult} from "@/store/apis/log/common.interface";
 import moment from "moment";
 import {useTranslation} from "react-i18next";
-const Import:FC = () => {
+import Query from "./query";
+import { handleDatetime } from "@/common/utilsx";
+
+const Index:FC = () => {
     const [t]=useTranslation()
     const query = useCallback(async(data)=>{
-        console.log('aad',data)
+
+        const {operateDate,...filters}=data
+        if (operateDate) {
+            const d: any[] = handleDatetime(data.operateDate);
+            filters.startDate = d[0]+" 00:00:00";
+            filters.endDate = d[1]+" 23:59:59";
+        }
+        const queryParams = {
+            ...filters,
+        }
         const config = accessLogService.FindAccessLog({},{
-            ...data,uri:"/item/modify-stock"
+            ...queryParams,uri:"/item/modify-stock"
         })
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
             const content=res?.result?.content.map((item)=> {
                 return item.body?({...JSON.parse(item.body),...item}):item
-            })
-            return ({...res.result,content}) as any
+            })            
+            return ({...{...res.result,content}}) as any
         }
         return null
     },[])
@@ -56,14 +68,19 @@ const Import:FC = () => {
             title: t("OPERATOR"),
         },
         {
-            dataIndex: "modifyDate",
+            dataIndex: "createDate",
             title: t("OPERATION_TIME"),
-            render:(value:any)=>moment(value).format("YYYY-MM-DD HH:mm:ss")
+            render:(value:any)=>{
+                console.log(value,moment(value).format("YYYY-MM-DD HH:mm:ss"),'oooo');
+                
+                return moment(value).format("YYYY-MM-DD HH:mm:ss")
+            }
         },
     ]
 
     return <section>
         <Template
+            filter={<Query/>}
             columns={columns}
             queryDataFunction={query}
             rowKey="id"
@@ -71,7 +88,7 @@ const Import:FC = () => {
     </section>
 }
 
-export default Import
+export default Index
 
 
 

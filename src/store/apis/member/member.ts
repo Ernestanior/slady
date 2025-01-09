@@ -20,6 +20,17 @@ class MemberAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
+    MemberDetail = (params: {}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/member/fetch-by-id',
+            method: 'get',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
     MemberModify= (params: {}, data:{} ) => {
         const config: AxiosRequestConfig = {
             url: '/member/modify',
