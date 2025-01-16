@@ -20,6 +20,17 @@ class OrderAPI {
         config.headers['Content-Type'] = 'application/json';
         return config;
     }
+    OrderPage = (params: {}, data: {}) => {
+        const config: AxiosRequestConfig = {
+            url: '/order/page',
+            method: 'post',
+            params,
+            data
+        };
+        config.headers = {};
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    }
     OrderModify= (params: {}, data:{} ) => {
         const config: AxiosRequestConfig = {
             url: '/order/modify',

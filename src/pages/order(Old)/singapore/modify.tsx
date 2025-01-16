@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useMemo, useState} from "react";
 import {Form, Input, InputNumber, Modal, notification, Select} from "antd";
 import {useForm} from "antd/es/form/Form";
-import {orderType} from "@/pages/order";
+import {orderType} from "../index";
 import {orderService} from "@/store/apis/order";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
@@ -62,8 +62,20 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
         width={600}
     >
         {data && <Form form={form} className="email-new">
+            <Form.Item name="color" label={<span className="login-label">{t("COLOR")}</span>}>
+                <SelectP data={colorList} />
+            </Form.Item>
              <Form.Item name="size" label={<span className="login-label">{t("SIZE")}</span>}>
                 <SelectP data={size} />
+            </Form.Item>
+            <Form.Item name="salePrice" label={<span className="login-label">{t("PRICE")}</span>}>
+                <Input></Input>
+            </Form.Item>
+             <Form.Item name="amount" label={<span className="login-label">{t("AMOUNT")}</span>}>
+                <InputNumber min={1}/>
+            </Form.Item>
+            <Form.Item name="remark" label={<span className="login-label">{t("REMARK")}</span>}>
+                <Input></Input>
             </Form.Item>
         </Form>}
     </Modal>

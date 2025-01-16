@@ -6,10 +6,10 @@ import {useTranslation} from "react-i18next";
 const Query=()=>{
     const [t]=useTranslation()
     return <>
-        <FormItem span={4} label={t("MEMBER_NAME")} name="name" >
+        <FormItem span={6} label={t("MEMBER_NAME")} name="memberName" >
             <Input/>
         </FormItem>
-        <FormItem span={4} label={t("VOUCHER_NUMBER")} name="voucherNumber">
+        <FormItem span={6} label={t("VOUCHER_NUMBER")} name="voucherNumber">
             <Input/>
         </FormItem>
 

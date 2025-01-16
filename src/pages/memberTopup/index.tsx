@@ -14,7 +14,7 @@ const MemberTopup: FC = () => {
             title: t('DATE'),
         },
         {
-            dataIndex: "name",
+            dataIndex: "memberName",
             title: t('MEMBER_NAME'),
         },
         {

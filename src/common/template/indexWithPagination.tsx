@@ -121,7 +121,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
                 searchPage: {
                     desc: 1,
                     page: 1,
-                    pageSize: 20,
+                    pageSize:20,
                     sort: "create_date",
                 },
                 filters: {},

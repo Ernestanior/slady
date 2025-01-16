@@ -3,7 +3,7 @@ import Template from "@/common/template";
 import {Button, Popconfirm} from "antd";
 import {IOperationConfig} from "@/common/template/interface";
 import {orderService} from "@/store/apis/order";
-import {areaType} from "@/pages/order";
+import {areaType} from "../index";
 import ModifyStatus from "./modify";
 import request, {dev_url} from "@/store/request";
 import {reqAndReload} from "@/common/utils";

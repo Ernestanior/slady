@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useMemo, useState} from "react";
-import Template from "@/common/template/indexWithPagination";
+import Template from "@/common/template";
 import {IOperationConfig} from "@/common/template/interface";
 import {orderService} from "@/store/apis/order";
 import {areaType, orderType} from "../index";
@@ -9,13 +9,12 @@ import moment from "moment";
 import request, {dev_url} from "@/store/request";
 import {WAREHOUSE} from "@/common/const";
 import {IPageResult} from "@/store/apis/log/common.interface";
-import Query from "@/pages/order/singapore/query";
+import Query from "./query";
 import {handleDatetime} from "@/common/utilsx";
 import {useTranslation} from "react-i18next";
 import {Button} from "antd";
 import useAccountInfo from "@/store/account";
 import ModifyStatus from "./modify";
-import Sent from "./sent";
 
 const OrderList: FC = () => {
     const [t]=useTranslation()
@@ -23,7 +22,6 @@ const OrderList: FC = () => {
     const info:any = useAccountInfo();
     const [selectData,setSelectData] = useState<any>()
     const [editFlag,setEditFlag]=useState<boolean>(false)
-    const [sentFlag,setSentFlag]=useState<boolean>(false)
     
     const options: IOperationConfig = useMemo(() => [
             {
@@ -50,73 +48,54 @@ const OrderList: FC = () => {
                 }
             },
             {
-                text: t("SENT"),
-                event(data) {
-                    setSelectData(data)
-                    setSentFlag(true)
-                }
-            },
-            {
-                text: t("OK"),
+                text: t("REQUEST_CANCEL_ORDER"),
+                hide: (data) => data.status !== orderType.PENDING,
                 event(data) {
                     const value = {
-                        title: t("OK"),
-                        content: `${t("CONFIRM")} ${t("OK")}: ${data.design} ？`,
-                        onOk: async() => {
-                            const config = orderService.OrderModify({}, {...data,status:"2",pendingDate:''});
-                            reqAndReload(config);
-                        }
-                    }
-                    msgModal.createEvent("modal", value)
-                }
-            },
-            {
-                text: t("OUT_OF_STOCK"),
-                event(data) {
-                    const value = {
-                        title: t("OUT_OF_STOCK"),
-                        content: `${t("CONFIRM")} ${t("OUT_OF_STOCK")}: ${data.design} ？`,
+                        title: t("REQUEST_CANCEL_ORDER"),
+                        content: `${t("CONFIRM")}${t("REQUEST_CANCEL_ORDER")}: ${data.design} ？`,
                         onOk: () => {
-                            const config = orderService.OrderModify({}, {...data,status:"3",pendingDate:''});
+                            console.log(data)
+                            const config = orderService.OrderModify({}, {...data,status:"4"});
                             reqAndReload(config);
                         }
                     }
                     msgModal.createEvent("modal", value)
                 }
             },
-    
-            {
-                text: t("DAMAGED"),
-                event(data) {
-                    const value = {
-                        title: t("DAMAGED"),
-                        content: `${t("CONFIRM")} ${t("DAMAGED")}: ${data.design} ？`,
-                        onOk: async() => {
-                            const config = orderService.OrderModify({}, {...data,status:"4",pendingDate:''});
-                            reqAndReload(config);
-                        }
+        {
+            text: t("RECALL_REQUEST"),
+            hide: (data) => data.status !== orderType.CANCELREQUEST,
+            event(data) {
+                const value = {
+                    title: t("RECALL_REQUEST"),
+                    content: `${t("CONFIRM_RECALL_CANCEL_ORDER_REQUEST")}: ${data.design} ？`,
+                    onOk: () => {
+                        const config = orderService.OrderModify({}, {...data,status:"1"});
+                        reqAndReload(config);
                     }
-                    msgModal.createEvent("modal", value)
                 }
-            },
-            {
-                text: t("RESET_STATUS"),
-                event(data) {
-                    const value = {
-                        title: t("RESET_STATUS"),
-                        content: `${t("CONFIRM")} ${t("RESET_STATUS")}: ${data.design} ？`,
-                        onOk: () => {
-                            const config = orderService.OrderModify({}, {...data,status:"0",pendingDate:'',});
-                            reqAndReload(config);
-                        }
+                msgModal.createEvent("modal", value)
+            }
+        },
+        {
+            text: t("HAVE_RECEIVED"),
+            hide: (data) => data.status !== orderType.SEND,
+            event(data) {
+                const value = {
+                    title: t("RECEIVED_ITEM"),
+                    content: `${t("CONFIRM_RECEIVED_ITEM")}: ${data.design} ？`,
+                    onOk: async() => {
+                        const config = orderService.OrderModify({}, {...data,status:"5"});
+                        reqAndReload(config);
                     }
-                    msgModal.createEvent("modal", value)
                 }
-            },
-
+                msgModal.createEvent("modal", value)
+            }
+        },
     ], [t])
 
-    const query = useCallback(async(data:any)=>{
+    const query = useCallback(async(data)=>{
         const {operateDate,...filters}=data
         if (operateDate) {
             const d: any[] = handleDatetime(data.operateDate);
@@ -130,7 +109,7 @@ const OrderList: FC = () => {
             status:filters.status?[filters.status]:['0','1','2','3','4'],
         }
         setQueryParams(queryParams)
-        const config = orderService.OrderPage({},queryParams)
+        const config = orderService.OrderList({},queryParams)
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
             return res.result
@@ -190,20 +169,22 @@ const OrderList: FC = () => {
             render:(value:string)=>{
                 switch (value){
                     case '0':
-                        return t('PENDING')
+                        return ''
                     case '1':
-                        return t('SENT')
+                        return '待定'
                     case '2':
-                        return t('OK')
+                        return 'OK'
                     case '3':
-                        return t('OUT_OF_STOCK')
+                        return '已发货'
                     case '4':
-                        return t('DAMAGED')
+                        return '待定(请求取消)'
+                    case '5':
+                        return '已收到'
                 }
             }
         },
         {
-            title: `${t('SHIPPING_DATE')}`,
+            title: t('PENDING_DATE'),
             dataIndex:"pendingDate",
             width:110,
             render:(value:any)=>{
@@ -224,7 +205,6 @@ const OrderList: FC = () => {
                 optList={options}
             />
             <ModifyStatus onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyStatus>
-            <Sent onOk={()=> setSentFlag(false)} visible={sentFlag} data={selectData}></Sent>
             <div style={{padding:20}}>
                 <Button style={{marginRight:20}} onClick={onPrint}>{t("PRINT")}</Button>
             </div>

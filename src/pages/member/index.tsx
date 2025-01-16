@@ -49,13 +49,13 @@ const MemberList: FC = () => {
             title: t('PHONE'),
         },
         {
+            dataIndex: "voucherNumber",
+            title: t('VOUCHER_NUMBER'),
+        },
+        {
             dataIndex: "registrationDate",
             title: t('Date'),
             render:(value:string)=>moment(value).format("YYYY-MM-DD")
-        },
-        {
-            dataIndex: "voucherNumber",
-            title: t('VOUCHER_NUMBER'),
         },
         {
             dataIndex: "balance",
@@ -112,7 +112,7 @@ const MemberList: FC = () => {
                 columns={columns}
                 optList={options}
                 event={buttons}
-                queryData={()=> memberService.MemberList({},{searchPage:{desc: 1, page: 1, pageSize: 999, sort: 'voucherNumber'}})}
+                queryData={(data)=> memberService.MemberList({},{...data,searchPage:{desc: 1, page: 1, pageSize: 999, sort: 'voucherNumber'}})}
                 rowKey="id"/>
                 <CreateMember onOk={()=>setCreateFlag(false)} visible={createFlag}></CreateMember>
                 <ModifyMember onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyMember>

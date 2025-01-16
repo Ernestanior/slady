@@ -74,7 +74,7 @@ const ModuleRouter:FC = () => {
                     <Route path="/member">
                         <MemberList />
                     </Route>
-                    <Route path="/memberTopup">
+                    <Route path="/topupDetail">
                         <MemberTopup />
                     </Route>
                     <Redirect to="/item" />

@@ -69,8 +69,8 @@ const MemberDetail:FC<IProps>  = ({id,onReturn}) => {
             dataIndex: "designs",
             title: t('ITEM'),
             render:(data:any)=>{
-                return data.map((item:any)=><div>
-                    <div>{item.designCode}: ${item.price}</div>
+                    return data?.map((item:any)=><div>
+                    <div>{item?.designCode}: ${item?.price}</div>
                 </div>)
                 
             }

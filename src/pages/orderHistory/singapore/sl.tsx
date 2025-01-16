@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useState} from "react";
-import Template from "@/common/template";
+import Template from "@/common/template/indexWithPagination";
 import {orderService} from "@/store/apis/order";
 import {areaType} from "@/pages/order";
 import moment from "moment";

@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useMemo, useState} from "react";
-import Template from "@/common/template";
+import Template from "@/common/template/indexWithPagination";
 import {Popconfirm} from "antd";
 import {IOperationConfig} from "@/common/template/interface";
 import {orderService} from "@/store/apis/order";

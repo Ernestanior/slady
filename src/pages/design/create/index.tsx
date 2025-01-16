@@ -18,8 +18,8 @@ import { log } from "console";
 
 // export const typeList = [ 'DR', 'TB', 'SK', 'PT', 'GO', 'JK', 'JS', 'BT', 'SE', 'SI', 'AC', 'SH']
 // const color = ['灰色','橙色','黄色','绿色','蓝色','紫色','白色','粉色','米色','棕色','灰褐色','香槟色','深蓝色','天空色','芥末黄','薄荷绿','蜜桃色','奶油色','炭黑色']
-export const colorList = ['Grey','Red','Orange','Yellow','Green','Blue','Black','Stripes','Grid','Purple','White','Pink','Beige','Brown','Champagne','Navy','Sky','Mustard','Mint','Peach','Cream','Charcoal','Silver','Gold']
-export const fabricList = ['Silk' ,'Polyester' ,'Lace'  , 'Chiffon', 'Cotton', 'Linen' , 'Tweed fabric' , 'Stretch fabrics', 'leather' , 'PVC']
+export const colorList = ['Khaki','Grey','Red','Orange','Yellow','Green','Blue','Black','Stripes','Grid','Purple','White','Pink','Beige','Brown','Champagne','Navy','Sky','Mustard','Mint','Peach','Cream','Charcoal','Silver','Gold']
+export const fabricList = ['Knits','Denim','Silk' ,'Polyester' ,'Lace'  , 'Chiffon', 'Cotton', 'Linen' , 'Tweed fabric' , 'Stretch fabrics', 'leather' , 'PVC']
 // const size = [{label:'XS',value:'XS'},{label:'S',value:'S'},{label:'M',value:'M'},{label:'L',value:'L'},{label:'XL',value:'XL'}]
 export const size = ['XXS','XS','S','M','L','XL','XXL','3XL','4XL','One Size','32','33','34','35','36','37','38','39','40','41','42','43','44']
 let index=0
