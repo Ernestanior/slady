@@ -134,7 +134,7 @@ const OrderList: FC = () => {
         }
         const queryParams = {
             areaType:areaType.SINGAPORE,
-            warehouseName:WAREHOUSE.SL,
+            warehouseName:WAREHOUSE.LIVE,
             ...filters,
             status:filters.status?[filters.status]:['0','1','2','3','4'],
         }

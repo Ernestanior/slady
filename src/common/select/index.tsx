@@ -65,8 +65,8 @@ const SelectP: FC<ISelectProps & {value?: any; data: ISelectItem[] | string[] | 
             {dataList.map((item: any) => {
                 if (typeof item === "number" || typeof item === "string") {
                     return (
-                        <Select.Option key={item} value={item} label={upperCasePlx(item)}>
-                            {upperCasePlx(item)}
+                        <Select.Option key={item} value={item} label={item}>
+                            {item}
                         </Select.Option>
                     );
                 }

@@ -11,28 +11,25 @@ import { colorList, size } from "@/pages/design/create";
 interface IProps{
     visible:boolean;
     onOk:()=>void;
+    onCancel:()=>void;
     data:any;
 }
-const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
+const ModifyStatus:FC<IProps> = ({onOk,onCancel,visible,data}) => {
     const [form] = useForm()
     const [t]=useTranslation()
     const [status,setStatus]=useState<string>()
     // const [imgList,setImgList] = useState<UploadFile[]>([])
     const [loading,setLoading] = useState<boolean>(false)
-    const onCancel=()=>{
-        onOk()
-    }
     
 
     const onFinish =async ()=>{
         const newData = form.getFieldsValue()
-        const {color,size,salePrice,amount}=newData
-        if (color && size && salePrice && amount) {
+        const {size,amount}=newData
+        if (size && amount) {
             setLoading(true)
             const res = await request(orderService.OrderModify({}, {...newData,id:data.id,}))
             setLoading(false)
             if (res.isSuccess){
-                reloadMainList();
                 onOk()
             }
         }else{
@@ -64,6 +61,15 @@ const ModifyStatus:FC<IProps> = ({onOk,visible,data}) => {
         {data && <Form form={form} className="email-new">
              <Form.Item name="size" label={<span className="login-label">{t("SIZE")}</span>}>
                 <SelectP data={size} />
+            </Form.Item>
+            <Form.Item name="color" label={<span className="login-label">{t("COLOR")}</span>}>
+                <SelectP data={colorList} />
+            </Form.Item>
+            <Form.Item name="remark" label={<span className="login-label">{t("REMARK")}</span>}>
+                <Input />
+            </Form.Item>
+            <Form.Item name="amount" label={<span className="login-label">{t("AMOUNT")}</span>}>
+                <InputNumber />
             </Form.Item>
         </Form>}
     </Modal>

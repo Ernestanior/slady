@@ -1,9 +1,9 @@
 import React, {FC, useCallback, useMemo, useState} from "react";
-import Template from "@/common/template/indexWithPagination";
+import Template, { reloadMainList } from "@/common/template/indexWithPagination";
 import {IOperationConfig} from "@/common/template/interface";
 import {orderService} from "@/store/apis/order";
-import {areaType, orderType} from "../index";
-import {reqAndReload} from "@/common/utils";
+import {areaType} from "../index";
+import {reqAndCallback} from "@/common/utils";
 import msgModal from "@/store/message/service";
 import moment from "moment";
 import request, {dev_url} from "@/store/request";
@@ -12,7 +12,7 @@ import {IPageResult} from "@/store/apis/log/common.interface";
 import Query from "@/pages/order/singapore/query";
 import {handleDatetime} from "@/common/utilsx";
 import {useTranslation} from "react-i18next";
-import {Button} from "antd";
+import {Button, notification} from "antd";
 import useAccountInfo from "@/store/account";
 import ModifyStatus from "./modify";
 import Sent from "./sent";
@@ -24,11 +24,12 @@ const OrderList: FC = () => {
     const [selectData,setSelectData] = useState<any>()
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [sentFlag,setSentFlag]=useState<boolean>(false)
+    const [exportStatus,setExportStatus]=useState<boolean>(false)
     
     const options: IOperationConfig = useMemo(() => [
             {
                 text: t('MODIFY_ORDER'),
-                hide: ()=>info.type!=='ADMIN',
+                // hide: ()=>info.type!=='ADMIN',
                 event(data) {
                     setSelectData(data)
                     setEditFlag(true)
@@ -36,14 +37,15 @@ const OrderList: FC = () => {
             },
             {
                 text: t("DELETE_ORDER"),
-                hide: ()=>info.type!=='ADMIN',
                 event(data) {
                     const value = {
                         title: t("DELETE_ORDER"),
                         content: `${t("CONFIRM")}${t("CANCEL_ORDER")}: ${data.design} ？`,
                         onOk: () => {
                             const config = orderService.OrderDelete({}, [data.id]);
-                            reqAndReload(config);
+                            reqAndCallback(config,()=>{
+                                reloadMainList()
+                            });
                         }
                     }
                     msgModal.createEvent("modal", value)
@@ -64,7 +66,9 @@ const OrderList: FC = () => {
                         content: `${t("CONFIRM")} ${t("OK")}: ${data.design} ？`,
                         onOk: async() => {
                             const config = orderService.OrderModify({}, {...data,status:"2",pendingDate:''});
-                            reqAndReload(config);
+                            reqAndCallback(config,()=>{
+                                reloadMainList()
+                            });
                         }
                     }
                     msgModal.createEvent("modal", value)
@@ -78,7 +82,9 @@ const OrderList: FC = () => {
                         content: `${t("CONFIRM")} ${t("OUT_OF_STOCK")}: ${data.design} ？`,
                         onOk: () => {
                             const config = orderService.OrderModify({}, {...data,status:"3",pendingDate:''});
-                            reqAndReload(config);
+                            reqAndCallback(config,()=>{
+                                reloadMainList()
+                            });
                         }
                     }
                     msgModal.createEvent("modal", value)
@@ -93,7 +99,9 @@ const OrderList: FC = () => {
                         content: `${t("CONFIRM")} ${t("DAMAGED")}: ${data.design} ？`,
                         onOk: async() => {
                             const config = orderService.OrderModify({}, {...data,status:"4",pendingDate:''});
-                            reqAndReload(config);
+                            reqAndCallback(config,()=>{
+                                reloadMainList()
+                            });
                         }
                     }
                     msgModal.createEvent("modal", value)
@@ -107,7 +115,9 @@ const OrderList: FC = () => {
                         content: `${t("CONFIRM")} ${t("RESET_STATUS")}: ${data.design} ？`,
                         onOk: () => {
                             const config = orderService.OrderModify({}, {...data,status:"0",pendingDate:'',});
-                            reqAndReload(config);
+                            reqAndCallback(config,()=>{
+                                reloadMainList()
+                            });
                         }
                     }
                     msgModal.createEvent("modal", value)
@@ -139,9 +149,14 @@ const OrderList: FC = () => {
     },[])
 
     const onPrint = async() =>{
+        setExportStatus(true)
+        notification.info({
+            message: '导出中，请稍候',
+        })
         const config = orderService.OrderExport(queryParams)
         const res = await request(config)
         res.isSuccess && window.open(dev_url+res.result)
+        setExportStatus(false)
     }
 
     const columns: any = [
@@ -223,10 +238,10 @@ const OrderList: FC = () => {
                 rowKey="id"
                 optList={options}
             />
-            <ModifyStatus onOk={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyStatus>
-            <Sent onOk={()=> setSentFlag(false)} visible={sentFlag} data={selectData}></Sent>
+            <ModifyStatus onOk={()=>{setEditFlag(false);reloadMainList();}} onCancel={()=>setEditFlag(false)} visible={editFlag} data={selectData}></ModifyStatus>
+            <Sent onOk={()=> {setSentFlag(false);reloadMainList();}} visible={sentFlag} data={selectData}></Sent>
             <div style={{padding:20}}>
-                <Button style={{marginRight:20}} onClick={onPrint}>{t("PRINT")}</Button>
+                <Button disabled={exportStatus} loading={exportStatus} style={{marginRight:20}} onClick={onPrint}>{t("PRINT")}</Button>
             </div>
         </section>
     );

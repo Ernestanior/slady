@@ -4,6 +4,7 @@ import {Tabs} from "antd";
 // import KoreaSl from './korea/sl'
 import SingaporeSlady from './singapore/slady'
 import SingaporeSl from './singapore/sl'
+import SingaporeLive from './singapore/live'
 import {WAREHOUSE} from "@/common/const";
 import useAccountInfo from "@/store/account";
 import {E_USER_TYPE} from "@/store/account/interface";
@@ -59,6 +60,9 @@ const OrderHistory: FC = () => {
                             </TabPane>
                             <TabPane tab={WAREHOUSE.SL} key="2">
                                 <SingaporeSl></SingaporeSl>
+                            </TabPane>
+                            <TabPane tab={WAREHOUSE.LIVE} key="3">
+                                <SingaporeLive></SingaporeLive>
                             </TabPane>
                         </Tabs>
                     {/* </TabPane>

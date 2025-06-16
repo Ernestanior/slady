@@ -3,12 +3,10 @@ import {Button, Tabs} from "antd";
 
 import SingaporeSlady from './singapore/slady'
 import SingaporeSl from './singapore/sl'
+import SingaporeLive from './singapore/live'
 import {WAREHOUSE} from "@/common/const";
 import useAccountInfo from "@/store/account";
-import {E_USER_TYPE} from "@/store/account/interface";
-import request from "@/store/request";
-import { systemService } from "@/store/apis/system";
-import { reqAndReload } from "@/common/utils";
+
 
 const { TabPane } = Tabs;
 
@@ -40,6 +38,9 @@ const Order: FC = () => {
             </TabPane>
             <TabPane tab={WAREHOUSE.SL} key="2">
                 <SingaporeSl></SingaporeSl>
+            </TabPane>
+            <TabPane tab={WAREHOUSE.LIVE} key="3">
+                <SingaporeLive></SingaporeLive>
             </TabPane>
         </Tabs>
     );

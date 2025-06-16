@@ -17,6 +17,8 @@ import useAccountInfo from "@/store/account";
 import MemberList from "@/pages/member";
 import {E_USER_TYPE} from "@/store/account/interface";
 import MemberTopup from "@/pages/memberTopup";
+import Refund from "@/pages/refund";
+
 
 /**
  * 项目路由组件
@@ -176,9 +178,14 @@ const ModuleRouter:FC = () => {
                 <Route path="/member">
                     <MemberList />
                 </Route>
+                <Route path="/refund">
+                    <Refund />
+                </Route>
                 <Route path="/profile">
                     <Profile />
                 </Route>
+
+
                 <Redirect to="/item" />
             </Switch>
         </LayoutPlx>

@@ -4,7 +4,7 @@ import {itemService} from "@/store/apis/item";
 import {from} from "rxjs";
 import request, {dev_url} from "@/store/request";
 import {LeftOutlined} from "@ant-design/icons";
-import ImageUpload from "@/pages/design/create/imageUpload";
+import ImageUpload from "@/common/ImageUpload";
 import {RcFile} from "antd/lib/upload";
 import {useTranslation} from "react-i18next";
 

@@ -6,7 +6,9 @@ const useStore = create<StoreState & StoreActions>()(
   devtools(
       immer((set) => ({
         language:'en_US',
-         setLanguage:(language:string)=>set(()=>({language}))
+        scrollY:0,
+         setLanguage:(language:string)=>set(()=>({language})),
+         setScrollY:(scrollY:number)=>set(()=>({scrollY}))
       })),
       {
         name: 'aid-global-store',
@@ -16,12 +18,11 @@ const useStore = create<StoreState & StoreActions>()(
 export default useStore;
 export interface StoreState {
     language: 'zh_CN' | 'en_US';
-
+    scrollY:number;
 
 }
 
 export interface StoreActions {
-
-    setLanguage:any;
-
+  setScrollY:any;
+  setLanguage:any;
 }

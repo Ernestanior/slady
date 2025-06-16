@@ -6,7 +6,7 @@ import {useForm} from "antd/es/form/Form";
 import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/lib/upload";
 import request from "@/store/request";
-import ImageUpload from "@/pages/design/create/imageUpload";
+import ImageUpload from "@/common/ImageUpload";
 import SelectP from "@/common/select";
 import {designService, itemService} from "@/store/apis/item";
 import historyService from "@/store/history";
