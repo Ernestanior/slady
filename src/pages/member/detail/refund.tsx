@@ -40,7 +40,6 @@ const RefundMemberRecord:FC<IProps> = ({onOk,visible,data}) => {
                     return
                 }
             });
-            console.log(amount,'amount');
             
             if (designs.length && purchaseDate && remark){
                 setLoading(true)

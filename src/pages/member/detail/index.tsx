@@ -125,7 +125,6 @@ const MemberDetail:FC<IProps>  = ({id,onReturn}) => {
 
     return <section className="member-detail">
             <div style={{marginBottom:10,cursor:"pointer",color:"#ee8d20",}} onClick={onReturn}><LeftOutlined />{t('RETURN')}</div>
-         
         <div>
             <Row><span className="member-detail-label">Name 贵名：</span><span className="member-detail-value">{data?.name}</span></Row>
             <Row><span className="member-detail-label">Phone 手机号码：</span><span className="member-detail-value">{data?.phone}</span></Row>

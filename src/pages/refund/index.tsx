@@ -1,14 +1,12 @@
-import  {FC, useCallback, useEffect, useMemo, useState} from "react";
+import  {FC, useMemo} from "react";
 import Template from "@/common/template";
 import {useTranslation} from "react-i18next";
-import { memberRecordService, memberService } from "@/store/apis/member";
+import { memberRecordService } from "@/store/apis/member";
 import { IOperationConfig } from "@/common/template/interface";
 import { reqAndReload } from "@/common/utils";
 import { notification } from "antd";
 import msgModal from "@/store/message/service";
 
-import useAccountInfo from "@/store/account";
-import request from "@/store/request";
 
 
 const Refund:FC = () => {  
