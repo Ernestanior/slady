@@ -163,11 +163,11 @@ const DesignList: FC = () => {
             <Detail id={selectedId} onReturn={()=>{setCurrentPage('list')}} toImgView={()=>setCurrentPage('imgView')}/>
             :
             <section>
-                        {/* <section style={{marginBottom:10}}>
+                        <section style={{marginBottom:10}}>
                             {typeList.map((item)=><>
-                                <Button type={type===item.value?'primary':'default'} style={{borderRadius:20,marginRight:5,marginBottom:5}} onClick={()=>setType(item.value)}>{item.label}</Button>
+                                <Button type={types===item.value?'primary':'default'} style={{borderRadius:20,marginRight:5,marginBottom:5}} onClick={()=>setTypes([item.value])}>{item.label}</Button>
                             </>)}
-                        </section> */}
+                        </section>
                         <section>
                             <Select mode="multiple" options={typeList} style={{width:500,marginRight:30}} onChange={(e)=>setTypes(e)} value={types} ></Select>
                             <Search onChange={(e)=>setDesign(e.target.value)} value={design} style={{width:300,marginBottom:30,marginRight:30}} enterButton onSearch={ onSearch}/>
