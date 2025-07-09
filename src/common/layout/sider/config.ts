@@ -1,21 +1,4 @@
-import {IRoleLimitModule} from "@/common/interface";
-import {XOR} from "ts-xor";
 import {E_USER_TYPE} from "@/store/account/interface";
-
-interface IMenu extends IRoleLimitModule{
-    icon?:string;
-    url: string;
-    text: string;
-}
-
-interface IMultipleMenu extends IRoleLimitModule{
-    text: string;
-    icon:string;
-    childs: IMenu[]
-}
-
-
-
 
 const menuList: any[] = [
     {

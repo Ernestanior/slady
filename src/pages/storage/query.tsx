@@ -1,6 +1,5 @@
 import FormItem from "@/common/Form/formItem";
-import {Input, Select,DatePicker} from "antd";
-import React from "react";
+import {Input, DatePicker} from "antd";
 import {useTranslation} from "react-i18next";
 
 const Query=()=>{

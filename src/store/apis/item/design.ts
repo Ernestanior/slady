@@ -86,6 +86,7 @@ interface IDesignList{
     typeList?:string[];
     design?:string;
     name?:string;
+    hasStock?:number;
     searchPage:ISearchPage;
 }
 

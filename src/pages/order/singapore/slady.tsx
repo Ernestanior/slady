@@ -13,14 +13,12 @@ import Query from "@/pages/order/singapore/query";
 import {handleDatetime} from "@/common/utilsx";
 import {useTranslation} from "react-i18next";
 import {Button, notification} from "antd";
-import useAccountInfo from "@/store/account";
 import ModifyStatus from "./modify";
 import Sent from "./sent";
 
 const OrderList: FC = () => {
     const [t]=useTranslation()
     const [queryParams,setQueryParams]=useState<any>({})
-    const info:any = useAccountInfo();
     const [selectData,setSelectData] = useState<any>()
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [sentFlag,setSentFlag]=useState<boolean>(false)

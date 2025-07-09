@@ -1,10 +1,8 @@
-import React, {FC, useEffect, useMemo, useState} from "react";
-import {Form, Input, InputNumber, Modal, notification, Select} from "antd";
+import React, {FC, useEffect,  useState} from "react";
+import {Form, Input, InputNumber, Modal, notification} from "antd";
 import {useForm} from "antd/es/form/Form";
-import {orderType} from "@/pages/order";
 import {orderService} from "@/store/apis/order";
 import request from "@/store/request";
-import {reloadMainList} from "@/common/template";
 import {useTranslation} from "react-i18next";
 import SelectP from "@/common/select";
 import { colorList, size } from "@/pages/design/create";
@@ -17,7 +15,6 @@ interface IProps{
 const ModifyStatus:FC<IProps> = ({onOk,onCancel,visible,data}) => {
     const [form] = useForm()
     const [t]=useTranslation()
-    const [status,setStatus]=useState<string>()
     // const [imgList,setImgList] = useState<UploadFile[]>([])
     const [loading,setLoading] = useState<boolean>(false)
     
@@ -40,11 +37,9 @@ const ModifyStatus:FC<IProps> = ({onOk,onCancel,visible,data}) => {
     useEffect(()=>{
         if(data && data.status){
             form.setFieldsValue({...data})
-            setStatus(data.status)
         }
         else{
             form.setFieldsValue({status:""})
-            setStatus("")
         }
     },[form,data])
 

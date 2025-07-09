@@ -1,9 +1,9 @@
-import React, {FC, useCallback, useEffect, useMemo, useState} from "react";
+import React, {FC, useCallback, useMemo, useState} from "react";
 import Template, { reloadMainList } from "@/common/template/indexWithPagination";
 import {IOperationConfig} from "@/common/template/interface";
 import {orderService} from "@/store/apis/order";
-import {areaType, orderType} from "../index";
-import {reqAndCallback, reqAndReload} from "@/common/utils";
+import {areaType} from "../index";
+import {reqAndCallback} from "@/common/utils";
 import msgModal from "@/store/message/service";
 import moment from "moment";
 import request, {dev_url} from "@/store/request";
@@ -13,14 +13,12 @@ import Query from "./query";
 import {handleDatetime} from "@/common/utilsx";
 import {useTranslation} from "react-i18next";
 import {Button, notification} from "antd";
-import useAccountInfo from "@/store/account";
 import ModifyStatus from "./modify";
 import Sent from "./sent";
 
 const OrderList: FC = () => {
     const [t]=useTranslation()
     const [queryParams,setQueryParams]=useState<any>({})
-    const info:any = useAccountInfo();
     const [selectData,setSelectData] = useState<any>()
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [sentFlag,setSentFlag]=useState<boolean>(false)

@@ -1,12 +1,7 @@
-import  {FC, useMemo} from "react";
+import  {FC} from "react";
 import Template from "@/common/template";
 import {useTranslation} from "react-i18next";
 import { memberRecordService } from "@/store/apis/member";
-import { IOperationConfig } from "@/common/template/interface";
-import { reqAndReload } from "@/common/utils";
-import { notification } from "antd";
-import msgModal from "@/store/message/service";
-
 
 const Refund:FC = () => {  
       
@@ -51,27 +46,27 @@ const Refund:FC = () => {
         },
     ]
     
-    const options: IOperationConfig = useMemo(() => {
-        return [
-            [
-                {
-                    text:t("DELETE"),
-                    event(data) {
-                        const value = {
-                            title: t("DELETE"),
-                            content: `${t("CONFIRM")}${t("DELETE")}: ${data.name} ？`,
-                            onOk: () => {
-                                const config = memberRecordService.MemberRecordDelete({},[data.id])
-                                reqAndReload(config, () => {
-                                    notification.success({message: "Delete Success"})
-                                });
-                            }
-                        }
-                        msgModal.createEvent("modal", value)
-                    },
-                }]
-        ]
-    }, [t])
+    // const options: IOperationConfig = useMemo(() => {
+    //     return [
+    //         [
+    //             {
+    //                 text:t("DELETE"),
+    //                 event(data) {
+    //                     const value = {
+    //                         title: t("DELETE"),
+    //                         content: `${t("CONFIRM")}${t("DELETE")}: ${data.name} ？`,
+    //                         onOk: () => {
+    //                             const config = memberRecordService.MemberRecordDelete({},[data.id])
+    //                             reqAndReload(config, () => {
+    //                                 notification.success({message: "Delete Success"})
+    //                             });
+    //                         }
+    //                     }
+    //                     msgModal.createEvent("modal", value)
+    //                 },
+    //             }]
+    //     ]
+    // }, [t])
 
     return <section className="member-detail">
         <Template

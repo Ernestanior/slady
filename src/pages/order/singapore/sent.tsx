@@ -1,7 +1,6 @@
-import React, {FC, useEffect, useMemo, useState} from "react";
-import {Form, Input, Modal, notification, Select} from "antd";
+import React, {FC,useState} from "react";
+import {Form, Input, Modal, notification} from "antd";
 import {useForm} from "antd/es/form/Form";
-import {orderType} from "../index";
 import {orderService} from "@/store/apis/order";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";

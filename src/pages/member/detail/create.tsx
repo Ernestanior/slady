@@ -1,12 +1,10 @@
-import React, {FC, useRef, useState} from "react";
-import {Button, DatePicker, Divider, Form, Input, InputNumber, InputRef, Modal, notification, Select, Space} from "antd";
+import React, {FC,useState} from "react";
+import {Button, DatePicker, Form, Input, InputNumber, Modal, notification, Space} from "antd";
 import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
-import {userService} from "@/store/apis/account";
 import {useTranslation} from "react-i18next";
-import { memberRecordService, memberService } from "@/store/apis/member";
-import { log } from "console";
+import { memberRecordService } from "@/store/apis/member";
 import FormList from "antd/lib/form/FormList";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
@@ -15,7 +13,6 @@ interface IProps{
     onOk:()=>void;
     data:any;
 }
-let index=0
 const CreateMemberRecord:FC<IProps> = ({onOk,visible,data}) => {
     const [t]=useTranslation()
     const [form] = useForm()

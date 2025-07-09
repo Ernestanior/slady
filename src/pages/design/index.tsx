@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useRef, useState} from "react";
+import {FC, useCallback, useEffect, useRef, useState} from "react";
 import {Button, Select, Spin} from "antd";
 import {RightOutlined} from "@ant-design/icons";
 import Search from "antd/es/input/Search";
@@ -18,7 +18,8 @@ export const typeList:any[] = [{value:'AL',label:'A型裙'},{value:'DR',label:'D
     {value:'SI',label:'SI真丝'},{value:'AC',label:'AC饰品'},{value:'BG',label:'BG包包'},{value:'CDJ',label:'CDJ穿戴甲'},{value:'SO',label:"SO特价"},
     {value:'CL',label:'Classic经典款'},{value:'XL',label:"L & XL加价大码"},]
 
-const DesignList: FC = () => {
+
+    const DesignList: FC = () => {
     const [t]=useTranslation()
     const userInfo = useAccountInfo()
     const [scrollY,setScrollY]=useState<any>()
@@ -30,6 +31,7 @@ const DesignList: FC = () => {
     const [reload,setReload]=useState<boolean>(false)
     const [selectedId,setSelectedId]=useState<number>(0)
     const [currentPage,setCurrentPage]=useState<string>('list')
+    const [hasStock,setHasStock]=useState<boolean>(false)
     const scrollListRef:any = useRef(null)
 
     useEffect(()=>{        
@@ -68,6 +70,7 @@ const DesignList: FC = () => {
 
         const config = designService.DesignPage({}, {
             typeList:types,
+            hasStock:hasStock?1:0,
             design,
             "searchPage": {
                 "desc": 1,
@@ -102,6 +105,7 @@ const DesignList: FC = () => {
             const config = designService.DesignPage({}, {
                 typeList:types,
                 design,
+                hasStock:hasStock?1:0,
                 "searchPage": {
                     "desc": 1,
                     "page": 1,
@@ -118,7 +122,7 @@ const DesignList: FC = () => {
                 }
             })
         }
-    },[types,reload])
+    },[types,reload,hasStock])
 
     const toDetail = (item:any)=>{
         setSelectedId(item.id);
@@ -163,16 +167,19 @@ const DesignList: FC = () => {
             <Detail id={selectedId} onReturn={()=>{setCurrentPage('list')}} toImgView={()=>setCurrentPage('imgView')}/>
             :
             <section>
-                        <section style={{marginBottom:10}}>
+
+                        <section>
+                            <Search onChange={(e)=>setDesign(e.target.value)} value={design} style={{width:300,marginRight:30}} enterButton onSearch={ onSearch}/>
+                            <Select mode="multiple" options={typeList} style={{width:500,marginRight:30}} onChange={(e)=>setTypes(e)} value={types} ></Select>
+                            {userInfo?.type!==E_USER_TYPE.SALER && <Button type={"primary"} onClick={()=>historyService.push('/item/create')}>{t('CREATE')}</Button>}
+                            <Button type={hasStock?'primary':'default'} style={{borderRadius:5,marginLeft:15}} onClick={()=>setHasStock(!hasStock)}>{t('HAVE_STOCK')}</Button>
+                            
+                            {/* <Button type={"primary"} onClick={resetStock}>清空库存</Button> */}
+                        </section>
+                        <section style={{marginBottom:10,marginTop:10,}}>
                             {typeList.map((item)=><>
                                 <Button type={types===item.value?'primary':'default'} style={{borderRadius:20,marginRight:5,marginBottom:5}} onClick={()=>setTypes([item.value])}>{item.label}</Button>
                             </>)}
-                        </section>
-                        <section>
-                            <Select mode="multiple" options={typeList} style={{width:500,marginRight:30}} onChange={(e)=>setTypes(e)} value={types} ></Select>
-                            <Search onChange={(e)=>setDesign(e.target.value)} value={design} style={{width:300,marginBottom:30,marginRight:30}} enterButton onSearch={ onSearch}/>
-                            {userInfo?.type!==E_USER_TYPE.SALER && <Button type={"primary"} onClick={()=>historyService.push('/item/create')}>{t('CREATE')}</Button>}
-                            {/* <Button type={"primary"} onClick={resetStock}>清空库存</Button> */}
                         </section>
                         <div style={{display:"flex",flexWrap:"wrap",height:900,overflowY:"scroll"}} onScroll={handleScroll} ref={scrollListRef}>
                             {displayData? displayData.map((item:any,index:number)=><div key={index} style={{backgroundColor:"#fff",width:500,height:150,display:"flex",marginRight:20,marginBottom:20,borderRadius:10,boxShadow:"0 0 15px 0 #ddd",overflow:"hidden"}}>

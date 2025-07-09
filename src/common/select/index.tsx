@@ -1,7 +1,6 @@
 import React, { FC, useMemo, useCallback } from "react";
 import { Select } from "antd";
 import {ISelectItem, ISelectProps} from "../interface";
-import { upperCasePlx } from "@/common/utils";
 
 /**
  *

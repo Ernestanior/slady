@@ -142,7 +142,7 @@ const en_US = {
     INSUFFICIENT_BALANCE:'Insufficient balance, the amount spent on goods cannot exceed the available balance',
     REFUND:"Refund",
     REFUND_REASON:"Refund Reason",
-
+    HAVE_STOCK:"Have Stock",
     //Color
     White:"white",
     Black:"black",

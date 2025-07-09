@@ -1,15 +1,10 @@
-import {FC, useMemo} from "react";
-import { Menu} from 'antd';
-import {Link, useLocation} from "react-router-dom"
-import menuList from "@/common/layout/sider/config";
-import useAccountInfo from "@/store/account";
+import {FC} from "react";
 import Logo from "./logo.png";
 import './index.less'
 import accountService from "@/store/account/service";
 // import ConfirmInfo from "@/common/confirm";
 import IconFont from "@/common/icon";
 
-const { SubMenu } = Menu;
 
 interface IProps{
     onClose:()=>void;

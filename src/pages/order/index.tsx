@@ -1,5 +1,5 @@
-import React, {FC, useCallback} from "react";
-import {Button, Tabs} from "antd";
+import React, {FC} from "react";
+import {Tabs} from "antd";
 
 import SingaporeSlady from './singapore/slady'
 import SingaporeSl from './singapore/sl'

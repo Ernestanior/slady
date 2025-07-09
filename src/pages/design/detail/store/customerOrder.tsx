@@ -4,7 +4,6 @@ import {useForm} from "antd/es/form/Form";
 import request from "@/store/request";
 import {reloadMainList} from "@/common/template";
 import {orderService} from "@/store/apis/order";
-import {itemService} from "@/store/apis/item";
 import {useTranslation} from "react-i18next";
 
 interface IProps{

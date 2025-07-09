@@ -14,7 +14,6 @@ import {WAREHOUSE} from "@/common/const";
 import {typeList} from "@/pages/design";
 import FormList from "antd/es/form/FormList";
 import {useTranslation} from "react-i18next";
-import { log } from "console";
 
 // export const typeList = [ 'DR', 'TB', 'SK', 'PT', 'GO', 'JK', 'JS', 'BT', 'SE', 'SI', 'AC', 'SH']
 // const color = ['灰色','橙色','黄色','绿色','蓝色','紫色','白色','粉色','米色','棕色','灰褐色','香槟色','深蓝色','天空色','芥末黄','薄荷绿','蜜桃色','奶油色','炭黑色']
