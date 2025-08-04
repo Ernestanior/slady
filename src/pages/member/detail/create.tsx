@@ -37,10 +37,10 @@ const CreateMemberRecord:FC<IProps> = ({onOk,visible,data}) => {
                     return
                 }
             });
-            if (amount>data.balance) {
-                notification.error({message:t('INSUFFICIENT_BALANCE')})
-                return
-            }
+            // if (amount>data.balance) {
+            //     notification.error({message:t('INSUFFICIENT_BALANCE')})
+            //     return
+            // }
             if (designs.length && purchaseDate && remark){
                 setLoading(true)
                 const config = memberRecordService.MemberRecordCreate({},{...newData,memberId:data.id,sum:amount.toFixed(2),purchaseDate:purchaseDate.format('YYYY-MM-DD')})

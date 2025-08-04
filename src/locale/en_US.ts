@@ -141,7 +141,9 @@ const en_US = {
     PAYMENT_DETAIL:"Payment Detail",
     INSUFFICIENT_BALANCE:'Insufficient balance, the amount spent on goods cannot exceed the available balance',
     REFUND:"Refund",
+    MEMBER_REFUND:"Member Refund",
     REFUND_REASON:"Refund Reason",
+    MEMBER_PURCHASE:"Member Purchase",
     HAVE_STOCK:"Have Stock",
     //Color
     White:"white",

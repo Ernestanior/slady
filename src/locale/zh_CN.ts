@@ -142,6 +142,8 @@ const zh_CN = {
     PAYMENT_DETAIL:"付款信息",
     INSUFFICIENT_BALANCE:"余额不足，商品消费额度不能超过余额",
     REFUND:"退款",
+    MEMBER_REFUND:"会员退款",
+    MEMBER_PURCHASE:"会员扣款记录",
     REFUND_REASON:"退款原因",
     HAVE_STOCK:"有库存",
 

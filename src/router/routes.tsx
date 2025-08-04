@@ -17,7 +17,7 @@ import useAccountInfo from "@/store/account";
 import MemberList from "@/pages/member";
 import {E_USER_TYPE} from "@/store/account/interface";
 import MemberTopup from "@/pages/memberTopup";
-import Refund from "@/pages/refund";
+import Purchase from "@/pages/memberPurchase";
 
 
 /**
@@ -178,8 +178,9 @@ const ModuleRouter:FC = () => {
                 <Route path="/member">
                     <MemberList />
                 </Route>
-                <Route path="/refund">
-                    <Refund />
+
+                <Route path="/purchaseDetail">
+                    <Purchase />
                 </Route>
                 <Route path="/profile">
                     <Profile />

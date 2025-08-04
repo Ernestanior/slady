@@ -63,9 +63,9 @@ const menuList: any[] = [
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
     },
     {
-        url: "/refund",
+        url: "/purchaseDetail",
         icon:"icon-writing",
-        text: "REFUND",
+        text: "MEMBER_PURCHASE",
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
     },
 ]
