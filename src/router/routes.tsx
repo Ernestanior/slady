@@ -1,5 +1,5 @@
-import React, {FC} from "react";
-import {Redirect, Route, Router, Switch} from "react-router-dom";
+import React, { FC } from "react";
+import { Redirect, Route, Router, Switch } from "react-router-dom";
 import historyService from "@/store/history"
 import LayoutPlx from "../common/layout";
 import ItemList from "@/pages/design/index";
@@ -15,9 +15,14 @@ import StorageRecord from "@/pages/storage";
 import CreateItem from "@/pages/design/create";
 import useAccountInfo from "@/store/account";
 import MemberList from "@/pages/member";
-import {E_USER_TYPE} from "@/store/account/interface";
+import { E_USER_TYPE } from "@/store/account/interface";
 import MemberTopup from "@/pages/memberTopup";
 import Purchase from "@/pages/memberPurchase";
+import Invoice from "@/pages/receipt/invoice";
+import Receipt from "@/pages/receipt";
+import Barcode from "@/pages/receipt/barcode";
+import Statement from "@/pages/receipt/statement";
+import Cash from "@/pages/cash";
 
 
 /**
@@ -25,12 +30,12 @@ import Purchase from "@/pages/memberPurchase";
  * 可以在此根据用户相应的权限组装路由
  * @constructor
  */
-const ModuleRouter:FC = () => {
+const ModuleRouter: FC = () => {
     const userInfo = useAccountInfo()
-    if (!userInfo){
+    if (!userInfo) {
         return null
     }
-    if (userInfo?.type===E_USER_TYPE.SUPERADMIN){
+    if (userInfo?.type === E_USER_TYPE.SUPERADMIN) {
         return <Router history={historyService}>
             <LayoutPlx>
                 <Switch>
@@ -42,7 +47,7 @@ const ModuleRouter:FC = () => {
             </LayoutPlx>
         </Router>
     }
-    if (userInfo?.type===E_USER_TYPE.SALER){
+    if (userInfo?.type === E_USER_TYPE.SALER) {
         return <Router history={historyService}>
             <LayoutPlx>
                 <Switch>
@@ -79,12 +84,30 @@ const ModuleRouter:FC = () => {
                     <Route path="/topupDetail">
                         <MemberTopup />
                     </Route>
+                    <Route path="/purchaseDetail">
+                        <Purchase />
+                        <Route path="/receipt">
+                            <Receipt />
+                        </Route>
+                        <Route path="/invoice">
+                            <Invoice />
+                        </Route>
+                        <Route path="/barcode">
+                            <Barcode />
+                        </Route>
+                        <Route path="/statement">
+                            <Statement />
+                        </Route>
+                        <Route path="/cash">
+                            <Cash />
+                        </Route>
+                    </Route>
                     <Redirect to="/item" />
                 </Switch>
             </LayoutPlx>
         </Router>
     }
-    if (userInfo?.type===E_USER_TYPE.LOGISTICS){
+    if (userInfo?.type === E_USER_TYPE.LOGISTICS) {
         return <Router history={historyService}>
             <LayoutPlx>
                 <Switch>
@@ -99,7 +122,7 @@ const ModuleRouter:FC = () => {
             </LayoutPlx>
         </Router>
     }
-    if (userInfo?.type===E_USER_TYPE.FINANCE){
+    if (userInfo?.type === E_USER_TYPE.FINANCE) {
         return <Router history={historyService}>
             <LayoutPlx>
                 <Switch>
@@ -111,7 +134,7 @@ const ModuleRouter:FC = () => {
             </LayoutPlx>
         </Router>
     }
-    if (userInfo?.type===E_USER_TYPE.PRODUCTMANAGEMENT){
+    if (userInfo?.type === E_USER_TYPE.PRODUCTMANAGEMENT) {
         return <Router history={historyService}>
             <LayoutPlx>
                 <Switch>
@@ -181,6 +204,21 @@ const ModuleRouter:FC = () => {
 
                 <Route path="/purchaseDetail">
                     <Purchase />
+                </Route>
+                <Route path="/receipt">
+                    <Receipt />
+                </Route>
+                <Route path="/invoice">
+                    <Invoice />
+                </Route>
+                <Route path="/barcode">
+                    <Barcode />
+                </Route>
+                <Route path="/statement">
+                    <Statement />
+                </Route>
+                <Route path="/cash">
+                    <Cash />
                 </Route>
                 <Route path="/profile">
                     <Profile />

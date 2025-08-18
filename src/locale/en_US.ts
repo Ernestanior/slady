@@ -145,6 +145,9 @@ const en_US = {
     REFUND_REASON:"Refund Reason",
     MEMBER_PURCHASE:"Member Purchase",
     HAVE_STOCK:"Have Stock",
+    SHOP_NAME:"Shop Name",
+    CASHIER:"Cashier",
+    PAYMENT:"Payment",
     //Color
     White:"white",
     Black:"black",

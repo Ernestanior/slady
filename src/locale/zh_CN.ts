@@ -146,7 +146,9 @@ const zh_CN = {
     MEMBER_PURCHASE:"会员扣款记录",
     REFUND_REASON:"退款原因",
     HAVE_STOCK:"有库存",
-
+    SHOP_NAME:"店名",
+    CASHIER:"柜员",
+    PAYMENT:"付款",
     //Color
     White:"白色",
     Black:"黑色",

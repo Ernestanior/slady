@@ -1,5 +1,5 @@
 import {FC, useMemo, useState} from "react";
-import Template from "@/common/template";
+import Template from "@/common/template/indexWithPagination";
 import {IOperationConfig} from "@/common/template/interface";
 import {reqAndReload} from "@/common/utils";
 import msgModal from "@/store/message/service";

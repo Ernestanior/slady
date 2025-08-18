@@ -1,5 +1,5 @@
 import {FC, useMemo} from "react";
-import Template from "@/common/template";
+import Template from "@/common/template/indexWithPagination";
 import {useTranslation} from "react-i18next";
 import { memberRecordService } from "@/store/apis/member";
 import Query from "./query";

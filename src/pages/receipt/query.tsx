@@ -1,0 +1,16 @@
+import FormItem from "@/common/Form/formItem";
+import {Input, DatePicker} from "antd";
+import {useTranslation} from "react-i18next";
+
+const Query=()=>{
+    const [t]=useTranslation()
+    return <>
+        <FormItem span={4} label={t("REFNO")} name="refNo">
+            <Input/>
+        </FormItem>
+        <FormItem span={6} noStyle name="createDate">
+            <DatePicker.RangePicker placeholder={[t("STARTING_TIME"), t("ENDING_TIME")]} />
+        </FormItem>
+    </>
+}
+export default Query

@@ -68,6 +68,18 @@ const menuList: any[] = [
         text: "MEMBER_PURCHASE",
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
     },
+    {
+        url: "/receipt",
+        icon:"icon-writing",
+        text: "RECEIPT",
+        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
+    },
+    // {
+    //     url: "/cash",
+    //     icon:"icon-writing",
+    //     text: "CASH",
+    //     role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
+    // },
 ]
 
 export default menuList;

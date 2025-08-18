@@ -4,7 +4,7 @@ import {useTranslation} from "react-i18next";
 import { memberRecordService, memberService } from "@/store/apis/member";
 import { IOperationConfig } from "@/common/template/interface";
 import { reqAndReload } from "@/common/utils";
-import { notification, Row } from "antd";
+import { notification, Row, Space, Tag } from "antd";
 import msgModal from "@/store/message/service";
 import { INormalEvent } from "@/common/interface";
 import CreateMemberRecord from "./create";
@@ -65,13 +65,22 @@ const MemberDetail:FC<IProps>  = ({id,onReturn}) => {
             title: t('DATE'),
         },
         {
-            dataIndex: "designs",
+            dataIndex: "designList",
             title: t('ITEM'),
-            render:(data:any)=>{
-                    return data?.map((item:any)=><div>
-                    <div>{item?.designCode}: ${item?.price}</div>
-                </div>)
-                
+            width:350,
+            render: (value: any) => {
+
+                if (!Array.isArray(value) || value.length === 0) return <span>-</span>;
+
+                return (
+                    <Space wrap>
+                        {value.map((item, idx) => (
+                            <Tag key={idx} color="blue">
+                                {item.designCode} - {item.price}
+                            </Tag>
+                        ))}
+                    </Space>
+                );
             }
         },
         {

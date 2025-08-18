@@ -7,9 +7,12 @@ import Query from "./query";
 import { handleDatetime } from "@/common/utilsx";
 import { IPageResult } from "@/store/apis/account/common.interface";
 import request from "@/store/request";
-import { Tag } from "antd";
-const OperationList:FC = () => {
+import { cashService } from "@/store/apis/cash";
+import CreateMember from "./create";
+const Cash:FC = () => {
     const [t]=useTranslation()
+    const [createFlag,setCreateFlag]=useState<boolean>(false)
+
     // const operateMap:any = {
     //     "/user/create":t('CREATE_ACCOUNT')
     // }
@@ -18,14 +21,14 @@ const OperationList:FC = () => {
         const {operateDate,...filters}=data
         if (operateDate) {
             const d: any[] = handleDatetime(data.operateDate);
-            filters.startDate = d[0]+" 00:00:00";
-            filters.endDate = d[1]+" 23:59:59";
+            filters.startDateTime = d[0]+" 00:00:00";
+            filters.endDateTime = d[1]+" 23:59:59";
         }
         const queryParams = {
             ...filters,
         }
         
-        const config = accessLogService.FindAccessLog({},{...queryParams})
+        const config = cashService.CashPage({},{...queryParams})
         const res = await request<IPageResult<any>>(config);
         if (res.isSuccess){
             return res.result
@@ -35,24 +38,20 @@ const OperationList:FC = () => {
     
     const columns:any = [
         {
-            dataIndex: "userName",
-            title: t('OPERATOR'),
+            dataIndex: "id",
+            title: t('ID'),
             fixed:"left",
             width:100
         },
         {
-            dataIndex: "uri",
-            title: t('INTERFACE'),
-            render:(res:any)=>res,
+            dataIndex: "amount",
+            title: t('AMOUNT'),
             fixed:"left",
             width:200
         },
         {
-            dataIndex: "body",
-            title: t('DETAIL'),
-            render: (value: any) => {   
-                return value
-            }
+            dataIndex: "remark",
+            title: t('REMARK'),
           },
         {
             dataIndex: "createDate",
@@ -72,10 +71,16 @@ const OperationList:FC = () => {
             rowKey="id"
             scroll={{ x: 1500 }}
         />
+                <CreateMember onOk={()=>setCreateFlag(false)} visible={createFlag}></CreateMember>
+
     </section>
 }
 
-export default OperationList
+export default Cash
 
 
+
+function useState<T>(arg0: boolean): [any, any] {
+  throw new Error("Function not implemented.");
+}
 

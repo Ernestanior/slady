@@ -16,7 +16,7 @@ export const typeList:any[] = [{value:'AL',label:'A型裙'},{value:'DR',label:'D
     {value:'TB',label:'TB上衣'},{value:'SK',label:'SK半裙'},{value:'ST',label:'ST短裤'},{value:'PT',label:'PT裤子'},{value:'GO',label:'GO晚礼服'},
     {value:'JK',label:'JK外套'},{value:'JS',label:'JS连体裤'},{value:'BT',label:'BT皮带'},{value:'SH',label:'SH鞋子'},{value:'SE',label:'SE套装'},
     {value:'SI',label:'SI真丝'},{value:'AC',label:'AC饰品'},{value:'BG',label:'BG包包'},{value:'CDJ',label:'CDJ穿戴甲'},{value:'SO',label:"SO特价"},
-    {value:'CL',label:'Classic经典款'},{value:'XL',label:"L & XL加价大码"},]
+    {value:'CL',label:'Classic经典款'},{value:'IN',label:'IN内搭'},{value:'XL',label:"L & XL加价大码"},]
 
 
     const DesignList: FC = () => {
