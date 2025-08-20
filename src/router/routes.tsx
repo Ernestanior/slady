@@ -16,13 +16,15 @@ import CreateItem from "@/pages/design/create";
 import useAccountInfo from "@/store/account";
 import MemberList from "@/pages/member";
 import { E_USER_TYPE } from "@/store/account/interface";
-import MemberTopup from "@/pages/memberTopup";
-import Purchase from "@/pages/memberPurchase";
+import MemberTopup from "@/pages/member/topupRecord";
+import Purchase from "@/pages/member/purchaseRecord";
 import Invoice from "@/pages/receipt/invoice";
 import Receipt from "@/pages/receipt";
 import Barcode from "@/pages/receipt/barcode";
 import Statement from "@/pages/receipt/statement";
-import Cash from "@/pages/cash";
+import Cash from "@/pages/receipt/cashInOut";
+import ReceiptCheck from "@/pages/receipt/check";
+import Balance from "@/pages/receipt/balance";
 
 
 /**
@@ -86,21 +88,25 @@ const ModuleRouter: FC = () => {
                     </Route>
                     <Route path="/purchaseDetail">
                         <Purchase />
-                        <Route path="/receipt">
-                            <Receipt />
-                        </Route>
-                        <Route path="/invoice">
-                            <Invoice />
-                        </Route>
-                        <Route path="/barcode">
-                            <Barcode />
-                        </Route>
-                        <Route path="/statement">
-                            <Statement />
-                        </Route>
-                        <Route path="/cash">
-                            <Cash />
-                        </Route>
+
+                    </Route>
+                    <Route path="/receipt">
+                        <Receipt />
+                    </Route>
+                    <Route path="/invoice">
+                        <Invoice />
+                    </Route>
+                    <Route path="/barcode">
+                        <Barcode />
+                    </Route>
+                    <Route path="/statement">
+                        <Statement />
+                    </Route>
+                    <Route path="/cash">
+                        <Cash />
+                    </Route>
+                    <Route path="/balance">
+                        <Balance />
                     </Route>
                     <Redirect to="/item" />
                 </Switch>
@@ -124,14 +130,12 @@ const ModuleRouter: FC = () => {
     }
     if (userInfo?.type === E_USER_TYPE.FINANCE) {
         return <Router history={historyService}>
-            <LayoutPlx>
                 <Switch>
-                    <Route path="/feedback">
-                        <Feedback />
+                <Route path="/receiptCheck">
+                        <ReceiptCheck />
                     </Route>
-                    <Redirect to="/feedback" />
+                    <Redirect to="/receiptCheck" />
                 </Switch>
-            </LayoutPlx>
         </Router>
     }
     if (userInfo?.type === E_USER_TYPE.PRODUCTMANAGEMENT) {
@@ -208,6 +212,7 @@ const ModuleRouter: FC = () => {
                 <Route path="/receipt">
                     <Receipt />
                 </Route>
+
                 <Route path="/invoice">
                     <Invoice />
                 </Route>
@@ -220,11 +225,12 @@ const ModuleRouter: FC = () => {
                 <Route path="/cash">
                     <Cash />
                 </Route>
+                <Route path="/balance">
+                        <Balance />
+                    </Route>
                 <Route path="/profile">
                     <Profile />
                 </Route>
-
-
                 <Redirect to="/item" />
             </Switch>
         </LayoutPlx>

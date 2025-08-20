@@ -25,11 +25,6 @@ const Refund: FC = () => {
         {
             dataIndex: "designList",
             title: t('ITEM'),
-            // render: (data: any) => {
-            //     return data?.map((item: any) => <div>
-            //         <div>{item?.designCode}: ${item?.price}</div>
-            //     </div>)
-            // }
             width:400,
             render: (value: any) => {
 

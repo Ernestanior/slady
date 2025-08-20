@@ -29,20 +29,14 @@ const Statement: FC = () => {
             <Form form={form} className="email-new" initialValues={{
                 counter: counter[0], saler: saler[0]
             }}>
-                <FormItem name="counter" label={t('SHOP_NAME')}>
+                <FormItem name="counter" label={t('COUNTER')}>
                     <SelectP data={counter} style={{ width: 200 }} />
                 </FormItem>
                 <FormItem name="saler" label={t('CASHIER')}>
                     <SelectP data={saler} style={{ width: 200 }} />
                 </FormItem>
-                <FormItem name="date" label={t('CODE')}>
+                <FormItem name="date" label={t('DATE')}>
                     <DatePicker></DatePicker>
-                </FormItem>
-                <FormItem name="openingBalance" label={t('Opening Balance')}>
-                    <Input placeholder="amount" style={{ width: 200 }} />
-                </FormItem>
-                <FormItem name="closingBalance" label={t('Closing Balance')}>
-                    <Input placeholder="amount" style={{ width: 200 }} />
                 </FormItem>
 
             </Form>

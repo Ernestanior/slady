@@ -99,7 +99,8 @@ const Receipt:FC = () => {
             <Button type="primary" onClick={()=> history.push('/invoice')} style={{marginRight:20}}>Print Receipt</Button>
             <Button type="primary" onClick={()=> history.push('/barcode')} style={{marginRight:20}}>Print Label</Button>
             <Button type="primary" onClick={()=> history.push('/statement')} style={{marginRight:20}}>Print Daily Statement</Button>
-            {/* <Button type="primary" onClick={()=> history.push('/cash')}>Cash In/Out</Button> */}
+            <Button type="primary" onClick={()=> history.push('/cash')} style={{marginRight:20}}>Cash In/Out</Button>
+            <Button type="primary" onClick={()=> history.push('/balance')}>Opening/Closing Balance</Button>
         </div>
          <Template
             filter={<Query/>}

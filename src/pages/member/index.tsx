@@ -1,11 +1,11 @@
 import {FC, useMemo, useState} from "react";
-import Template from "@/common/template/indexWithPagination";
+import Template from "@/common/template";
 import {IOperationConfig} from "@/common/template/interface";
 import {reqAndReload} from "@/common/utils";
 import msgModal from "@/store/message/service";
 import moment from "moment";
 import {useTranslation} from "react-i18next";
-import {notification} from "antd";
+import {Button, notification} from "antd";
 import { memberService } from "@/store/apis/member";
 import { INormalEvent } from "@/common/interface";
 import CreateMember from "./create";
@@ -15,9 +15,11 @@ import TopUpRecord from "./topup";
 import Query from "./query";
 import useAccountInfo from "@/store/account";
 import { E_USER_TYPE } from "@/store/account/interface";
+import { useHistory } from "react-router-dom";
 
 const MemberList: FC = () => {
     const [t]=useTranslation()
+    const history = useHistory();
     const [createFlag,setCreateFlag]=useState<boolean>(false)
     const [editFlag,setEditFlag]=useState<boolean>(false)
     const [selectData,setSelectData] = useState<any>()
@@ -107,6 +109,9 @@ const MemberList: FC = () => {
     return (page==='detail'?
         <MemberDetail id={selectId} onReturn={()=>{setPage('list');setReload(!reload)}}/>:
         <section>
+            <Button type="primary" onClick={()=> history.push('/purchaseDetail')} style={{marginRight:20,marginBottom:10}}>Member Purchase</Button>
+            <Button type="primary" onClick={()=> history.push('/topupDetail')} style={{marginRight:20,marginBottom:10}}>Top Up Detail</Button>
+
             <Template
                 filter={<Query/>}
                 columns={columns}

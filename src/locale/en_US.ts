@@ -7,6 +7,7 @@ const en_US = {
     PHONE:'Phone',
     NAME:"Name",
     DATE:'Date',
+    BACK:"Back",
     VOUCHER_NUMBER:'Voucher Number',
     MEMBER_PACKAGE_TOTAL_AMOUNT:'Member Package Total Amount',
     STAFF_MANAGEMENT:"Staff Management",
@@ -148,6 +149,7 @@ const en_US = {
     SHOP_NAME:"Shop Name",
     CASHIER:"Cashier",
     PAYMENT:"Payment",
+    COUNTER:"Counter",
     //Color
     White:"white",
     Black:"black",

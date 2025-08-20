@@ -120,7 +120,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
                 searchPage: {
                     desc: 1,
                     page: 1,
-                    pageSize: 999,
+                    pageSize: 20,
                     sort: "",
                 },
                 filters: {},
@@ -296,7 +296,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
             setMergeData([])
         }
     }, [tableData, mergeFuncRef])
-
+    
     if (isMobile){
         return <section style={{ marginTop: (!props.filter && !props.event) ? 0 : 15 }}>
             <section style={{marginBottom:20}}>
@@ -327,13 +327,13 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
             <Table
                 sticky
                 dataSource={mergeData.length > 0 ? mergeData : tableData}
-                // pagination={{
-                //     ...pagination,
-                //     onChange: pageOnChange,
-                //     showQuickJumper: true,
-                //     showSizeChanger: true,
-                //     showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`
-                // }}
+                pagination={{
+                    ...pagination,
+                    onChange: pageOnChange,
+                    showQuickJumper: true,
+                    showSizeChanger: true,
+                    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`
+                }}
                 rowKey={props.rowKey}
                 onChange={tableOnChange}
                 rowSelection={rowSelection}
@@ -341,7 +341,7 @@ const Template:FC<IMobile & IFilerModule & IEventListModule & IBatchEventListMod
                 loading={loading}
                 rowClassName={rowClassName}
                 scroll={props.scroll}
-                pagination={false}
+                // pagination={false}
             />
         </section>
     </section>

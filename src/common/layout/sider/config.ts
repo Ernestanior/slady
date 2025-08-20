@@ -19,18 +19,18 @@ const menuList: any[] = [
         url: "/order",
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.LOGISTICS,E_USER_TYPE.SALER]
     },
-    {
-        text: "ORDER_HISTORY",
-        icon:"icon-order",
-        url: "/historyOrder",
-        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.LOGISTICS,E_USER_TYPE.SALER]
-    },
-    {
-        text: "KOREA_FEEDBACK",
-        icon:"icon-order",
-        url: "/feedback",
-        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.LOGISTICS,E_USER_TYPE.FINANCE]
-    },
+    // {
+    //     text: "ORDER_HISTORY",
+    //     icon:"icon-order",
+    //     url: "/historyOrder",
+    //     role:[E_USER_TYPE.ADMIN,E_USER_TYPE.LOGISTICS,E_USER_TYPE.SALER]
+    // },
+    // {
+    //     text: "KOREA_FEEDBACK",
+    //     icon:"icon-order",
+    //     url: "/feedback",
+    //     role:[E_USER_TYPE.ADMIN,E_USER_TYPE.LOGISTICS,E_USER_TYPE.FINANCE]
+    // },
     {
         url: "/rank",
         icon:"icon-top-raning",
@@ -56,18 +56,18 @@ const menuList: any[] = [
         text: "MEMBER",
         role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
     },
-    {
-        url: "/topupDetail",
-        icon:"icon-customer",
-        text: "MEMBER_TOP_UP",
-        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
-    },
-    {
-        url: "/purchaseDetail",
-        icon:"icon-writing",
-        text: "MEMBER_PURCHASE",
-        role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
-    },
+    // {
+    //     url: "/topupDetail",
+    //     icon:"icon-customer",
+    //     text: "MEMBER_TOP_UP",
+    //     role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
+    // },
+    // {
+    //     url: "/purchaseDetail",
+    //     icon:"icon-writing",
+    //     text: "MEMBER_PURCHASE",
+    //     role:[E_USER_TYPE.ADMIN,E_USER_TYPE.SALER]
+    // },
     {
         url: "/receipt",
         icon:"icon-writing",

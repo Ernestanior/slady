@@ -7,6 +7,7 @@ const zh_CN = {
     PRODUCTMANAGEMENT:"产品管理",
     PHONE: '电话',
     DATE:'日期',
+    BACK:"返回",
     VOUCHER_NUMBER:'会员编号',
     MEMBER_PACKAGE_TOTAL_AMOUNT:'会员配套总额',
     PURCHASE_RECORD:"购买记录",
@@ -149,6 +150,8 @@ const zh_CN = {
     SHOP_NAME:"店名",
     CASHIER:"柜员",
     PAYMENT:"付款",
+    COUNTER:"柜台",
+
     //Color
     White:"白色",
     Black:"黑色",
